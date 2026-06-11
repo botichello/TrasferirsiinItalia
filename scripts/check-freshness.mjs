@@ -12,10 +12,31 @@
  * No dependencies — deliberately tiny so it can run anywhere.
  */
 import { readdir, readFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { join, relative } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const GUIDES_DIR = new URL('../src/content/guides/', import.meta.url);
+const CONTENT_DIRS = [
+  fileURLToPath(new URL('../src/content/guides/', import.meta.url)),
+  fileURLToPath(new URL('../src/content/region-notes/', import.meta.url)),
+];
 const STRICT_OVERDUE = process.env.FRESHNESS_STRICT === '1';
+
+/** Recursively collect all .md files under a directory. */
+async function walk(dir) {
+  let entries;
+  try {
+    entries = await readdir(dir, { withFileTypes: true });
+  } catch {
+    return []; // directory may not exist yet
+  }
+  const out = [];
+  for (const e of entries) {
+    const full = join(dir, e.name);
+    if (e.isDirectory()) out.push(...(await walk(full)));
+    else if (e.name.endsWith('.md')) out.push(full);
+  }
+  return out;
+}
 
 /** Minimal frontmatter reader — enough for our flat-ish guide frontmatter. */
 function frontmatter(raw) {
@@ -35,12 +56,13 @@ function frontmatter(raw) {
   return fm;
 }
 
-const files = (await readdir(GUIDES_DIR)).filter((f) => f.endsWith('.md'));
+const files = (await Promise.all(CONTENT_DIRS.map(walk))).flat();
 const errors = [];
 const warnings = [];
 
-for (const file of files) {
-  const raw = await readFile(join(GUIDES_DIR.pathname, file), 'utf8');
+for (const path of files) {
+  const file = relative(process.cwd(), path);
+  const raw = await readFile(path, 'utf8');
   const fm = frontmatter(raw);
   if (!fm) {
     errors.push(`${file}: no frontmatter found`);
@@ -73,7 +95,7 @@ if (errors.length) {
 }
 
 console.log(
-  `✓ Freshness check passed (${files.length} guide${files.length === 1 ? '' : 's'}` +
+  `✓ Freshness check passed (${files.length} content file${files.length === 1 ? '' : 's'}` +
     (warnings.length ? `, ${warnings.length} overdue warning(s)` : '') +
     ').',
 );

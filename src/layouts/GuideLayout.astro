@@ -3,25 +3,50 @@ import BaseLayout from './BaseLayout.astro';
 import DocumentChecklist from '../components/DocumentChecklist.astro';
 import FreshnessBadge from '../components/FreshnessBadge.astro';
 import JourneyNav from '../components/JourneyNav.astro';
+import RegionSelector from '../components/RegionSelector.astro';
 import SourceList from '../components/SourceList.astro';
 import StructuredData from '../components/StructuredData.astro';
 import type { CollectionEntry } from 'astro:content';
+import type { Region } from '../data/regions';
 
 interface Props {
   entry: CollectionEntry<'guides'>;
+  /** Set on region-scoped pages. */
+  region?: Region;
+  /** The region overlay for this region × guide, if one exists. */
+  regionNote?: CollectionEntry<'regionNotes'>;
+  /** Canonical URL override (region pages consolidate to national when thin). */
+  canonical?: string;
 }
-const { entry } = Astro.props;
+const { entry, region, regionNote, canonical } = Astro.props;
 const { data } = entry;
 const url = new URL(Astro.url.pathname, Astro.site).href;
+
+const title = region ? `${data.title} — ${region.name}` : data.title;
+const description = region
+  ? `${data.description} Region-specific guidance for ${region.name}.`
+  : data.description;
+
+// Region pages merge their overlay's sources with the base guide's sources.
+const sources = regionNote ? [...data.sources, ...regionNote.data.sources] : data.sources;
+// Most recent verification across base + overlay drives the freshness badge.
+const lastVerified =
+  regionNote && regionNote.data.lastVerified < data.lastVerified
+    ? regionNote.data.lastVerified
+    : (regionNote?.data.lastVerified ?? data.lastVerified);
+const reviewBy =
+  regionNote && regionNote.data.reviewBy < data.reviewBy
+    ? regionNote.data.reviewBy
+    : data.reviewBy;
 ---
 
-<BaseLayout title={data.title} description={data.description}>
+<BaseLayout title={title} description={description} canonical={canonical}>
   <StructuredData
     slot="head"
-    title={data.title}
-    description={data.description}
+    title={title}
+    description={description}
     url={url}
-    lastVerified={data.lastVerified}
+    lastVerified={lastVerified}
     faq={data.faq}
   />
 
@@ -30,27 +55,66 @@ const url = new URL(Astro.url.pathname, Astro.site).href;
     <span class="px-1">/</span>
     <span>EU citizens</span>
     <span class="px-1">/</span>
-    <span class="text-ink">Residency</span>
+    {
+      region ? (
+        <>
+          <span>Residency</span>
+          <span class="px-1">/</span>
+          <span class="text-ink">{region.name}</span>
+        </>
+      ) : (
+        <span class="text-ink">Residency</span>
+      )
+    }
   </nav>
 
-  <div class="mb-8">
+  <div class="mb-6">
     <p class="text-sm font-medium uppercase tracking-wide text-brand-600">
-      Step {data.step} · EU residency journey
+      Step {data.step} · EU residency journey{region ? ` · ${region.name}` : ''}
     </p>
     <h1 class="mt-2 text-4xl font-semibold">{data.title}</h1>
     <p class="mt-3 max-w-2xl text-lg text-muted">{data.description}</p>
     <div class="mt-4">
-      <FreshnessBadge lastVerified={data.lastVerified} reviewBy={data.reviewBy} />
+      <FreshnessBadge lastVerified={lastVerified} reviewBy={reviewBy} />
     </div>
   </div>
 
+  <div class="mb-8">
+    <RegionSelector currentGuide={entry.id} currentRegion={region?.slug} />
+  </div>
+
   <div class="mb-10">
-    <JourneyNav currentId={entry.id} />
+    <JourneyNav currentId={entry.id} region={region?.slug} />
   </div>
 
   <article class="prose">
     <slot />
   </article>
+
+  {/* Region-specific section. Rendered on region pages. */}
+  {
+    region && (
+      <section
+        id="region-specifics"
+        class="mt-10 rounded-lg border-l-4 border-brand-500 bg-brand-50/60 p-6"
+      >
+        <h2 class="font-serif text-2xl">In {region.name}</h2>
+        {regionNote ? (
+          <div class="prose mt-3">
+            <slot name="region-note" />
+          </div>
+        ) : (
+          <p class="mt-3 text-muted">
+            This step follows the national procedure described above. We don't yet
+            have verified {region.name}-specific details for it — the comune where
+            you live (and, for the health service, your local ASL) handle the local
+            specifics, so confirm with them. A verified {region.name} guide for this
+            step is on the way.
+          </p>
+        )}
+      </section>
+    )
+  }
 
   {
     data.documents.length > 0 && (
@@ -60,5 +124,5 @@ const url = new URL(Astro.url.pathname, Astro.site).href;
     )
   }
 
-  <SourceList sources={data.sources} />
+  <SourceList sources={sources} />
 </BaseLayout>

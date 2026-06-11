@@ -1,0 +1,40 @@
+---
+import { getCollection, render } from 'astro:content';
+import GuideLayout from '../../../../layouts/GuideLayout.astro';
+import { regions, getRegion } from '../../../../data/regions';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  const notes = await getCollection('regionNotes');
+
+  return regions.flatMap((region) =>
+    guides.map((entry) => {
+      const regionNote = notes.find(
+        (n) => n.data.region === region.slug && n.data.guide === entry.id,
+      );
+      return {
+        params: { region: region.slug, guide: entry.id },
+        props: { entry, regionSlug: region.slug, regionNote },
+      };
+    }),
+  );
+}
+
+const { entry, regionSlug, regionNote } = Astro.props;
+const region = getRegion(regionSlug)!;
+
+const { Content } = await render(entry);
+const RegionNoteContent = regionNote ? (await render(regionNote)).Content : null;
+
+// Duplicate-content safeguard: a region page is only canonical to itself when it
+// carries a substantive region overlay. Otherwise it consolidates to the
+// national guide so search engines don't treat ~identical pages as duplicates.
+const canonical = regionNote
+  ? undefined
+  : new URL(`/eu-citizens/residency/${entry.id}`, Astro.site).href;
+---
+
+<GuideLayout entry={entry} region={region} regionNote={regionNote} canonical={canonical}>
+  <Content />
+  {RegionNoteContent && <RegionNoteContent slot="region-note" />}
+</GuideLayout>

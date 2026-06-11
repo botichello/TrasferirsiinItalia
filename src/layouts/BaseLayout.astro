@@ -4,9 +4,12 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description: string;
+  /** Override the canonical URL (e.g. a region page that consolidates to the
+   *  national guide when it has no substantive region-specific content). */
+  canonical?: string;
 }
-const { title, description } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const { title, description, canonical: canonicalOverride } = Astro.props;
+const canonical = canonicalOverride ?? new URL(Astro.url.pathname, Astro.site).href;
 const siteName = 'Trasferirsi in Italia';
 ---
 

@@ -49,4 +49,33 @@ const guides = defineCollection({
     }),
 });
 
-export const collections = { guides };
+/**
+ * Region-specific overlays for a given guide step. Same citability contract:
+ * every overlay must carry its own sources + verification dates, because
+ * region-specific facts (e.g. SSN voluntary-contribution rules) are exactly
+ * the volatile ones most likely to drift.
+ *
+ * One file per region × guide at: src/content/region-notes/<region>/<guide>.md
+ * The markdown body is the region-specific content; `region` and `guide` map
+ * it to a region slug (see src/data/regions.ts) and a guide id.
+ */
+const regionNotes = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/region-notes' }),
+  schema: z
+    .object({
+      region: z.string().min(1),
+      guide: z.string().min(1),
+      title: z.string().optional(),
+      lastVerified: z.coerce.date(),
+      reviewBy: z.coerce.date(),
+      sources: z
+        .array(source)
+        .min(1, 'Every region note must cite at least one primary source.'),
+    })
+    .refine((data) => data.reviewBy > data.lastVerified, {
+      message: 'reviewBy must be after lastVerified.',
+      path: ['reviewBy'],
+    }),
+});
+
+export const collections = { guides, regionNotes };

@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { getLocale, ui } from '../i18n/ui';
 
 interface Props {
   title: string;
@@ -7,10 +8,15 @@ interface Props {
   /** Override the canonical URL (e.g. a region page that consolidates to the
    *  national guide when it has no substantive region-specific content). */
   canonical?: string;
+  /** Root-relative paths to the en/it twins of this page, for hreflang. */
+  alternates?: { en: string; it: string };
 }
-const { title, description, canonical: canonicalOverride } = Astro.props;
+const { title, description, canonical: canonicalOverride, alternates } = Astro.props;
 const canonical = canonicalOverride ?? new URL(Astro.url.pathname, Astro.site).href;
 const siteName = 'Trasferirsi in Italia';
+
+const locale = getLocale(Astro.url);
+const t = ui[locale];
 
 const orgSchema = {
   '@context': 'https://schema.org',
@@ -21,17 +27,11 @@ const orgSchema = {
     'A free, source-cited reference for relocating to Italy, covering the EU/EEA residency journey at national, regional, and comune level.',
 };
 
-const nav = [
-  { href: '/cities', label: 'Cities' },
-  { href: '/regions', label: 'Regions' },
-  { href: '/how-we-verify', label: 'How we verify' },
-  { href: '/about', label: 'About' },
-  { href: '/search', label: 'Search' },
-];
+const homeHref = locale === 'en' ? '/' : '/it';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={t.htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -40,6 +40,15 @@ const nav = [
     <title>{title} · {siteName}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {
+      alternates && (
+        <>
+          <link rel="alternate" hreflang="en" href={new URL(alternates.en, Astro.site).href} />
+          <link rel="alternate" hreflang="it" href={new URL(alternates.it, Astro.site).href} />
+          <link rel="alternate" hreflang="x-default" href={new URL(alternates.en, Astro.site).href} />
+        </>
+      )
+    }
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -67,17 +76,24 @@ const nav = [
       href="#main"
       class="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded focus:bg-brand-600 focus:px-3 focus:py-2 focus:text-white"
     >
-      Skip to content
+      {t.skip}
     </a>
     <header class="border-b border-line">
       <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-5 py-4">
-        <a href="/" class="font-serif text-lg font-semibold text-ink">
+        <a href={homeHref} class="font-serif text-lg font-semibold text-ink">
           Trasferirsi <span class="text-brand-600">in Italia</span>
         </a>
-        <nav class="flex flex-wrap gap-x-4 gap-y-1 text-sm" aria-label="Primary">
-          {nav.map((item) => (
+        <nav class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm" aria-label="Primary">
+          {t.nav.map((item) => (
             <a href={item.href} class="text-muted hover:text-ink">{item.label}</a>
           ))}
+          <a
+            href={t.switchHref}
+            class="rounded-full border border-line px-2 py-0.5 text-muted hover:border-brand-300 hover:text-brand-700"
+            hreflang={locale === 'en' ? 'it' : 'en'}
+          >
+            {t.switchLabel}
+          </a>
         </nav>
       </div>
     </header>
@@ -89,17 +105,11 @@ const nav = [
     <footer class="border-t border-line">
       <div class="mx-auto max-w-5xl px-5 py-8 text-sm text-muted">
         <nav class="mb-4 flex flex-wrap gap-x-4 gap-y-1" aria-label="Footer">
-          <a href="/cities" class="hover:text-ink">Browse cities</a>
-          <a href="/regions" class="hover:text-ink">Browse regions</a>
-          <a href="/about" class="hover:text-ink">About</a>
-          <a href="/how-we-verify" class="hover:text-ink">How we verify</a>
-          <a href="/search" class="hover:text-ink">Search</a>
+          {t.footerNav.map((item) => (
+            <a href={item.href} class="hover:text-ink">{item.label}</a>
+          ))}
         </nav>
-        <p>
-          Informational only — not legal or tax advice. Procedures change;
-          always confirm with the official sources cited on each page or the
-          relevant Italian authority before acting.
-        </p>
+        <p>{t.disclaimer}</p>
         <p class="mt-2">© {new Date().getFullYear()} Trasferirsi in Italia</p>
       </div>
     </footer>

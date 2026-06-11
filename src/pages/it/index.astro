@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Trasferirsi in Italia come cittadino UE"
+  description="Una guida chiara, datata e con fonti ufficiali per stabilire la residenza in Italia come cittadino UE/SEE: codice fiscale, iscrizione anagrafica e Servizio Sanitario Nazionale."
+  alternates={{ en: '/', it: '/it' }}
+>
+  <section class="py-8 text-center">
+    <p class="text-sm font-medium uppercase tracking-wide text-brand-600">
+      Per cittadini UE e SEE
+    </p>
+    <h1 class="mx-auto mt-3 max-w-3xl text-5xl font-semibold leading-tight">
+      Stabilire la residenza in Italia, senza incertezze.
+    </h1>
+    <p class="mx-auto mt-5 max-w-2xl text-lg text-muted">
+      Un riferimento passo-passo per il percorso di residenza: ogni pagina è
+      datata e cita le fonti ufficiali italiane ed europee, così tu (e il tuo
+      avvocato, e il tuo assistente di ricerca) puoi fidartene.
+    </p>
+    <div class="mt-8">
+      <a
+        href="/eu-citizens/residency/codice-fiscale"
+        class="inline-flex items-center rounded-full bg-brand-500 px-6 py-3 text-white transition hover:bg-brand-600"
+      >
+        Inizia dal passo 1 →
+      </a>
+    </div>
+    <p class="mx-auto mt-4 max-w-xl text-sm text-muted">
+      Le guide dettagliate passo-passo e le pagine per città e regione sono per
+      ora disponibili in inglese; la traduzione italiana è in corso.
+    </p>
+  </section>
+
+  <section class="mt-12">
+    <h2 class="font-serif text-2xl">Il percorso di residenza</h2>
+    <ol class="mt-6 grid gap-4 sm:grid-cols-3">
+      <li class="rounded-xl border border-line bg-white/60 p-6">
+        <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 font-serif font-semibold text-brand-700">1</span>
+        <h3 class="mt-4 font-serif text-lg">Codice fiscale</h3>
+        <p class="mt-2 text-sm text-muted">Il codice identificativo fiscale, necessario per quasi tutto. Uguale in tutta Italia.</p>
+      </li>
+      <li class="rounded-xl border border-line bg-white/60 p-6">
+        <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 font-serif font-semibold text-brand-700">2</span>
+        <h3 class="mt-4 font-serif text-lg">Iscrizione anagrafica</h3>
+        <p class="mt-2 text-sm text-muted">La registrazione della residenza presso il Comune, gestita a livello comunale.</p>
+      </li>
+      <li class="rounded-xl border border-line bg-white/60 p-6">
+        <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 font-serif font-semibold text-brand-700">3</span>
+        <h3 class="mt-4 font-serif text-lg">Servizio Sanitario (SSN)</h3>
+        <p class="mt-2 text-sm text-muted">L’iscrizione al servizio sanitario, organizzata a livello regionale.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="mt-16 rounded-xl border border-line bg-brand-50/50 p-8">
+    <h2 class="font-serif text-2xl">Perché fidarsi di questa guida</h2>
+    <div class="mt-6 grid gap-6 sm:grid-cols-3 text-sm">
+      <div>
+        <h3 class="font-serif text-lg">Datata</h3>
+        <p class="mt-1 text-muted">Ogni pagina mostra quando è stata verificata l’ultima volta e quando sarà rivista.</p>
+      </div>
+      <div>
+        <h3 class="font-serif text-lg">Con fonti</h3>
+        <p class="mt-1 text-muted">Ogni pagina cita le fonti ufficiali su cui si basa; senza fonti non può essere pubblicata.</p>
+      </div>
+      <div>
+        <h3 class="font-serif text-lg">Mirata di proposito</h3>
+        <p class="mt-1 text-muted">Copriamo a fondo il percorso di residenza UE, invece di tutto in modo superficiale.</p>
+      </div>
+    </div>
+    <p class="mt-6 text-sm">
+      <a href="/it/how-we-verify" class="text-brand-600 underline">Scopri come verifichiamo →</a>
+    </p>
+  </section>
+</BaseLayout>

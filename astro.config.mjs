@@ -15,6 +15,12 @@ const SITE =
 export default defineConfig({
   site: SITE,
   trailingSlash: 'never',
+  // English is the default (unprefixed) locale; Italian is served under /it/.
+  i18n: {
+    locales: ['en', 'it'],
+    defaultLocale: 'en',
+    routing: { prefixDefaultLocale: false },
+  },
   vite: {
     plugins: [tailwindcss()],
   },

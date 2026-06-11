@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import RegionSelector from '../components/RegionSelector.astro';
+import CitySelector from '../components/CitySelector.astro';
 
 const steps = (await getCollection('guides'))
   .sort((a, b) => a.data.step - b.data.step)
@@ -39,10 +39,11 @@ const steps = (await getCollection('guides'))
     </div>
 
     <div class="mx-auto mt-8 max-w-xl">
-      <RegionSelector />
+      <CitySelector />
       <p class="mt-2 text-sm text-muted">
-        Pick your region to see local specifics — like which health authority
-        you enrol with — layered on top of the national steps.
+        Pick your city (grouped by region) to see local specifics — your comune's
+        anagrafe office for residency, and your region's health authority for the
+        SSN — layered on top of the national steps.
       </p>
     </div>
   </section>

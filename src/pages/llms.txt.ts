@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { regions } from '../data/regions';
+import { cities } from '../data/cities';
 
 /**
  * llms.txt — a concise, machine-friendly index for AI agents and assistants,
@@ -26,10 +27,17 @@ export const GET: APIRoute = async ({ site }) => {
         `- [${g.data.title}](${base}/eu-citizens/residency/${g.id}): ${g.data.description} (last verified ${g.data.lastVerified.toISOString().slice(0, 10)})`,
     ),
     '',
-    '## Region-specific versions',
-    '> Each step is also available tailored to a specific Italian region at',
-    '> /regions/<region>/residency/<step>. Region pages add local specifics',
-    '> (e.g. the health authority to enrol with) on top of the national steps.',
+    '## City-specific versions',
+    '> Each step is available tailored to a specific city/comune at',
+    '> /cities/<city>/residency/<step>. City pages add comune-level specifics for',
+    '> residency registration (anagrafe) and the region-level health authority for',
+    '> the SSN, on top of the national steps. The codice fiscale is national and',
+    '> uniform (the only local element is the Agenzia delle Entrate office).',
+    `> Cities: ${cities.map((c) => c.slug).join(', ')}.`,
+    '',
+    '## Region-specific versions (SSN / health authority)',
+    '> /regions/<region>/residency/<step> gives the region-level health authority',
+    '> to enrol with for the SSN.',
     `> Regions: ${regions.map((r) => r.slug).join(', ')}.`,
     '',
     '## Notes',

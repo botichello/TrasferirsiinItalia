@@ -1,0 +1,79 @@
+---
+import { citiesByRegion } from '../data/cities';
+
+/**
+ * Lets the visitor pick a city/comune and jump to the city-specific version of
+ * the current guide step. Cities are grouped by region (optgroup), so it is
+ * always clear which region a settlement sits in. The choice is remembered
+ * (localStorage) so other pages can default to it.
+ */
+interface Props {
+  /** Guide id to navigate to within the chosen city. */
+  currentGuide?: string;
+  /** Currently-selected city slug, if any. */
+  currentCity?: string;
+}
+const { currentGuide = 'codice-fiscale', currentCity } = Astro.props;
+const groups = citiesByRegion();
+---
+
+<div
+  class="not-prose flex flex-wrap items-center gap-3 rounded-lg border border-line bg-white/70 px-4 py-3"
+  data-city-selector
+  data-current-guide={currentGuide}
+>
+  <label for="city-select" class="text-sm font-medium">📍 Your city / comune</label>
+  <select
+    id="city-select"
+    data-city-select
+    class="min-w-56 rounded-md border border-line bg-white px-3 py-1.5 text-sm focus:border-brand-500 focus:outline-none"
+  >
+    <option value="">Choose a city…</option>
+    {
+      groups.map((g) => (
+        <optgroup label={g.region.name}>
+          {g.cities.map((c) => (
+            <option value={c.slug} selected={c.slug === currentCity}>
+              {c.name} ({c.province})
+            </option>
+          ))}
+        </optgroup>
+      ))
+    }
+  </select>
+  {
+    currentCity && (
+      <a href="/eu-citizens/residency/codice-fiscale" class="text-sm text-muted underline">
+        View national guide
+      </a>
+    )
+  }
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-city-selector]').forEach((root) => {
+    const select = root.querySelector<HTMLSelectElement>('[data-city-select]');
+    if (!select) return;
+
+    if (!select.value) {
+      try {
+        const saved = localStorage.getItem('city');
+        if (saved) select.value = saved;
+      } catch {
+        /* localStorage unavailable */
+      }
+    }
+
+    select.addEventListener('change', () => {
+      const slug = select.value;
+      if (!slug) return;
+      try {
+        localStorage.setItem('city', slug);
+      } catch {
+        /* ignore */
+      }
+      const guide = root.dataset.currentGuide || 'codice-fiscale';
+      window.location.href = `/cities/${slug}/residency/${guide}`;
+    });
+  });
+</script>

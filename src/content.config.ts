@@ -78,4 +78,30 @@ const regionNotes = defineCollection({
     }),
 });
 
-export const collections = { guides, regionNotes };
+/**
+ * Comune-specific overlays for a given guide step. Same citability contract.
+ * Used mainly for the anagrafe step (residency registration is run by each
+ * comune's Ufficio Anagrafe, so the office, booking system and forms are local).
+ *
+ * One file per comune × guide at: src/content/comune-notes/<city>/<guide>.md
+ */
+const comuneNotes = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/comune-notes' }),
+  schema: z
+    .object({
+      city: z.string().min(1),
+      guide: z.string().min(1),
+      title: z.string().optional(),
+      lastVerified: z.coerce.date(),
+      reviewBy: z.coerce.date(),
+      sources: z
+        .array(source)
+        .min(1, 'Every comune note must cite at least one primary source.'),
+    })
+    .refine((data) => data.reviewBy > data.lastVerified, {
+      message: 'reviewBy must be after lastVerified.',
+      path: ['reviewBy'],
+    }),
+});
+
+export const collections = { guides, regionNotes, comuneNotes };

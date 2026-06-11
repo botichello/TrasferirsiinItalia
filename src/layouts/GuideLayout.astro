@@ -3,40 +3,60 @@ import BaseLayout from './BaseLayout.astro';
 import DocumentChecklist from '../components/DocumentChecklist.astro';
 import FreshnessBadge from '../components/FreshnessBadge.astro';
 import JourneyNav from '../components/JourneyNav.astro';
-import RegionSelector from '../components/RegionSelector.astro';
+import CitySelector from '../components/CitySelector.astro';
 import SourceList from '../components/SourceList.astro';
 import StructuredData from '../components/StructuredData.astro';
 import type { CollectionEntry } from 'astro:content';
-import type { Region } from '../data/regions';
+
+/** A place context (a region or a city) that scopes the guide. */
+export interface Place {
+  kind: 'region' | 'city';
+  name: string;
+  /** For a city: the region it belongs to (shown for orientation). */
+  regionName?: string;
+  /** URL base for journey navigation, e.g. /cities/firenze/residency */
+  navBase: string;
+  /** Slug, used to pre-select the city selector. */
+  citySlug?: string;
+}
+
+type LocalNote = CollectionEntry<'regionNotes'> | CollectionEntry<'comuneNotes'>;
 
 interface Props {
   entry: CollectionEntry<'guides'>;
-  /** Set on region-scoped pages. */
-  region?: Region;
-  /** The region overlay for this region × guide, if one exists. */
-  regionNote?: CollectionEntry<'regionNotes'>;
-  /** Canonical URL override (region pages consolidate to national when thin). */
+  place?: Place;
+  /** The overlay (region or comune) rendered in the local section, if any. */
+  localNote?: LocalNote;
+  /** Heading for the local section, e.g. "In Firenze" or "In Toscana". */
+  localHeading?: string;
+  /** Shown in the local section when there is no overlay. */
+  localFallback?: string;
+  /** Canonical URL override (thin place pages consolidate to a parent page). */
   canonical?: string;
 }
-const { entry, region, regionNote, canonical } = Astro.props;
+const { entry, place, localNote, localHeading, localFallback, canonical } = Astro.props;
 const { data } = entry;
 const url = new URL(Astro.url.pathname, Astro.site).href;
 
-const title = region ? `${data.title} — ${region.name}` : data.title;
-const description = region
-  ? `${data.description} Region-specific guidance for ${region.name}.`
+const placeLabel = place
+  ? place.kind === 'city' && place.regionName
+    ? `${place.name} · ${place.regionName}`
+    : place.name
+  : '';
+
+const title = place ? `${data.title} — ${placeLabel}` : data.title;
+const description = place
+  ? `${data.description} Local guidance for ${placeLabel}.`
   : data.description;
 
-// Region pages merge their overlay's sources with the base guide's sources.
-const sources = regionNote ? [...data.sources, ...regionNote.data.sources] : data.sources;
-// Most recent verification across base + overlay drives the freshness badge.
+const sources = localNote ? [...data.sources, ...localNote.data.sources] : data.sources;
 const lastVerified =
-  regionNote && regionNote.data.lastVerified < data.lastVerified
-    ? regionNote.data.lastVerified
-    : (regionNote?.data.lastVerified ?? data.lastVerified);
+  localNote && localNote.data.lastVerified < data.lastVerified
+    ? localNote.data.lastVerified
+    : (localNote?.data.lastVerified ?? data.lastVerified);
 const reviewBy =
-  regionNote && regionNote.data.reviewBy < data.reviewBy
-    ? regionNote.data.reviewBy
+  localNote && localNote.data.reviewBy < data.reviewBy
+    ? localNote.data.reviewBy
     : data.reviewBy;
 ---
 
@@ -56,11 +76,11 @@ const reviewBy =
     <span>EU citizens</span>
     <span class="px-1">/</span>
     {
-      region ? (
+      place ? (
         <>
           <span>Residency</span>
           <span class="px-1">/</span>
-          <span class="text-ink">{region.name}</span>
+          <span class="text-ink">{placeLabel}</span>
         </>
       ) : (
         <span class="text-ink">Residency</span>
@@ -70,7 +90,7 @@ const reviewBy =
 
   <div class="mb-6">
     <p class="text-sm font-medium uppercase tracking-wide text-brand-600">
-      Step {data.step} · EU residency journey{region ? ` · ${region.name}` : ''}
+      Step {data.step} · EU residency journey{place ? ` · ${placeLabel}` : ''}
     </p>
     <h1 class="mt-2 text-4xl font-semibold">{data.title}</h1>
     <p class="mt-3 max-w-2xl text-lg text-muted">{data.description}</p>
@@ -80,37 +100,30 @@ const reviewBy =
   </div>
 
   <div class="mb-8">
-    <RegionSelector currentGuide={entry.id} currentRegion={region?.slug} />
+    <CitySelector currentGuide={entry.id} currentCity={place?.citySlug} />
   </div>
 
   <div class="mb-10">
-    <JourneyNav currentId={entry.id} region={region?.slug} />
+    <JourneyNav currentId={entry.id} base={place?.navBase} />
   </div>
 
   <article class="prose">
     <slot />
   </article>
 
-  {/* Region-specific section. Rendered on region pages. */}
   {
-    region && (
+    place && (
       <section
-        id="region-specifics"
+        id="local-specifics"
         class="mt-10 rounded-lg border-l-4 border-brand-500 bg-brand-50/60 p-6"
       >
-        <h2 class="font-serif text-2xl">In {region.name}</h2>
-        {regionNote ? (
+        <h2 class="font-serif text-2xl">{localHeading ?? `In ${place.name}`}</h2>
+        {localNote ? (
           <div class="prose mt-3">
-            <slot name="region-note" />
+            <slot name="local-note" />
           </div>
         ) : (
-          <p class="mt-3 text-muted">
-            This step follows the national procedure described above. We don't yet
-            have verified {region.name}-specific details for it — the comune where
-            you live (and, for the health service, your local ASL) handle the local
-            specifics, so confirm with them. A verified {region.name} guide for this
-            step is on the way.
-          </p>
+          <p class="mt-3 text-muted">{localFallback}</p>
         )}
       </section>
     )

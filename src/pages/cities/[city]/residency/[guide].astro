@@ -1,0 +1,77 @@
+---
+import { getCollection, render } from 'astro:content';
+import GuideLayout from '../../../../layouts/GuideLayout.astro';
+import { cities, getCity } from '../../../../data/cities';
+import { getRegion } from '../../../../data/regions';
+
+export async function getStaticPaths() {
+  // Note: top-level consts are not in scope inside getStaticPaths (Astro runs
+  // it in isolation), so keep this local.
+  const SSN = 'servizio-sanitario';
+  const guides = await getCollection('guides');
+  const regionNotes = await getCollection('regionNotes');
+  const comuneNotes = await getCollection('comuneNotes');
+
+  return cities.flatMap((city) =>
+    guides.map((entry) => {
+      // SSN varies by region; the other steps vary by comune.
+      const note =
+        entry.id === SSN
+          ? regionNotes.find((n) => n.data.region === city.region && n.data.guide === entry.id)
+          : comuneNotes.find((n) => n.data.city === city.slug && n.data.guide === entry.id);
+      return {
+        params: { city: city.slug, guide: entry.id },
+        props: { entry, citySlug: city.slug, note },
+      };
+    }),
+  );
+}
+
+const SSN = 'servizio-sanitario';
+const { entry, citySlug, note } = Astro.props;
+const city = getCity(citySlug)!;
+const region = getRegion(city.region)!;
+const isSSN = entry.id === SSN;
+
+const { Content } = await render(entry);
+const NoteContent = note ? (await render(note)).Content : null;
+
+// Canonical strategy:
+// - SSN is identical region-wide → always consolidate to the region page.
+// - Other steps self-canonicalize only when a comune overlay exists, else
+//   consolidate to the national guide (duplicate-content safeguard).
+const canonical = isSSN
+  ? new URL(`/regions/${region.slug}/residency/${SSN}`, Astro.site).href
+  : note
+    ? undefined
+    : new URL(`/eu-citizens/residency/${entry.id}`, Astro.site).href;
+
+const place = {
+  kind: 'city' as const,
+  name: city.name,
+  regionName: region.name,
+  navBase: `/cities/${city.slug}/residency`,
+  citySlug: city.slug,
+};
+
+// SSN guidance is regional, so its local heading names the region, not the city.
+const localHeading = isSSN ? `In ${region.name}` : `In ${city.name}`;
+
+const fallbacks: Record<string, string> = {
+  'codice-fiscale': `The codice fiscale is issued the same way everywhere in Italy by the Agenzia delle Entrate — there is no ${city.name}-specific procedure. The only local element is which territorial Agenzia delle Entrate office serves your address (province of ${city.province}); use the Agenzia delle Entrate office finder or apply at any office. The full procedure is in the national guide above.`,
+  'iscrizione-anagrafica': `Residency registration is run by the Comune di ${city.name} through its Ufficio Anagrafe, following the national rules above — but the office, booking system and exact forms are local. Check the Comune di ${city.name} website. We don't yet have a verified ${city.name} guide for this step.`,
+};
+const localFallback = fallbacks[entry.id] ?? '';
+---
+
+<GuideLayout
+  entry={entry}
+  place={place}
+  localNote={note}
+  localHeading={localHeading}
+  localFallback={localFallback}
+  canonical={canonical}
+>
+  <Content />
+  {NoteContent && <NoteContent slot="local-note" />}
+</GuideLayout>

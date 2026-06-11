@@ -18,6 +18,7 @@ import { fileURLToPath } from 'node:url';
 const CONTENT_DIRS = [
   fileURLToPath(new URL('../src/content/guides/', import.meta.url)),
   fileURLToPath(new URL('../src/content/region-notes/', import.meta.url)),
+  fileURLToPath(new URL('../src/content/comune-notes/', import.meta.url)),
 ];
 const STRICT_OVERDUE = process.env.FRESHNESS_STRICT === '1';
 

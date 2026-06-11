@@ -53,6 +53,27 @@ Guide pages live in `src/content/guides/*.md`. Required frontmatter:
 | `documents`    | optional — drives the interactive document checklist           |
 | `faq`          | optional — on-page Q&A + `FAQPage` JSON-LD                     |
 
+### Local overlays (region & comune)
+
+The national guides are layered with location-specific overlays, matching how
+Italy actually works:
+
+- **Comune overlays** — `src/content/comune-notes/<city>/<guide>.md` — for the
+  **anagrafe** step (residency registration is run per comune). Frontmatter:
+  `city`, `guide`, `sources` (≥1), `lastVerified`, `reviewBy`.
+- **Region overlays** — `src/content/region-notes/<region>/<guide>.md` — for the
+  **SSN** step (the health authority is regional). Same contract.
+
+Selection is by **city** (`/cities/<city>/residency/<step>`, cities grouped by
+region in the selector). A city page composes: national base + the comune overlay
+for anagrafe + the region overlay for SSN. The **codice fiscale is national and
+uniform** — there is no comune-specific procedure, only the local Agenzia delle
+Entrate office, and the page says so. Pages self-canonicalize only when they carry
+a substantive overlay; otherwise they consolidate to the national (or, for SSN,
+the region) page, so near-duplicate pages aren't penalized.
+
+Cities and regions are curated in `src/data/cities.ts` and `src/data/regions.ts`.
+
 ## ⚠️ Accuracy note
 
 The seed content is an **initial draft based on EU free-movement rules and the
@@ -66,6 +87,8 @@ or tax advice.
 ## Roadmap
 
 1. ✅ Scaffold + enforced content schema + Step 1–3 of the EU journey.
-2. Re-verify all content against primary sources; remove draft banners.
-3. Add region layer (start with SSN voluntary-contribution differences).
-4. Expand to a high-demand city's comune specifics, or the non-EU visa journey.
+2. ✅ Region layer — SSN health authority for all 20 regions.
+3. ✅ City layer — comune anagrafe overlays (Roma, Milano, Napoli, Torino,
+   Firenze, Bologna) with selection by city.
+4. Re-verify all draft content against primary sources; remove draft banners.
+5. Add comune anagrafe overlays for more cities; then the non-EU visa journey.

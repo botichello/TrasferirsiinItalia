@@ -7,12 +7,10 @@ import { getCollection } from 'astro:content';
  */
 interface Props {
   currentId?: string;
-  /** When set, links stay within the region-scoped journey. */
-  region?: string;
+  /** URL base for the journey links (defaults to the national journey). */
+  base?: string;
 }
-const { currentId, region } = Astro.props;
-
-const base = region ? `/regions/${region}/residency` : '/eu-citizens/residency';
+const { currentId, base = '/eu-citizens/residency' } = Astro.props;
 
 const steps = (await getCollection('guides'))
   .sort((a, b) => a.data.step - b.data.step)

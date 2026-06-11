@@ -32,9 +32,23 @@ const RegionNoteContent = regionNote ? (await render(regionNote)).Content : null
 const canonical = regionNote
   ? undefined
   : new URL(`/eu-citizens/residency/${entry.id}`, Astro.site).href;
+
+const place = {
+  kind: 'region' as const,
+  name: region.name,
+  navBase: `/regions/${region.slug}/residency`,
+};
+const localFallback = `This step follows the national procedure described above. We don't yet have verified ${region.name}-specific details for it — the comune where you live (and, for the health service, your local health authority) handle the local specifics, so confirm with them. A verified ${region.name} guide for this step is on the way.`;
 ---
 
-<GuideLayout entry={entry} region={region} regionNote={regionNote} canonical={canonical}>
+<GuideLayout
+  entry={entry}
+  place={place}
+  localNote={regionNote}
+  localHeading={`In ${region.name}`}
+  localFallback={localFallback}
+  canonical={canonical}
+>
   <Content />
-  {RegionNoteContent && <RegionNoteContent slot="region-note" />}
+  {RegionNoteContent && <RegionNoteContent slot="local-note" />}
 </GuideLayout>

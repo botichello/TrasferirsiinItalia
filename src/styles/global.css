@@ -1,0 +1,91 @@
+@import 'tailwindcss';
+
+/*
+ * Design language: modern, elegant, professional, trust-forward.
+ * Fraunces (serif) for headings gives warmth + authority; Inter for body
+ * keeps long-form reading clean. Restrained palette built around a deep
+ * Italian "verde" and warm paper tones.
+ */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Fraunces', ui-serif, Georgia, serif;
+
+  --color-paper: #fbfaf7;
+  --color-ink: #1c1b18;
+  --color-muted: #6b675f;
+  --color-line: #e7e3da;
+
+  --color-brand-50: #eef5f0;
+  --color-brand-100: #d6e7dc;
+  --color-brand-500: #2f6b4f;
+  --color-brand-600: #265840;
+  --color-brand-700: #1d4632;
+
+  --color-accent: #b8742f;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+}
+
+/* Long-form prose defaults for guide bodies. */
+.prose {
+  line-height: 1.7;
+  max-width: 68ch;
+}
+.prose h2 {
+  font-size: 1.6rem;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+.prose h3 {
+  font-size: 1.2rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.prose p,
+.prose ul,
+.prose ol {
+  margin-bottom: 1rem;
+}
+.prose ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+.prose ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+}
+.prose li {
+  margin-bottom: 0.35rem;
+}
+.prose a {
+  color: var(--color-brand-600);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose strong {
+  font-weight: 600;
+}
+.prose code {
+  background: var(--color-brand-50);
+  padding: 0.1em 0.35em;
+  border-radius: 0.25rem;
+  font-size: 0.9em;
+}

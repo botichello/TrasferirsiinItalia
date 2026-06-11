@@ -1,0 +1,64 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import DocumentChecklist from '../components/DocumentChecklist.astro';
+import FreshnessBadge from '../components/FreshnessBadge.astro';
+import JourneyNav from '../components/JourneyNav.astro';
+import SourceList from '../components/SourceList.astro';
+import StructuredData from '../components/StructuredData.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'guides'>;
+}
+const { entry } = Astro.props;
+const { data } = entry;
+const url = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<BaseLayout title={data.title} description={data.description}>
+  <StructuredData
+    slot="head"
+    title={data.title}
+    description={data.description}
+    url={url}
+    lastVerified={data.lastVerified}
+    faq={data.faq}
+  />
+
+  <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
+    <a href="/" class="hover:text-ink">Home</a>
+    <span class="px-1">/</span>
+    <span>EU citizens</span>
+    <span class="px-1">/</span>
+    <span class="text-ink">Residency</span>
+  </nav>
+
+  <div class="mb-8">
+    <p class="text-sm font-medium uppercase tracking-wide text-brand-600">
+      Step {data.step} · EU residency journey
+    </p>
+    <h1 class="mt-2 text-4xl font-semibold">{data.title}</h1>
+    <p class="mt-3 max-w-2xl text-lg text-muted">{data.description}</p>
+    <div class="mt-4">
+      <FreshnessBadge lastVerified={data.lastVerified} reviewBy={data.reviewBy} />
+    </div>
+  </div>
+
+  <div class="mb-10">
+    <JourneyNav currentId={entry.id} />
+  </div>
+
+  <article class="prose">
+    <slot />
+  </article>
+
+  {
+    data.documents.length > 0 && (
+      <div class="mt-10">
+        <DocumentChecklist id={entry.id} items={data.documents} />
+      </div>
+    )
+  }
+
+  <SourceList sources={data.sources} />
+</BaseLayout>

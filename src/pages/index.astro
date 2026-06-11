@@ -1,0 +1,89 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const steps = (await getCollection('guides'))
+  .sort((a, b) => a.data.step - b.data.step)
+  .map((e) => ({
+    step: e.data.step,
+    title: e.data.title,
+    description: e.data.description,
+    href: `/eu-citizens/residency/${e.id}`,
+  }));
+---
+
+<BaseLayout
+  title="Moving to Italy as an EU citizen"
+  description="A clear, dated, source-cited guide to establishing residency in Italy as an EU/EEA citizen: codice fiscale, anagrafe registration, and the national health service."
+>
+  <section class="py-8 text-center">
+    <p class="text-sm font-medium uppercase tracking-wide text-brand-600">
+      For EU & EEA citizens
+    </p>
+    <h1 class="mx-auto mt-3 max-w-3xl text-5xl font-semibold leading-tight">
+      Establishing residency in Italy, without the guesswork.
+    </h1>
+    <p class="mx-auto mt-5 max-w-2xl text-lg text-muted">
+      A step-by-step reference for the national residency journey — every page
+      dated and cited to official Italian and EU sources, so you (and your
+      lawyer, and your search assistant) can trust it.
+    </p>
+    <div class="mt-8">
+      <a
+        href="/eu-citizens/residency/codice-fiscale"
+        class="inline-flex items-center rounded-full bg-brand-500 px-6 py-3 text-white transition hover:bg-brand-600"
+      >
+        Start with Step 1 →
+      </a>
+    </div>
+  </section>
+
+  <section class="mt-12">
+    <h2 class="font-serif text-2xl">The residency journey</h2>
+    <ol class="mt-6 grid gap-4 sm:grid-cols-3">
+      {
+        steps.map((s) => (
+          <li>
+            <a
+              href={s.href}
+              class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-6 transition hover:border-brand-100"
+            >
+              <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 font-serif font-semibold text-brand-700">
+                {s.step}
+              </span>
+              <h3 class="mt-4 font-serif text-lg">{s.title}</h3>
+              <p class="mt-2 text-sm text-muted">{s.description}</p>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="mt-16 rounded-xl border border-line bg-brand-50/50 p-8">
+    <h2 class="font-serif text-2xl">Why trust this guide</h2>
+    <div class="mt-6 grid gap-6 sm:grid-cols-3 text-sm">
+      <div>
+        <h3 class="font-serif text-lg">Dated</h3>
+        <p class="mt-1 text-muted">
+          Every page shows when it was last verified and when it is next due for
+          review. Overdue pages are flagged, not silently trusted.
+        </p>
+      </div>
+      <div>
+        <h3 class="font-serif text-lg">Sourced</h3>
+        <p class="mt-1 text-muted">
+          Each page cites the primary official sources it is based on. The site
+          cannot publish a page without them.
+        </p>
+      </div>
+      <div>
+        <h3 class="font-serif text-lg">Narrow on purpose</h3>
+        <p class="mt-1 text-muted">
+          We cover the EU national residency journey deeply rather than
+          everything shallowly — so the information stays accurate.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

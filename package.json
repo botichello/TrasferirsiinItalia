@@ -1,0 +1,21 @@
+{
+  "name": "trasferirsi-italia",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Authoritative, dated, primary-source-cited reference for relocating to Italy. v1: the EU-citizen national residency journey.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "npm run check:freshness && astro build",
+    "preview": "astro preview",
+    "check:freshness": "node scripts/check-freshness.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^5.1.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "tailwindcss": "^4.0.0"
+  }
+}

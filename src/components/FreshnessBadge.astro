@@ -1,0 +1,39 @@
+---
+/**
+ * Visible trust signal: when the page was last verified, and whether it is
+ * still within its review window. The same dates drive the build-time
+ * freshness check (scripts/check-freshness.mjs).
+ */
+interface Props {
+  lastVerified: Date;
+  reviewBy: Date;
+}
+const { lastVerified, reviewBy } = Astro.props;
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const overdue = new Date() > reviewBy;
+---
+
+<div
+  class:list={[
+    'inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm',
+    overdue
+      ? 'border-amber-300 bg-amber-50 text-amber-800'
+      : 'border-brand-100 bg-brand-50 text-brand-700',
+  ]}
+>
+  <span
+    class:list={[
+      'h-2 w-2 rounded-full',
+      overdue ? 'bg-amber-500' : 'bg-brand-500',
+    ]}
+    aria-hidden="true"
+  >
+  </span>
+  <span>
+    {overdue ? 'Review due' : 'Last verified'}:
+    <time datetime={lastVerified.toISOString().slice(0, 10)}>{fmt(lastVerified)}</time>
+  </span>
+</div>

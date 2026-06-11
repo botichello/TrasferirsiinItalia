@@ -1,0 +1,73 @@
+---
+/**
+ * Interactive document checklist. Progress is saved to localStorage per
+ * checklist id, so a newcomer can tick items off across visits. Renders as
+ * plain checkboxes without JS (progressive enhancement).
+ */
+interface Props {
+  id: string;
+  items: string[];
+}
+const { id, items } = Astro.props;
+---
+
+<div class="not-prose rounded-lg border border-line bg-white/70 p-6" data-checklist={id}>
+  <div class="flex items-baseline justify-between gap-4">
+    <h3 class="font-serif text-lg">Documents to bring</h3>
+    <button
+      type="button"
+      data-checklist-reset
+      class="text-sm text-muted underline underline-offset-2 hover:text-ink"
+    >
+      Reset
+    </button>
+  </div>
+  <ul class="mt-4 space-y-2">
+    {
+      items.map((item, i) => (
+        <li>
+          <label class="flex cursor-pointer items-start gap-3 text-sm">
+            <input
+              type="checkbox"
+              data-checklist-item={String(i)}
+              class="mt-0.5 h-4 w-4 accent-[var(--color-brand-500)]"
+            />
+            <span>{item}</span>
+          </label>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-checklist]').forEach((root) => {
+    const key = `checklist:${root.dataset.checklist}`;
+    const boxes = root.querySelectorAll<HTMLInputElement>('[data-checklist-item]');
+
+    let saved: Record<string, boolean> = {};
+    try {
+      saved = JSON.parse(localStorage.getItem(key) ?? '{}');
+    } catch {
+      saved = {};
+    }
+
+    const persist = () => {
+      const state: Record<string, boolean> = {};
+      boxes.forEach((b) => (state[b.dataset.checklistItem!] = b.checked));
+      localStorage.setItem(key, JSON.stringify(state));
+    };
+
+    boxes.forEach((b) => {
+      b.checked = Boolean(saved[b.dataset.checklistItem!]);
+      b.addEventListener('change', persist);
+    });
+
+    root
+      .querySelector<HTMLButtonElement>('[data-checklist-reset]')
+      ?.addEventListener('click', () => {
+        boxes.forEach((b) => (b.checked = false));
+        localStorage.removeItem(key);
+      });
+  });
+</script>

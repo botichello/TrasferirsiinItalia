@@ -1,0 +1,41 @@
+---
+/**
+ * Renders the primary sources for a page. Required by the content schema, so
+ * this list is never empty on a published guide.
+ */
+interface Source {
+  title: string;
+  url: string;
+  accessed: Date;
+}
+interface Props {
+  sources: Source[];
+}
+const { sources } = Astro.props;
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+---
+
+<section class="mt-12 rounded-lg border border-line bg-white/60 p-6">
+  <h2 class="font-serif text-xl">Sources</h2>
+  <p class="mt-1 text-sm text-muted">
+    Primary, official sources this page is based on. Each was checked on the date shown.
+  </p>
+  <ol class="mt-4 space-y-3 text-sm">
+    {
+      sources.map((s) => (
+        <li>
+          <a
+            href={s.url}
+            class="text-brand-600 underline underline-offset-2"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {s.title}
+          </a>
+          <span class="text-muted"> — checked {fmt(s.accessed)}</span>
+        </li>
+      ))
+    }
+  </ol>
+</section>

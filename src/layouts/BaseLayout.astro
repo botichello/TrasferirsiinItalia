@@ -1,0 +1,71 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const siteName = 'Trasferirsi in Italia';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <title>{title} · {siteName}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={siteName} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <slot name="head" />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <header class="border-b border-line">
+      <div class="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
+        <a href="/" class="font-serif text-lg font-semibold text-ink">
+          Trasferirsi <span class="text-brand-600">in Italia</span>
+        </a>
+        <nav class="text-sm">
+          <a
+            href="/eu-citizens/residency/codice-fiscale"
+            class="text-muted hover:text-ink"
+          >
+            EU residency guide
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="mx-auto w-full max-w-5xl flex-1 px-5 py-10">
+      <slot />
+    </main>
+
+    <footer class="border-t border-line">
+      <div class="mx-auto max-w-5xl px-5 py-8 text-sm text-muted">
+        <p>
+          Informational only — not legal or tax advice. Procedures change;
+          always confirm with the official sources cited on each page or the
+          relevant Italian authority before acting.
+        </p>
+        <p class="mt-2">© {new Date().getFullYear()} Trasferirsi in Italia</p>
+      </div>
+    </footer>
+  </body>
+</html>

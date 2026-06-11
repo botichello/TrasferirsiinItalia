@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+
+/**
+ * Progress-style navigation for the EU residency journey. Reads the guides
+ * collection, orders by `step`, and highlights the current page.
+ */
+interface Props {
+  currentId?: string;
+}
+const { currentId } = Astro.props;
+
+const steps = (await getCollection('guides'))
+  .sort((a, b) => a.data.step - b.data.step)
+  .map((entry) => ({
+    id: entry.id,
+    step: entry.data.step,
+    title: entry.data.title,
+    href: `/eu-citizens/residency/${entry.id}`,
+  }));
+---
+
+<nav aria-label="Residency journey" class="not-prose">
+  <ol class="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-3">
+    {
+      steps.map((s) => {
+        const active = s.id === currentId;
+        return (
+          <li class="flex-1">
+            <a
+              href={s.href}
+              aria-current={active ? 'step' : undefined}
+              class:list={[
+                'flex h-full items-center gap-3 rounded-lg border px-4 py-3 transition',
+                active
+                  ? 'border-brand-500 bg-brand-50'
+                  : 'border-line bg-white/60 hover:border-brand-100',
+              ]}
+            >
+              <span
+                class:list={[
+                  'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-semibold',
+                  active ? 'bg-brand-500 text-white' : 'bg-brand-50 text-brand-700',
+                ]}
+              >
+                {s.step}
+              </span>
+              <span class="text-sm font-medium leading-tight">{s.title}</span>
+            </a>
+          </li>
+        );
+      })
+    }
+  </ol>
+</nav>

@@ -1,0 +1,47 @@
+---
+/**
+ * Emits schema.org JSON-LD from frontmatter so AI agents and search engines
+ * can parse the guide as a structured HowTo + FAQPage. This is the core of the
+ * GEO (generative-engine-optimization) bet: machine-readable, sourced, dated.
+ */
+interface FaqItem {
+  q: string;
+  a: string;
+}
+interface Props {
+  title: string;
+  description: string;
+  url: string;
+  lastVerified: Date;
+  faq?: FaqItem[];
+}
+const { title, description, url, lastVerified, faq = [] } = Astro.props;
+
+const graph: Record<string, unknown>[] = [
+  {
+    '@type': 'HowTo',
+    name: title,
+    description,
+    url,
+    dateModified: lastVerified.toISOString().slice(0, 10),
+  },
+];
+
+if (faq.length > 0) {
+  graph.push({
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  });
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': graph,
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />

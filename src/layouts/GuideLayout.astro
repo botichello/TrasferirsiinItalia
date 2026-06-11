@@ -4,6 +4,7 @@ import DocumentChecklist from '../components/DocumentChecklist.astro';
 import FreshnessBadge from '../components/FreshnessBadge.astro';
 import JourneyNav from '../components/JourneyNav.astro';
 import CitySelector from '../components/CitySelector.astro';
+import ReportIssue from '../components/ReportIssue.astro';
 import SourceList from '../components/SourceList.astro';
 import StructuredData from '../components/StructuredData.astro';
 import type { CollectionEntry } from 'astro:content';
@@ -58,6 +59,23 @@ const reviewBy =
   localNote && localNote.data.reviewBy < data.reviewBy
     ? localNote.data.reviewBy
     : data.reviewBy;
+
+const crumbs = [
+  { name: 'Home', url: new URL('/', Astro.site).href },
+  { name: 'EU residency', url: new URL('/eu-citizens/residency/codice-fiscale', Astro.site).href },
+  ...(place ? [{ name: placeLabel, url }] : []),
+  { name: data.title, url },
+];
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: crumbs.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.name,
+    item: c.url,
+  })),
+};
 ---
 
 <BaseLayout title={title} description={description} canonical={canonical}>
@@ -68,6 +86,12 @@ const reviewBy =
     url={url}
     lastVerified={lastVerified}
     faq={data.faq}
+  />
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(breadcrumbSchema)}
+    is:inline
   />
 
   <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
@@ -138,4 +162,6 @@ const reviewBy =
   }
 
   <SourceList sources={sources} />
+
+  <ReportIssue pageTitle={title} pageUrl={url} />
 </BaseLayout>

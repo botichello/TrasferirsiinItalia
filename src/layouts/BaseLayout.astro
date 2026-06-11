@@ -11,6 +11,23 @@ interface Props {
 const { title, description, canonical: canonicalOverride } = Astro.props;
 const canonical = canonicalOverride ?? new URL(Astro.url.pathname, Astro.site).href;
 const siteName = 'Trasferirsi in Italia';
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: siteName,
+  url: Astro.site?.href,
+  description:
+    'A free, source-cited reference for relocating to Italy, covering the EU/EEA residency journey at national, regional, and comune level.',
+};
+
+const nav = [
+  { href: '/cities', label: 'Cities' },
+  { href: '/regions', label: 'Regions' },
+  { href: '/how-we-verify', label: 'How we verify' },
+  { href: '/about', label: 'About' },
+  { href: '/search', label: 'Search' },
+];
 ---
 
 <!doctype html>
@@ -37,31 +54,47 @@ const siteName = 'Trasferirsi in Italia';
       rel="stylesheet"
     />
 
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(orgSchema)}
+      is:inline
+    />
+
     <slot name="head" />
   </head>
   <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded focus:bg-brand-600 focus:px-3 focus:py-2 focus:text-white"
+    >
+      Skip to content
+    </a>
     <header class="border-b border-line">
-      <div class="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
+      <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-5 py-4">
         <a href="/" class="font-serif text-lg font-semibold text-ink">
           Trasferirsi <span class="text-brand-600">in Italia</span>
         </a>
-        <nav class="text-sm">
-          <a
-            href="/eu-citizens/residency/codice-fiscale"
-            class="text-muted hover:text-ink"
-          >
-            EU residency guide
-          </a>
+        <nav class="flex flex-wrap gap-x-4 gap-y-1 text-sm" aria-label="Primary">
+          {nav.map((item) => (
+            <a href={item.href} class="text-muted hover:text-ink">{item.label}</a>
+          ))}
         </nav>
       </div>
     </header>
 
-    <main class="mx-auto w-full max-w-5xl flex-1 px-5 py-10">
+    <main id="main" class="mx-auto w-full max-w-5xl flex-1 px-5 py-10">
       <slot />
     </main>
 
     <footer class="border-t border-line">
       <div class="mx-auto max-w-5xl px-5 py-8 text-sm text-muted">
+        <nav class="mb-4 flex flex-wrap gap-x-4 gap-y-1" aria-label="Footer">
+          <a href="/cities" class="hover:text-ink">Browse cities</a>
+          <a href="/regions" class="hover:text-ink">Browse regions</a>
+          <a href="/about" class="hover:text-ink">About</a>
+          <a href="/how-we-verify" class="hover:text-ink">How we verify</a>
+          <a href="/search" class="hover:text-ink">Search</a>
+        </nav>
         <p>
           Informational only — not legal or tax advice. Procedures change;
           always confirm with the official sources cited on each page or the

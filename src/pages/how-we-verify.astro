@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="How we verify"
+  description="Our editorial method: every page cites primary official sources, carries a verification date, and is flagged for review before it goes stale."
+>
+  <article class="prose">
+    <h1>How we verify</h1>
+    <p>
+      This site's value is accuracy. Relocation rules change, and stale information
+      is worse than none — so we make verification a mechanical part of publishing,
+      not an afterthought.
+    </p>
+
+    <h2>Every page is sourced</h2>
+    <p>
+      A page cannot be published without at least one <strong>primary source</strong>
+      — an official Italian authority (Agenzia delle Entrate, Ministero dell'Interno,
+      Ministero della Salute, the relevant comune or health authority) or the EU's
+      Your Europe portal. This is enforced by the build itself: the content schema
+      rejects any page missing its sources.
+    </p>
+
+    <h2>Every page is dated</h2>
+    <p>
+      Each page shows when it was <strong>last verified</strong> and when it is
+      <strong>next due for review</strong>. An automated check flags overdue pages so
+      they get re-checked rather than silently trusted. When a page is past its review
+      date you'll see a "review due" badge instead of a verification date.
+    </p>
+
+    <h2>We work at the right level of detail</h2>
+    <p>
+      Italy's rules apply at three levels, and we mirror that exactly:
+    </p>
+    <ul>
+      <li><strong>National</strong> — the codice fiscale is uniform across Italy.</li>
+      <li>
+        <strong>Comune</strong> — residency registration (anagrafe) is run by each
+        comune, so the office, booking system and forms are local.
+      </li>
+      <li>
+        <strong>Regional</strong> — the health service (SSN) authority depends on
+        your region.
+      </li>
+    </ul>
+    <p>
+      Where we don't yet have a verified local detail, we say so plainly and point
+      you to the official office — we never invent specifics.
+    </p>
+
+    <h2>Drafts are labelled</h2>
+    <p>
+      Pages still awaiting a full primary-source check carry a visible "draft" note.
+      They are structured and sourced, but you should confirm specifics with the cited
+      authority until the label is removed.
+    </p>
+
+    <h2>This is not legal advice</h2>
+    <p>
+      The site is informational. Procedures change and individual circumstances vary;
+      always confirm with the relevant Italian authority before acting.
+    </p>
+
+    <p>
+      Spotted something out of date?
+      <a href="/about#contribute">Tell us</a> — reader reports feed directly into our
+      review queue.
+    </p>
+  </article>
+</BaseLayout>

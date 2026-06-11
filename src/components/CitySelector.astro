@@ -17,7 +17,7 @@ const { currentGuide = 'codice-fiscale', currentCity } = Astro.props;
 const groups = citiesByRegion();
 ---
 
-<div
+<form
   class="not-prose flex flex-wrap items-center gap-3 rounded-lg border border-line bg-white/70 px-4 py-3"
   data-city-selector
   data-current-guide={currentGuide}
@@ -41,20 +41,28 @@ const groups = citiesByRegion();
       ))
     }
   </select>
+  <button
+    type="submit"
+    class="rounded-md bg-brand-500 px-4 py-1.5 text-sm text-white transition hover:bg-brand-600"
+  >
+    Go
+  </button>
+  <a href="/cities" class="text-sm text-muted underline">Browse all</a>
   {
     currentCity && (
       <a href="/eu-citizens/residency/codice-fiscale" class="text-sm text-muted underline">
-        View national guide
+        National guide
       </a>
     )
   }
-</div>
+</form>
 
 <script>
-  document.querySelectorAll<HTMLElement>('[data-city-selector]').forEach((root) => {
+  document.querySelectorAll<HTMLFormElement>('[data-city-selector]').forEach((root) => {
     const select = root.querySelector<HTMLSelectElement>('[data-city-select]');
     if (!select) return;
 
+    // Restore a previously chosen city when the page hasn't set one.
     if (!select.value) {
       try {
         const saved = localStorage.getItem('city');
@@ -64,7 +72,10 @@ const groups = citiesByRegion();
       }
     }
 
-    select.addEventListener('change', () => {
+    // Navigate on explicit submit (Go button / Enter) — not on change, so
+    // keyboard and screen-reader users can browse options freely.
+    root.addEventListener('submit', (e) => {
+      e.preventDefault();
       const slug = select.value;
       if (!slug) return;
       try {

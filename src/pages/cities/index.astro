@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { citiesByRegion } from '../../data/cities';
+
+const groups = citiesByRegion();
+const total = groups.reduce((n, g) => n + g.cities.length, 0);
+---
+
+<BaseLayout
+  title="Browse by city"
+  description="Browse relocation guides for Italian cities, grouped by region."
+>
+  <h1 class="text-4xl font-semibold">Browse by city</h1>
+  <p class="mt-3 max-w-2xl text-muted">
+    {total} cities across all 20 regions. Each links to its residency journey, with
+    comune-level detail for registering residency and your regional health authority.
+  </p>
+
+  <div class="mt-10 space-y-8">
+    {
+      groups.map((g) => (
+        <section>
+          <h2 class="font-serif text-xl">
+            <a href={`/regions/${g.region.slug}/residency/servizio-sanitario`} class="hover:underline">
+              {g.region.name}
+            </a>
+          </h2>
+          <ul class="mt-3 flex flex-wrap gap-2">
+            {g.cities.map((c) => (
+              <li>
+                <a
+                  href={`/cities/${c.slug}/residency/codice-fiscale`}
+                  class="inline-block rounded-full border border-line bg-white/60 px-3 py-1 text-sm hover:border-brand-300 hover:text-brand-700"
+                >
+                  {c.name} <span class="text-muted">({c.province})</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>

@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Search"
+  description="Search the relocation guides, regions, and cities."
+>
+  <h1 class="text-4xl font-semibold">Search</h1>
+  <p class="mt-3 text-muted">
+    Search guides, regions, and cities. Tip: try a city name (e.g. "Firenze") or a
+    step ("codice fiscale", "residency", "health").
+  </p>
+
+  <form class="mt-6" role="search" data-search-form>
+    <input
+      type="search"
+      name="q"
+      data-search-input
+      placeholder="Search…"
+      autocomplete="off"
+      aria-label="Search"
+      class="w-full rounded-lg border border-line bg-white px-4 py-3 text-base focus:border-brand-500 focus:outline-none"
+    />
+  </form>
+
+  <p class="mt-4 text-sm text-muted" data-search-status>Loading the index…</p>
+  <ul class="mt-4 divide-y divide-line" data-search-results></ul>
+
+  <noscript>
+    <p class="mt-4 text-muted">
+      Search needs JavaScript. You can browse by
+      <a href="/cities" class="text-brand-600 underline">city</a> or
+      <a href="/regions" class="text-brand-600 underline">region</a> instead.
+    </p>
+  </noscript>
+</BaseLayout>
+
+<script>
+  type Entry = { title: string; url: string; type: string; text: string };
+
+  const form = document.querySelector<HTMLFormElement>('[data-search-form]');
+  const input = document.querySelector<HTMLInputElement>('[data-search-input]');
+  const status = document.querySelector<HTMLElement>('[data-search-status]');
+  const list = document.querySelector<HTMLUListElement>('[data-search-results]');
+
+  let entries: Entry[] = [];
+
+  const escape = (s: string) =>
+    s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+
+  function score(entry: Entry, tokens: string[]): number {
+    const title = entry.title.toLowerCase();
+    const hay = `${entry.title} ${entry.text} ${entry.type}`.toLowerCase();
+    let s = 0;
+    for (const t of tokens) {
+      if (!hay.includes(t)) return -1; // require all tokens
+      if (title.includes(t)) s += 2;
+      else s += 1;
+    }
+    return s;
+  }
+
+  function render(query: string) {
+    if (!list || !status) return;
+    const tokens = query.toLowerCase().split(/\s+/).filter(Boolean);
+    if (tokens.length === 0) {
+      list.innerHTML = '';
+      status.textContent = `Type to search ${entries.length} pages.`;
+      return;
+    }
+    const hits = entries
+      .map((e) => ({ e, s: score(e, tokens) }))
+      .filter((x) => x.s >= 0)
+      .sort((a, b) => b.s - a.s)
+      .slice(0, 30);
+
+    status.textContent = `${hits.length} result${hits.length === 1 ? '' : 's'}`;
+    list.innerHTML = hits
+      .map(
+        ({ e }) => `
+        <li class="py-3">
+          <a href="${e.url}" class="font-medium text-brand-700 hover:underline">${escape(e.title)}</a>
+          <div class="text-sm text-muted">${escape(e.type)}</div>
+        </li>`,
+      )
+      .join('');
+  }
+
+  async function init() {
+    try {
+      const res = await fetch('/search-index.json');
+      entries = await res.json();
+      if (status) status.textContent = `Type to search ${entries.length} pages.`;
+      const params = new URLSearchParams(location.search);
+      const q = params.get('q');
+      if (q && input) {
+        input.value = q;
+        render(q);
+      }
+    } catch {
+      if (status) status.textContent = 'Could not load the search index.';
+    }
+  }
+
+  input?.addEventListener('input', () => render(input.value));
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (input) render(input.value);
+  });
+  init();
+</script>

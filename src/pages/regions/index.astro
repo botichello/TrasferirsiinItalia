@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { regions } from '../../data/regions';
+---
+
+<BaseLayout
+  title="Browse by region"
+  description="Browse the regional health-service (SSN) guidance for all 20 Italian regions."
+>
+  <h1 class="text-4xl font-semibold">Browse by region</h1>
+  <p class="mt-3 max-w-2xl text-muted">
+    The national health service (SSN) is run regionally — which authority you enrol
+    with depends on your region. Pick yours for the local detail.
+  </p>
+
+  <ul class="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      regions.map((r) => (
+        <li>
+          <a
+            href={`/regions/${r.slug}/residency/servizio-sanitario`}
+            class="flex h-full flex-col rounded-lg border border-line bg-white/60 p-4 transition hover:border-brand-300"
+          >
+            <span class="font-serif text-lg">{r.name}</span>
+            <span class="text-sm text-muted">{r.capoluogo}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

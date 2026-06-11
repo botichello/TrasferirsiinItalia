@@ -1,0 +1,32 @@
+---
+/**
+ * Per-page "suggest an update" link. Turns readers into part of the freshness
+ * pipeline: a report opens a pre-filled issue on the project repo.
+ */
+interface Props {
+  pageTitle: string;
+  pageUrl: string;
+}
+const { pageTitle, pageUrl } = Astro.props;
+
+const REPO = 'botichello/vibing';
+const issueUrl =
+  `https://github.com/${REPO}/issues/new?` +
+  new URLSearchParams({
+    title: `Update needed: ${pageTitle}`,
+    body: `Page: ${pageUrl}\n\nWhat's out of date, and (if you have it) a link to the official source:\n`,
+    labels: 'content-update',
+  }).toString();
+---
+
+<p class="mt-8 text-sm text-muted">
+  Spotted something out of date?
+  <a
+    href={issueUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="text-brand-600 underline underline-offset-2"
+  >
+    Suggest an update →
+  </a>
+</p>

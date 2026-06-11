@@ -17,6 +17,9 @@ sources:
   - title: 'Your Europe — Registering your residence abroad'
     url: 'https://europa.eu/youreurope/citizens/residence/residence-rights/registering-residence/index_en.htm'
     accessed: 2026-06-11
+  - title: "Agenzia delle Entrate — Find an office (Trova l'ufficio)"
+    url: 'https://www.agenziaentrate.gov.it/portale/web/guest/contatta/trova-l-ufficio'
+    accessed: 2026-06-11
 faq:
   - q: Does the codice fiscale cost anything?
     a: No. The codice fiscale is issued free of charge by the Agenzia delle Entrate.

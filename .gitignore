@@ -11,3 +11,4 @@ npm-debug.log*
 .env.production
 # os
 .DS_Store
+.gstack/

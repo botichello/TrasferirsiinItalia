@@ -68,6 +68,7 @@ const regionNotes = defineCollection({
     .object({
       region: z.string().min(1),
       guide: z.string().min(1),
+      lang: z.enum(['en', 'it']).default('en'),
       title: z.string().optional(),
       lastVerified: z.coerce.date(),
       reviewBy: z.coerce.date(),
@@ -94,6 +95,7 @@ const comuneNotes = defineCollection({
     .object({
       city: z.string().min(1),
       guide: z.string().min(1),
+      lang: z.enum(['en', 'it']).default('en'),
       title: z.string().optional(),
       lastVerified: z.coerce.date(),
       reviewBy: z.coerce.date(),

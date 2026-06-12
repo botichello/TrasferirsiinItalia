@@ -1,11 +1,13 @@
 ---
 import { citiesByRegion } from '../data/cities';
+import { getLocale } from '../i18n/ui';
 
 /**
  * Lets the visitor pick a city/comune and jump to the city-specific version of
  * the current guide step. Cities are grouped by region (optgroup), so it is
  * always clear which region a settlement sits in. The choice is remembered
- * (localStorage) so other pages can default to it.
+ * (localStorage) so other pages can default to it. Locale-aware: navigates
+ * within /it/ when the page is Italian.
  */
 interface Props {
   /** Guide id to navigate to within the chosen city. */
@@ -15,20 +17,28 @@ interface Props {
 }
 const { currentGuide = 'codice-fiscale', currentCity } = Astro.props;
 const groups = citiesByRegion();
+
+const locale = getLocale(Astro.url);
+const prefix = locale === 'it' ? '/it' : '';
+const txt =
+  locale === 'it'
+    ? { label: '📍 La tua città / comune', choose: 'Scegli una città…', go: 'Vai', browse: 'Sfoglia tutte', national: 'Guida nazionale' }
+    : { label: '📍 Your city / comune', choose: 'Choose a city…', go: 'Go', browse: 'Browse all', national: 'National guide' };
 ---
 
 <form
   class="not-prose flex flex-wrap items-center gap-3 rounded-lg border border-line bg-white/70 px-4 py-3"
   data-city-selector
+  data-prefix={prefix}
   data-current-guide={currentGuide}
 >
-  <label for="city-select" class="text-sm font-medium">📍 Your city / comune</label>
+  <label for="city-select" class="text-sm font-medium">{txt.label}</label>
   <select
     id="city-select"
     data-city-select
     class="min-w-56 rounded-md border border-line bg-white px-3 py-1.5 text-sm focus:border-brand-500 focus:outline-none"
   >
-    <option value="">Choose a city…</option>
+    <option value="">{txt.choose}</option>
     {
       groups.map((g) => (
         <optgroup label={g.region.name}>
@@ -45,13 +55,13 @@ const groups = citiesByRegion();
     type="submit"
     class="rounded-md bg-brand-500 px-4 py-1.5 text-sm text-white transition hover:bg-brand-600"
   >
-    Go
+    {txt.go}
   </button>
-  <a href="/cities" class="text-sm text-muted underline">Browse all</a>
+  <a href={`${prefix}/cities`} class="text-sm text-muted underline">{txt.browse}</a>
   {
     currentCity && (
-      <a href="/eu-citizens/residency/codice-fiscale" class="text-sm text-muted underline">
-        National guide
+      <a href={`${prefix}/eu-citizens/residency/codice-fiscale`} class="text-sm text-muted underline">
+        {txt.national}
       </a>
     )
   }
@@ -84,7 +94,8 @@ const groups = citiesByRegion();
         /* ignore */
       }
       const guide = root.dataset.currentGuide || 'codice-fiscale';
-      window.location.href = `/cities/${slug}/residency/${guide}`;
+      const prefix = root.dataset.prefix || '';
+      window.location.href = `${prefix}/cities/${slug}/residency/${guide}`;
     });
   });
 </script>

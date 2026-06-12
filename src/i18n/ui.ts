@@ -87,12 +87,14 @@ export const ui: Record<Locale, Strings> = {
     htmlLang: 'it',
     skip: 'Vai al contenuto',
     nav: [
-      { href: '/it', label: 'Home' },
-      { href: '/it/about', label: 'Chi siamo' },
+      { href: '/it/cities', label: 'Città' },
+      { href: '/it/regions', label: 'Regioni' },
       { href: '/it/how-we-verify', label: 'Come verifichiamo' },
-      { href: '/', label: 'English' },
+      { href: '/it/about', label: 'Chi siamo' },
     ],
     footerNav: [
+      { href: '/it/cities', label: 'Sfoglia città' },
+      { href: '/it/regions', label: 'Sfoglia regioni' },
       { href: '/it/about', label: 'Chi siamo' },
       { href: '/it/how-we-verify', label: 'Come verifichiamo' },
       { href: '/', label: 'English site' },

@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { regions } from '../../../data/regions';
+---
+
+<BaseLayout
+  title="Sfoglia per regione"
+  description="Sfoglia le indicazioni sul servizio sanitario regionale (SSN) per tutte le 20 regioni italiane."
+  alternates={{ en: '/regions', it: '/it/regions' }}
+>
+  <h1 class="text-4xl font-semibold">Sfoglia per regione</h1>
+  <p class="mt-3 max-w-2xl text-muted">
+    Il Servizio Sanitario Nazionale (SSN) è gestito a livello regionale: l'autorità
+    presso cui ti iscrivi dipende dalla regione. Scegli la tua per il dettaglio
+    locale.
+  </p>
+
+  <ul class="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      regions.map((r) => (
+        <li>
+          <a
+            href={`/it/regions/${r.slug}/residency/servizio-sanitario`}
+            class="flex h-full flex-col rounded-lg border border-line bg-white/60 p-4 transition hover:border-brand-300"
+          >
+            <span class="font-serif text-lg">{r.name}</span>
+            <span class="text-sm text-muted">{r.capoluogo}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

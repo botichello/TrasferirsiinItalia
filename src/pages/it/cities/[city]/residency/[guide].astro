@@ -1,0 +1,76 @@
+---
+import { getCollection, render } from 'astro:content';
+import GuideLayout from '../../../../../layouts/GuideLayout.astro';
+import { cities, getCity } from '../../../../../data/cities';
+import { getRegion } from '../../../../../data/regions';
+import { guideSlug } from '../../../../../lib/guides';
+
+export async function getStaticPaths() {
+  const SSN = 'servizio-sanitario';
+  const guides = await getCollection('guides', ({ data }) => data.lang === 'it');
+  const regionNotes = await getCollection('regionNotes');
+  const comuneNotes = await getCollection('comuneNotes');
+
+  return cities.flatMap((city) =>
+    guides.map((entry) => {
+      const slug = guideSlug(entry);
+      const note =
+        slug === SSN
+          ? regionNotes.find(
+              (n) => n.data.region === city.region && n.data.guide === slug && n.data.lang === 'it',
+            )
+          : comuneNotes.find(
+              (n) => n.data.city === city.slug && n.data.guide === slug && n.data.lang === 'it',
+            );
+      return {
+        params: { city: city.slug, guide: slug },
+        props: { entry, citySlug: city.slug, note },
+      };
+    }),
+  );
+}
+
+const SSN = 'servizio-sanitario';
+const { entry, citySlug, note } = Astro.props;
+const city = getCity(citySlug)!;
+const region = getRegion(city.region)!;
+const slug = guideSlug(entry);
+const isSSN = slug === SSN;
+
+const { Content } = await render(entry);
+const NoteContent = note ? (await render(note)).Content : null;
+
+const canonical = isSSN
+  ? new URL(`/it/regions/${region.slug}/residency/${SSN}`, Astro.site).href
+  : note
+    ? undefined
+    : new URL(`/it/eu-citizens/residency/${slug}`, Astro.site).href;
+
+const place = {
+  kind: 'city' as const,
+  name: city.name,
+  regionName: region.name,
+  navBase: `/it/cities/${city.slug}/residency`,
+  citySlug: city.slug,
+};
+
+const localHeading = isSSN ? `In ${region.name}` : `A ${city.name}`;
+
+const fallbacks: Record<string, string> = {
+  'codice-fiscale': `Il codice fiscale si ottiene allo stesso modo in tutta Italia presso l'Agenzia delle Entrate: non esiste una procedura specifica per ${city.name}. L'unico elemento locale è quale ufficio territoriale dell'Agenzia delle Entrate serve il tuo indirizzo (provincia di ${city.province}); usa il servizio "Trova l'ufficio" o presentati in qualsiasi ufficio. La procedura completa è nella guida nazionale qui sopra.`,
+  'iscrizione-anagrafica': `L'iscrizione anagrafica è gestita dal Comune di ${city.name} tramite il suo Ufficio Anagrafe, secondo le regole nazionali qui sopra, ma ufficio, prenotazione e moduli sono locali. Consulta il sito del Comune di ${city.name}. Non abbiamo ancora una guida verificata specifica per ${city.name} su questo passo.`,
+};
+const localFallback = fallbacks[slug] ?? '';
+---
+
+<GuideLayout
+  entry={entry}
+  place={place}
+  localNote={note}
+  localHeading={localHeading}
+  localFallback={localFallback}
+  canonical={canonical}
+>
+  <Content />
+  {NoteContent && <NoteContent slot="local-note" />}
+</GuideLayout>

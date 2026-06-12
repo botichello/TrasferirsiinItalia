@@ -84,11 +84,34 @@ Pages that depend on regional rules (notably SSN enrolment for economically
 inactive EU citizens) are flagged inline. This site is informational, not legal
 or tax advice.
 
+## Internationalisation (i18n)
+
+English is the default (unprefixed) locale; Italian is served under `/it/`
+(`astro.config.mjs` → `i18n`). Chrome strings live in `src/i18n/ui.ts`; guide
+content carries a `lang` field (Italian guides under `src/content/guides/it/`),
+and region/comune overlays carry `lang` too (Italian overlays under
+`it/<place>/`). The national journey, the trust/landing pages, and the major
+cities (Roma, Milano, Napoli, Torino, Firenze, Bologna) are fully Italian
+end-to-end; other localities fall back to honest Italian "national procedure"
+text. `hreflang` alternates are emitted on the bilingual pages.
+
 ## Roadmap
 
 1. ✅ Scaffold + enforced content schema + Step 1–3 of the EU journey.
 2. ✅ Region layer — SSN health authority for all 20 regions.
 3. ✅ City layer — comune anagrafe overlays (Roma, Milano, Napoli, Torino,
    Firenze, Bologna) with selection by city.
-4. Re-verify all draft content against primary sources; remove draft banners.
-5. Add comune anagrafe overlays for more cities; then the non-EU visa journey.
+4. ✅ Findability & Trust — search, browse hubs, About/How-we-verify, schema.
+5. ✅ Italian (i18n) — national journey + 6 major cities end-to-end.
+6. Verify remaining draft overlays against primary sources (needs the network
+   policy widened so official sites are reachable — see below).
+7. Translate the remaining region/comune overlays into Italian; then the
+   non-EU visa journey.
+
+## ⚠️ Verifying content (network policy)
+
+Turning the remaining draft overlays into verified pages requires reaching the
+official Italian/EU sites. In a locked-down web session the egress allowlist may
+block them (and `cdn.playwright.dev`, which disables the `/browse` skill). To do
+a verification pass, run in an environment whose network policy allows those
+hosts. `WebSearch` works regardless and is the fallback used so far.

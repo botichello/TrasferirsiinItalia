@@ -1,0 +1,54 @@
+---
+import { getCollection, render } from 'astro:content';
+import GuideLayout from '../../../../../layouts/GuideLayout.astro';
+import { regions, getRegion } from '../../../../../data/regions';
+import { guideSlug } from '../../../../../lib/guides';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides', ({ data }) => data.lang === 'it');
+  const notes = await getCollection('regionNotes');
+
+  return regions.flatMap((region) =>
+    guides.map((entry) => {
+      const slug = guideSlug(entry);
+      const regionNote = notes.find(
+        (n) => n.data.region === region.slug && n.data.guide === slug && n.data.lang === 'it',
+      );
+      return {
+        params: { region: region.slug, guide: slug },
+        props: { entry, regionSlug: region.slug, regionNote },
+      };
+    }),
+  );
+}
+
+const { entry, regionSlug, regionNote } = Astro.props;
+const region = getRegion(regionSlug)!;
+const slug = guideSlug(entry);
+
+const { Content } = await render(entry);
+const RegionNoteContent = regionNote ? (await render(regionNote)).Content : null;
+
+const canonical = regionNote
+  ? undefined
+  : new URL(`/it/eu-citizens/residency/${slug}`, Astro.site).href;
+
+const place = {
+  kind: 'region' as const,
+  name: region.name,
+  navBase: `/it/regions/${region.slug}/residency`,
+};
+const localFallback = `Questo passo segue la procedura nazionale descritta sopra. Non abbiamo ancora dettagli verificati specifici per ${region.name}: il Comune di residenza (e, per il servizio sanitario, la tua azienda sanitaria locale) gestiscono le specificità locali, quindi conferma con loro.`;
+---
+
+<GuideLayout
+  entry={entry}
+  place={place}
+  localNote={regionNote}
+  localHeading={`In ${region.name}`}
+  localFallback={localFallback}
+  canonical={canonical}
+>
+  <Content />
+  {RegionNoteContent && <RegionNoteContent slot="local-note" />}
+</GuideLayout>

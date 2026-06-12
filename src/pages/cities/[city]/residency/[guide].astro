@@ -17,8 +17,12 @@ export async function getStaticPaths() {
       // SSN varies by region; the other steps vary by comune.
       const note =
         entry.id === SSN
-          ? regionNotes.find((n) => n.data.region === city.region && n.data.guide === entry.id)
-          : comuneNotes.find((n) => n.data.city === city.slug && n.data.guide === entry.id);
+          ? regionNotes.find(
+              (n) => n.data.region === city.region && n.data.guide === entry.id && n.data.lang === 'en',
+            )
+          : comuneNotes.find(
+              (n) => n.data.city === city.slug && n.data.guide === entry.id && n.data.lang === 'en',
+            );
       return {
         params: { city: city.slug, guide: entry.id },
         props: { entry, citySlug: city.slug, note },

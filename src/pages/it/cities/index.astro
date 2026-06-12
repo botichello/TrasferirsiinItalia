@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { citiesByRegion } from '../../../data/cities';
+
+const groups = citiesByRegion();
+const total = groups.reduce((n, g) => n + g.cities.length, 0);
+---
+
+<BaseLayout
+  title="Sfoglia per città"
+  description="Sfoglia le guide al trasferimento per le città italiane, raggruppate per regione."
+  alternates={{ en: '/cities', it: '/it/cities' }}
+>
+  <h1 class="text-4xl font-semibold">Sfoglia per città</h1>
+  <p class="mt-3 max-w-2xl text-muted">
+    {total} città in tutte le 20 regioni. Ogni voce porta al percorso di residenza,
+    con il dettaglio comunale per l'iscrizione anagrafica e la tua azienda
+    sanitaria regionale.
+  </p>
+
+  <div class="mt-10 space-y-8">
+    {
+      groups.map((g) => (
+        <section>
+          <h2 class="font-serif text-xl">
+            <a href={`/it/regions/${g.region.slug}/residency/servizio-sanitario`} class="hover:underline">
+              {g.region.name}
+            </a>
+          </h2>
+          <ul class="mt-3 flex flex-wrap gap-2">
+            {g.cities.map((c) => (
+              <li>
+                <a
+                  href={`/it/cities/${c.slug}/residency/codice-fiscale`}
+                  class="inline-block rounded-full border border-line bg-white/60 px-3 py-1 text-sm hover:border-brand-300 hover:text-brand-700"
+                >
+                  {c.name} <span class="text-muted">({c.province})</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>

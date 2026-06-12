@@ -10,7 +10,7 @@ export async function getStaticPaths() {
   return regions.flatMap((region) =>
     guides.map((entry) => {
       const regionNote = notes.find(
-        (n) => n.data.region === region.slug && n.data.guide === entry.id,
+        (n) => n.data.region === region.slug && n.data.guide === entry.id && n.data.lang === 'en',
       );
       return {
         params: { region: region.slug, guide: entry.id },

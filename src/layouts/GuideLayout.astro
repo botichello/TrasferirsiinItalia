@@ -138,13 +138,9 @@ const breadcrumbSchema = {
     </div>
   </div>
 
-  {
-    locale === 'en' && (
-      <div class="mb-8">
-        <CitySelector currentGuide={entry.id} currentCity={place?.citySlug} />
-      </div>
-    )
-  }
+  <div class="mb-8">
+    <CitySelector currentGuide={slug} currentCity={place?.citySlug} />
+  </div>
 
   <div class="mb-10">
     <JourneyNav currentId={entry.id} base={journeyBase} />

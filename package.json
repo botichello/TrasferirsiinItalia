@@ -8,6 +8,7 @@
     "build": "npm run check:freshness && astro build",
     "preview": "astro preview",
     "check:freshness": "node scripts/check-freshness.mjs",
+    "check:links": "node scripts/check-links.mjs",
     "astro": "astro"
   },
   "dependencies": {

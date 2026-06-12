@@ -1,0 +1,32 @@
+name: Citation link health
+
+# The site's authority rests on its citations resolving. This fetches every
+# cited source URL and fails on dead links (404/410) or parking/hijack
+# redirects — e.g. a comune citation here had begun redirecting to a
+# domain-parking page. Needs network, so (unlike the freshness gate) it is not
+# part of the build; it runs here instead.
+on:
+  schedule:
+    - cron: '30 7 * * 1' # every Monday 07:30 UTC (just after the freshness job)
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'src/content/**'
+      - 'scripts/check-links.mjs'
+
+jobs:
+  link-health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # On content PRs: fail only on unambiguous breakage (dead / hijacked).
+      # The scheduled run is strict (LINKS_STRICT=1) — it also fails on
+      # citations that redirect off-host or collapse to a site root, so silent
+      # rot becomes a visible red check for a maintainer to re-verify.
+      - name: Check citation link health
+        env:
+          LINKS_STRICT: ${{ github.event_name == 'schedule' && '1' || '0' }}
+        run: node scripts/check-links.mjs

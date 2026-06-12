@@ -17,6 +17,12 @@ not broad and stale. So the citability discipline is mechanical, not aspirationa
 - `scripts/check-freshness.mjs` re-checks this before every build and in CI, and
   the scheduled GitHub Action (`.github/workflows/freshness.yml`) turns overdue
   pages into a red check so they get re-verified.
+- `scripts/check-links.mjs` (+ `.github/workflows/link-health.yml`) fetches every
+  cited source URL and **fails on dead links (404/410) or parking/hijack
+  redirects** — so a citation that rots, or starts redirecting to a parked
+  domain, is caught rather than trusted. Off-host / collapsed-to-homepage
+  redirects are flagged for review on the scheduled run; known anti-bot hosts
+  (some comune/ASL portals) are listed as expected, not failures.
 - Every page renders a visible **"Last verified"** badge and a **Sources** list.
 - `llms.txt`, `robots.txt` (AI crawlers welcomed), `sitemap.xml`, and schema.org
   JSON-LD (`HowTo` + `FAQPage`) make the content easy and unambiguous to cite.
@@ -34,6 +40,7 @@ npm install
 npm run dev          # local dev server
 npm run build        # runs the freshness gate, then builds to dist/
 npm run check:freshness   # the freshness gate on its own
+npm run check:links       # fetch every cited URL; flag dead/hijacked citations (needs network)
 ```
 
 ## Content model

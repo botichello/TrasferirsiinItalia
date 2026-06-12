@@ -27,9 +27,10 @@ faq:
     a: After your registration is processed (including a residency-address check), you receive an attestazione di iscrizione anagrafica confirming you are a registered resident.
 ---
 
-> **Draft — pending source re-verification.** The structure and key facts below
-> reflect EU free-movement rules, but each procedural detail should be confirmed
-> against your specific comune before relying on it.
+> Verified against EU free-movement rules and official guidance (Ministero
+> dell'Interno / Anagrafe Nazionale, Your Europe). The **local** procedure —
+> office, booking system and forms — varies by comune, so check your city's page
+> or your Comune's website for the specifics.
 
 For stays longer than **three months**, EU/EEA citizens are required to register
 their residency at the **anagrafe** (registry office) of the comune where they

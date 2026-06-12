@@ -28,10 +28,11 @@ faq:
     a: "Per i lavoratori e per chi ha un chiaro diritto all'iscrizione, la registrazione deriva dalla residenza e dalla condizione. Le regole per i cittadini UE economicamente non attivi variano da regione a regione; verifica con la tua ASL locale."
 ---
 
-> **Bozza — da verificare con la tua ASL locale; dipende inoltre dalla regione.**
-> Le condizioni di iscrizione per i cittadini UE **economicamente non attivi** (ad
+> **Dipende dalla regione.** La struttura nazionale qui sotto è verificata, ma le
+> condizioni di iscrizione per i cittadini UE **economicamente non attivi** (ad
 > esempio l'opzione di versare un contributo annuale volontario e il suo importo)
 > sono stabilite a livello **regionale** e differiscono da una regione all'altra.
+> Vedi la pagina della tua regione o conferma con la tua ASL locale.
 
 Una volta registrato come residente (passo 2), puoi iscriverti al **Servizio
 Sanitario Nazionale (SSN)** presso la tua **ASL** (Azienda Sanitaria Locale).

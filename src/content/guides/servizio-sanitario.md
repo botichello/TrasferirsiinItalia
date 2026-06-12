@@ -27,11 +27,11 @@ faq:
     a: For workers and those with a clear right to enrol, registration follows from your residency and status. Rules for economically inactive EU citizens vary by region — confirm with your local ASL.
 ---
 
-> **Draft — pending source re-verification, and region-dependent.** Enrolment
+> **Region-dependent.** The national structure below is verified, but enrolment
 > conditions for **economically inactive** EU citizens (for example, the option
 > to pay a voluntary annual contribution, and its amount) are set **regionally**
-> and differ from one region to the next. Confirm the specifics with your local
-> ASL before relying on this page.
+> and differ from one region to the next. See your region's page or confirm the
+> specifics with your local health authority.
 
 Once you are a registered resident (Step 2), you can enrol in the **Servizio
 Sanitario Nazionale (SSN)** — Italy's national health service — at your local

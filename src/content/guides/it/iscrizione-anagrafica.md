@@ -28,10 +28,10 @@ faq:
     a: Dopo l'elaborazione (compreso il controllo dell'indirizzo di residenza) ricevi un'attestazione di iscrizione anagrafica che conferma che sei residente registrato.
 ---
 
-> **Bozza — da verificare con l'anagrafe del tuo Comune prima di farne
-> affidamento.** La struttura e i dati principali riflettono le regole UE sulla
-> libera circolazione, ma ogni dettaglio procedurale va confermato con il Comune
-> specifico.
+> Verificato con le regole UE sulla libera circolazione e le indicazioni
+> ufficiali (Ministero dell'Interno / Anagrafe Nazionale, Your Europe). La
+> procedura **locale** — ufficio, prenotazione e moduli — varia da Comune a
+> Comune: controlla la pagina della tua città o il sito del tuo Comune.
 
 Per soggiorni superiori a **tre mesi**, i cittadini UE/SEE sono tenuti a
 registrare la residenza presso l'**anagrafe** del Comune in cui vivono. È

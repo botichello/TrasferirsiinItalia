@@ -4,7 +4,7 @@ import GuideLayout from '../../../../layouts/GuideLayout.astro';
 import { regions, getRegion } from '../../../../data/regions';
 
 export async function getStaticPaths() {
-  const guides = await getCollection('guides');
+  const guides = await getCollection('guides', ({ data }) => data.lang === 'en');
   const notes = await getCollection('regionNotes');
 
   return regions.flatMap((region) =>

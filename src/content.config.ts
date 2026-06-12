@@ -29,6 +29,9 @@ const guides = defineCollection({
       // Ordered position within its journey (1 = first step).
       step: z.number().int().positive(),
       journey: z.literal('eu-residency'),
+      // Content language. English files live at the collection root; Italian
+      // translations live under it/ (id `it/<slug>`).
+      lang: z.enum(['en', 'it']).default('en'),
       // The trust signals, enforced.
       lastVerified: z.coerce.date(),
       reviewBy: z.coerce.date(),

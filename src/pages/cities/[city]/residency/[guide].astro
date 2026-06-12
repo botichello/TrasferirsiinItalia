@@ -8,7 +8,7 @@ export async function getStaticPaths() {
   // Note: top-level consts are not in scope inside getStaticPaths (Astro runs
   // it in isolation), so keep this local.
   const SSN = 'servizio-sanitario';
-  const guides = await getCollection('guides');
+  const guides = await getCollection('guides', ({ data }) => data.lang === 'en');
   const regionNotes = await getCollection('regionNotes');
   const comuneNotes = await getCollection('comuneNotes');
 

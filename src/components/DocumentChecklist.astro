@@ -4,22 +4,25 @@
  * checklist id, so a newcomer can tick items off across visits. Renders as
  * plain checkboxes without JS (progressive enhancement).
  */
+import { getLocale, ui } from '../i18n/ui';
+
 interface Props {
   id: string;
   items: string[];
 }
 const { id, items } = Astro.props;
+const t = ui[getLocale(Astro.url)].guide;
 ---
 
 <div class="not-prose rounded-lg border border-line bg-white/70 p-6" data-checklist={id}>
   <div class="flex items-baseline justify-between gap-4">
-    <h3 class="font-serif text-lg">Documents to bring</h3>
+    <h3 class="font-serif text-lg">{t.documents}</h3>
     <button
       type="button"
       data-checklist-reset
       class="text-sm text-muted underline underline-offset-2 hover:text-ink"
     >
-      Reset
+      {t.reset}
     </button>
   </div>
   <ul class="mt-4 space-y-2">

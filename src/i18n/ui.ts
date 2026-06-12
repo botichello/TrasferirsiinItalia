@@ -26,6 +26,22 @@ interface Strings {
   disclaimer: string;
   switchLabel: string;
   switchHref: string;
+  guide: {
+    home: string;
+    euCitizens: string;
+    residency: string;
+    /** Builds "Step N · EU residency journey". */
+    stepLabel: (n: number) => string;
+    lastVerified: string;
+    reviewDue: string;
+    sources: string;
+    sourcesIntro: string;
+    checkedOn: string;
+    documents: string;
+    reset: string;
+    reportPrompt: string;
+    reportLink: string;
+  };
 }
 
 export const ui: Record<Locale, Strings> = {
@@ -50,6 +66,22 @@ export const ui: Record<Locale, Strings> = {
       'Informational only — not legal or tax advice. Procedures change; always confirm with the official sources cited on each page or the relevant Italian authority before acting.',
     switchLabel: 'Italiano',
     switchHref: '/it',
+    guide: {
+      home: 'Home',
+      euCitizens: 'EU citizens',
+      residency: 'Residency',
+      stepLabel: (n) => `Step ${n} · EU residency journey`,
+      lastVerified: 'Last verified',
+      reviewDue: 'Review due',
+      sources: 'Sources',
+      sourcesIntro:
+        'Primary, official sources this page is based on. Each was checked on the date shown.',
+      checkedOn: 'checked',
+      documents: 'Documents to bring',
+      reset: 'Reset',
+      reportPrompt: 'Spotted something out of date?',
+      reportLink: 'Suggest an update →',
+    },
   },
   it: {
     htmlLang: 'it',
@@ -69,5 +101,21 @@ export const ui: Record<Locale, Strings> = {
       'Solo a scopo informativo — non costituisce consulenza legale o fiscale. Le procedure cambiano; verifica sempre con le fonti ufficiali citate in ogni pagina o con l’autorità italiana competente prima di agire.',
     switchLabel: 'English',
     switchHref: '/',
+    guide: {
+      home: 'Home',
+      euCitizens: 'Cittadini UE',
+      residency: 'Residenza',
+      stepLabel: (n) => `Passo ${n} · Percorso di residenza UE`,
+      lastVerified: 'Verificato il',
+      reviewDue: 'Revisione dovuta',
+      sources: 'Fonti',
+      sourcesIntro:
+        'Le fonti ufficiali primarie su cui si basa questa pagina. Ciascuna è stata controllata nella data indicata.',
+      checkedOn: 'controllata il',
+      documents: 'Documenti da portare',
+      reset: 'Reimposta',
+      reportPrompt: 'Hai notato qualcosa di superato?',
+      reportLink: 'Proponi un aggiornamento →',
+    },
   },
 };

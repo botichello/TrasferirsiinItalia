@@ -8,6 +8,8 @@ import ReportIssue from '../components/ReportIssue.astro';
 import SourceList from '../components/SourceList.astro';
 import StructuredData from '../components/StructuredData.astro';
 import type { CollectionEntry } from 'astro:content';
+import { getLocale, ui } from '../i18n/ui';
+import { guideSlug } from '../lib/guides';
 
 /** A place context (a region or a city) that scopes the guide. */
 export interface Place {
@@ -39,6 +41,19 @@ const { entry, place, localNote, localHeading, localFallback, canonical } = Astr
 const { data } = entry;
 const url = new URL(Astro.url.pathname, Astro.site).href;
 
+const locale = getLocale(Astro.url);
+const t = ui[locale].guide;
+const homeHref = locale === 'it' ? '/it' : '/';
+const journeyBase =
+  place?.navBase ?? (locale === 'it' ? '/it/eu-citizens/residency' : '/eu-citizens/residency');
+const journeyHome = `${journeyBase}/codice-fiscale`;
+
+// National guide pages have en/it twins → emit hreflang alternates.
+const slug = guideSlug(entry);
+const alternates = place
+  ? undefined
+  : { en: `/eu-citizens/residency/${slug}`, it: `/it/eu-citizens/residency/${slug}` };
+
 const placeLabel = place
   ? place.kind === 'city' && place.regionName
     ? `${place.name} · ${place.regionName}`
@@ -61,8 +76,8 @@ const reviewBy =
     : data.reviewBy;
 
 const crumbs = [
-  { name: 'Home', url: new URL('/', Astro.site).href },
-  { name: 'EU residency', url: new URL('/eu-citizens/residency/codice-fiscale', Astro.site).href },
+  { name: t.home, url: new URL(homeHref, Astro.site).href },
+  { name: t.residency, url: new URL(journeyHome, Astro.site).href },
   ...(place ? [{ name: placeLabel, url }] : []),
   { name: data.title, url },
 ];
@@ -78,7 +93,7 @@ const breadcrumbSchema = {
 };
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical}>
+<BaseLayout title={title} description={description} canonical={canonical} alternates={alternates}>
   <StructuredData
     slot="head"
     title={title}
@@ -95,26 +110,26 @@ const breadcrumbSchema = {
   />
 
   <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
-    <a href="/" class="hover:text-ink">Home</a>
+    <a href={homeHref} class="hover:text-ink">{t.home}</a>
     <span class="px-1">/</span>
-    <span>EU citizens</span>
+    <span>{t.euCitizens}</span>
     <span class="px-1">/</span>
     {
       place ? (
         <>
-          <span>Residency</span>
+          <span>{t.residency}</span>
           <span class="px-1">/</span>
           <span class="text-ink">{placeLabel}</span>
         </>
       ) : (
-        <span class="text-ink">Residency</span>
+        <span class="text-ink">{t.residency}</span>
       )
     }
   </nav>
 
   <div class="mb-6">
     <p class="text-sm font-medium uppercase tracking-wide text-brand-600">
-      Step {data.step} · EU residency journey{place ? ` · ${placeLabel}` : ''}
+      {t.stepLabel(data.step)}{place ? ` · ${placeLabel}` : ''}
     </p>
     <h1 class="mt-2 text-4xl font-semibold">{data.title}</h1>
     <p class="mt-3 max-w-2xl text-lg text-muted">{data.description}</p>
@@ -123,12 +138,16 @@ const breadcrumbSchema = {
     </div>
   </div>
 
-  <div class="mb-8">
-    <CitySelector currentGuide={entry.id} currentCity={place?.citySlug} />
-  </div>
+  {
+    locale === 'en' && (
+      <div class="mb-8">
+        <CitySelector currentGuide={entry.id} currentCity={place?.citySlug} />
+      </div>
+    )
+  }
 
   <div class="mb-10">
-    <JourneyNav currentId={entry.id} base={place?.navBase} />
+    <JourneyNav currentId={entry.id} base={journeyBase} />
   </div>
 
   <article class="prose">

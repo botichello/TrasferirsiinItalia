@@ -3,11 +3,14 @@
  * Per-page "suggest an update" link. Turns readers into part of the freshness
  * pipeline: a report opens a pre-filled issue on the project repo.
  */
+import { getLocale, ui } from '../i18n/ui';
+
 interface Props {
   pageTitle: string;
   pageUrl: string;
 }
 const { pageTitle, pageUrl } = Astro.props;
+const t = ui[getLocale(Astro.url)].guide;
 
 const REPO = 'botichello/vibing';
 const issueUrl =
@@ -20,13 +23,13 @@ const issueUrl =
 ---
 
 <p class="mt-8 text-sm text-muted">
-  Spotted something out of date?
+  {t.reportPrompt}
   <a
     href={issueUrl}
     target="_blank"
     rel="noopener noreferrer"
     class="text-brand-600 underline underline-offset-2"
   >
-    Suggest an update →
+    {t.reportLink}
   </a>
 </p>

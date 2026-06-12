@@ -1,9 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
+import { getLocale } from '../i18n/ui';
+import { guideSlug } from '../lib/guides';
 
 /**
  * Progress-style navigation for the EU residency journey. Reads the guides
- * collection, orders by `step`, and highlights the current page.
+ * collection for the active locale, orders by `step`, and highlights the
+ * current page.
  */
 interface Props {
   currentId?: string;
@@ -11,22 +14,28 @@ interface Props {
   base?: string;
 }
 const { currentId, base = '/eu-citizens/residency' } = Astro.props;
+const locale = getLocale(Astro.url);
+const currentSlug = currentId?.replace(/^it\//, '');
 
 const steps = (await getCollection('guides'))
+  .filter((entry) => entry.data.lang === locale)
   .sort((a, b) => a.data.step - b.data.step)
-  .map((entry) => ({
-    id: entry.id,
-    step: entry.data.step,
-    title: entry.data.title,
-    href: `${base}/${entry.id}`,
-  }));
+  .map((entry) => {
+    const slug = guideSlug(entry);
+    return {
+      slug,
+      step: entry.data.step,
+      title: entry.data.title,
+      href: `${base}/${slug}`,
+    };
+  });
 ---
 
 <nav aria-label="Residency journey" class="not-prose">
   <ol class="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-3">
     {
       steps.map((s) => {
-        const active = s.id === currentId;
+        const active = s.slug === currentSlug;
         return (
           <li class="flex-1">
             <a

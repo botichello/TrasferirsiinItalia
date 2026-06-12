@@ -4,14 +4,23 @@
  * still within its review window. The same dates drive the build-time
  * freshness check (scripts/check-freshness.mjs).
  */
+import { getLocale, ui } from '../i18n/ui';
+
 interface Props {
   lastVerified: Date;
   reviewBy: Date;
 }
 const { lastVerified, reviewBy } = Astro.props;
 
+const locale = getLocale(Astro.url);
+const t = ui[locale].guide;
+
 const fmt = (d: Date) =>
-  d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  d.toLocaleDateString(locale === 'it' ? 'it-IT' : 'en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
 
 const overdue = new Date() > reviewBy;
 ---
@@ -33,7 +42,7 @@ const overdue = new Date() > reviewBy;
   >
   </span>
   <span>
-    {overdue ? 'Review due' : 'Last verified'}:
+    {overdue ? t.reviewDue : t.lastVerified}:
     <time datetime={lastVerified.toISOString().slice(0, 10)}>{fmt(lastVerified)}</time>
   </span>
 </div>

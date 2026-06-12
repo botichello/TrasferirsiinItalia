@@ -1,11 +1,12 @@
 ---
 import { getCollection, render } from 'astro:content';
-import GuideLayout from '../../../layouts/GuideLayout.astro';
+import GuideLayout from '../../../../layouts/GuideLayout.astro';
+import { guideSlug } from '../../../../lib/guides';
 
 export async function getStaticPaths() {
-  const guides = await getCollection('guides', ({ data }) => data.lang === 'en');
+  const guides = await getCollection('guides', ({ data }) => data.lang === 'it');
   return guides.map((entry) => ({
-    params: { slug: entry.id },
+    params: { slug: guideSlug(entry) },
     props: { entry },
   }));
 }

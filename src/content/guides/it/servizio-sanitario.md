@@ -4,8 +4,8 @@ description: Come i residenti UE/SEE si iscrivono al Servizio Sanitario Nazional
 step: 3
 journey: eu-residency
 lang: it
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-06-12
+reviewBy: 2026-12-12
 regionScope: regional
 documents:
   - Passaporto o carta d'identità in corso di validità
@@ -13,12 +13,12 @@ documents:
   - L'attestazione di iscrizione anagrafica (prova della residenza registrata)
   - Prova della tua condizione (lavoro, o la base usata per l'iscrizione anagrafica)
 sources:
-  - title: 'Ministero della Salute — Servizio Sanitario Nazionale'
-    url: 'https://www.salute.gov.it/portale/lea/dettaglioContenutiLea.jsp?lingua=italiano&id=4773&area=Lea&menu=iscrizione'
-    accessed: 2026-06-11
+  - title: 'Ministero della Salute — Iscrizione dei cittadini stranieri al SSN'
+    url: 'https://www.salute.gov.it/new/it/tema/iscrizione-al-ssn/iscrizione-dei-cittadini-stranieri-al-servizio-sanitario-nazionale-ssn/'
+    accessed: 2026-06-12
   - title: "Your Europe — Assistenza sanitaria quando si vive all'estero"
     url: 'https://europa.eu/youreurope/citizens/health/when-living-abroad/health-insurance-cover/index_it.htm'
-    accessed: 2026-06-11
+    accessed: 2026-06-12
 faq:
   - q: Dove mi iscrivo?
     a: Presso la tua ASL (Azienda Sanitaria Locale) di riferimento, l'autorità sanitaria della zona in cui sei residente.

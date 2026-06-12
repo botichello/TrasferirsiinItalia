@@ -3,23 +3,23 @@ title: Getting your codice fiscale
 description: How EU/EEA citizens obtain an Italian tax code (codice fiscale) — the free, foundational ID needed for almost every step of settling in Italy.
 step: 1
 journey: eu-residency
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-06-12
+reviewBy: 2026-12-12
 regionScope: national
 documents:
   - Valid passport or national ID card
   - A completed request form (modello AA4/8 for individuals)
   - Any existing Italian address details, if you have them
 sources:
-  - title: 'Agenzia delle Entrate — Codice fiscale'
+  - title: 'Agenzia delle Entrate — Tax identification number for foreign citizens'
     url: 'https://www.agenziaentrate.gov.it/portale/web/english/nse/individuals/tax-identification-number-for-foreign-citizens'
-    accessed: 2026-06-11
+    accessed: 2026-06-12
   - title: 'Your Europe — Registering your residence abroad'
-    url: 'https://europa.eu/youreurope/citizens/residence/residence-rights/registering-residence/index_en.htm'
-    accessed: 2026-06-11
+    url: 'https://europa.eu/youreurope/citizens/residence/documents-formalities/registering-residence/index_en.htm'
+    accessed: 2026-06-12
   - title: "Agenzia delle Entrate — Find an office (Trova l'ufficio)"
-    url: 'https://www.agenziaentrate.gov.it/portale/web/guest/contatta/trova-l-ufficio'
-    accessed: 2026-06-11
+    url: 'https://www.agenziaentrate.gov.it/portale/trova-ufficio'
+    accessed: 2026-06-12
 faq:
   - q: Does the codice fiscale cost anything?
     a: No. The codice fiscale is issued free of charge by the Agenzia delle Entrate.

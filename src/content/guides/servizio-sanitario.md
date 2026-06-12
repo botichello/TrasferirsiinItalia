@@ -3,8 +3,8 @@ title: Enrolling in the health service (SSN)
 description: How EU/EEA residents enrol in Italy's national health service (Servizio Sanitario Nazionale), get a tessera sanitaria, and choose a family doctor.
 step: 3
 journey: eu-residency
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-06-12
+reviewBy: 2026-12-12
 regionScope: regional
 documents:
   - Valid passport or national ID card
@@ -12,12 +12,12 @@ documents:
   - Your attestazione di iscrizione anagrafica (proof of registered residency)
   - Proof of your status (employment, or the basis used to register residency)
 sources:
-  - title: 'Ministero della Salute — Servizio Sanitario Nazionale'
-    url: 'https://www.salute.gov.it/portale/lea/dettaglioContenutiLea.jsp?lingua=italiano&id=4773&area=Lea&menu=iscrizione'
-    accessed: 2026-06-11
+  - title: 'Ministero della Salute — Enrolment of foreign citizens in the SSN'
+    url: 'https://www.salute.gov.it/new/it/tema/iscrizione-al-ssn/iscrizione-dei-cittadini-stranieri-al-servizio-sanitario-nazionale-ssn/'
+    accessed: 2026-06-12
   - title: 'Your Europe — Healthcare when living abroad'
     url: 'https://europa.eu/youreurope/citizens/health/when-living-abroad/health-insurance-cover/index_en.htm'
-    accessed: 2026-06-11
+    accessed: 2026-06-12
 faq:
   - q: Where do I enrol?
     a: At your local ASL (Azienda Sanitaria Locale), the health authority for the area where you are registered as resident.

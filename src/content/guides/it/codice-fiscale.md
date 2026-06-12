@@ -4,23 +4,23 @@ description: Come i cittadini UE/SEE ottengono il codice fiscale italiano — il
 step: 1
 journey: eu-residency
 lang: it
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-06-12
+reviewBy: 2026-12-12
 regionScope: national
 documents:
   - Passaporto o carta d'identità in corso di validità
   - Modulo di richiesta compilato (modello AA4/8 per le persone fisiche)
   - Eventuali dati dell'indirizzo italiano, se disponibili
 sources:
-  - title: 'Agenzia delle Entrate — Codice fiscale'
+  - title: 'Agenzia delle Entrate — Codice fiscale per i cittadini stranieri'
     url: 'https://www.agenziaentrate.gov.it/portale/web/english/nse/individuals/tax-identification-number-for-foreign-citizens'
-    accessed: 2026-06-11
+    accessed: 2026-06-12
   - title: 'Your Europe — Registrare la residenza all''estero'
-    url: 'https://europa.eu/youreurope/citizens/residence/residence-rights/registering-residence/index_it.htm'
-    accessed: 2026-06-11
+    url: 'https://europa.eu/youreurope/citizens/residence/documents-formalities/registering-residence/index_it.htm'
+    accessed: 2026-06-12
   - title: "Agenzia delle Entrate — Trova l'ufficio"
-    url: 'https://www.agenziaentrate.gov.it/portale/web/guest/contatta/trova-l-ufficio'
-    accessed: 2026-06-11
+    url: 'https://www.agenziaentrate.gov.it/portale/trova-ufficio'
+    accessed: 2026-06-12
 faq:
   - q: Il codice fiscale ha un costo?
     a: No. Il codice fiscale è rilasciato gratuitamente dall'Agenzia delle Entrate.

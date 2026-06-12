@@ -3,8 +3,8 @@ title: Registering your residency (anagrafe)
 description: How EU/EEA citizens register as residents at their Italian comune (iscrizione anagrafica) — required for stays over three months, and the gateway to the health service.
 step: 2
 journey: eu-residency
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-06-12
+reviewBy: 2026-12-12
 regionScope: national
 documents:
   - Valid passport or national ID card
@@ -13,11 +13,11 @@ documents:
   - Proof of your address (e.g. lease or property details)
 sources:
   - title: 'Your Europe — Registering your residence abroad'
-    url: 'https://europa.eu/youreurope/citizens/residence/residence-rights/registering-residence/index_en.htm'
-    accessed: 2026-06-11
-  - title: 'Ministero dell''Interno — Cittadini dell''Unione Europea'
-    url: 'https://www.interno.gov.it/it/temi/immigrazione-e-asilo/modalita-dingresso/cittadini-dellunione-europea'
-    accessed: 2026-06-11
+    url: 'https://europa.eu/youreurope/citizens/residence/documents-formalities/registering-residence/index_en.htm'
+    accessed: 2026-06-12
+  - title: 'Anagrafe Nazionale (ANPR) — Services for European citizens'
+    url: 'https://www.anagrafenazionale.interno.it/area-cittadino/servizi-per-cittadini-europei/'
+    accessed: 2026-06-12
 faq:
   - q: Do EU citizens need a residence permit (permesso di soggiorno)?
     a: No. EU/EEA citizens establish their right to stay by registering at the comune's anagrafe, not by obtaining a permesso di soggiorno (which applies to non-EU citizens).

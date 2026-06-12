@@ -4,8 +4,8 @@ description: Come i cittadini UE/SEE si iscrivono come residenti presso il Comun
 step: 2
 journey: eu-residency
 lang: it
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-06-12
+reviewBy: 2026-12-12
 regionScope: national
 documents:
   - Passaporto o carta d'identità in corso di validità
@@ -14,11 +14,11 @@ documents:
   - Prova dell'indirizzo (es. contratto d'affitto o dati dell'immobile)
 sources:
   - title: 'Your Europe — Registrare la residenza all''estero'
-    url: 'https://europa.eu/youreurope/citizens/residence/residence-rights/registering-residence/index_it.htm'
-    accessed: 2026-06-11
-  - title: "Ministero dell'Interno — Cittadini dell'Unione Europea"
-    url: 'https://www.interno.gov.it/it/temi/immigrazione-e-asilo/modalita-dingresso/cittadini-dellunione-europea'
-    accessed: 2026-06-11
+    url: 'https://europa.eu/youreurope/citizens/residence/documents-formalities/registering-residence/index_it.htm'
+    accessed: 2026-06-12
+  - title: 'Anagrafe Nazionale (ANPR) — Servizi per i cittadini europei'
+    url: 'https://www.anagrafenazionale.interno.it/area-cittadino/servizi-per-cittadini-europei/'
+    accessed: 2026-06-12
 faq:
   - q: I cittadini UE hanno bisogno del permesso di soggiorno?
     a: No. I cittadini UE/SEE acquisiscono il diritto di soggiorno iscrivendosi all'anagrafe del Comune, non ottenendo un permesso di soggiorno (che riguarda i cittadini non UE).

@@ -3,15 +3,15 @@ city: brescia
 guide: iscrizione-anagrafica
 lang: it
 title: Registrare la residenza a Brescia
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-06-12
+reviewBy: 2026-12-12
 sources:
   - title: "Comune di Brescia — Iscrizione anagrafica (da altro comune o dall'estero)"
-    url: 'https://www.comune.brescia.it/aree-tematiche/anagrafe-e-stato-civile/residenza/iscrizione-anagrafica-nel-comune-di-brescia-con'
-    accessed: 2026-06-11
+    url: 'https://www.comune.brescia.it/it/servizi/dichiarazione-di-residenza'
+    accessed: 2026-06-12
   - title: 'Comune di Brescia — Residenza'
-    url: 'https://www.comune.brescia.it/aree-tematiche/anagrafe-e-stato-civile/residenza'
-    accessed: 2026-06-11
+    url: 'https://www.comune.brescia.it/it/unita_organizzative/servizio-anagrafe'
+    accessed: 2026-06-12
 ---
 
 A **Brescia** l'iscrizione anagrafica (da altro comune o dall'estero) è gestita

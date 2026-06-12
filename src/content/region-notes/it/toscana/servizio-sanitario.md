@@ -6,9 +6,9 @@ title: Iscrizione al SSN in Toscana
 lastVerified: 2026-06-11
 reviewBy: 2026-12-11
 sources:
-  - title: 'Regione Toscana — Salute'
-    url: 'https://www.regione.toscana.it/cittadini/salute'
-    accessed: 2026-06-11
+  - title: 'Regione Toscana — Servizio Sanitario della Toscana (SST)'
+    url: 'https://www.regione.toscana.it/sst'
+    accessed: 2026-06-12
   - title: 'Ministero della Salute — Servizio Sanitario Nazionale'
     url: 'https://www.salute.gov.it/portale/lea/dettaglioContenutiLea.jsp?lingua=italiano&id=4773&area=Lea&menu=iscrizione'
     accessed: 2026-06-11

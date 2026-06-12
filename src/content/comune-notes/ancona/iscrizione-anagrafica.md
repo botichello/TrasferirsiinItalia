@@ -3,15 +3,15 @@ city: ancona
 guide: iscrizione-anagrafica
 lang: en
 title: Registering residency in Ancona
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-06-12
+reviewBy: 2026-12-12
 sources:
   - title: 'Comune di Ancona — Anagrafe'
     url: 'https://www.comune.ancona.it/it/unita_organizzative/anagrafe'
-    accessed: 2026-06-11
+    accessed: 2026-06-12
   - title: 'Comune di Ancona — Cambio di residenza'
-    url: 'https://www.comuneancona.it/cambio-di-residenza/'
-    accessed: 2026-06-11
+    url: 'https://sportellotelematico.comune.ancona.it/action:c_a271:cambio.abitazione.residenza;residenza'
+    accessed: 2026-06-12
 ---
 
 In **Ancona**, residency registration (or change) is available to Italian, EU and

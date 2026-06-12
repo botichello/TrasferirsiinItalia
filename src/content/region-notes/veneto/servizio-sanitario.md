@@ -5,9 +5,9 @@ title: SSN enrolment in Veneto
 lastVerified: 2026-06-11
 reviewBy: 2026-12-11
 sources:
-  - title: 'Regione Veneto — Sanità e Sociale'
-    url: 'https://www.regione.veneto.it/web/sanita-e-sociale'
-    accessed: 2026-06-11
+  - title: 'Regione Veneto — Portale della Salute'
+    url: 'https://salute.regione.veneto.it/'
+    accessed: 2026-06-12
   - title: 'Ministero della Salute — Servizio Sanitario Nazionale'
     url: 'https://www.salute.gov.it/portale/lea/dettaglioContenutiLea.jsp?lingua=italiano&id=4773&area=Lea&menu=iscrizione'
     accessed: 2026-06-11

@@ -3,15 +3,15 @@ city: bari
 guide: iscrizione-anagrafica
 lang: it
 title: Registrare la residenza a Bari
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-06-12
+reviewBy: 2026-12-12
 sources:
-  - title: "Comune di Bari — Iscrizioni anagrafiche e cambi d'indirizzo"
-    url: 'https://www.comune.bari.it/web/servizi-demografici/iscrizioni-anagrafiche-e-cambi-indirizzo'
-    accessed: 2026-06-11
-  - title: "Comune di Bari — Attestazione di iscrizione anagrafica (cittadino UE)"
-    url: 'https://www.comune.bari.it/web/egov/-/attestazione-di-iscrizione-anagrafica-o-di-regolarita-del-soggiorno-di-cittadino-dell-unione-europea'
-    accessed: 2026-06-11
+  - title: 'Comune di Bari — Dichiarazione di cambio residenza (eGov)'
+    url: 'https://egov.ba.it/dichiarazione-cambio-residenza'
+    accessed: 2026-06-12
+  - title: 'Comune di Bari — Servizi demografici (eGov)'
+    url: 'https://egov.ba.it/servizi'
+    accessed: 2026-06-12
 ---
 
 A **Bari** la residenza è gestita dai **Servizi Demografici** (iscrizioni

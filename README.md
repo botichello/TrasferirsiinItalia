@@ -104,16 +104,33 @@ text. `hreflang` alternates are emitted on the bilingual pages.
 4. ✅ Findability & Trust — search, browse hubs, About/How-we-verify, schema.
 5. ✅ Italian (i18n) — national journey, all 20 region SSN overlays, and the 34
    city anagrafe overlays, end-to-end.
-6. Verify remaining draft overlays against primary sources (needs the network
-   policy widened so official sites are reachable — see below).
+6. 🔶 Verify draft content against primary sources. **Done (2026-06-12, against
+   the live official sites):** the three national guides (codice fiscale,
+   anagrafe, SSN) in both languages, plus a full link audit of every cited
+   source — all dead or redirected citations were repaired (see below).
+   **Remaining:** the region-specific SSN detail and per-comune procedures keep
+   their draft date pending a content-level pass.
 7. Smaller comuni keep the honest national-procedure fallback (their process is
    the uniform national ANPR flow); add overlays on request. Then the non-EU
    visa journey.
 
-## ⚠️ Verifying content (network policy)
+## Verifying content (network policy)
 
-Turning the remaining draft overlays into verified pages requires reaching the
-official Italian/EU sites. In a locked-down web session the egress allowlist may
-block them (and `cdn.playwright.dev`, which disables the `/browse` skill). To do
-a verification pass, run in an environment whose network policy allows those
-hosts. `WebSearch` works regardless and is the fallback used so far.
+A verification pass needs to reach the official Italian/EU sites. Earlier build
+sessions ran under a locked-down egress allowlist that blocked them (and
+`cdn.playwright.dev`, which disables the `/browse` skill), so content was drafted
+from `WebSearch` alone. In a session whose network policy allows those hosts the
+pass can be done for real — as of **2026-06-12**:
+
+- All cited source URLs were swept for link health. Dead citations (404/410, plus
+  one comune link that had started redirecting to a parked domain) were replaced
+  with their current official URLs, and the national guides were re-checked
+  against the live pages.
+- A handful of comune/ASL portals (e.g. Catania, Trieste, Reggio Emilia, Napoli,
+  and several regional health sites) sit behind anti-bot protection and return
+  403/503 to automated fetches while resolving normally in a real browser — they
+  are kept as valid sources.
+- Tooling note: the egress proxy re-signs TLS with a private CA that Node and
+  `curl` trust (so `WebFetch`/`curl` work) but Playwright's bundled Chromium does
+  not, so the `/browse` skill hits a certificate error in this environment;
+  verification used `curl` + `WebFetch`, with `WebSearch` as a fallback.

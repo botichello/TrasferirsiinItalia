@@ -99,14 +99,16 @@ text. `hreflang` alternates are emitted on the bilingual pages.
 
 1. ✅ Scaffold + enforced content schema + Step 1–3 of the EU journey.
 2. ✅ Region layer — SSN health authority for all 20 regions.
-3. ✅ City layer — comune anagrafe overlays (Roma, Milano, Napoli, Torino,
-   Firenze, Bologna) with selection by city.
+3. ✅ City layer — comune anagrafe overlays for the 34 largest cities /
+   provincial capitals, with selection by city.
 4. ✅ Findability & Trust — search, browse hubs, About/How-we-verify, schema.
-5. ✅ Italian (i18n) — national journey + 6 major cities end-to-end.
+5. ✅ Italian (i18n) — national journey, all 20 region SSN overlays, and the 34
+   city anagrafe overlays, end-to-end.
 6. Verify remaining draft overlays against primary sources (needs the network
    policy widened so official sites are reachable — see below).
-7. Translate the remaining region/comune overlays into Italian; then the
-   non-EU visa journey.
+7. Smaller comuni keep the honest national-procedure fallback (their process is
+   the uniform national ANPR flow); add overlays on request. Then the non-EU
+   visa journey.
 
 ## ⚠️ Verifying content (network policy)
 

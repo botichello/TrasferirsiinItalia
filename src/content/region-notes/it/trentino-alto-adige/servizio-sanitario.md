@@ -9,9 +9,9 @@ sources:
   - title: 'ASUIT — Azienda Sanitaria Universitaria Integrata del Trentino'
     url: 'https://www.asuit.tn.it/'
     accessed: 2026-06-11
-  - title: "Azienda Sanitaria dell'Alto Adige — Südtiroler Sanitätsbetrieb (SABES)"
-    url: 'https://www.sabes.it/it/home/1000'
-    accessed: 2026-06-11
+  - title: "Azienda Sanitaria dell'Alto Adige (ASDAA / Südtiroler Sanitätsbetrieb)"
+    url: 'https://www.asdaa.it/it/home/1000'
+    accessed: 2026-06-12
   - title: 'Ministero della Salute — Servizio Sanitario Nazionale'
     url: 'https://www.salute.gov.it/portale/lea/dettaglioContenutiLea.jsp?lingua=italiano&id=4773&area=Lea&menu=iscrizione'
     accessed: 2026-06-11

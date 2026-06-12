@@ -1,0 +1,26 @@
+---
+city: genova
+guide: iscrizione-anagrafica
+lang: en
+title: Registering residency in Genova
+lastVerified: 2026-06-11
+reviewBy: 2026-12-11
+sources:
+  - title: 'Comune di Genova — Cambio di residenza cittadini comunitari'
+    url: 'https://www.comune.genova.it/servizi/anagrafe-e-stato-civile/cambio-di-residenza-cittadini-comunitari'
+    accessed: 2026-06-11
+  - title: 'Comune di Genova — Anagrafe, Ufficio Cittadini UE'
+    url: 'https://www.comune.genova.it/amministrazione/uffici/anagrafe-ufficio-cittadini-ue'
+    accessed: 2026-06-11
+---
+
+In **Genova**, EU citizens are handled by a dedicated **Ufficio Cittadini UE**,
+and must request registration within 20 days of arrival.
+
+- **How to submit:** new EU registrations go **exclusively** to
+  **anagrafecittadiniue@comune.genova.it**, or via the national **ANPR** portal
+  (SPID/CIE), or the simplified procedure in the *Fascicolo del Cittadino*.
+- **In-person help:** a free counter (Mon & Fri) and an "online practice
+  assistance" desk at C.so Torino 11 support those without digital tools.
+- **Documents (EU citizens):** valid passport/ID, codice fiscale, and proof of the
+  basis for your stay (work, study + cover, or sufficient resources + cover).

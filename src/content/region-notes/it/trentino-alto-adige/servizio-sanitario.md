@@ -1,0 +1,35 @@
+---
+region: trentino-alto-adige
+guide: servizio-sanitario
+lang: it
+title: Iscrizione al SSN in Trentino-Alto Adige
+lastVerified: 2026-06-11
+reviewBy: 2026-12-11
+sources:
+  - title: 'ASUIT — Azienda Sanitaria Universitaria Integrata del Trentino'
+    url: 'https://www.asuit.tn.it/'
+    accessed: 2026-06-11
+  - title: "Azienda Sanitaria dell'Alto Adige — Südtiroler Sanitätsbetrieb (SABES)"
+    url: 'https://www.sabes.it/it/home/1000'
+    accessed: 2026-06-11
+  - title: 'Ministero della Salute — Servizio Sanitario Nazionale'
+    url: 'https://www.salute.gov.it/portale/lea/dettaglioContenutiLea.jsp?lingua=italiano&id=4773&area=Lea&menu=iscrizione'
+    accessed: 2026-06-11
+---
+
+Il **Trentino-Alto Adige** è particolare: le sue due province autonome gestiscono
+sistemi sanitari propri, quindi l'azienda presso cui ti iscrivi dipende dalla
+provincia.
+
+- **Provincia di Trento** (capoluogo Trento): **ASUIT** (Azienda Sanitaria
+  Universitaria Integrata del Trentino), che dal 1° gennaio 2026 ha sostituito la
+  precedente APSS.
+- **Provincia di Bolzano / Alto Adige**: **Azienda Sanitaria dell'Alto Adige /
+  Südtiroler Sanitätsbetrieb (SABES)** — servizio bilingue (italiano/tedesco).
+
+**Per iscriverti:** rivolgiti allo sportello di distretto (*sportello* /
+*Sprengel*) dell'azienda della tua provincia, competente per il tuo indirizzo.
+**Scelta del medico:** un *medico di base* / *Hausarzt* tra quelli disponibili
+localmente. **Cittadini UE economicamente non attivi:** verifica se si applica
+l'iscrizione volontaria e il relativo contributo — qui fissato a livello
+provinciale, quindi differisce dalle altre aree.

@@ -59,6 +59,7 @@ const localHeading = isSSN ? `In ${region.name}` : `A ${city.name}`;
 const fallbacks: Record<string, string> = {
   'codice-fiscale': `Il codice fiscale si ottiene allo stesso modo in tutta Italia presso l'Agenzia delle Entrate: non esiste una procedura specifica per ${city.name}. L'unico elemento locale è quale ufficio territoriale dell'Agenzia delle Entrate serve il tuo indirizzo (provincia di ${city.province}); usa il servizio "Trova l'ufficio" o presentati in qualsiasi ufficio. La procedura completa è nella guida nazionale qui sopra.`,
   'iscrizione-anagrafica': `L'iscrizione anagrafica è gestita dal Comune di ${city.name} tramite il suo Ufficio Anagrafe, secondo le regole nazionali qui sopra, ma ufficio, prenotazione e moduli sono locali. Consulta il sito del Comune di ${city.name}. Non abbiamo ancora una guida verificata specifica per ${city.name} su questo passo.`,
+  'identita-digitale': `SPID e CIE sono nazionali. Lo SPID si ottiene interamente online da un gestore accreditato, senza passaggi specifici per ${city.name}; la CIE — che funge anche da identità digitale — è rilasciata dall'Ufficio Anagrafe del Comune di ${city.name} su appuntamento, secondo la procedura nazionale uniforme qui sopra. L'unico elemento locale è la prenotazione dell'appuntamento CIE in Comune.`,
 };
 const localFallback = fallbacks[slug] ?? '';
 ---

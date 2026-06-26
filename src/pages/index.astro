@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CitySelector from '../components/CitySelector.astro';
 
-const steps = (await getCollection('guides'))
+const steps = (await getCollection('guides', ({ data }) => data.lang === 'en'))
   .sort((a, b) => a.data.step - b.data.step)
   .map((e) => ({
     step: e.data.step,
@@ -51,7 +51,7 @@ const steps = (await getCollection('guides'))
 
   <section class="mt-12">
     <h2 class="font-serif text-2xl">The residency journey</h2>
-    <ol class="mt-6 grid gap-4 sm:grid-cols-3">
+    <ol class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {
         steps.map((s) => (
           <li>

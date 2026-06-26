@@ -64,6 +64,7 @@ const localHeading = isSSN ? `In ${region.name}` : `In ${city.name}`;
 const fallbacks: Record<string, string> = {
   'codice-fiscale': `The codice fiscale is issued the same way everywhere in Italy by the Agenzia delle Entrate — there is no ${city.name}-specific procedure. The only local element is which territorial Agenzia delle Entrate office serves your address (province of ${city.province}); use the Agenzia delle Entrate office finder or apply at any office. The full procedure is in the national guide above.`,
   'iscrizione-anagrafica': `Residency registration is run by the Comune di ${city.name} through its Ufficio Anagrafe, following the national rules above — but the office, booking system and exact forms are local. Check the Comune di ${city.name} website. We don't yet have a verified ${city.name} guide for this step.`,
+  'identita-digitale': `SPID and the CIE are national. SPID is obtained entirely online from an accredited provider, with no ${city.name}-specific step; the CIE — which doubles as a digital identity — is issued by the Comune di ${city.name} Ufficio Anagrafe by appointment, following the uniform national procedure above. The only local part is booking your CIE appointment with the comune.`,
 };
 const localFallback = fallbacks[entry.id] ?? '';
 ---

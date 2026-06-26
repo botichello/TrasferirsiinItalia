@@ -1,5 +1,16 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { guideSlug } from '../../lib/guides';
+
+const steps = (await getCollection('guides', ({ data }) => data.lang === 'it'))
+  .sort((a, b) => a.data.step - b.data.step)
+  .map((e) => ({
+    step: e.data.step,
+    title: e.data.title,
+    description: e.data.description,
+    href: `/it/eu-citizens/residency/${guideSlug(e)}`,
+  }));
 ---
 
 <BaseLayout
@@ -35,28 +46,23 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
   <section class="mt-12">
     <h2 class="font-serif text-2xl">Il percorso di residenza</h2>
-    <ol class="mt-6 grid gap-4 sm:grid-cols-3">
-      <li>
-        <a href="/it/eu-citizens/residency/codice-fiscale" class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-6 transition hover:border-brand-100">
-          <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 font-serif font-semibold text-brand-700">1</span>
-          <h3 class="mt-4 font-serif text-lg">Codice fiscale</h3>
-          <p class="mt-2 text-sm text-muted">Il codice identificativo fiscale, necessario per quasi tutto. Uguale in tutta Italia.</p>
-        </a>
-      </li>
-      <li>
-        <a href="/it/eu-citizens/residency/iscrizione-anagrafica" class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-6 transition hover:border-brand-100">
-          <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 font-serif font-semibold text-brand-700">2</span>
-          <h3 class="mt-4 font-serif text-lg">Iscrizione anagrafica</h3>
-          <p class="mt-2 text-sm text-muted">La registrazione della residenza presso il Comune, gestita a livello comunale.</p>
-        </a>
-      </li>
-      <li>
-        <a href="/it/eu-citizens/residency/servizio-sanitario" class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-6 transition hover:border-brand-100">
-          <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 font-serif font-semibold text-brand-700">3</span>
-          <h3 class="mt-4 font-serif text-lg">Servizio Sanitario (SSN)</h3>
-          <p class="mt-2 text-sm text-muted">L’iscrizione al servizio sanitario, organizzata a livello regionale.</p>
-        </a>
-      </li>
+    <ol class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        steps.map((s) => (
+          <li>
+            <a
+              href={s.href}
+              class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-6 transition hover:border-brand-100"
+            >
+              <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 font-serif font-semibold text-brand-700">
+                {s.step}
+              </span>
+              <h3 class="mt-4 font-serif text-lg">{s.title}</h3>
+              <p class="mt-2 text-sm text-muted">{s.description}</p>
+            </a>
+          </li>
+        ))
+      }
     </ol>
   </section>
 

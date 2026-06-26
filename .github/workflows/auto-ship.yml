@@ -1,0 +1,50 @@
+name: Auto-ship to production
+
+# Every push to the working branch is built and, if the build is green,
+# fast-forwarded onto the production branch that Vercel deploys
+# (claude/focused-newton-1wfqgd). So "merge here → it's live" with no manual
+# promote step — but never ships a broken build (the build runs the freshness
+# gate), and never force-pushes (fast-forward only; diverged history fails loud).
+on:
+  push:
+    branches: ['claude/modest-darwin-f6f80c']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: auto-ship-production
+  cancel-in-progress: false
+
+env:
+  PRODUCTION_BRANCH: claude/focused-newton-1wfqgd
+
+jobs:
+  ship:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Gate: the freshness gate + Astro build must pass before anything ships.
+      - name: Build (gate)
+        run: |
+          npm install
+          npm run build
+
+      - name: Fast-forward production to this commit
+        run: |
+          set -euo pipefail
+          git fetch origin "$PRODUCTION_BRANCH"
+          if git merge-base --is-ancestor "origin/$PRODUCTION_BRANCH" "${{ github.sha }}"; then
+            git push origin "${{ github.sha }}:refs/heads/$PRODUCTION_BRANCH"
+            echo "✅ Shipped ${{ github.sha }} to $PRODUCTION_BRANCH — Vercel will deploy it."
+          else
+            echo "::error::$PRODUCTION_BRANCH is not an ancestor of ${{ github.sha }}; refusing a non-fast-forward push. Reconcile the branches manually."
+            exit 1
+          fi

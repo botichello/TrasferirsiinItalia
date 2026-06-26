@@ -8,10 +8,10 @@ lastVerified: 2026-06-12
 reviewBy: 2026-12-12
 regionScope: national
 documents:
-  - Un documento d'identità valido (passaporto, carta d'identità o — per SPID — carta d'identità, passaporto o patente italiani)
+  - Un documento d'identità italiano valido per SPID — carta d'identità, patente o passaporto italiani (il solo passaporto estero non basta)
   - Il tuo codice fiscale / tessera sanitaria
   - Un indirizzo email e un numero di cellulare italiano (per SPID)
-  - Una foto tessera recente e il costo, ~22 € (per la CIE, in Comune)
+  - Una foto tessera recente e il costo (~22 €) per la CIE, in Comune
 sources:
   - title: "spid.gov.it (AgID) — Cos'è SPID"
     url: 'https://www.spid.gov.it/cos-e-spid/'
@@ -27,11 +27,11 @@ sources:
     accessed: 2026-06-12
 faq:
   - q: Servono sia SPID sia CIE?
-    a: No. Entrambe permettono di accedere agli stessi servizi pubblici. Molti attivano prima SPID (è gratuito, online e veloce) e ottengono la CIE in seguito come carta d'identità. La CIE è l'identità più forte e più duratura.
+    a: No. Entrambe permettono di accedere agli stessi servizi pubblici. Se hai già un documento d'identità italiano, SPID è la più rapida da aggiungere; se hai solo il passaporto del tuo Paese, la CIE è quella che puoi ottenere per prima (ed è l'identità più forte e duratura).
   - q: È gratis?
     a: Attivare SPID è gratuito con la maggior parte dei gestori, anche se alcuni metodi di riconoscimento (per esempio la sessione via webcam con operatore) costano pochi euro. La CIE costa circa 22 € perché è anche la tua carta d'identità fisica.
-  - q: Posso ottenerla prima di essere residente?
-    a: SPID sì, appena hai un codice fiscale, un numero di cellulare italiano e un'email. La CIE è rilasciata dal Comune una volta iscritto all'anagrafe (gli italiani all'estero la richiedono tramite il consolato).
+  - q: Può ottenerla anche chi non è italiano? E prima della residenza?
+    a: Sì, non serve essere cittadini italiani. Ma SPID richiede un documento d'identità italiano valido (carta d'identità, patente o passaporto italiani); il solo passaporto estero non basta, né il permesso di soggiorno. In pratica significa ottenere la carta d'identità italiana (CIE) in Comune una volta iscritto all'anagrafe — che è già di per sé un'identità digitale. Se hai già una patente o un passaporto italiani, puoi attivare SPID prima.
   - q: A cosa serve concretamente?
     a: Ad accedere a INPS, all'Agenzia delle Entrate, al Fascicolo Sanitario Elettronico, allo sportello online del Comune e ai portali per bonus e prestazioni — a tutto ciò che mostra "Entra con SPID o CIE".
 ---
@@ -62,9 +62,18 @@ non direttamente dallo Stato ma da **gestori** di identità digitale privati e
 accreditati, sotto la vigilanza di **AgID**. È la più rapida da ottenere ed è accettata
 dalla grande maggioranza dei servizi.
 
-**Cosa serve:** avere almeno 18 anni, un documento d'identità italiano valido (carta
-d'identità, passaporto o patente), il tuo **codice fiscale / tessera sanitaria**, un
-indirizzo email e un **numero di cellulare italiano**.
+**Cosa serve:** avere almeno 18 anni, **un documento d'identità italiano valido** —
+*carta d'identità* italiana (anche la CIE), patente italiana o passaporto italiano —
+oltre al tuo **codice fiscale / tessera sanitaria**, un indirizzo email e un **numero
+di cellulare italiano**.
+
+> **Non serve essere cittadini italiani** per ottenere SPID — ma, secondo spid.gov.it,
+> il documento d'identità deve essere **rilasciato in Italia**. Il solo passaporto del
+> tuo Paese **non** è sufficiente, e il *permesso di soggiorno* non vale come documento.
+> Se sei appena arrivato con il solo passaporto estero, richiedi prima la **carta
+> d'identità italiana (CIE)** in Comune (Opzione B): è il documento che SPID accetta —
+> e la CIE è già di per sé un'identità digitale utilizzabile direttamente, quindi
+> potresti non aver bisogno di SPID.
 
 **Come e dove:** registrati online sul sito di un gestore (l'elenco ufficiale dei
 gestori è su spid.gov.it), poi verifica la tua identità con uno dei vari metodi —
@@ -98,18 +107,19 @@ riconosciuta in tutta l'UE grazie a eIDAS.
 
 ## Quale, quando e dove
 
-- **Vuoi l'accesso online subito e da remoto?** Attiva **SPID** appena ottenuto il
-  codice fiscale — niente appuntamenti, gratuito e accettato quasi ovunque.
-- **Prenderai comunque la carta d'identità?** La **CIE** funge anche da identità
-  digitale, quindi una volta residente potresti non aver bisogno d'altro — e in Comune
-  ci vai già per la carta.
-- **Una sequenza sensata:** prima SPID (mentre aspetti la residenza e la carta), poi la
-  CIE quando ritiri la carta d'identità. Se hai già una CIE, puoi persino usarla per
-  attivare SPID gratuitamente.
+- **Hai già un documento d'identità italiano?** (carta d'identità, patente o passaporto
+  italiani) Allora **SPID** è la via più rapida: registrazione online, gratuita, senza
+  appuntamento e accettata quasi ovunque.
+- **Sei appena arrivato con il solo passaporto estero?** SPID non accetta un documento
+  estero, quindi richiedi la **CIE** (carta d'identità italiana) in Comune una volta
+  residente. È già un'identità digitale — quindi potresti non aver bisogno di SPID — e
+  se in seguito vuoi SPID, la CIE lo sblocca gratuitamente (CIE + PIN).
+- **Ordine sensato per chi arriva:** residenza → **CIE** → (eventualmente) SPID. Per chi
+  arriva senza un documento italiano, la CIE è l'identità digitale di base; SPID è
+  l'aggiunta rapida quando hai un documento italiano.
 - **Uno sguardo al futuro:** il governo ha annunciato un passaggio graduale verso la
   **CIE come unica identità digitale nazionale** nei prossimi anni, con il progressivo
-  ritiro di SPID — quindi la CIE è la scelta di lungo periodo, mentre SPID resta oggi la
-  più rapida da ottenere.
+  ritiro di SPID — quindi la CIE è comunque la scelta di lungo periodo.
 
 ## Errori comuni
 

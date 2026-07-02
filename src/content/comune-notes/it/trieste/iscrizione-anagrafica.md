@@ -3,8 +3,8 @@ city: trieste
 guide: iscrizione-anagrafica
 lang: it
 title: Registrare la residenza a Trieste
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Comune di Trieste — Anagrafe: iscrizione per residenza'
     url: 'https://www.comune.trieste.it/it/servizi-227101/anagrafe-iscrizione-per-residenza-210458'

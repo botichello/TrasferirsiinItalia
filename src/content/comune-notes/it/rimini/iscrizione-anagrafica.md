@@ -3,8 +3,8 @@ city: rimini
 guide: iscrizione-anagrafica
 lang: it
 title: Registrare la residenza a Rimini
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Comune di Rimini — Richiedere il cambio di residenza'
     url: 'https://www.comune.rimini.it/servizi/anagrafe-e-stato-civile/richiedere-il-cambio-di-residenza'

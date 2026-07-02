@@ -3,8 +3,8 @@ city: parma
 guide: iscrizione-anagrafica
 lang: en
 title: Registering residency in Parma
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Comune di Parma — Ufficio Anagrafe'
     url: 'https://www.comune.parma.it/it/amministrazione/uffici/ufficio-anagrafe'
@@ -16,7 +16,10 @@ sources:
 
 In **Parma**, declarations are made at the **Ufficio Anagrafe** counters at the
 Centro Direzionale (D.U.C.), Largo Torello de Strada 11/a (floor -1), or at the
-territorial centers; forms are also downloadable from the comune site.
+territorial centers; forms are also downloadable from the comune site. A first
+registration from abroad can also be arranged by email to the Ufficio Anagrafe
+(**anagrafe@comune.parma.it**), or by delegating someone with SPID/CIE to file
+online via **ANPR**.
 
 - **EU citizens:** the Registry Office issues the *attestato di soggiorno* for EU
   citizens; bring a valid passport/ID and the request form.

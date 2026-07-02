@@ -3,8 +3,8 @@ city: vicenza
 guide: iscrizione-anagrafica
 lang: en
 title: Registering residency in Vicenza
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Città di Vicenza — Cambio di residenza cittadini UE'
     url: 'https://www.comune.vicenza.it/Servizi/Cambio-di-residenza-cittadini-UE'
@@ -18,7 +18,7 @@ In **Vicenza**, EU citizens must request the change of residence within **20
 days** of moving.
 
 - **How to submit:** online via the **ANPR** portal (CIE/SPID/CNS), or by email,
-  PEC, or registered mail.
+  PEC (vicenza@cert.comune.vicenza.it), or registered mail.
 - **EU documents:** for a first registration, an original work contract (with the
   employer's declaration) and your last two payslips, or a self-declaration of
   sufficient resources; if already resident in another Italian comune, the

@@ -3,8 +3,8 @@ city: salerno
 guide: iscrizione-anagrafica
 lang: en
 title: Registering residency in Salerno
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Comune di Salerno — Cambio di residenza'
     url: 'https://www.comune.salerno.it/servizi/cambio-di-residenza'
@@ -19,9 +19,9 @@ copy of the ID of each adult transferring residence (who must sign).
 
 - **EU citizens:** provide a work contract or equivalent under d.lgs. 30/2007 (or
   the resources + health-cover basis).
-- **How to submit:** by registered mail to the Settore Servizi Demografici (via
-  Picarielli 76), in person during office hours, or online via the national
-  **ANPR** service (SPID/CIE/CNS).
+- **How to submit:** by PEC (protocollo@pec.comune.salerno.it), by registered mail
+  to the Settore Servizi Demografici (via Picarielli 76), in person during office
+  hours, or online via the national **ANPR** service (SPID/CIE/CNS).
 - **Timeline:** the Registrar registers the change within **2 working days** of
   presentation.
 - **Documents (EU citizens):** valid passport/ID, codice fiscale, and proof of the

@@ -3,8 +3,8 @@ city: udine
 guide: iscrizione-anagrafica
 lang: it
 title: Registrare la residenza a Udine
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Comune di Udine — Unità Operativa Anagrafe'
     url: 'https://www.comune.udine.it/Amministrazione/Uffici/Unita-Operativa-Anagrafe'
@@ -15,7 +15,8 @@ sources:
 ---
 
 A **Udine** la residenza è gestita dall'**Unità Operativa Anagrafe**, con le
-dichiarazioni disponibili tramite lo *Sportello Telematico* (sportello online).
+dichiarazioni disponibili tramite lo *Sportello Telematico* (sportello online)
+o via PEC all'indirizzo protocollo@pec.comune.udine.it.
 
 - **Cittadini UE:** è richiesta documentazione aggiuntiva (es. documenti di stato
   civile tradotti/legalizzati; gli studenti necessitano di copertura sanitaria

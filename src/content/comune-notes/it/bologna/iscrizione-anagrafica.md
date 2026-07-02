@@ -3,8 +3,8 @@ city: bologna
 guide: iscrizione-anagrafica
 lang: it
 title: Registrare la residenza a Bologna
-lastVerified: 2026-06-12
-reviewBy: 2026-12-12
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Comune di Bologna — Attestato di iscrizione anagrafica (cittadini UE)'
     url: 'https://www.comune.bologna.it/servizi-informazioni/attestato-cittadini-ue'

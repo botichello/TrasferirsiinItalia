@@ -3,8 +3,8 @@ city: monza
 guide: iscrizione-anagrafica
 lang: en
 title: Registering residency in Monza
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Comune di Monza — Cambio residenza/indirizzo'
     url: 'https://www.comune.monza.it/it/servizi/cambio-residenza-indirizzo'
@@ -14,9 +14,13 @@ sources:
     accessed: 2026-06-11
 ---
 
-In **Monza**, residency changes can be made **online** through the *Monza Digitale*
-portal, or at the **Anagrafe** (Piazza Carducci).
+In **Monza**, transfers from another Italian comune (and address changes within
+Monza) can be filed **online** through the *Monza Digitale* portal (SPID/CNS/CIE),
+or at the **Anagrafe** counter in Piazza Carducci (Puntocomune).
 
+- **From abroad (EU citizens):** the online portal does not cover registration
+  from abroad — send the completed residence form with **Allegato B** by email to
+  **residenze@comune.monza.it** (or by PEC, registered mail, or fax).
 - **Requirements:** the dwelling must already be furnished and you must already be
   living there.
 - **Timeline:** the maximum processing time is 45 days; registration itself

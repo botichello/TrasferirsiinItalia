@@ -3,8 +3,8 @@ city: treviso
 guide: iscrizione-anagrafica
 lang: it
 title: Registrare la residenza a Treviso
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Comune di Treviso — Anagrafe'
     url: 'https://www.comune.treviso.it/home/dettaglio/amministrazione-info/anagrafe'
@@ -14,8 +14,9 @@ sources:
     accessed: 2026-06-11
 ---
 
-A **Treviso** la residenza è gestita dall'**Anagrafe**, con un servizio online di
-cambio di residenza tramite la piattaforma regionale *myPortal*.
+A **Treviso** la residenza è gestita dall'**Anagrafe** (Palazzo Rinaldi, Piazza
+Rinaldi 1), con un servizio online di cambio di residenza tramite la piattaforma
+regionale *myPortal* o via PEC (postacertificata@cert.comune.treviso.it).
 
 - **Allo sportello:** porta un documento valido e la documentazione che prova il
   titolo sull'immobile (atto di proprietà o contratto di locazione, originale o

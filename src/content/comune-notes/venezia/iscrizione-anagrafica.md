@@ -3,8 +3,8 @@ city: venezia
 guide: iscrizione-anagrafica
 lang: en
 title: Registering residency in Venezia
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Comune di Venezia — Anagrafe'
     url: 'https://www.comune.venezia.it/it/content/anagrafe'

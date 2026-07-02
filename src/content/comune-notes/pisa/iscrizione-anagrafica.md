@@ -3,8 +3,8 @@ city: pisa
 guide: iscrizione-anagrafica
 lang: en
 title: Registering residency in Pisa
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Comune di Pisa — Variazioni di residenza'
     url: 'https://www.comune.pisa.it/Servizi/Variazioni-di-residenza'

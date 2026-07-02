@@ -3,8 +3,8 @@ city: palermo
 guide: iscrizione-anagrafica
 lang: it
 title: Registrare la residenza a Palermo
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Città di Palermo — Iscrizione anagrafica per cittadini europei'
     url: 'https://www.comune.palermo.it/servizio/iscrizione-anagrafica-per-cittadini-europei/'

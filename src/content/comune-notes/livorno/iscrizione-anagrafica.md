@@ -3,8 +3,8 @@ city: livorno
 guide: iscrizione-anagrafica
 lang: en
 title: Registering residency in Livorno
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Città di Livorno — Ufficio Anagrafe e Notifiche'
     url: 'https://www.comune.livorno.it/it/unita_organizzative/ufficio-anagrafe-e-notifiche'

@@ -3,8 +3,8 @@ city: padova
 guide: iscrizione-anagrafica
 lang: it
 title: Registrare la residenza a Padova
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: "Comune di Padova — Iscrizione anagrafica cittadini UE (dall'estero)"
     url: 'https://www.comune.padova.it/servizi/anagrafe-e-stato-civile/cittadine-e-cittadini-dellunione-europea-italia-iscrizione'

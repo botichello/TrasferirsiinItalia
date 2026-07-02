@@ -3,8 +3,8 @@ city: verona
 guide: iscrizione-anagrafica
 lang: en
 title: Registering residency in Verona
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Comune di Verona — Dichiarazione di residenza / Cambio abitazione'
     url: 'https://www.comune.verona.it/Servizi/Dichiarazione-di-residenza-Cambio-abitazione'

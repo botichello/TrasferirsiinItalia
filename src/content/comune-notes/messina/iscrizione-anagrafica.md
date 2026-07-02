@@ -3,19 +3,20 @@ city: messina
 guide: iscrizione-anagrafica
 lang: en
 title: Registering residency in Messina
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Città di Messina — Servizio Anagrafe / Stato Civile'
     url: 'https://www.comune.messina.it/it/unita_organizzative/servizio-anagrafe-stato-civile'
     accessed: 2026-06-11
-  - title: 'Città di Messina — Servizi Demografici (anagrafe web)'
-    url: 'https://anagrafe-web.comune.messina.it/en/web/servizi-demografici'
-    accessed: 2026-06-11
+  - title: 'Città di Messina — Sportello Telematico: dichiarazione di cambio abitazione o residenza'
+    url: 'https://sportellotelematico.comune.messina.it/procedure:s_italia:cambio.abitazione.residenza;dichiarazione'
+    accessed: 2026-07-02
 ---
 
 In **Messina**, residency declarations are submitted through the comune's
-**Sportello Telematico** (online desk) or at the city *municipalità*.
+**Sportello Telematico** online desk (sportellotelematico.comune.messina.it) or
+at the city *municipalità*.
 
 - **EU citizens:** staying over three months, apply for *iscrizione anagrafica*;
   once registered you can request the *attestazione di iscrizione anagrafica*,

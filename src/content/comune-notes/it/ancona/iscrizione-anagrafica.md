@@ -3,8 +3,8 @@ city: ancona
 guide: iscrizione-anagrafica
 lang: it
 title: Registrare la residenza ad Ancona
-lastVerified: 2026-06-12
-reviewBy: 2026-12-12
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Comune di Ancona — Anagrafe'
     url: 'https://www.comune.ancona.it/it/unita_organizzative/anagrafe'
@@ -18,9 +18,9 @@ Ad **Ancona** l'iscrizione anagrafica (o il cambio) è disponibile per cittadini
 italiani, UE e non UE.
 
 - **Come presentare la domanda:** online tramite il portale nazionale **ANPR**
-  (SPID/CIE) o inviando la dichiarazione all'Ufficio Anagrafe (Largo XXIV Maggio 1;
-  appuntamenti allo 071.222.2283). I cittadini UE allegano la documentazione
-  dell'**Allegato B**.
+  (SPID/CIE), via **PEC** (servizidemografici@pec.comuneancona.it) o raccomandata,
+  oppure di persona all'Ufficio Anagrafe (Largo XXIV Maggio 1; appuntamenti allo
+  071.222.2283). I cittadini UE allegano la documentazione dell'**Allegato B**.
 - **Tempi:** dichiara entro 20 giorni dal trasferimento; entro 45 giorni i
   requisiti sono verificati dalla Polizia Locale, trascorsi i quali il silenzio
   vale conferma.

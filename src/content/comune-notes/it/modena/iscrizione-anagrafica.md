@@ -3,8 +3,8 @@ city: modena
 guide: iscrizione-anagrafica
 lang: it
 title: Registrare la residenza a Modena
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Comune di Modena — Ufficio Anagrafe'
     url: 'https://www.comune.modena.it/amministrazione/uffici/ufficio-anagrafe'

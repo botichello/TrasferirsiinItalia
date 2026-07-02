@@ -3,8 +3,8 @@ city: cagliari
 guide: iscrizione-anagrafica
 lang: it
 title: Registrare la residenza a Cagliari
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Comune di Cagliari — Dichiarazione di residenza e cambio di abitazione'
     url: 'https://www.comune.cagliari.it/portale/page/it/dichiarazione_di_residenza_it_1?contentId=DOC16266'
@@ -18,9 +18,11 @@ A **Cagliari** la residenza usa il modulo unico di dichiarazione (per arrivo da
 altro comune o dall'estero). I cittadini UE allegano i documenti indicati
 nell'**Allegato B** del modulo.
 
-- **Come presentare la domanda:** via PEC
-  (cambioresidenza@comune.cagliari.legalmail.it), raccomandata all'Anagrafe
-  (Piazza Alcide de Gasperi 2), o allo sportello.
+- **Come presentare la domanda:** via PEC o email
+  (cambioresidenza@comune.cagliari.legalmail.it), raccomandata o fax all'Anagrafe
+  (Piazza Alcide de Gasperi 2), oppure online tramite il portale nazionale **ANPR**
+  (SPID/CIE). Lo sportello riceve solo per informazioni, non per la presentazione
+  delle pratiche.
 - **Tempi:** l'iscrizione si perfeziona entro **2 giorni lavorativi**, con effetto
   dalla data della dichiarazione; l'ufficiale d'anagrafe può verificare la
   residenza entro 45 giorni.

@@ -3,8 +3,8 @@ city: trento
 guide: iscrizione-anagrafica
 lang: en
 title: Registering residency in Trento
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: "Comune di Trento — Cambio di residenza cittadini dell'Unione Europea"
     url: 'https://www.comune.trento.it/Servizi/Cambio-di-residenza-cittadini-stranieri-dell-Unione-Europea'
@@ -19,7 +19,8 @@ months and can then request the *attestazione di iscrizione anagrafica*. Notify
 the office of the move within **20 days**.
 
 - **How to submit:** online via the *Sportello Telematico* (SPID/CIE/CNS), via the
-  national **ANPR** portal, or by email/PEC with the signed documents.
+  national **ANPR** portal, or by email/PEC (anagrafe@pec.comune.trento.it) with the
+  signed documents.
 - **Timeline:** recorded within **2 working days**, effective from the declaration
   date; if checks are negative you have 10 days to respond.
 - **Documents (EU citizens):** valid passport/ID, codice fiscale, proof of property

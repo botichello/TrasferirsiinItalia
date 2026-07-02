@@ -4,8 +4,8 @@ description: Come i residenti UE/SEE ottengono un'identità digitale italiana �
 step: 4
 journey: eu-residency
 lang: it
-lastVerified: 2026-06-12
-reviewBy: 2026-12-12
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 regionScope: national
 documents:
   - Un documento d'identità italiano valido per SPID — carta d'identità, patente o passaporto italiani (il solo passaporto estero non basta)
@@ -91,10 +91,15 @@ La **CIE** (*Carta d'Identità Elettronica*) è la carta d'identità elettronica
 È al tempo stesso il tuo documento fisico **e** un'identità digitale integrata — l'accesso
 "**Entra con CIE**" — al livello di sicurezza più alto.
 
-**Dove e come:** prenota un appuntamento all'**Ufficio Anagrafe del tuo Comune**
-(tramite il sistema nazionale *Agenda CIE* su `prenotazionicie.interno.gov.it`, o il
-sistema del Comune) e presentati di persona con una foto tessera recente, il codice
-fiscale/tessera sanitaria e il documento precedente (in caso di rinnovo).
+**Dove e come:** prenoti all'**Ufficio Anagrafe del tuo Comune**, e *come* si prenota
+lo decide il Comune: con il suo modulo online, per telefono o di persona. Alcuni Comuni
+usano il portale nazionale *Agenda CIE* (`prenotazionicie.interno.gov.it`), ma l'area
+cittadini consente solo l'**accesso con un'identità digitale che hai già
+(SPID/CIE/CNS)** — non c'è una registrazione semplice, un circolo vizioso per la
+**prima** carta d'identità italiana. Quindi, se non hai ancora SPID o una CIE,
+**prenota tramite il canale del tuo Comune** (controlla il suo sito, oppure chiama o
+recati all'Ufficio Anagrafe). Porta una foto tessera recente, il codice fiscale/tessera
+sanitaria e il documento precedente (in caso di rinnovo).
 
 **Costo e tempi:** circa **16,79 €** più i diritti fissi (in tutto circa **22 €**, con
 piccole variazioni per Comune). La carta è prodotta dal Poligrafico dello Stato e

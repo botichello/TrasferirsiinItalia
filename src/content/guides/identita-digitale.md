@@ -3,8 +3,8 @@ title: Getting a digital identity (SPID & CIE)
 description: How EU/EEA residents get an Italian digital identity — SPID or the CIE electronic ID card — to log in to INPS, the tax and health portals, and comune services.
 step: 4
 journey: eu-residency
-lastVerified: 2026-06-12
-reviewBy: 2026-12-12
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 regionScope: national
 documents:
   - A valid Italian identity document for SPID — Italian ID card, driving licence, or passport (a home-country passport alone is not accepted)
@@ -88,10 +88,15 @@ The **CIE** (*Carta d'Identità Elettronica*) is the Italian electronic identity
 It is both your physical ID **and** a built-in digital identity — the
 "**Entra con CIE**" login — at the highest assurance level.
 
-**Where and how:** book an appointment at your **comune's Ufficio Anagrafe** (through
-the national *Agenda CIE* booking system at `prenotazionicie.interno.gov.it`, or your
-comune's own system) and go in person with a recent passport-style photo, your codice
-fiscale/tessera sanitaria, and your previous ID (for a renewal).
+**Where and how:** you book at your **comune's Ufficio Anagrafe**, and *how* you book
+is set by the comune — its own online form, by phone, or in person. Some comuni use
+the Ministry's national *Agenda CIE* portal (`prenotazionicie.interno.gov.it`), but
+its citizen area only lets you **log in with a digital identity you already have
+(SPID/CIE/CNS)** — there's no plain sign-up, which is a catch-22 for your **first**
+Italian ID. So if you don't yet have SPID or a CIE, **book through your comune's own
+channel** (check its website, or call/visit the Ufficio Anagrafe). Bring a recent
+passport-style photo, your codice fiscale/tessera sanitaria, and your previous ID (for
+a renewal).
 
 **Cost and timing:** about **€16.79** plus fixed fees (roughly **€22** in total,
 varying slightly by comune). The card is produced by the State Mint and **mailed

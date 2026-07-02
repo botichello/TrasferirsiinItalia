@@ -30,12 +30,18 @@ const steps = (await getCollection('guides', ({ data }) => data.lang === 'it'))
       datata e cita le fonti ufficiali italiane ed europee, così tu (e il tuo
       avvocato, e il tuo assistente di ricerca) puoi fidartene.
     </p>
-    <div class="mt-8">
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
       <a
-        href="/it/eu-citizens/residency/codice-fiscale"
+        href="/it/start"
         class="inline-flex items-center rounded-full bg-brand-500 px-6 py-3 text-white transition hover:bg-brand-600"
       >
-        Inizia dal passo 1 →
+        Inizia da qui →
+      </a>
+      <a
+        href="/it/eu-citizens/residency/codice-fiscale"
+        class="text-sm text-muted underline underline-offset-2 hover:text-ink"
+      >
+        oppure vai al passo 1
       </a>
     </div>
     <p class="mx-auto mt-4 max-w-xl text-sm text-muted">

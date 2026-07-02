@@ -50,6 +50,7 @@ export const ui: Record<Locale, Strings> = {
     htmlLang: 'en',
     skip: 'Skip to content',
     nav: [
+      { href: '/start', label: 'Start here' },
       { href: '/cities', label: 'Cities' },
       { href: '/regions', label: 'Regions' },
       { href: '/how-we-verify', label: 'How we verify' },
@@ -90,6 +91,7 @@ export const ui: Record<Locale, Strings> = {
     htmlLang: 'it',
     skip: 'Vai al contenuto',
     nav: [
+      { href: '/it/start', label: 'Inizia qui' },
       { href: '/it/cities', label: 'Città' },
       { href: '/it/regions', label: 'Regioni' },
       { href: '/it/how-we-verify', label: 'Come verifichiamo' },

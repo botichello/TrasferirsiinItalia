@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StartWizard from '../components/StartWizard.astro';
+---
+
+<BaseLayout
+  title="Start here"
+  description="Answer two questions — your situation and your city — and get your personalized path to settling in Italy as an EU/EEA citizen."
+  alternates={{ en: '/start', it: '/it/start' }}
+>
+  <div class="prose">
+    <h1>Start here</h1>
+    <p>
+      Tell us your situation and where you'll live, and we'll assemble your path — the
+      four steps of the EU residency journey, tailored to you, with your city's local
+      specifics layered on top.
+    </p>
+  </div>
+  <div class="mt-6">
+    <StartWizard />
+  </div>
+</BaseLayout>

@@ -67,6 +67,12 @@ export const GET: APIRoute = async () => {
       type: 'Page',
       text: 'all primary sources citations index official authorities checked dates transparency',
     },
+    {
+      title: 'Start here',
+      url: '/start',
+      type: 'Page',
+      text: 'start here wizard personalized path situation worker student economically inactive family which steps',
+    },
   );
 
   return new Response(JSON.stringify(entries), {

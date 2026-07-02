@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StartWizard from '../../components/StartWizard.astro';
+---
+
+<BaseLayout
+  title="Inizia da qui"
+  description="Rispondi a due domande — la tua situazione e la tua città — e ottieni il percorso personalizzato per stabilirti in Italia come cittadino UE/SEE."
+  alternates={{ en: '/start', it: '/it/start' }}
+>
+  <div class="prose">
+    <h1>Inizia da qui</h1>
+    <p>
+      Indicaci la tua situazione e dove vivrai, e componiamo il tuo percorso — i quattro
+      passi del percorso di residenza UE, adattati a te, con le specificità del tuo
+      Comune in sovrapposizione.
+    </p>
+  </div>
+  <div class="mt-6">
+    <StartWizard />
+  </div>
+</BaseLayout>

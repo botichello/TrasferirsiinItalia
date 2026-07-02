@@ -23,6 +23,13 @@ not broad and stale. So the citability discipline is mechanical, not aspirationa
   domain, is caught rather than trusted. Off-host / collapsed-to-homepage
   redirects are flagged for review on the scheduled run; known anti-bot hosts
   (some comune/ASL portals) are listed as expected, not failures.
+- `scripts/fetch-archives.mjs` records a Wayback Machine snapshot for each cited
+  source (`src/data/archives.json`); guide pages and the `/sources` index show an
+  **"archived copy"** link, so a citation survives link rot and readers can reach
+  pages that anti-bot protection blocks. Refresh with `npm run fetch:archives`.
+- `/sources` (and `/it/sources`) is an auto-generated, auditable index of every
+  primary source the site cites, grouped by authority, each with the date it was
+  last checked and the pages that rely on it.
 - Every page renders a visible **"Last verified"** badge and a **Sources** list.
 - `llms.txt`, `robots.txt` (AI crawlers welcomed), `sitemap.xml`, and schema.org
   JSON-LD (`HowTo` + `FAQPage`) make the content easy and unambiguous to cite.
@@ -41,6 +48,7 @@ npm run dev          # local dev server
 npm run build        # runs the freshness gate, then builds to dist/
 npm run check:freshness   # the freshness gate on its own
 npm run check:links       # fetch every cited URL; flag dead/hijacked citations (needs network)
+npm run fetch:archives    # refresh Wayback snapshots for cited sources (needs network)
 ```
 
 ## Content model

@@ -3,6 +3,11 @@ import type { Locale } from '../i18n/ui';
 import { getRegion } from '../data/regions';
 import { getCity } from '../data/cities';
 import { guideSlug } from './guides';
+import archives from '../data/archives.json';
+
+const archMap = archives as Record<string, { archived: string; timestamp: string }>;
+const tsDate = (ts: string) =>
+  ts && ts.length >= 8 ? `${ts.slice(0, 4)}-${ts.slice(4, 6)}-${ts.slice(6, 8)}` : '';
 
 /**
  * Builds the site-wide citation index consumed by /sources (and /it/sources).
@@ -18,6 +23,8 @@ export interface CitedSource {
   url: string;
   host: string;
   accessed: Date;
+  archived?: string;
+  archDate?: string;
   citedBy: { label: string; href: string }[];
 }
 export interface SourceGroup {
@@ -64,7 +71,16 @@ export async function collectSources(locale: Locale) {
         if (accessed > existing.accessed) existing.accessed = accessed;
         if (!existing.citedBy.some((c) => c.href === href)) existing.citedBy.push({ label, href });
       } else {
-        byUrl.set(s.url, { title: s.title, url: s.url, host, accessed, citedBy: [{ label, href }] });
+        const a = archMap[s.url];
+        byUrl.set(s.url, {
+          title: s.title,
+          url: s.url,
+          host,
+          accessed,
+          archived: a?.archived,
+          archDate: a ? tsDate(a.timestamp) : undefined,
+          citedBy: [{ label, href }],
+        });
       }
     }
   };

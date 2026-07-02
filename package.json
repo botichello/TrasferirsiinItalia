@@ -9,6 +9,7 @@
     "preview": "astro preview",
     "check:freshness": "node scripts/check-freshness.mjs",
     "check:links": "node scripts/check-links.mjs",
+    "fetch:archives": "node scripts/fetch-archives.mjs",
     "astro": "astro"
   },
   "dependencies": {

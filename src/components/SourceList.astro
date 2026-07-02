@@ -4,6 +4,7 @@
  * this list is never empty on a published guide.
  */
 import { getLocale, ui } from '../i18n/ui';
+import archives from '../data/archives.json';
 
 interface Source {
   title: string;
@@ -22,6 +23,13 @@ const fmt = (d: Date) =>
     month: 'short',
     year: 'numeric',
   });
+const archMap = archives as Record<string, { archived: string; timestamp: string }>;
+const tsDate = (ts: string) =>
+  ts && ts.length >= 8 ? `${ts.slice(0, 4)}-${ts.slice(4, 6)}-${ts.slice(6, 8)}` : '';
+const items = sources.map((s) => {
+  const a = archMap[s.url];
+  return { ...s, archived: a?.archived ?? null, archDate: a ? tsDate(a.timestamp) : '' };
+});
 ---
 
 <section class="mt-12 rounded-lg border border-line bg-white/60 p-6">
@@ -29,7 +37,7 @@ const fmt = (d: Date) =>
   <p class="mt-1 text-sm text-muted">{t.sourcesIntro}</p>
   <ol class="mt-4 space-y-3 text-sm">
     {
-      sources.map((s) => (
+      items.map((s) => (
         <li>
           <a
             href={s.url}
@@ -40,6 +48,20 @@ const fmt = (d: Date) =>
             {s.title}
           </a>
           <span class="text-muted"> — {t.checkedOn} {fmt(s.accessed)}</span>
+          {s.archived && (
+            <span class="text-muted">
+              {' · '}
+              <a
+                href={s.archived}
+                class="underline underline-offset-2 hover:text-ink"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t.archived}
+                {s.archDate ? ` ${s.archDate}` : ''}
+              </a>
+            </span>
+          )}
         </li>
       ))
     }

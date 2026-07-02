@@ -37,6 +37,7 @@ interface Strings {
     sources: string;
     sourcesIntro: string;
     checkedOn: string;
+    archived: string;
     documents: string;
     reset: string;
     reportPrompt: string;
@@ -78,6 +79,7 @@ export const ui: Record<Locale, Strings> = {
       sourcesIntro:
         'Primary, official sources this page is based on. Each was checked on the date shown.',
       checkedOn: 'checked',
+      archived: 'archived copy',
       documents: 'Documents to bring',
       reset: 'Reset',
       reportPrompt: 'Spotted something out of date?',
@@ -116,6 +118,7 @@ export const ui: Record<Locale, Strings> = {
       sourcesIntro:
         'Le fonti ufficiali primarie su cui si basa questa pagina. Ciascuna è stata controllata nella data indicata.',
       checkedOn: 'controllata il',
+      archived: 'copia archiviata',
       documents: 'Documenti da portare',
       reset: 'Reimposta',
       reportPrompt: 'Hai notato qualcosa di superato?',

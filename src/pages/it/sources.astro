@@ -50,6 +50,19 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
               </a>
               <span class="ml-2 text-sm text-muted">
                 {s.host} · controllata il {fmt(s.accessed)}
+                {s.archived && (
+                  <>
+                    {' · '}
+                    <a
+                      href={s.archived}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="underline hover:text-ink"
+                    >
+                      copia archiviata{s.archDate ? ` ${s.archDate}` : ''}
+                    </a>
+                  </>
+                )}
               </span>
               <div class="mt-1 text-sm text-muted">
                 Citata da: {s.citedBy.map((c, i) => (

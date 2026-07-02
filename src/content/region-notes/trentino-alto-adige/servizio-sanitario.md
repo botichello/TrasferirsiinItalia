@@ -2,8 +2,8 @@
 region: trentino-alto-adige
 guide: servizio-sanitario
 title: SSN enrolment in Trentino-Alto Adige
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'ASUIT — Azienda Sanitaria Universitaria Integrata del Trentino'
     url: 'https://www.asuit.tn.it/'
@@ -11,13 +11,17 @@ sources:
   - title: "Azienda Sanitaria dell'Alto Adige (ASDAA / Südtiroler Sanitätsbetrieb)"
     url: 'https://www.asdaa.it/it/home/1000'
     accessed: 2026-06-12
+  - title: 'Cinformi (Provincia autonoma di Trento) — Iscrizione volontaria al SSN'
+    url: 'https://www.cinformi.it/Comunicazione/Notizie/Iscrizione-volontaria-al-Servizio-Sanitario-Nazionale'
+    accessed: 2026-07-02
   - title: 'Ministero della Salute — Servizio Sanitario Nazionale'
     url: 'https://www.salute.gov.it/portale/lea/dettaglioContenutiLea.jsp?lingua=italiano&id=4773&area=Lea&menu=iscrizione'
     accessed: 2026-06-11
 ---
 
-> **Draft — this region has two autonomous provincial health systems; verify
-> with the relevant one before relying on it.**
+> **Two autonomous provincial health systems.** The voluntary-enrolment cost below
+> is the national 2024 rule; confirm the enrolment procedure with your province's
+> authority.
 
 **Trentino-Alto Adige** is special: its two autonomous provinces run their own
 health systems, so which authority you enrol with depends on your province.
@@ -30,6 +34,10 @@ health systems, so which authority you enrol with depends on your province.
 
 **To enrol:** go to the district counter (*sportello* / *Sprengel*) of your
 provincial authority for the area where you are registered. **Choose a doctor:**
-a *medico di base* / *Hausarzt* from those available locally. **Economically
-inactive EU citizens:** confirm whether voluntary enrolment and the related
-contribution apply — set at provincial level here, so it differs from other areas.
+a *medico di base* / *Hausarzt* from those available locally.
+
+**Economically inactive (no work here)?** Both provinces apply the national **2024**
+rule for *voluntary* enrolment: a **minimum of €2,000 per year** (income-scaled, but
+never below €2,000; students €700), for the **calendar year** — paid in full whatever
+the enrolment date and **expiring on 31 December** (so enrolling in Trento in the
+summer still costs the full €2,000). Renew each January.

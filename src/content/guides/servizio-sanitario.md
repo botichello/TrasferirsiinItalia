@@ -3,8 +3,8 @@ title: Enrolling in the health service (SSN)
 description: How EU/EEA residents enrol in Italy's national health service (Servizio Sanitario Nazionale), get a tessera sanitaria, and choose a family doctor.
 step: 3
 journey: eu-residency
-lastVerified: 2026-06-12
-reviewBy: 2026-12-12
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 regionScope: regional
 documents:
   - Valid passport or national ID card
@@ -14,7 +14,10 @@ documents:
 sources:
   - title: 'Ministero della Salute — Enrolment of foreign citizens in the SSN'
     url: 'https://www.salute.gov.it/new/it/tema/iscrizione-al-ssn/iscrizione-dei-cittadini-stranieri-al-servizio-sanitario-nazionale-ssn/'
-    accessed: 2026-06-12
+    accessed: 2026-07-02
+  - title: 'Ministero del Lavoro (Integrazione Migranti) — 2024 rise in the voluntary SSN contribution'
+    url: 'https://integrazionemigranti.gov.it/it-it/Ricerca-news/Dettaglio-news/id/3457/DDl-Bilancio-aumenta-il-contributo-per-liscrizione-volontaria-al-SSN'
+    accessed: 2026-07-02
   - title: 'Your Europe — Healthcare when living abroad'
     url: 'https://europa.eu/youreurope/citizens/health/when-living-abroad/health-insurance-cover/index_en.htm'
     accessed: 2026-06-12
@@ -24,14 +27,15 @@ faq:
   - q: What is the tessera sanitaria?
     a: It is the health card showing your codice fiscale, issued once you are enrolled in the SSN. It is used to access doctors, prescriptions, and treatment.
   - q: Is enrolment automatic?
-    a: For workers and those with a clear right to enrol, registration follows from your residency and status. Rules for economically inactive EU citizens vary by region — confirm with your local ASL.
+    a: For workers and their families it is free and follows from your residency and status. If you are economically inactive and enrol voluntarily, since 2024 you pay a national contribution of at least €2,000/year (students €700) for the calendar year, expiring 31 December — confirm your exact figure with your local ASL.
 ---
 
-> **Region-dependent.** The national structure below is verified, but enrolment
-> conditions for **economically inactive** EU citizens (for example, the option
-> to pay a voluntary annual contribution, and its amount) are set **regionally**
-> and differ from one region to the next. See your region's page or confirm the
-> specifics with your local health authority.
+> **Cost note for the economically inactive.** Workers and their families enrol
+> **free**. If you have **no work in Italy** and enrol *voluntarily*, since 2024 a
+> national rule sets the contribution at a **minimum of €2,000 per year** (students
+> pay a flat €700) — and it covers the **calendar year, not pro-rated**: you pay the
+> full amount whenever you enrol and it **expires on 31 December**. See the cost
+> section below.
 
 Once you are a registered resident (Step 2), you can enrol in the **Servizio
 Sanitario Nazionale (SSN)** — Italy's national health service — at your local
@@ -42,9 +46,9 @@ lets you choose a *medico di base* (family doctor) free at the point of care.
 
 - **Workers** (employed or self-employed) and their dependants generally enrol on
   the basis of their work and residency.
-- **Economically inactive** EU residents may enrol voluntarily, often by paying an
-  annual contribution — but **this is decided regionally**, so the eligibility and
-  the amount depend on where you live.
+- **Economically inactive** EU residents (no work in Italy) either hold private
+  health insurance or **enrol voluntarily in the SSN** for an annual contribution —
+  since 2024 a **minimum of €2,000/year** (see the cost section below).
 
 ## The process
 
@@ -54,13 +58,24 @@ lets you choose a *medico di base* (family doctor) free at the point of care.
 3. Choose a *medico di base* from the available list.
 4. Receive (or be sent) your *tessera sanitaria*.
 
-## The one real regional variation in this journey
+## What voluntary enrolment costs (economically inactive)
 
-Most of the EU residency journey is national and uniform. SSN enrolment for
-**economically inactive** people is the exception: the voluntary-contribution
-route and its cost are set at regional level. This is the page to keep an eye on
-per region — and a natural first place to add region-specific detail as the site
-grows.
+If you are **not working in Italy** and don't otherwise qualify for free enrolment,
+you can still enrol *voluntarily* — but since the **2024 Budget Law** this is
+deliberately costly and, in the key respects, uniform nationwide:
+
+- **Minimum €2,000 per year** for the economically-inactive / elective-residence
+  category. It is income-scaled (7.5% up to €20,658.28, then 4% above) but **never
+  below €2,000**. Enrolled students pay a flat **€700**.
+- **It covers the calendar year and is not pro-rated.** You pay the full amount
+  whenever you enrol, and it **expires on 31 December** — you renew and pay again
+  each January. There is no partial-year or back-dated option, so enrolling in, say,
+  July still costs the full year.
+- Paid to the tax authorities on an **F24** form, then registered at your ASL.
+
+At €2,000+/year this often costs more than private sickness insurance, so many
+economically-inactive EU residents weigh the two. The health authority is
+regional/provincial, so confirm your exact figure locally (see your region's page).
 
 ## You're settled
 

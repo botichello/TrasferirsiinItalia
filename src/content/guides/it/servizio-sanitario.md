@@ -4,8 +4,8 @@ description: Come i residenti UE/SEE si iscrivono al Servizio Sanitario Nazional
 step: 3
 journey: eu-residency
 lang: it
-lastVerified: 2026-06-12
-reviewBy: 2026-12-12
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 regionScope: regional
 documents:
   - Passaporto o carta d'identità in corso di validità
@@ -15,7 +15,10 @@ documents:
 sources:
   - title: 'Ministero della Salute — Iscrizione dei cittadini stranieri al SSN'
     url: 'https://www.salute.gov.it/new/it/tema/iscrizione-al-ssn/iscrizione-dei-cittadini-stranieri-al-servizio-sanitario-nazionale-ssn/'
-    accessed: 2026-06-12
+    accessed: 2026-07-02
+  - title: 'Ministero del Lavoro (Integrazione Migranti) — aumento 2024 del contributo per l''iscrizione volontaria al SSN'
+    url: 'https://integrazionemigranti.gov.it/it-it/Ricerca-news/Dettaglio-news/id/3457/DDl-Bilancio-aumenta-il-contributo-per-liscrizione-volontaria-al-SSN'
+    accessed: 2026-07-02
   - title: "Your Europe — Assistenza sanitaria quando si vive all'estero"
     url: 'https://europa.eu/youreurope/citizens/health/when-living-abroad/health-insurance-cover/index_it.htm'
     accessed: 2026-06-12
@@ -25,14 +28,15 @@ faq:
   - q: Cos'è la tessera sanitaria?
     a: È la tessera che riporta il tuo codice fiscale, rilasciata una volta iscritto al SSN. Serve per accedere a medici, prescrizioni e cure.
   - q: L'iscrizione è automatica?
-    a: "Per i lavoratori e per chi ha un chiaro diritto all'iscrizione, la registrazione deriva dalla residenza e dalla condizione. Le regole per i cittadini UE economicamente non attivi variano da regione a regione; verifica con la tua ASL locale."
+    a: "Per i lavoratori e i loro familiari è gratuita e deriva dalla residenza e dalla condizione. Se sei economicamente non attivo e ti iscrivi volontariamente, dal 2024 paghi un contributo nazionale di almeno 2.000 €/anno (studenti 700 €) per l'anno solare, con scadenza al 31 dicembre; conferma l'importo con la tua ASL locale."
 ---
 
-> **Dipende dalla regione.** La struttura nazionale qui sotto è verificata, ma le
-> condizioni di iscrizione per i cittadini UE **economicamente non attivi** (ad
-> esempio l'opzione di versare un contributo annuale volontario e il suo importo)
-> sono stabilite a livello **regionale** e differiscono da una regione all'altra.
-> Vedi la pagina della tua regione o conferma con la tua ASL locale.
+> **Quanto costa per chi è economicamente non attivo.** I lavoratori e i loro
+> familiari si iscrivono **gratis**. Se **non lavori in Italia** e ti iscrivi in modo
+> *volontario*, dal 2024 una regola nazionale fissa il contributo a un **minimo di
+> 2.000 € l'anno** (gli studenti pagano 700 € forfettari) — e vale per l'**anno
+> solare, non frazionabile**: paghi l'intero importo qualunque sia la data di
+> iscrizione e **scade il 31 dicembre**. Vedi la sezione sui costi qui sotto.
 
 Una volta registrato come residente (passo 2), puoi iscriverti al **Servizio
 Sanitario Nazionale (SSN)** presso la tua **ASL** (Azienda Sanitaria Locale).
@@ -43,9 +47,10 @@ di base* gratuito nel momento della prestazione.
 
 - I **lavoratori** (dipendenti o autonomi) e i loro familiari si iscrivono in
   base al lavoro e alla residenza.
-- I residenti UE **economicamente non attivi** possono iscriversi volontariamente,
-  spesso versando un contributo annuale — ma **questo è deciso a livello
-  regionale**, quindi l'idoneità e l'importo dipendono da dove vivi.
+- I residenti UE **economicamente non attivi** (senza lavoro in Italia) o hanno
+  un'assicurazione sanitaria privata o **si iscrivono volontariamente al SSN** con un
+  contributo annuale — dal 2024 un **minimo di 2.000 €/anno** (vedi la sezione sui
+  costi qui sotto).
 
 ## La procedura
 
@@ -55,12 +60,25 @@ di base* gratuito nel momento della prestazione.
 3. Scegli un *medico di base* tra quelli disponibili.
 4. Ricevi (o ti viene inviata) la *tessera sanitaria*.
 
-## L'unica vera differenza regionale di questo percorso
+## Quanto costa l'iscrizione volontaria (economicamente non attivi)
 
-Gran parte del percorso di residenza UE è nazionale e uniforme. L'iscrizione al
-SSN per chi è **economicamente non attivo** è l'eccezione: la via del contributo
-volontario e il suo costo sono fissati a livello regionale. È la pagina da
-tenere d'occhio per ciascuna regione.
+Se **non lavori in Italia** e non hai altro titolo all'iscrizione gratuita, puoi
+comunque iscriverti in modo *volontario* — ma dalla **Legge di Bilancio 2024** è
+volutamente costosa e, negli aspetti chiave, uniforme in tutta Italia:
+
+- **Minimo 2.000 € l'anno** per la categoria economicamente non attivi / residenza
+  elettiva. È proporzionale al reddito (7,5% fino a 20.658,28 €, poi 4% oltre) ma
+  **mai sotto i 2.000 €**. Gli studenti iscritti pagano **700 €** forfettari.
+- **Vale per l'anno solare e non è frazionabile.** Paghi l'intero importo qualunque
+  sia la data di iscrizione e **scade il 31 dicembre** — rinnovi e paghi di nuovo ogni
+  gennaio. Non esistono frazioni d'anno né decorrenza retroattiva: iscriversi a luglio,
+  per esempio, costa comunque l'intero anno.
+- Si versa con modello **F24** all'erario, poi si registra l'iscrizione in ASL.
+
+A 2.000 €+/anno spesso costa più di un'assicurazione sanitaria privata, quindi molti
+cittadini UE non attivi confrontano le due opzioni. L'autorità sanitaria è
+regionale/provinciale: conferma l'importo esatto localmente (vedi la pagina della tua
+regione).
 
 ## Tutto a posto
 

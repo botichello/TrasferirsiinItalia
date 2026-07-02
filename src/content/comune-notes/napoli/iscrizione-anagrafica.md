@@ -2,9 +2,12 @@
 city: napoli
 guide: iscrizione-anagrafica
 title: Registering residency in Napoli
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
+  - title: 'Comune di Napoli — Cambi di residenza'
+    url: 'https://www.comune.napoli.it/servizio/cambi-di-residenza/'
+    accessed: 2026-07-02
   - title: 'Comune di Napoli — Servizi Demografici'
     url: 'https://servizionline.comune.napoli.it/web/napoli/servizi-demografici'
     accessed: 2026-06-11
@@ -13,16 +16,16 @@ sources:
     accessed: 2026-06-11
 ---
 
-> **Draft — verify with the Comune di Napoli before relying on it.**
+In **Napoli**, residency registration is handled by the **Servizi Demografici**,
+organised across the city's *Municipalità*.
 
-In **Napoli**, residency registration is handled by the **Servizi Demografici**
-(registry and civil-status services), which manage registry enrolment for change
-of residence and address.
-
-- **Where:** the demographic services operate through municipal offices; the main
-  Statistics and Demographic Services office is at Parco Quadrifoglio (Via
-  dell'Epomeo). Check the Servizi Demografici portal for the counter for your area.
-- **Appointments:** booking is used for in-person services; see the Comune di
-  Napoli demographic services pages for the current system and opening hours.
-- **Documents (EU citizens):** valid passport/ID, codice fiscale, and proof of the
-  basis for your stay (work, study + cover, or sufficient resources + cover).
+- **How to submit (since 1 January 2026):** the residence declaration is made
+  **only** by **PEC** to `cambi.residenza@pec.comune.napoli.it`, or **online via the
+  national ANPR portal** (logging in with SPID/CIE/CNS/eIDAS) — in-person counter
+  submission for changes has been discontinued.
+- **Timeline:** declare within **20 days** of moving; the change is recorded
+  **within two working days**, and the requirements are checked within 45 days.
+- **Documents (EU citizens):** the ministerial residence-declaration form, a valid
+  passport/ID, codice fiscale, proof of a legitimate occupancy title (e.g. a
+  registered lease), and proof of the basis for your stay (work, study + cover, or
+  sufficient resources + cover).

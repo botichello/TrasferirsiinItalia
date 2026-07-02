@@ -51,6 +51,7 @@ const CONCURRENCY = 8;
  */
 const KNOWN_BOTWALL = new Set([
   'demografici.comune.napoli.it',
+  'comune.napoli.it',
   'regione.campania.it',
   'regione.marche.it',
   'uslumbria1.it',

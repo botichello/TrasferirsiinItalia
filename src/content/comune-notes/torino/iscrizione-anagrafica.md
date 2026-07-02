@@ -2,8 +2,8 @@
 city: torino
 guide: iscrizione-anagrafica
 title: Registering residency in Torino
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Città di Torino — Anagrafe'
     url: 'https://www.comune.torino.it/argomenti/anagrafe-servizi-demografici/anagrafe'
@@ -13,11 +13,12 @@ sources:
     accessed: 2026-06-11
 ---
 
-> **Draft — verify with the Città di Torino anagrafe before relying on it.**
-
 In **Torino**, EU citizens staying more than three months register in the
 resident population register through the **Anagrafe**.
 
+- **How to submit:** in person at a district Anagrafe office, **online via the
+  TorinoFacile portal** (SPID/CIE), through an authorised CAF, or by registered mail
+  or PEC.
 - **Deadline:** submit the residence declaration to the Anagrafe **within 20 days**
   of moving.
 - **Offices / appointments:** the central Anagrafe is at **Via della Consolata 23**,

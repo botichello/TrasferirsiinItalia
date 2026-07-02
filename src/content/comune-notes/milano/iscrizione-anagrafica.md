@@ -2,8 +2,8 @@
 city: milano
 guide: iscrizione-anagrafica
 title: Registering residency in Milano
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Comune di Milano — Residenza per persone straniere provenienti dall''estero'
     url: 'https://www.comune.milano.it/en/servizi/anagrafe/richiesta-di-residenza-per-persone-straniere-provenienti-dall-estero'
@@ -12,8 +12,6 @@ sources:
     url: 'https://www.comune.milano.it/en/servizi/anagrafe/cambio-di-residenza'
     accessed: 2026-06-11
 ---
-
-> **Draft — verify with the Comune di Milano before relying on it.**
 
 **Milano** runs residency registration largely **online**. EU and other foreign
 citizens arriving from abroad use the dedicated *"Richiesta di residenza per

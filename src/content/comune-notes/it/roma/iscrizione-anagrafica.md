@@ -3,8 +3,8 @@ city: roma
 guide: iscrizione-anagrafica
 lang: it
 title: Registrare la residenza a Roma
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Roma Capitale — Iscrizione anagrafica cittadini comunitari'
     url: 'https://www.comune.roma.it/web/it/scheda-servizi.page?contentId=INF33606'

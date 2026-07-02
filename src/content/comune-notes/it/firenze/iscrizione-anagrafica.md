@@ -3,8 +3,8 @@ city: firenze
 guide: iscrizione-anagrafica
 lang: it
 title: Registrare la residenza a Firenze
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Città di Firenze — Residenza cittadino comunitario'
     url: 'https://www.comune.firenze.it/servizi/anagrafe-e-stato-civile/residenza-cittadino-comunitario'

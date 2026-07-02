@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { collectSources } from '../lib/sources';
+
+const { groups, sourceCount } = await collectSources('en');
+const catLabel: Record<string, string> = {
+  national: 'National & EU authorities',
+  regional: 'Regional health authorities',
+  comuni: 'Comuni (local offices)',
+};
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+
+<BaseLayout
+  title="Sources"
+  description="Every primary official source this reference cites, with the date each was last checked — the whole citation base, auditable in one place."
+  alternates={{ en: '/sources', it: '/it/sources' }}
+>
+  <div class="prose">
+    <h1>Sources</h1>
+    <p>
+      This reference is built on <strong>{sourceCount}</strong> primary, official
+      sources — Italian authorities (Agenzia delle Entrate, Ministero dell'Interno,
+      Ministero della Salute, AgID, regional health authorities and comuni) and the
+      EU's Your Europe portal. Every one is listed here, with the date it was last
+      checked and the pages that rely on it.
+    </p>
+    <p>
+      Links are re-checked automatically every week; a citation that 404s, or starts
+      redirecting off-site, fails that check and gets fixed. See
+      <a href="/how-we-verify">how we verify</a> for the full method.
+    </p>
+  </div>
+
+  {
+    groups.map((g) => (
+      <section class="mt-10">
+        <h2 class="font-serif text-2xl">{catLabel[g.key]}</h2>
+        <ul class="mt-4 space-y-4 not-prose">
+          {g.sources.map((s) => (
+            <li class="border-l-2 border-line pl-4">
+              <a
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-medium text-brand-700 hover:underline"
+              >
+                {s.title}
+              </a>
+              <span class="ml-2 text-sm text-muted">
+                {s.host} · checked {fmt(s.accessed)}
+              </span>
+              <div class="mt-1 text-sm text-muted">
+                Cited by: {s.citedBy.map((c, i) => (
+                  <span>
+                    {i > 0 ? ', ' : ''}
+                    <a href={c.href} class="underline hover:text-ink">
+                      {c.label}
+                    </a>
+                  </span>
+                ))}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</BaseLayout>

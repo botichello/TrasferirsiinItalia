@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { collectSources } from '../../lib/sources';
+
+const { groups, sourceCount } = await collectSources('it');
+const catLabel: Record<string, string> = {
+  national: 'Autorità nazionali e UE',
+  regional: 'Autorità sanitarie regionali',
+  comuni: 'Comuni (uffici locali)',
+};
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+
+<BaseLayout
+  title="Fonti"
+  description="Tutte le fonti ufficiali primarie citate da questo riferimento, con la data dell'ultimo controllo — l'intera base delle citazioni, verificabile in un unico posto."
+  alternates={{ en: '/sources', it: '/it/sources' }}
+>
+  <div class="prose">
+    <h1>Fonti</h1>
+    <p>
+      Questo riferimento si basa su <strong>{sourceCount}</strong> fonti ufficiali
+      primarie — autorità italiane (Agenzia delle Entrate, Ministero dell'Interno,
+      Ministero della Salute, AgID, autorità sanitarie regionali e Comuni) e il portale
+      Your Europe della UE. Sono elencate tutte qui, con la data dell'ultimo controllo
+      e le pagine che le utilizzano.
+    </p>
+    <p>
+      I link vengono ricontrollati automaticamente ogni settimana; una citazione che dà
+      404, o che inizia a reindirizzare altrove, fa fallire il controllo e viene
+      corretta. Vedi <a href="/it/how-we-verify">come verifichiamo</a> per il metodo
+      completo.
+    </p>
+  </div>
+
+  {
+    groups.map((g) => (
+      <section class="mt-10">
+        <h2 class="font-serif text-2xl">{catLabel[g.key]}</h2>
+        <ul class="mt-4 space-y-4 not-prose">
+          {g.sources.map((s) => (
+            <li class="border-l-2 border-line pl-4">
+              <a
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-medium text-brand-700 hover:underline"
+              >
+                {s.title}
+              </a>
+              <span class="ml-2 text-sm text-muted">
+                {s.host} · controllata il {fmt(s.accessed)}
+              </span>
+              <div class="mt-1 text-sm text-muted">
+                Citata da: {s.citedBy.map((c, i) => (
+                  <span>
+                    {i > 0 ? ', ' : ''}
+                    <a href={c.href} class="underline hover:text-ink">
+                      {c.label}
+                    </a>
+                  </span>
+                ))}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</BaseLayout>

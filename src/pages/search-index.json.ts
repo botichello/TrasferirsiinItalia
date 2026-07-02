@@ -61,6 +61,12 @@ export const GET: APIRoute = async () => {
       type: 'Page',
       text: 'editorial methodology sources verification freshness',
     },
+    {
+      title: 'Sources',
+      url: '/sources',
+      type: 'Page',
+      text: 'all primary sources citations index official authorities checked dates transparency',
+    },
   );
 
   return new Response(JSON.stringify(entries), {

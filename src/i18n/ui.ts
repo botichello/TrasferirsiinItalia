@@ -60,6 +60,7 @@ export const ui: Record<Locale, Strings> = {
       { href: '/regions', label: 'Browse regions' },
       { href: '/about', label: 'About' },
       { href: '/how-we-verify', label: 'How we verify' },
+      { href: '/sources', label: 'Sources' },
       { href: '/search', label: 'Search' },
     ],
     disclaimer:
@@ -97,6 +98,7 @@ export const ui: Record<Locale, Strings> = {
       { href: '/it/regions', label: 'Sfoglia regioni' },
       { href: '/it/about', label: 'Chi siamo' },
       { href: '/it/how-we-verify', label: 'Come verifichiamo' },
+      { href: '/it/sources', label: 'Fonti' },
       { href: '/', label: 'English site' },
     ],
     disclaimer:

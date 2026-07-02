@@ -2,8 +2,8 @@
 region: basilicata
 guide: servizio-sanitario
 title: SSN enrolment in Basilicata
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'ASP Basilicata — Azienda Sanitaria Locale di Potenza'
     url: 'https://www.aspbasilicata.it/'
@@ -16,8 +16,6 @@ sources:
     accessed: 2026-06-11
 ---
 
-> **Draft — verify with your local ASP/ASM before relying on it.**
-
 In **Basilicata**, the health service is delivered through two local authorities:
 **ASP** (Azienda Sanitaria Locale di Potenza) for the province of Potenza, and
 **ASM** (Azienda Sanitaria Locale di Matera) for the province of Matera. In
@@ -27,6 +25,8 @@ Potenza you enrol with **ASP Basilicata**.
   covering your registered address; find its counters (*sportelli*) via the site.
 - **Choosing a doctor:** select a *medico di base* from those available in your
   district.
-- **Economically inactive EU citizens:** confirm whether voluntary enrolment and
-  the related annual contribution apply — this is set regionally, so the amount
-  differs from other regions.
+- **Economically inactive EU citizens:** enrolment here is *voluntary* — and since
+  2024 it costs a **national minimum of €2,000 per year** (students €700), charged
+  for the whole calendar year regardless of when you enrol and expiring on 31
+  December. That floor is the same in every region (see the cost section above);
+  confirm the enrolment steps with your local health authority.

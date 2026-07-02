@@ -2,8 +2,8 @@
 region: puglia
 guide: servizio-sanitario
 title: SSN enrolment in Puglia
-lastVerified: 2026-06-11
-reviewBy: 2026-12-11
+lastVerified: 2026-07-02
+reviewBy: 2027-01-02
 sources:
   - title: 'Regione Puglia — PugliaSalute (Servizio Sanitario Regionale)'
     url: 'https://www.sanita.puglia.it/'
@@ -13,8 +13,6 @@ sources:
     accessed: 2026-06-11
 ---
 
-> **Draft — verify with your local ASL before relying on it.**
-
 In **Puglia**, the health service is delivered through the **ASL** (Azienda
 Sanitaria Locale) for the province where you are registered as resident (in Bari,
 this is the **ASL Bari**).
@@ -23,6 +21,8 @@ this is the **ASL Bari**).
   Puglia health pages to find it and its counters (*sportelli*).
 - **Choosing a doctor:** select a *medico di base* from those available in your
   ASL district.
-- **Economically inactive EU citizens:** confirm with your ASL whether voluntary
-  enrolment and the related annual contribution apply — this is set regionally,
-  so the amount differs from other regions.
+- **Economically inactive EU citizens:** enrolment here is *voluntary* — and since
+  2024 it costs a **national minimum of €2,000 per year** (students €700), charged
+  for the whole calendar year regardless of when you enrol and expiring on 31
+  December. That floor is the same in every region (see the cost section above);
+  confirm the enrolment steps with your local health authority.

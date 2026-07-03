@@ -1,12 +1,14 @@
 ---
 /**
- * "Start here" wizard. Two questions — your situation and your city — assemble a
- * personalized path across the four journey steps, surfacing the situation-specific
- * facts (the anagrafe basis you must prove, and the SSN cost/route).
+ * "Start here" wizard. Every step lays out its options by situation; picking your
+ * situation highlights the one that applies to you (and dims the rest), so each
+ * step reads as a clear "here's your case, in context". The city selector scopes
+ * each step's link to your comune.
  *
- * Progressive enhancement: the generic four-step path is server-rendered and always
- * visible; the interactive controls are hidden until the JS island reveals them, and
- * selecting a situation/city rewrites the path client-side. No framework.
+ * Progressive enhancement: the full per-situation comparison is server-rendered
+ * and always useful without JS; a small vanilla-JS island (no framework) reveals
+ * the situation/city controls and toggles the highlight. No innerHTML rebuilding —
+ * JS only flips classes and link targets.
  */
 import { citiesByRegion } from '../data/cities';
 import { getLocale } from '../i18n/ui';
@@ -15,330 +17,245 @@ const locale = getLocale(Astro.url);
 const prefix = locale === 'it' ? '/it' : '';
 const groups = citiesByRegion();
 
-const content =
+const c =
   locale === 'it'
     ? {
-        situationLegend: '1. Qual è la tua situazione?',
-        cityLegend: '2. Dove vivrai? (facoltativo)',
+        yourSituation: 'La tua situazione',
+        showAll: 'Mostra tutte',
+        cityLabel: 'La tua città',
         cityChoose: 'Scegli una città…',
-        yourPath: 'Il tuo percorso',
-        forWord: 'per',
-        inWord: 'a',
-        nationalNote:
-          'Stai vedendo la guida nazionale — scegli una città sopra per le specificità locali.',
-        open: 'Apri',
-        browseNote: 'Preferisci sfogliare? Il percorso completo e tutte le città sono nella',
-        citiesPage: 'pagina Città',
         reset: 'Reimposta',
+        youBadge: 'la tua situazione',
+        bySituation: 'In base alla situazione',
+        everyone: 'Vale per tutti',
+        open: 'Apri la guida',
+        hint: 'Scegli la tua situazione: in ogni passo verrà evidenziato ciò che ti riguarda.',
+        browse: 'Percorso completo e tutte le città nella',
+        citiesPage: 'pagina Città',
         situations: [
-          {
-            key: 'employed',
-            label: 'Lavoratore dipendente',
-            anagrafe: 'Ti iscrivi in base al contratto di lavoro.',
-            ssn: 'Gratis — l’iscrizione al SSN deriva dal lavoro.',
-          },
-          {
-            key: 'self-employed',
-            label: 'Lavoratore autonomo',
-            anagrafe: 'Ti iscrivi in base all’attività autonoma (partita IVA / iscrizione dell’attività).',
-            ssn: 'Gratis — tramite l’attività autonoma registrata.',
-          },
-          {
-            key: 'student',
-            label: 'Studente',
-            anagrafe:
-              'Ti iscrivi in base all’iscrizione a un corso di studi, più copertura sanitaria e risorse sufficienti.',
-            ssn: 'Volontaria: 700 € forfettari l’anno — oppure TEAM / assicurazione privata per soggiorni brevi.',
-          },
-          {
-            key: 'inactive',
-            label: 'Non lavori (economicamente non attivo)',
-            anagrafe:
-              'Devi dimostrare risorse sufficienti per te (e la famiglia) più un’assicurazione sanitaria completa.',
-            ssn: 'Non è gratis: assicurazione privata, oppure iscrizione volontaria al SSN da un minimo nazionale di 2.000 €/anno (anno solare, scade il 31 dicembre).',
-          },
-          {
-            key: 'family',
-            label: 'Familiare di un cittadino UE',
-            anagrafe: 'Ti iscrivi in base al legame familiare con il cittadino UE e alla sua condizione.',
-            ssn: 'Ti iscrivi tramite il familiare che raggiungi. (I familiari non UE necessitano anche della carta di soggiorno.)',
-          },
+          { key: 'employed', label: 'Lavoratore dipendente', anagrafe: 'in base al contratto di lavoro', ssn: 'gratis — deriva dal lavoro' },
+          { key: 'self-employed', label: 'Lavoratore autonomo', anagrafe: 'in base all’attività autonoma (partita IVA / iscrizione dell’attività)', ssn: 'gratis — tramite l’attività autonoma registrata' },
+          { key: 'student', label: 'Studente', anagrafe: 'in base all’iscrizione a un corso di studi, con copertura sanitaria e risorse sufficienti', ssn: 'volontaria: 700 €/anno forfettari (o TEAM/privata per soggiorni brevi)' },
+          { key: 'inactive', label: 'Non lavori (non attivo)', anagrafe: 'devi dimostrare risorse sufficienti + assicurazione sanitaria completa', ssn: 'non gratis: assicurazione privata oppure iscrizione volontaria da 2.000 €/anno' },
+          { key: 'family', label: 'Familiare di cittadino UE', anagrafe: 'in base al legame familiare con il cittadino UE e alla sua condizione', ssn: 'tramite il familiare che raggiungi (i familiari non UE: carta di soggiorno)' },
         ],
         steps: [
-          {
-            key: 'codice-fiscale',
-            title: 'Passo 1 · Codice fiscale',
-            base: 'Gratuito e uguale in tutta Italia — si parte da qui.',
-          },
-          { key: 'iscrizione-anagrafica', title: 'Passo 2 · Residenza (anagrafe)', field: 'anagrafe' },
-          { key: 'servizio-sanitario', title: 'Passo 3 · Servizio sanitario (SSN)', field: 'ssn' },
-          {
-            key: 'identita-digitale',
-            title: 'Passo 4 · Identità digitale (SPID e CIE)',
-            base: 'SPID o CIE per usare i servizi pubblici online — uguale per tutti.',
-          },
+          { key: 'codice-fiscale', title: 'Passo 1 · Codice fiscale', base: 'Gratuito e uguale in tutta Italia — si parte da qui.' },
+          { key: 'iscrizione-anagrafica', title: 'Passo 2 · Residenza (anagrafe)', field: 'anagrafe', lead: 'Ti iscrivi all’anagrafe del Comune' },
+          { key: 'servizio-sanitario', title: 'Passo 3 · Servizio sanitario (SSN)', field: 'ssn', lead: 'Iscrizione al SSN' },
+          { key: 'identita-digitale', title: 'Passo 4 · Identità digitale (SPID e CIE)', base: 'SPID o CIE per i servizi pubblici online — uguale per tutti.' },
         ],
       }
     : {
-        situationLegend: "1. What's your situation?",
-        cityLegend: '2. Where will you live? (optional)',
+        yourSituation: 'Your situation',
+        showAll: 'Show all',
+        cityLabel: 'Your city',
         cityChoose: 'Choose a city…',
-        yourPath: 'Your path',
-        forWord: 'for',
-        inWord: 'in',
-        nationalNote: 'Showing the national guide — pick a city above for local specifics.',
-        open: 'Open',
-        browseNote: 'Prefer to browse? The full journey and all cities are on the',
-        citiesPage: 'Cities page',
         reset: 'Reset',
+        youBadge: 'your situation',
+        bySituation: 'By situation',
+        everyone: 'Applies to everyone',
+        open: 'Open the guide',
+        hint: 'Pick your situation — each step highlights what applies to you.',
+        browse: 'Full journey and all cities on the',
+        citiesPage: 'Cities page',
         situations: [
-          {
-            key: 'employed',
-            label: 'Employed',
-            anagrafe: 'You register on the basis of your employment contract.',
-            ssn: 'Free — SSN enrolment follows from your job.',
-          },
-          {
-            key: 'self-employed',
-            label: 'Self-employed',
-            anagrafe:
-              'You register on the basis of your self-employment (partita IVA / business registration).',
-            ssn: 'Free — via your registered self-employment.',
-          },
-          {
-            key: 'student',
-            label: 'Student',
-            anagrafe: 'You register on the basis of study enrolment, plus health cover and sufficient resources.',
-            ssn: 'Voluntary: a flat €700/year — or rely on your EHIC / private cover for shorter stays.',
-          },
-          {
-            key: 'inactive',
-            label: 'Not working (economically inactive)',
-            anagrafe:
-              'You must show sufficient resources for yourself (and family) plus comprehensive health insurance.',
-            ssn: 'Not free: either private health insurance, or voluntary SSN enrolment at a national minimum of €2,000/year (calendar year, expires 31 Dec).',
-          },
-          {
-            key: 'family',
-            label: 'Family member of an EU citizen',
-            anagrafe: "You register on the basis of your family tie to the EU citizen and their qualifying status.",
-            ssn: "You enrol via the family member you're joining. (Non-EU family members also need a carta di soggiorno.)",
-          },
+          { key: 'employed', label: 'Employed', anagrafe: 'on the basis of your employment contract', ssn: 'free — follows from your job' },
+          { key: 'self-employed', label: 'Self-employed', anagrafe: 'on the basis of your self-employment (partita IVA / business registration)', ssn: 'free — via your registered self-employment' },
+          { key: 'student', label: 'Student', anagrafe: 'on the basis of study enrolment, with health cover and sufficient resources', ssn: 'voluntary: a flat €700/year (or EHIC/private for short stays)' },
+          { key: 'inactive', label: 'Not working (inactive)', anagrafe: 'you must show sufficient resources + comprehensive health insurance', ssn: 'not free: private insurance, or voluntary enrolment from €2,000/year' },
+          { key: 'family', label: 'Family of an EU citizen', anagrafe: 'on the basis of your family tie to the EU citizen and their status', ssn: 'via the family member you join (non-EU family: carta di soggiorno)' },
         ],
         steps: [
-          {
-            key: 'codice-fiscale',
-            title: 'Step 1 · Codice fiscale',
-            base: 'Free and identical everywhere in Italy — everyone starts here.',
-          },
-          { key: 'iscrizione-anagrafica', title: 'Step 2 · Residency (anagrafe)', field: 'anagrafe' },
-          { key: 'servizio-sanitario', title: 'Step 3 · Health service (SSN)', field: 'ssn' },
-          {
-            key: 'identita-digitale',
-            title: 'Step 4 · Digital identity (SPID & CIE)',
-            base: 'SPID or the CIE to use online public services — the same for everyone.',
-          },
+          { key: 'codice-fiscale', title: 'Step 1 · Codice fiscale', base: 'Free and identical everywhere in Italy — everyone starts here.' },
+          { key: 'iscrizione-anagrafica', title: 'Step 2 · Residency (anagrafe)', field: 'anagrafe', lead: 'You register at your comune’s anagrafe' },
+          { key: 'servizio-sanitario', title: 'Step 3 · Health service (SSN)', field: 'ssn', lead: 'You enrol in the SSN' },
+          { key: 'identita-digitale', title: 'Step 4 · Digital identity (SPID & CIE)', base: 'SPID or the CIE for online public services — the same for everyone.' },
         ],
       };
-
-const data = { prefix, ...content };
 ---
 
 <section data-start-wizard>
-  <!-- Interactive controls: hidden until the island reveals them (needs JS). -->
-  <div data-wizard-controls hidden class="not-prose rounded-xl border border-line bg-white/60 p-6">
-    <fieldset>
-      <legend class="font-serif text-lg">{content.situationLegend}</legend>
-      <div class="mt-3 grid gap-2 sm:grid-cols-2">
-        {
-          content.situations.map((s) => (
-            <label class="flex cursor-pointer items-center gap-3 rounded-lg border border-line px-4 py-2.5 text-sm hover:border-brand-300">
-              <input type="radio" name="wizard-situation" value={s.key} class="h-4 w-4 accent-[var(--color-brand-500)]" />
-              <span>{s.label}</span>
-            </label>
-          ))
-        }
-      </div>
-    </fieldset>
-
-    <div class="mt-5 flex flex-wrap items-center gap-3">
-      <label for="wizard-city" class="font-serif text-lg">{content.cityLegend}</label>
+  <!-- Controls: revealed by JS (they only drive client-side highlight/links). -->
+  <div
+    data-wizard-controls
+    hidden
+    class="not-prose rounded-xl border border-line bg-white/60 p-5"
+  >
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="mr-1 text-sm font-medium">{c.yourSituation}:</span>
+      {
+        c.situations.map((s) => (
+          <button
+            type="button"
+            class="status-btn rounded-full border border-line px-3 py-1.5 text-sm hover:border-brand-300"
+            data-status-btn={s.key}
+          >
+            {s.label}
+          </button>
+        ))
+      }
+      <button type="button" class="status-btn rounded-full border border-line px-3 py-1.5 text-sm text-muted hover:border-brand-300" data-status-btn="">
+        {c.showAll}
+      </button>
+    </div>
+    <div class="mt-3 flex flex-wrap items-center gap-2">
+      <label for="wizard-city" class="mr-1 text-sm font-medium">{c.cityLabel}:</label>
       <select
         id="wizard-city"
         data-wizard-city
-        class="min-w-56 rounded-md border border-line bg-white px-3 py-1.5 text-sm focus:border-brand-500 focus:outline-none"
+        class="min-w-52 rounded-md border border-line bg-white px-3 py-1.5 text-sm focus:border-brand-500 focus:outline-none"
       >
-        <option value="">{content.cityChoose}</option>
+        <option value="">{c.cityChoose}</option>
         {
           groups.map((g) => (
             <optgroup label={g.region.name}>
-              {g.cities.map((c) => (
-                <option value={c.slug}>
-                  {c.name} ({c.province})
+              {g.cities.map((ct) => (
+                <option value={ct.slug}>
+                  {ct.name} ({ct.province})
                 </option>
               ))}
             </optgroup>
           ))
         }
       </select>
-      <button
-        type="button"
-        data-wizard-reset
-        class="text-sm text-muted underline underline-offset-2 hover:text-ink"
-      >
-        {content.reset}
+      <button type="button" data-wizard-reset class="text-sm text-muted underline underline-offset-2 hover:text-ink">
+        {c.reset}
       </button>
     </div>
+    <p class="mt-3 text-sm text-muted">{c.hint}</p>
   </div>
 
-  <!-- Results: server-rendered generic path (always visible), personalized by JS. -->
-  <div data-wizard-results class="mt-8">
-    <h2 class="font-serif text-2xl">{content.yourPath}</h2>
-    <ol class="mt-4 grid gap-4">
-      {
-        content.steps.map((step) => {
-          const note =
-            step.field === 'anagrafe'
-              ? locale === 'it'
-                ? 'Dipende dalla tua situazione (lavoro, studio, risorse…).'
-                : 'Depends on your situation (work, study, resources…).'
-              : step.field === 'ssn'
-                ? locale === 'it'
-                  ? 'Gratis per i lavoratori; studenti 700 €; non attivi da 2.000 €/anno o assicurazione privata.'
-                  : 'Free for workers; students €700; economically inactive from €2,000/yr or private cover.'
-                : step.base;
-          return (
-            <li class="rounded-xl border border-line bg-white/60 p-5">
-              <a
-                href={`${prefix}/eu-citizens/residency/${step.key}`}
-                class="font-serif text-lg text-brand-700 hover:underline"
-              >
-                {step.title}
-              </a>
-              <p class="mt-1 text-sm text-muted">{note}</p>
-            </li>
-          );
-        })
-      }
-    </ol>
-    <p class="mt-4 text-sm text-muted">
-      {content.browseNote}{' '}
-      <a href={`${prefix}/cities`} class="underline hover:text-ink">{content.citiesPage}</a>.
-    </p>
-  </div>
+  <ol class="mt-6 grid gap-4">
+    {
+      c.steps.map((step) => (
+        <li class="rounded-xl border border-line bg-white/60 p-5">
+          <a
+            href={`${prefix}/eu-citizens/residency/${step.key}`}
+            data-step-link
+            data-step-key={step.key}
+            class="font-serif text-lg text-brand-700 hover:underline"
+          >
+            {step.title}
+          </a>
+          {step.field ? (
+            <div class="mt-3">
+              <p class="text-sm text-muted">
+                {step.lead} <span class="font-medium text-ink">{c.bySituation.toLowerCase()}</span>:
+              </p>
+              <ul class="mt-2 space-y-1.5">
+                {c.situations.map((s) => (
+                  <li class="status-row flex items-baseline gap-2 rounded-md border border-transparent px-3 py-2 text-sm" data-status={s.key}>
+                    <span class="min-w-40 shrink-0 font-medium">{s.label}</span>
+                    <span>{step.field === 'anagrafe' ? s.anagrafe : s.ssn}</span>
+                    <span class="you-badge ml-auto shrink-0 rounded-full bg-brand-500 px-2 py-0.5 text-xs font-medium text-white">
+                      {c.youBadge}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <p class="mt-2 text-sm">
+              {step.base} <span class="text-muted">· {c.everyone}</span>
+            </p>
+          )}
+          <a href={`${prefix}/eu-citizens/residency/${step.key}`} data-step-link data-step-key={step.key} class="mt-3 inline-block text-sm text-brand-600 underline">
+            {c.open} →
+          </a>
+        </li>
+      ))
+    }
+  </ol>
 
-  <script type="application/json" data-wizard-data set:html={JSON.stringify(data)} />
+  <p class="mt-4 text-sm text-muted">
+    {c.browse} <a href={`${prefix}/cities`} class="underline hover:text-ink">{c.citiesPage}</a>.
+  </p>
+
+  <span data-wizard-prefix={prefix} hidden></span>
 </section>
+
+<style>
+  .status-row { transition: opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease; }
+  .status-row.is-you { border-color: var(--color-brand-500); background: var(--color-brand-50); }
+  .status-row.is-dim { opacity: 0.4; }
+  .you-badge { display: none; }
+  .status-row.is-you .you-badge { display: inline-block; }
+  .status-btn.is-active { background: var(--color-brand-500); border-color: var(--color-brand-500); color: #fff; }
+</style>
 
 <script>
   document.querySelectorAll<HTMLElement>('[data-start-wizard]').forEach((root) => {
-    const dataEl = root.querySelector<HTMLElement>('[data-wizard-data]');
     const controls = root.querySelector<HTMLElement>('[data-wizard-controls]');
-    const results = root.querySelector<HTMLElement>('[data-wizard-results]');
-    if (!dataEl || !controls || !results) return;
+    const prefix = root.querySelector<HTMLElement>('[data-wizard-prefix]')?.dataset.wizardPrefix || '';
+    if (!controls) return;
+    controls.hidden = false; // JS available → show the controls
 
-    type Situation = { key: string; label: string; anagrafe: string; ssn: string };
-    type Step = { key: string; title: string; base?: string; field?: 'anagrafe' | 'ssn' };
-    const data = JSON.parse(dataEl.textContent || '{}') as {
-      prefix: string;
-      yourPath: string;
-      forWord: string;
-      inWord: string;
-      nationalNote: string;
-      open: string;
-      browseNote: string;
-      citiesPage: string;
-      situations: Situation[];
-      steps: Step[];
+    const btns = root.querySelectorAll<HTMLButtonElement>('[data-status-btn]');
+    const rows = root.querySelectorAll<HTMLElement>('.status-row');
+    const links = root.querySelectorAll<HTMLAnchorElement>('[data-step-link]');
+    const city = root.querySelector<HTMLSelectElement>('[data-wizard-city]');
+
+    const applyStatus = (status: string) => {
+      btns.forEach((b) => b.classList.toggle('is-active', b.dataset.statusBtn === status && status !== ''));
+      rows.forEach((r) => {
+        const match = r.dataset.status === status;
+        r.classList.toggle('is-you', status !== '' && match);
+        r.classList.toggle('is-dim', status !== '' && !match);
+      });
     };
 
-    // JS is available — reveal the controls.
-    controls.hidden = false;
-
-    const radios = controls.querySelectorAll<HTMLInputElement>('input[name="wizard-situation"]');
-    const city = controls.querySelector<HTMLSelectElement>('[data-wizard-city]');
-    const esc = (s: string) =>
-      s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
-
-    const render = () => {
-      const key = [...radios].find((r) => r.checked)?.value;
-      if (!key || !city) return; // nothing selected yet — keep the server-rendered default
-      const sit = data.situations.find((s) => s.key === key);
-      if (!sit) return;
-      const slug = city.value;
-      const cityLabel = slug ? city.options[city.selectedIndex]?.text ?? '' : '';
-      const base = slug ? `${data.prefix}/cities/${slug}/residency` : `${data.prefix}/eu-citizens/residency`;
-
-      const heading =
-        `${data.yourPath} — ${data.forWord} ${esc(sit.label.toLowerCase())}` +
-        (cityLabel ? ` ${data.inWord} ${esc(cityLabel)}` : '');
-
-      const cards = data.steps
-        .map((step) => {
-          const note = step.field ? sit[step.field] : step.base || '';
-          return (
-            `<li class="rounded-xl border border-line bg-white/60 p-5">` +
-            `<a href="${base}/${step.key}" class="font-serif text-lg text-brand-700 hover:underline">${esc(step.title)}</a>` +
-            `<p class="mt-1 text-sm">${esc(note)}</p>` +
-            `<a href="${base}/${step.key}" class="mt-2 inline-block text-sm text-brand-600 underline">${esc(data.open)} →</a>` +
-            `</li>`
-          );
-        })
-        .join('');
-
-      const footer = slug
-        ? `<p class="mt-4 text-sm text-muted">${esc(data.browseNote)} <a href="${data.prefix}/cities" class="underline hover:text-ink">${esc(data.citiesPage)}</a>.</p>`
-        : `<p class="mt-4 text-sm text-muted">${esc(data.nationalNote)}</p>`;
-
-      results.innerHTML =
-        `<h2 class="font-serif text-2xl">${esc(heading)}</h2>` +
-        `<ol class="mt-4 grid gap-4">${cards}</ol>` +
-        footer;
+    const applyCity = (slug: string) => {
+      links.forEach((a) => {
+        const key = a.dataset.stepKey!;
+        a.href = slug ? `${prefix}/cities/${slug}/residency/${key}` : `${prefix}/eu-citizens/residency/${key}`;
+      });
     };
 
-    // Restore any saved choices (shares the 'city' key with the city selector).
+    // Restore saved choices (shares the 'city' key with the site's city selector).
+    let status = '';
     try {
-      const savedSit = localStorage.getItem('wizard-situation');
-      if (savedSit) {
-        const r = [...radios].find((x) => x.value === savedSit);
-        if (r) r.checked = true;
-      }
+      status = localStorage.getItem('wizard-situation') || '';
       const savedCity = localStorage.getItem('city');
       if (savedCity && city) city.value = savedCity;
     } catch {
-      /* localStorage unavailable */
+      /* ignore */
     }
+    applyStatus(status);
+    if (city) applyCity(city.value);
 
-    radios.forEach((r) =>
-      r.addEventListener('change', () => {
+    btns.forEach((b) =>
+      b.addEventListener('click', () => {
+        status = b.dataset.statusBtn || '';
         try {
-          localStorage.setItem('wizard-situation', r.value);
+          if (status) localStorage.setItem('wizard-situation', status);
+          else localStorage.removeItem('wizard-situation');
         } catch {
           /* ignore */
         }
-        render();
+        applyStatus(status);
       }),
     );
+
     city?.addEventListener('change', () => {
       try {
         if (city.value) localStorage.setItem('city', city.value);
       } catch {
         /* ignore */
       }
-      render();
+      applyCity(city.value);
     });
 
-    controls.querySelector<HTMLButtonElement>('[data-wizard-reset]')?.addEventListener('click', () => {
-      radios.forEach((r) => (r.checked = false));
+    root.querySelector<HTMLButtonElement>('[data-wizard-reset]')?.addEventListener('click', () => {
+      status = '';
       if (city) city.value = '';
       try {
         localStorage.removeItem('wizard-situation');
       } catch {
         /* ignore */
       }
-      location.reload();
+      applyStatus('');
+      applyCity('');
     });
-
-    render();
   });
 </script>

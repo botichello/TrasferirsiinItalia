@@ -6,14 +6,16 @@ import numpy as np
 import pandas as pd
 import torch
 
+import torch.nn as nn
+
 from .config import TFTConfig
+from .conformal import apply_conformal
 from .data import FeatureScaler
 from .data.features import KNOWN_FEATURES, OBSERVED_FEATURES, future_known_frame
-from .model import TemporalFusionTransformer
 
 
 @torch.no_grad()
-def predict_from_frame(model: TemporalFusionTransformer, scaler: FeatureScaler,
+def predict_from_frame(model: nn.Module, scaler: FeatureScaler,
                        config: TFTConfig, features: pd.DataFrame,
                        ticker_id: int = 0) -> dict:
     """Forecast from the last `encoder_length` rows of a feature frame.
@@ -41,8 +43,14 @@ def predict_from_frame(model: TemporalFusionTransformer, scaler: FeatureScaler,
     model.eval()
     out = model(observed, known_enc, known_dec, static)
     cum_log_ret = out["prediction"].squeeze(0).numpy()          # (H, Q)
-    # Enforce non-crossing quantiles at each step.
+    # De-normalize: the model was trained on vol-scaled returns so one set
+    # of weights serves all regimes; scale back by the origin's volatility.
+    if config.vol_normalize_target and "target_scale" in features.columns:
+        cum_log_ret = cum_log_ret * float(features["target_scale"].iloc[-1])
+    # Enforce non-crossing quantiles, then apply the CQR coverage correction.
     cum_log_ret = np.sort(cum_log_ret, axis=-1)
+    if config.conformal:
+        cum_log_ret = apply_conformal(cum_log_ret, config.conformal)
     prices = last_close * np.exp(cum_log_ret)
 
     # Mean selection weight per input variable over the encoder window —
@@ -66,12 +74,18 @@ def predict_from_frame(model: TemporalFusionTransformer, scaler: FeatureScaler,
 
 
 def trading_signal(cum_log_ret: np.ndarray, quantiles: list[float],
-                   edge_threshold: float = 0.0005) -> dict:
-    """Turn horizon-end quantiles into a position signal.
+                   edge_threshold: float = 0.0005,
+                   kelly_fraction: float = 0.25) -> dict:
+    """Turn horizon-end quantiles into a position signal with sizing.
 
-    Long when the median predicted move clears the threshold and the risk-
-    adjusted edge (median vs. inter-quantile spread) is positive; symmetric
-    for shorts. Sized by |median| / spread, capped at 1.
+    Direction: long when the median predicted move clears the threshold and
+    the downside quantile doesn't overwhelm it; symmetric for shorts.
+
+    Size: fractional Kelly. The quantile spread implies a forecast standard
+    deviation (an 80% interval spans ±1.2816σ under normality); the Kelly
+    ratio μ/σ² is scaled by `kelly_fraction` (quarter-Kelly by default —
+    full Kelly is famously too aggressive under estimation error) and capped
+    at 1.0 of capital.
     """
     q = np.asarray(quantiles)
     lo_i, hi_i = int(q.argmin()), int(q.argmax())
@@ -80,6 +94,10 @@ def trading_signal(cum_log_ret: np.ndarray, quantiles: list[float],
     median, lo, hi = float(end[med_i]), float(end[lo_i]), float(end[hi_i])
     spread = max(hi - lo, 1e-8)
     confidence = min(abs(median) / spread, 1.0)
+
+    z_span = 2 * 1.2816 * (q[hi_i] - q[lo_i]) / 0.8  # σ multiple of the interval
+    sigma = max(spread / z_span, 1e-6)
+    size = min(abs(median) / sigma ** 2 * kelly_fraction, 1.0)
 
     if median > edge_threshold and lo > -abs(median):
         action = "LONG"
@@ -93,4 +111,5 @@ def trading_signal(cum_log_ret: np.ndarray, quantiles: list[float],
         "lower": lo,
         "upper": hi,
         "confidence": round(confidence, 4),
+        "size": round(size if action != "FLAT" else 0.0, 4),
     }

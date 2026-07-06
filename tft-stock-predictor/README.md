@@ -15,6 +15,7 @@ live prediction for BTC-USD every 60s — Ctrl-C to stop
 |---|---|---|
 | TFT model | `tft_predictor/model/` | Full paper architecture: variable selection networks, gated residual networks, static covariate encoders, LSTM seq2seq, interpretable multi-head attention (shared value head), quantile output |
 | Quantile loss | `tft_predictor/model/loss.py` | Pinball loss over a configurable quantile set (default 0.1/0.25/0.5/0.75/0.9) |
+| Conformal calibration | `tft_predictor/conformal.py` | CQR (Romano et al. 2019): post-hoc offsets fitted on the embargoed validation set give the bands a finite-sample coverage guarantee |
 | Data providers | `tft_predictor/data/` | `yahoo` (stocks/ETFs, plain-`requests` chart API client with retry + cookie priming) and `coinbase` (crypto, 24/7, no auth) |
 | Features | `tft_predictor/data/features.py` | 11 observed features (returns, RSI, MACD, Bollinger %, ATR, realized vol, volume z-score, momentum) + 5 known-future calendar encodings |
 | Real-time engine | `tft_predictor/realtime.py` | Polls for fresh bars, re-forecasts when a bar closes, optional **online learning** (gradient steps on newly labeled windows), emits console lines + `predictions.jsonl` |
@@ -136,6 +137,42 @@ Multi-horizon Time Series Forecasting* (2021)](https://arxiv.org/abs/1912.09363)
   block it doesn't need.
 - **Quantile heads** give calibrated uncertainty bands, checked against
   empirical coverage in the backtest.
+
+## Training & data recipe (research-backed)
+
+Each choice below is an established finding from the forecasting / financial-ML
+literature, applied to this codebase:
+
+- **Purged & embargoed validation split** (López de Prado, *Advances in
+  Financial ML*): a gap of one full horizon separates the last training label
+  from the first validation label, so serially-correlated labels can't leak
+  across the split and inflate validation scores.
+- **Volatility-normalized targets**: the model learns returns divided by the
+  origin's realized volatility, so one set of weights serves calm and stormy
+  regimes; predictions are re-scaled by current vol at inference. Standard in
+  momentum-network literature (Lim et al., *Enhancing Time Series Momentum
+  Strategies*).
+- **Robust feature scaling**: median/IQR instead of mean/std — fat-tailed
+  return distributions mean a single crash bar can otherwise dominate scaling.
+- **Range-based volatility features**: Parkinson (1980) high-low estimator is
+  ~5x more efficient than close-to-close vol; plus a short/long vol-ratio
+  regime indicator.
+- **Warmup + cosine LR schedule** and **EMA weight averaging** (Polyak
+  averaging): the EMA weights are what get validated and shipped — they
+  generalize better than the last raw SGD iterate.
+- **Deep ensembles** (Lakshminarayanan et al., 2017): `--ensemble N` trains N
+  members from different seeds and averages their quantiles; member
+  disagreement widens bands exactly where the data is ambiguous.
+- **Conformalized quantile regression** (Romano et al., 2019): after training,
+  per-horizon-step offsets are fitted on validation conformity scores and
+  applied to every live band — a distribution-free coverage guarantee that
+  holds even when the network is miscalibrated.
+- **Experience replay for online learning**: live fine-tuning mixes fresh
+  windows with randomly replayed historical windows, preventing catastrophic
+  forgetting of older regimes.
+- **Fractional Kelly sizing**: signals carry a suggested position size —
+  quarter-Kelly on the quantile-implied mean/variance, capped at 1x — the
+  standard guard against estimation-error blowups of full Kelly.
 
 Interpretability tensors (attention weights, per-variable selection weights)
 are returned by every forward pass. Each prediction includes

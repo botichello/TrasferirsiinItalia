@@ -25,6 +25,26 @@ from .layers import (
 )
 
 
+class EnsembleTFT(nn.Module):
+    """Deep ensemble of independently trained TFTs (different seeds).
+
+    Averaging the members' quantile outputs is a strong, simple uncertainty
+    improvement (Lakshminarayanan et al., 2017): disagreement between members
+    widens the effective bands exactly where the data is ambiguous.
+    """
+
+    def __init__(self, members: list[nn.Module]):
+        super().__init__()
+        if not members:
+            raise ValueError("ensemble needs at least one member")
+        self.members = nn.ModuleList(members)
+
+    def forward(self, *args, **kwargs) -> dict[str, torch.Tensor]:
+        outs = [m(*args, **kwargs) for m in self.members]
+        return {key: torch.stack([o[key] for o in outs]).mean(dim=0)
+                for key in outs[0]}
+
+
 class TemporalFusionTransformer(nn.Module):
     def __init__(self, config: TFTConfig):
         super().__init__()

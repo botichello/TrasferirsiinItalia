@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import logging
+import random
 import threading
 import time
 from collections import deque
@@ -116,18 +117,22 @@ class RealtimePredictor:
 
     # ------------------------------------------------------------------
     def _online_update(self, closed: pd.DataFrame) -> None:
-        """A few gradient steps on the freshest fully-labeled windows."""
+        """Gradient steps on the freshest fully-labeled windows, mixed with
+        replayed historical windows so intraday adaptation doesn't
+        catastrophically forget older regimes (experience replay)."""
         cfg = self.config
         features = build_features(closed)
-        needed = cfg.encoder_length + cfg.horizon + cfg.online_steps
-        if len(features) < needed:
+        if len(features) < cfg.encoder_length + cfg.horizon + 1:
             return
-        ds = WindowDataset(self.scaler.transform(features.iloc[-needed - cfg.horizon:]),
-                           cfg, self.ticker_id)
+        ds = WindowDataset(self.scaler.transform(features), cfg, self.ticker_id)
         if len(ds) == 0:
             return
         self.model.train()
-        indices = list(range(len(ds)))[-cfg.online_steps:]
+        fresh = list(range(len(ds)))[-cfg.online_steps:]
+        older = range(0, max(0, len(ds) - cfg.online_steps))
+        replay = random.sample(older, min(len(older), cfg.online_steps))
+        indices = fresh + replay
+        random.shuffle(indices)
         for i in indices:
             item = ds[i]
             self._optimizer.zero_grad()

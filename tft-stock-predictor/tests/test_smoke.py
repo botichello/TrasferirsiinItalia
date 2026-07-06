@@ -42,6 +42,7 @@ def config() -> TFTConfig:
     return TFTConfig(
         tickers=["SYN"], interval="1h", encoder_length=48, horizon=6,
         hidden_size=16, attention_heads=2, batch_size=32, max_epochs=2,
+        ensemble_size=2,
         observed_features=list(OBSERVED_FEATURES),
         known_features=list(KNOWN_FEATURES),
     )
@@ -124,9 +125,14 @@ def test_train_and_predict_end_to_end(config, tmp_path):
     model, history = train(config, frames=frames, artifacts=tmp_path)
     assert history["val_loss"][-1] < history["val_loss"][0] * 1.5  # sanity, not divergence
     assert (tmp_path / "SYN_1h" / "model.pt").exists()
+    assert (tmp_path / "SYN_1h" / "model_1.pt").exists()   # 2nd ensemble member
+    assert (tmp_path / "SYN_1h" / "history.json").exists()
+    assert config.conformal and config.conformal["pairs"]  # CQR fitted
 
+    from tft_predictor.model import EnsembleTFT
     from tft_predictor.training import load_artifacts
     model, scaler, cfg = load_artifacts(tmp_path / "SYN_1h")
+    assert isinstance(model, EnsembleTFT) and len(model.members) == 2
     result = predict_from_frame(model, scaler, cfg, frames["SYN"])
     assert result["price"].shape == (cfg.horizon, cfg.n_quantiles)
     # non-crossing quantiles
@@ -140,6 +146,60 @@ def test_train_and_predict_end_to_end(config, tmp_path):
     bt = backtest(model, scaler, cfg, frames["SYN"])
     assert bt["windows"] > 0
     assert 0.0 <= bt["interval_coverage"] <= 1.0
+
+
+def test_conformal_restores_coverage():
+    from tft_predictor.conformal import apply_conformal, conformal_offsets
+
+    rng = np.random.default_rng(0)
+    N, H = 400, 4
+    true = rng.standard_normal((N, H))
+    # deliberately too-narrow bands: nominal 80% but ±0.5σ covers only ~38%
+    pred = np.stack([np.full((N, H), -0.5), np.zeros((N, H)),
+                     np.full((N, H), 0.5)], axis=-1)
+    quantiles = [0.1, 0.5, 0.9]
+    conf = conformal_offsets(pred, true, quantiles)
+    assert conf["pairs"] == [[0, 2]]
+    adjusted = apply_conformal(pred, conf)
+    covered = ((true >= adjusted[:, :, 0]) & (true <= adjusted[:, :, 2])).mean()
+    assert covered >= 0.78  # CQR guarantee: >= 1 - alpha (up to finite-sample)
+    # bands must widen and stay monotone
+    assert (adjusted[:, :, 0] < pred[:, :, 0]).all()
+    assert (np.diff(adjusted, axis=-1) >= 0).all()
+
+
+def test_robust_scaler_ignores_outliers():
+    from tft_predictor.data import FeatureScaler
+
+    df = pd.DataFrame({"x": [0.0] * 50 + [1.0] * 50 + [1e6]})
+    robust = FeatureScaler().fit(df, ["x"], robust=True)
+    classic = FeatureScaler().fit(df, ["x"], robust=False)
+    assert robust.std["x"] < 2.0            # IQR-based, unmoved by the spike
+    assert classic.std["x"] > 1000.0        # std blows up
+
+
+def test_embargo_gap_between_train_and_val(config):
+    from tft_predictor.data import build_datasets
+
+    frames = {"SYN": build_features(synthetic_ohlcv())}
+    df = frames["SYN"]
+    cut = int(len(df) * (1 - config.val_fraction))
+    train_ds, val_ds, _ = build_datasets(frames, config)
+    tr, va = train_ds.datasets[0], val_ds.datasets[0]
+    last_train_target_end = tr.index[tr.origins[-1] + config.horizon]
+    first_val_origin = va.index[va.origins[0]]
+    gap_bars = int((first_val_origin - last_train_target_end)
+                   / pd.Timedelta("1h"))
+    assert gap_bars >= config.horizon - 1   # embargoed, no adjacent labels
+
+
+def test_kelly_sizing():
+    q = [0.1, 0.5, 0.9]
+    strong = np.array([[0.004, 0.008, 0.012]])   # tight band, clear edge
+    sig = trading_signal(strong, q)
+    assert sig["action"] == "LONG" and 0 < sig["size"] <= 1.0
+    flat = np.array([[-0.004, 0.0, 0.004]])
+    assert trading_signal(flat, q)["size"] == 0.0
 
 
 def test_evaluation_scores_matured_forecasts():

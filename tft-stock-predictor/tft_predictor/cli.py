@@ -37,6 +37,8 @@ def _add_train_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--epochs", type=int, default=30)
     p.add_argument("--batch-size", type=int, default=64)
     p.add_argument("--lr", type=float, default=1e-3)
+    p.add_argument("--ensemble", type=int, default=1, metavar="N",
+                   help="train a deep ensemble of N members (different seeds)")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -88,7 +90,7 @@ def main(argv: list[str] | None = None) -> int:
             encoder_length=args.encoder_length, horizon=args.horizon,
             hidden_size=args.hidden_size, attention_heads=args.heads,
             max_epochs=args.epochs, batch_size=args.batch_size,
-            learning_rate=args.lr)
+            learning_rate=args.lr, ensemble_size=args.ensemble)
         _, history = train(config, artifacts=args.artifacts_root)
         out = artifacts_dir(config, args.artifacts_root)
         print(f"best val quantile loss: {history['best_val_loss']:.6f}")

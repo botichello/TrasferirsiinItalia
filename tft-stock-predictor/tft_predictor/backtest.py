@@ -9,16 +9,19 @@ import pandas as pd
 import torch
 from torch.utils.data import DataLoader
 
+import torch.nn as nn
+
 from .config import TFTConfig
+from .conformal import apply_conformal
 from .data import FeatureScaler, WindowDataset
-from .model import QuantileLoss, TemporalFusionTransformer
+from .model import QuantileLoss
 from .predict import trading_signal
 
 log = logging.getLogger(__name__)
 
 
 @torch.no_grad()
-def backtest(model: TemporalFusionTransformer, scaler: FeatureScaler,
+def backtest(model: nn.Module, scaler: FeatureScaler,
              config: TFTConfig, features: pd.DataFrame, ticker_id: int = 0,
              holdout_fraction: float | None = None,
              edge_threshold: float = 0.0005) -> dict:
@@ -53,8 +56,14 @@ def backtest(model: TemporalFusionTransformer, scaler: FeatureScaler,
                     batch["known_dec"], batch["static"])
         total_loss += criterion(out["prediction"], batch["target"]).item() * len(batch["static"])
         count += len(batch["static"])
-        preds.append(np.sort(out["prediction"].numpy(), axis=-1))
-        targets.append(batch["target"].numpy())
+        # evaluate in real return space, exactly as deployed: de-normalize
+        # by the origin's vol scale and apply the conformal correction
+        scale = batch["scale"].view(-1, 1, 1).numpy()
+        p = np.sort(out["prediction"].numpy(), axis=-1) * scale
+        if config.conformal:
+            p = apply_conformal(p, config.conformal)
+        preds.append(p)
+        targets.append(batch["target"].numpy() * batch["scale"].view(-1, 1).numpy())
     pred = np.concatenate(preds)        # (N, H, Q) cumulative log returns
     true = np.concatenate(targets)      # (N, H)
 

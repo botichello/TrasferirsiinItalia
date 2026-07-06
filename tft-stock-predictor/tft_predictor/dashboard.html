@@ -182,7 +182,8 @@ function render() {
         <div class="sub ${dPrev >= 0 ? "up" : "down"}">${dPrev >= 0 ? "▲" : "▼"} ${fmtPct(dPrev)} vs prev bar</div></div>
       <div class="tile"><div class="label">Signal</div>
         <div class="value" style="color:${sb.color}">${sb.icon} ${sig.action}</div>
-        <div class="sub">expected ${fmtPct(sig.expected_return)}</div></div>
+        <div class="sub">expected ${fmtPct(sig.expected_return)}${
+          sig.size ? ` · size ${(sig.size * 100).toFixed(0)}%` : ""}</div></div>
       <div class="tile"><div class="label">Median forecast · ${H} bars</div>
         <div class="value">${fmtPrice(end[medI])}</div>
         <div class="sub ${move >= 0 ? "up" : "down"}">${fmtPct(move)} by ${fmtDT(f.timestamps[H - 1])}</div></div>

@@ -15,18 +15,35 @@ from .features import KNOWN_FEATURES, OBSERVED_FEATURES
 
 
 class FeatureScaler:
-    """Per-feature standardization with persistable parameters."""
+    """Per-feature standardization with persistable parameters.
+
+    With `robust=True` (recommended for fat-tailed financial features) the
+    center is the median and the scale is IQR/1.349 — the σ-equivalent for a
+    normal distribution — so outlier bars can't dominate the statistics. The
+    attribute names stay `mean`/`std` for artifact compatibility; they hold
+    center/scale.
+    """
 
     def __init__(self, mean: dict[str, float] | None = None,
                  std: dict[str, float] | None = None):
         self.mean = mean or {}
         self.std = std or {}
 
-    def fit(self, df: pd.DataFrame, columns: list[str]) -> "FeatureScaler":
+    def fit(self, df: pd.DataFrame, columns: list[str],
+            robust: bool = True) -> "FeatureScaler":
         for col in columns:
-            self.mean[col] = float(df[col].mean())
-            std = float(df[col].std())
-            self.std[col] = std if std > 1e-12 else 1.0
+            series = df[col]
+            if robust:
+                center = float(series.median())
+                iqr = float(series.quantile(0.75) - series.quantile(0.25))
+                scale = iqr / 1.349
+            else:
+                center = float(series.mean())
+                scale = float(series.std())
+            if not scale > 1e-12:
+                scale = float(series.std())
+            self.mean[col] = center
+            self.std[col] = scale if scale > 1e-12 else 1.0
         return self
 
     def transform(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -59,6 +76,10 @@ class WindowDataset(Dataset):
       known_dec: (horizon, n_known)             calendar features, future
       static:    ()                             ticker id
       target:    (horizon,)                     cumulative log return from origin
+                                                (divided by `scale` when
+                                                vol-normalization is on)
+      scale:     ()                             multiply predictions/targets by
+                                                this to recover real returns
     """
 
     def __init__(self, df: pd.DataFrame, config: TFTConfig, ticker_id: int,
@@ -74,6 +95,11 @@ class WindowDataset(Dataset):
         # target[t] holds the log return over (t, t+1]; cumulative sums are
         # formed per-window below.
         self.step_returns = step_returns
+        if config.vol_normalize_target and "target_scale" in df.columns:
+            self.scale = torch.tensor(
+                df["target_scale"].to_numpy(dtype=np.float32))
+        else:
+            self.scale = torch.ones(len(df))
 
         E, H = config.encoder_length, config.horizon
         n = len(df)
@@ -96,9 +122,11 @@ class WindowDataset(Dataset):
             "known_enc": self.known[o - E + 1: o + 1],
             "static": torch.tensor(self.ticker_id, dtype=torch.long),
         }
+        item["scale"] = self.scale[o]
         if o + H < len(self.step_returns) + 1 and not torch.isnan(
                 self.step_returns[o:o + H]).any():
-            item["target"] = torch.cumsum(self.step_returns[o:o + H], dim=0)
+            item["target"] = (torch.cumsum(self.step_returns[o:o + H], dim=0)
+                              / self.scale[o])
             item["known_dec"] = self.known[o + 1: o + 1 + H]
         return item
 
@@ -106,22 +134,29 @@ class WindowDataset(Dataset):
 def build_datasets(frames: dict[str, pd.DataFrame], config: TFTConfig,
                    scaler: FeatureScaler | None = None
                    ) -> tuple[ConcatDataset, ConcatDataset, FeatureScaler]:
-    """Chronological train/val split per ticker, shared scaler fit on train."""
+    """Chronological train/val split per ticker, shared scaler fit on train.
+
+    An embargo gap (default: one horizon) is left between the last training
+    target and the first validation target, so serially-correlated labels
+    can't leak across the split (López de Prado's purged/embargoed CV).
+    """
+    embargo = config.embargo if config.embargo is not None else config.horizon
     split_frames: dict[str, tuple[pd.DataFrame, pd.DataFrame]] = {}
     for ticker, df in frames.items():
         cut = int(len(df) * (1 - config.val_fraction))
-        split_frames[ticker] = (df.iloc[:cut], df.iloc[cut:])
+        # validation windows keep encoder context but their first target
+        # starts `embargo` bars after the last training row
+        va_full = df.iloc[max(0, cut + embargo - (config.encoder_length - 1)):]
+        split_frames[ticker] = (df.iloc[:cut], va_full)
 
     if scaler is None:
         scaler = FeatureScaler()
         train_concat = pd.concat([tr for tr, _ in split_frames.values()])
-        scaler.fit(train_concat, OBSERVED_FEATURES)
+        scaler.fit(train_concat, OBSERVED_FEATURES, robust=config.robust_scaling)
 
     train_sets, val_sets = [], []
     for tid, ticker in enumerate(config.tickers):
-        tr, va = split_frames[ticker]
-        # overlap so validation windows have full encoder context
-        va_full = pd.concat([tr.iloc[-(config.encoder_length - 1):], va])
+        tr, va_full = split_frames[ticker]
         train_sets.append(WindowDataset(scaler.transform(tr), config, tid))
         val_sets.append(WindowDataset(scaler.transform(va_full), config, tid))
     return ConcatDataset(train_sets), ConcatDataset(val_sets), scaler

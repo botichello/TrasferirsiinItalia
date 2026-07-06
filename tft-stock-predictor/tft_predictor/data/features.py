@@ -29,6 +29,9 @@ OBSERVED_FEATURES = [
     "vol_20",
     "volume_z",
     "mom_10",
+    "parkinson_vol",   # range-based volatility (Parkinson 1980) — less noisy than close-to-close
+    "ret_5",           # medium-scale momentum
+    "vol_ratio",       # short/long vol regime indicator
 ]
 KNOWN_FEATURES = [
     "sin_tod",
@@ -85,12 +88,22 @@ def build_features(ohlcv: pd.DataFrame) -> pd.DataFrame:
     df["volume_z"] = ((volume - vol_ma) / vol_sd).clip(-5, 5).fillna(0.0)
     df["mom_10"] = np.log(close / close.shift(10))
 
+    hl_log = np.log((high / low).replace(0.0, np.nan)).fillna(0.0)
+    df["parkinson_vol"] = np.sqrt((hl_log ** 2).rolling(14).mean() / (4 * np.log(2)))
+    df["ret_5"] = np.log(close / close.shift(5))
+    vol_5 = df["log_return"].rolling(5).std()
+    df["vol_ratio"] = (vol_5 / df["vol_20"].replace(0.0, np.nan)).clip(0, 5).fillna(1.0)
+
     df = df.join(calendar_features(df.index))
 
     # Per-bar future log return; WindowDataset cumsums it across the horizon.
     df["target"] = np.log(close.shift(-1) / close)
+    # Volatility scale at each potential forecast origin — used to train on
+    # vol-normalized targets so one set of weights serves calm and stormy
+    # regimes alike. Never fed to the model as a feature in raw form.
+    df["target_scale"] = df["vol_20"].clip(lower=1e-5)
 
-    keep = OBSERVED_FEATURES + KNOWN_FEATURES + ["close", "target"]
+    keep = OBSERVED_FEATURES + KNOWN_FEATURES + ["close", "target", "target_scale"]
     df = df[keep]
     df = df.dropna(subset=OBSERVED_FEATURES + KNOWN_FEATURES)
     return df

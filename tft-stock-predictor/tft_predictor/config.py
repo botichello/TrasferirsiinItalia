@@ -38,6 +38,18 @@ class TFTConfig:
     early_stopping_patience: int = 5
     val_fraction: float = 0.15
     seed: int = 42
+    warmup_fraction: float = 0.05   # linear LR warmup, then cosine decay
+    ema_decay: float = 0.995        # exponential moving average of weights
+    ensemble_size: int = 1          # deep ensemble members (different seeds)
+
+    # --- data conditioning ---
+    robust_scaling: bool = True         # median/IQR instead of mean/std
+    vol_normalize_target: bool = True   # train on vol-scaled returns
+    embargo: int | None = None          # bars between train and val (default: horizon)
+
+    # Conformal (CQR) offsets fitted on validation after training; applied
+    # at prediction time so quantile bands carry a coverage guarantee.
+    conformal: dict | None = None
 
     # --- realtime ---
     refresh_seconds: int = 60

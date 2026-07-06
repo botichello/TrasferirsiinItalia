@@ -132,10 +132,39 @@ def test_train_and_predict_end_to_end(config, tmp_path):
     # non-crossing quantiles
     assert (np.diff(result["price"], axis=-1) >= 0).all()
     assert result["signal"]["action"] in {"LONG", "SHORT", "FLAT"}
+    # variable-selection weights cover all inputs and form a distribution
+    imp = result["variable_importance"]
+    assert set(imp) == set(OBSERVED_FEATURES + KNOWN_FEATURES)
+    assert sum(imp.values()) == pytest.approx(1.0, abs=1e-2)
 
     bt = backtest(model, scaler, cfg, frames["SYN"])
     assert bt["windows"] > 0
     assert 0.0 <= bt["interval_coverage"] <= 1.0
+
+
+def test_evaluation_scores_matured_forecasts():
+    from tft_predictor.evaluation import evaluate_records
+
+    idx = pd.date_range("2026-01-01", periods=30, freq="1h", tz="UTC")
+    closes = pd.Series([100.0 + i for i in range(30)], index=idx)
+    matured = {
+        "generated_at": idx[8].isoformat(),
+        "horizon_timestamps": [idx[20].isoformat()],   # realized close = 120
+        "last_close": 100.0,
+        "quantiles": [0.1, 0.5, 0.9],
+        "price_quantiles": [[105.0, 115.0, 125.0]],
+        "signal": {"action": "LONG"},
+    }
+    pending = {**matured,
+               "horizon_timestamps": [(idx[-1] + pd.Timedelta("10h")).isoformat()]}
+    res = evaluate_records([matured, pending], closes, pd.Timedelta("30min"))
+    s = res["summary"]
+    assert s["n_forecasts"] == 2 and s["n_matured"] == 1
+    assert s["band_coverage"] == 1.0            # 120 within [105, 125]
+    assert s["directional_accuracy"] == 1.0     # predicted up, went up
+    assert s["trades"] == 1
+    assert s["trade_total_return"] == pytest.approx(0.20)
+    assert s["median_abs_pct_error"] == pytest.approx(5 / 120)
 
 
 def test_dashboard_serves_state_and_page():

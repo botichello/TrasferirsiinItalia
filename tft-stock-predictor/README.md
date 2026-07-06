@@ -19,7 +19,8 @@ live prediction for BTC-USD every 60s — Ctrl-C to stop
 | Features | `tft_predictor/data/features.py` | 11 observed features (returns, RSI, MACD, Bollinger %, ATR, realized vol, volume z-score, momentum) + 5 known-future calendar encodings |
 | Real-time engine | `tft_predictor/realtime.py` | Polls for fresh bars, re-forecasts when a bar closes, optional **online learning** (gradient steps on newly labeled windows), emits console lines + `predictions.jsonl` |
 | Live dashboard | `tft_predictor/dashboard.py` + `dashboard.html` | Zero-dependency web UI: price chart with quantile fan, signal/confidence tiles, forecast log; light + dark |
-| Backtest | `tft_predictor/backtest.py` | Walk-forward holdout: quantile loss, interval coverage, directional accuracy, naive signal PnL |
+| Backtest | `tft_predictor/backtest.py` | Walk-forward holdout: quantile loss, outer + inner interval coverage, directional accuracy, PnL of the exact live signal rule |
+| Live evaluation | `tft_predictor/evaluation.py` | Scores matured live forecasts against realized closes: band coverage, directional accuracy, median error, signal performance |
 | Tests | `tests/test_smoke.py` | Offline end-to-end suite on synthetic data (incl. a causality test on the attention mask) |
 
 The forecast target is the **cumulative log return** at each horizon step, so
@@ -44,6 +45,9 @@ python -m tft_predictor train --tickers BTC-USD --provider coinbase --interval 1
 # 2. Evaluate on the untrained chronological tail
 python -m tft_predictor backtest --artifacts artifacts/BTC-USD_1h
 
+# 2b. Score past LIVE forecasts against what actually happened
+python -m tft_predictor evaluate --artifacts artifacts/BTC-USD_1h
+
 # 3. One-shot forecast from the latest data
 python -m tft_predictor predict --artifacts artifacts/BTC-USD_1h
 
@@ -55,6 +59,9 @@ python -m tft_predictor live --artifacts artifacts/BTC-USD_1h --online-learning
 
 # ... with the live web dashboard at http://127.0.0.1:8000
 python -m tft_predictor live --artifacts artifacts/BTC-USD_1h --dashboard 8000
+
+# ... POSTing the full forecast to a webhook whenever the signal changes
+python -m tft_predictor live --artifacts artifacts/BTC-USD_1h --webhook https://example.com/hook
 ```
 
 ## Live dashboard
@@ -67,6 +74,11 @@ the engine every few seconds and shows:
   and shaded 50%/80% quantile bands, with a crosshair tooltip.
 - **Stat tiles** — last close (with bar-over-bar delta), LONG/SHORT/FLAT
   signal, median forecast at the horizon, confidence meter, and band width.
+- **Live model health** — matured forecasts scored against realized closes
+  (band coverage vs. target, directional accuracy, median error, signal hit
+  rate). Coverage drifting well below nominal is the retrain signal.
+- **What the model is looking at** — the TFT's variable-selection weights
+  for the current forecast, as a ranked bar list.
 - **Recent forecasts table** — the last dozen updates with expected move,
   band, signal, and confidence.
 
@@ -100,7 +112,20 @@ Multi-horizon Time Series Forecasting* (2021)](https://arxiv.org/abs/1912.09363)
   empirical coverage in the backtest.
 
 Interpretability tensors (attention weights, per-variable selection weights)
-are returned by every forward pass and included in prediction results.
+are returned by every forward pass. Each prediction includes
+`variable_importance` — the mean selection weight per input feature — which
+is written to `predictions.jsonl`, printed by `predict` ("top drivers"), and
+charted on the dashboard.
+
+## Trust loop
+
+The backtest tells you how the model *would have* done; `evaluate` (and the
+dashboard's health panel) tells you how the *deployed* model is actually
+doing. Every live forecast is persisted; once its horizon elapses it is
+scored against the realized close — band coverage vs. nominal, directional
+accuracy, median error, and the hypothetical return of the signals. Both use
+the same `trading_signal` rule, so backtest and live numbers are directly
+comparable.
 
 ## Trading signal
 

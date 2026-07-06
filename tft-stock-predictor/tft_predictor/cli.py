@@ -13,6 +13,8 @@ import json
 import logging
 from pathlib import Path
 
+import pandas as pd
+
 from .backtest import backtest
 from .config import TFTConfig, artifacts_dir
 from .data import PROVIDERS, get_client
@@ -47,6 +49,7 @@ def main(argv: list[str] | None = None) -> int:
 
     for name, help_ in [("predict", "one-shot forecast from latest data"),
                         ("backtest", "walk-forward evaluation on holdout"),
+                        ("evaluate", "score matured live forecasts vs realized prices"),
                         ("live", "real-time prediction loop")]:
         p = sub.add_parser(name, help=help_)
         p.add_argument("--artifacts", required=True,
@@ -64,6 +67,8 @@ def main(argv: list[str] | None = None) -> int:
                                      help="serve the live dashboard on this port")
     sub.choices["live"].add_argument("--dashboard-host", default="127.0.0.1",
                                      help="dashboard bind address (default localhost)")
+    sub.choices["live"].add_argument("--webhook", default=None, metavar="URL",
+                                     help="POST the forecast here when the signal changes")
 
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.INFO,
@@ -103,13 +108,34 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(results, indent=2))
         return 0
 
+    if args.command == "evaluate":
+        from .data.features import interval_to_timedelta
+        from .evaluation import evaluate_file, read_records
+
+        jsonl = Path(args.artifacts) / "predictions.jsonl"
+        records = read_records(jsonl)
+        if not records:
+            print(f"no live forecasts recorded yet in {jsonl}")
+            return 1
+        # fetch just enough history to cover the recorded forecasts
+        earliest = min(r["generated_at"] for r in records)
+        days = max(2, int((pd.Timestamp.now(tz="UTC")
+                           - pd.Timestamp(earliest)).days) + 2)
+        client = get_client(config.provider)
+        ohlcv = client.fetch(ticker, interval=config.interval, range_=f"{days}d")
+        result = evaluate_file(jsonl, ohlcv["close"],
+                               interval_to_timedelta(config.interval) / 2)
+        print(json.dumps(result["summary"], indent=2))
+        return 0
+
     if args.command == "live":
         if args.refresh is not None:
             config.refresh_seconds = args.refresh
         if args.online_learning:
             config.online_learning = True
         engine = RealtimePredictor(model, scaler, config, ticker=ticker,
-                                   out_dir=Path(args.artifacts))
+                                   out_dir=Path(args.artifacts),
+                                   webhook_url=args.webhook)
         server = None
         if args.dashboard is not None:
             from .dashboard import DashboardServer
@@ -140,3 +166,6 @@ def _print_forecast(ticker: str, result: dict) -> None:
     for ts, row in zip(result["timestamps"], result["price"]):
         print(f"{ts:%Y-%m-%d %H:%M}".ljust(22)
               + "".join(f"{p:10.2f}" for p in row))
+    top = sorted(result["variable_importance"].items(),
+                 key=lambda kv: -kv[1])[:5]
+    print("top drivers: " + ", ".join(f"{k} {v:.0%}" for k, v in top))

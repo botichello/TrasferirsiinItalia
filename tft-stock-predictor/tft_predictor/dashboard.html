@@ -84,6 +84,19 @@
   .tooltip b { color: var(--ink); font-weight: 650; }
   .tooltip .row { display: flex; justify-content: space-between; gap: 14px; }
 
+  .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin-bottom: 14px; }
+  .two-col .card { margin-bottom: 0; }
+  .kv { display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+        padding: 7px 0; border-bottom: 1px solid var(--grid); font-size: 13px; color: var(--ink-2); }
+  .kv:last-child { border-bottom: none; }
+  .kv b { color: var(--ink); font-weight: 650; font-variant-numeric: tabular-nums; }
+  .kv .hint { color: var(--muted); font-size: 12px; }
+  .imp { display: grid; grid-template-columns: 96px 1fr 44px; align-items: center; gap: 8px;
+         padding: 4px 0; font-size: 12px; color: var(--ink-2); }
+  .imp .bar i { display: block; height: 8px; border-radius: 2px 4px 4px 2px; background: var(--series); }
+  .imp .pct { text-align: right; font-variant-numeric: tabular-nums; }
+  .note { color: var(--muted); font-size: 12px; margin-top: 8px; }
+
   table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
   th { text-align: right; font-size: 12px; color: var(--muted); font-weight: 500; padding: 6px 8px; border-bottom: 1px solid var(--grid); }
   th:first-child, td:first-child { text-align: left; }
@@ -193,6 +206,11 @@ function render() {
       <div class="chart-wrap" id="chartwrap"><div class="tooltip" id="tip"></div></div>
     </div>
 
+    <div class="two-col">
+      <div class="card"><h2 style="margin-bottom:6px">Live model health</h2>${healthHTML(state.health)}</div>
+      <div class="card"><h2 style="margin-bottom:6px">What the model is looking at</h2>${importanceHTML(state.variable_importance)}</div>
+    </div>
+
     <div class="card"><h2 style="margin-bottom:8px">Recent forecasts</h2>
       <div style="overflow-x:auto"><table><thead><tr>
         <th>Generated</th><th>Bar close</th><th>Price</th><th>Median @ horizon</th>
@@ -214,6 +232,36 @@ function render() {
       }</tbody></table></div></div>`;
 
   drawChart(hist, f, medI);
+}
+
+function healthHTML(h) {
+  if (!h || !h.n_matured) {
+    const n = h ? h.n_forecasts : 0;
+    return `<div class="note">Collecting — ${n} forecast${n === 1 ? "" : "s"} logged;
+      each is scored once its horizon has elapsed.</div>`;
+  }
+  const pct = v => v == null ? "–" : (v * 100).toFixed(0) + "%";
+  const target = h.nominal_coverage != null ? ` <span class="hint">target ${pct(h.nominal_coverage)}</span>` : "";
+  return `
+    <div class="kv"><span>Matured forecasts</span><b>${h.n_matured} / ${h.n_forecasts}</b></div>
+    <div class="kv"><span>Band coverage${target}</span><b>${pct(h.band_coverage)}</b></div>
+    <div class="kv"><span>Directional accuracy</span><b>${pct(h.directional_accuracy)}</b></div>
+    <div class="kv"><span>Median error</span><b>${h.median_abs_pct_error == null ? "–" : (h.median_abs_pct_error * 100).toFixed(2) + "%"}</b></div>
+    <div class="kv"><span>Signals acted on</span><b>${h.trades}${h.trade_hit_rate != null ? ` · ${pct(h.trade_hit_rate)} hit` : ""}</b></div>
+    <div class="note">Live forecasts scored against realized closes. Coverage drifting
+      well below target means the market regime moved — consider retraining.</div>`;
+}
+
+function importanceHTML(imp) {
+  const entries = Object.entries(imp || {}).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  if (!entries.length) return `<div class="note">No forecast yet.</div>`;
+  const max = entries[0][1] || 1;
+  return entries.map(([name, v]) => `
+    <div class="imp"><span>${name}</span>
+      <div class="bar"><i style="width:${Math.max(3, v / max * 100)}%"></i></div>
+      <span class="pct">${(v * 100).toFixed(1)}%</span></div>`).join("")
+    + `<div class="note">Mean variable-selection weight over the encoder window —
+       the TFT's own attribution for the current forecast.</div>`;
 }
 
 function drawChart(hist, f, medI) {

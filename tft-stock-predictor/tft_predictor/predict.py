@@ -45,6 +45,12 @@ def predict_from_frame(model: TemporalFusionTransformer, scaler: FeatureScaler,
     cum_log_ret = np.sort(cum_log_ret, axis=-1)
     prices = last_close * np.exp(cum_log_ret)
 
+    # Mean selection weight per input variable over the encoder window —
+    # "what the model looked at" for this forecast. Order matches the
+    # encoder VSN input: observed features first, then known features.
+    feature_names = list(config.observed_features) + list(config.known_features)
+    importance = out["encoder_var_weights"].squeeze(0).mean(dim=0).numpy()
+
     return {
         "timestamps": list(future_known.index),
         "last_close": last_close,
@@ -54,6 +60,7 @@ def predict_from_frame(model: TemporalFusionTransformer, scaler: FeatureScaler,
         "price": prices,                                        # (H, Q)
         "attention": out["attention"].squeeze(0).numpy(),
         "encoder_var_weights": out["encoder_var_weights"].squeeze(0).numpy(),
+        "variable_importance": dict(zip(feature_names, importance.round(4).tolist())),
         "signal": trading_signal(cum_log_ret, config.quantiles),
     }
 

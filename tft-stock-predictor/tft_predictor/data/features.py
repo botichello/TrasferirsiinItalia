@@ -121,12 +121,12 @@ def future_known_frame(last_ts: pd.Timestamp, interval: str, horizon: int) -> pd
     calendar features vary smoothly and the decoder mostly relies on the
     encoded history.
     """
-    delta = _interval_to_timedelta(interval)
+    delta = interval_to_timedelta(interval)
     future_index = pd.DatetimeIndex([last_ts + delta * (i + 1) for i in range(horizon)])
     return calendar_features(future_index)
 
 
-def _interval_to_timedelta(interval: str) -> pd.Timedelta:
+def interval_to_timedelta(interval: str) -> pd.Timedelta:
     table = {
         "1m": "1min", "2m": "2min", "5m": "5min", "15m": "15min",
         "30m": "30min", "1h": "1h", "1d": "1D", "1wk": "7D",

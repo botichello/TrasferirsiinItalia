@@ -23,9 +23,12 @@ from pathlib import Path
 import pandas as pd
 import torch
 
+import requests
+
 from .config import TFTConfig
 from .data import FeatureScaler, WindowDataset, get_client
-from .data.features import build_features
+from .data.features import build_features, interval_to_timedelta
+from .evaluation import evaluate_file
 from .model import QuantileLoss, TemporalFusionTransformer
 from .predict import predict_from_frame
 
@@ -35,7 +38,8 @@ log = logging.getLogger(__name__)
 class RealtimePredictor:
     def __init__(self, model: TemporalFusionTransformer, scaler: FeatureScaler,
                  config: TFTConfig, ticker: str | None = None,
-                 out_dir: str | Path = "artifacts"):
+                 out_dir: str | Path = "artifacts",
+                 webhook_url: str | None = None):
         self.model = model
         self.scaler = scaler
         self.config = config
@@ -50,6 +54,9 @@ class RealtimePredictor:
         self.last_record: dict | None = None
         self.recent: deque[dict] = deque(maxlen=50)
         self._lock = threading.Lock()  # guards state read by the dashboard
+        self.webhook_url = webhook_url
+        self._last_action: str | None = None
+        self._health_cache: tuple | None = None
         self._optimizer = None
         if config.online_learning:
             self._optimizer = torch.optim.AdamW(
@@ -159,9 +166,11 @@ class RealtimePredictor:
             "horizon_timestamps": [ts.isoformat() for ts in result["timestamps"]],
             "price_quantiles": result["price"].tolist(),
             "signal": result["signal"],
+            "variable_importance": result["variable_importance"],
         }
         with self.out_path.open("a") as fh:
             fh.write(json.dumps(record) + "\n")
+        self._maybe_alert(record)
         with self._lock:
             self.last_record = record
             self.recent.append({
@@ -173,6 +182,35 @@ class RealtimePredictor:
                 "hi_end": float(result["price"][-1][-1]),
                 "signal": result["signal"],
             })
+
+    def _maybe_alert(self, record: dict) -> None:
+        """POST the forecast to the webhook when the signal changes."""
+        action = record["signal"]["action"]
+        changed = self._last_action is not None and action != self._last_action
+        self._last_action = action
+        if not (self.webhook_url and changed):
+            return
+        try:
+            requests.post(self.webhook_url, json={"event": "signal_change",
+                                                  **record}, timeout=5)
+            log.info("webhook alert sent: signal → %s", action)
+        except requests.RequestException as err:
+            log.warning("webhook alert failed: %s", err)
+
+    def health(self) -> dict | None:
+        """Score matured past forecasts against realized closes (cached
+        until predictions.jsonl or the bar clock moves)."""
+        if self.history is None or not self.out_path.exists():
+            return None
+        stat = self.out_path.stat()
+        key = (stat.st_mtime_ns, stat.st_size, self.last_bar)
+        if self._health_cache is not None and self._health_cache[0] == key:
+            return self._health_cache[1]
+        tolerance = interval_to_timedelta(self.config.interval) / 2
+        summary = evaluate_file(self.out_path, self.history["close"],
+                                tolerance)["summary"]
+        self._health_cache = (key, summary)
+        return summary
 
     def snapshot(self, history_bars: int = 180) -> dict:
         """JSON-serializable state for the dashboard."""
@@ -206,5 +244,7 @@ class RealtimePredictor:
                 "price": record["price_quantiles"],
             },
             "signal": record["signal"],
+            "variable_importance": record.get("variable_importance", {}),
+            "health": self.health(),
             "recent": recent,
         }

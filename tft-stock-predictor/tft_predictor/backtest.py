@@ -12,6 +12,7 @@ from torch.utils.data import DataLoader
 from .config import TFTConfig
 from .data import FeatureScaler, WindowDataset
 from .model import QuantileLoss, TemporalFusionTransformer
+from .predict import trading_signal
 
 log = logging.getLogger(__name__)
 
@@ -26,10 +27,10 @@ def backtest(model: TemporalFusionTransformer, scaler: FeatureScaler,
     `holdout_fraction` defaults to `config.val_fraction`; keep it <= that
     value so the evaluated windows were never seen during training.
 
-    Reports quantile loss, coverage of the outer interval, directional
-    accuracy of the median, and a friction-free PnL of the naive signal
-    (position = sign of median when it clears the threshold, held for the
-    full horizon, non-overlapping entries).
+    Reports quantile loss, coverage of the outer and inner intervals,
+    directional accuracy of the median, and a friction-free PnL of the
+    same `trading_signal` rule the live engine uses (positions held for
+    the full horizon, non-overlapping entries).
     """
     if holdout_fraction is None:
         holdout_fraction = config.val_fraction
@@ -62,9 +63,17 @@ def backtest(model: TemporalFusionTransformer, scaler: FeatureScaler,
     nonzero = end_true != 0
     direction_hit = np.sign(end_pred[nonzero, med_i]) == np.sign(end_true[nonzero])
 
-    # Non-overlapping naive strategy on the median signal.
-    position = np.where(end_pred[:, med_i] > edge_threshold, 1,
-                        np.where(end_pred[:, med_i] < -edge_threshold, -1, 0))
+    inner_coverage = None
+    if len(config.quantiles) >= 4:
+        in_lo, in_hi = 1, len(config.quantiles) - 2
+        inner = (end_true >= end_pred[:, in_lo]) & (end_true <= end_pred[:, in_hi])
+        inner_coverage = float(inner.mean())
+
+    # Non-overlapping strategy using the exact live signal rule.
+    position = np.array([
+        {"LONG": 1, "SHORT": -1}.get(
+            trading_signal(pred[i], config.quantiles, edge_threshold)["action"], 0)
+        for i in range(len(pred))])
     pnl, i = [], 0
     while i < len(position):
         if position[i] != 0:
@@ -79,11 +88,13 @@ def backtest(model: TemporalFusionTransformer, scaler: FeatureScaler,
         "quantile_loss": total_loss / max(count, 1),
         "interval_coverage": float(covered.mean()),
         "nominal_coverage": float(q[hi_i] - q[lo_i]),
-        "directional_accuracy": float(direction_hit.mean()) if nonzero.any() else float("nan"),
+        "inner_coverage": inner_coverage,
+        "inner_nominal": (float(q[len(q) - 2] - q[1]) if len(q) >= 4 else None),
+        "directional_accuracy": float(direction_hit.mean()) if nonzero.any() else None,
         "trades": int(len(pnl)),
         "total_return": float(pnl.sum()) if len(pnl) else 0.0,
-        "hit_rate": float((pnl > 0).mean()) if len(pnl) else float("nan"),
-        "avg_return_per_trade": float(pnl.mean()) if len(pnl) else float("nan"),
+        "hit_rate": float((pnl > 0).mean()) if len(pnl) else None,
+        "avg_return_per_trade": float(pnl.mean()) if len(pnl) else None,
     }
     log.info("backtest: %s", results)
     return results

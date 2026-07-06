@@ -64,6 +64,7 @@ const KNOWN_BOTWALL = new Set([
   'comune.trieste.it',
   'regione.basilicata.it',
   'regione.fvg.it',
+  'sanita.puglia.it',
 ]);
 
 /** Final-redirect hosts that smell like domain parking / hijack -> hard fail. */

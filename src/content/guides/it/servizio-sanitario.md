@@ -19,6 +19,9 @@ sources:
   - title: 'Ministero del Lavoro (Integrazione Migranti) — aumento 2024 del contributo per l''iscrizione volontaria al SSN'
     url: 'https://integrazionemigranti.gov.it/it-it/Ricerca-news/Dettaglio-news/id/3457/DDl-Bilancio-aumenta-il-contributo-per-liscrizione-volontaria-al-SSN'
     accessed: 2026-07-02
+  - title: 'Ministero della Salute — Modalità per calcolare il contributo volontario (PDF)'
+    url: 'https://www.salute.gov.it/imgs/C_17_pagineAree_2522_listaFile_itemName_0_file.pdf'
+    accessed: 2026-07-03
   - title: "Your Europe — Assistenza sanitaria quando si vive all'estero"
     url: 'https://europa.eu/youreurope/citizens/health/when-living-abroad/health-insurance-cover/index_it.htm'
     accessed: 2026-06-12

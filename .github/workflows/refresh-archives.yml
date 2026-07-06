@@ -1,0 +1,52 @@
+name: Refresh Wayback archives
+
+# Monthly refresh of src/data/archives.json (Wayback snapshots for every cited
+# source) so new citations gain archived fallbacks without a manual run.
+#
+# Branch discipline: commits land on the WORKING branch (never directly on
+# production, which must stay a fast-forward of it for auto-ship's safety
+# check). Pushes made with GITHUB_TOKEN don't trigger `push` workflows, so this
+# job explicitly dispatches auto-ship afterwards to build-gate and deploy.
+on:
+  schedule:
+    - cron: '0 6 1 * *' # 1st of each month, 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+env:
+  WORKING_BRANCH: claude/modest-darwin-f6f80c
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/modest-darwin-f6f80c
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch Wayback snapshots
+        run: node scripts/fetch-archives.mjs
+
+      - name: Commit & ship if changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- src/data/archives.json; then
+            echo "No snapshot changes this month — nothing to ship."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/archives.json
+          git commit -m "chore: monthly Wayback snapshot refresh (automated)"
+          git push origin "HEAD:$WORKING_BRANCH"
+          # Bot pushes don't fire push-workflows; dispatch auto-ship explicitly.
+          gh workflow run auto-ship.yml --ref "$WORKING_BRANCH"
+          echo "Refreshed archives committed and auto-ship dispatched."

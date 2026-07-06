@@ -6,6 +6,7 @@ import JourneyNav from '../components/JourneyNav.astro';
 import CitySelector from '../components/CitySelector.astro';
 import ReportIssue from '../components/ReportIssue.astro';
 import SourceList from '../components/SourceList.astro';
+import SsnCostEstimator from '../components/SsnCostEstimator.astro';
 import StructuredData from '../components/StructuredData.astro';
 import type { CollectionEntry } from 'astro:content';
 import { getLocale, ui } from '../i18n/ui';
@@ -149,6 +150,8 @@ const breadcrumbSchema = {
   <article class="prose">
     <slot />
   </article>
+
+  {slug === 'servizio-sanitario' && <SsnCostEstimator />}
 
   {
     place && (

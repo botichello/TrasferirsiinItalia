@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { glossary } from '../../data/glossary';
+
+const url = new URL('/it/glossary', Astro.site).href;
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTermSet',
+  '@id': url,
+  name: 'Trasferirsi in Italia — Glossario',
+  description: 'Definizioni dei termini burocratici italiani che si incontrano trasferendosi in Italia.',
+  hasDefinedTerm: glossary.map((t) => ({
+    '@type': 'DefinedTerm',
+    '@id': `${url}#${t.slug}`,
+    name: t.term,
+    description: t.it,
+    inDefinedTermSet: url,
+  })),
+};
+const itGuide = (g?: string) => (g ? `/it${g}` : undefined);
+---
+
+<BaseLayout
+  title="Glossario"
+  description="I termini burocratici italiani che incontrerai trasferendoti — codice fiscale, anagrafe, SSN, SPID, PEC e altri — spiegati in modo semplice, con i link alle guide complete."
+  alternates={{ en: '/glossary', it: '/it/glossary' }}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} is:inline />
+
+  <div class="prose">
+    <h1>Glossario</h1>
+    <p>
+      I termini che incontrerai di continuo stabilendoti in Italia, spiegati in modo
+      semplice. Ognuno rimanda alla guida che lo tratta per esteso.
+    </p>
+  </div>
+
+  <dl class="mt-8 space-y-6">
+    {
+      glossary.map((t) => (
+        <div id={t.slug} class="rounded-xl border border-line bg-white/60 p-5 scroll-mt-20">
+          <dt class="flex flex-wrap items-baseline gap-3">
+            <a href={`#${t.slug}`} class="font-serif text-lg text-ink hover:text-brand-700">
+              {t.term}
+            </a>
+          </dt>
+          <dd class="mt-1.5 text-sm leading-relaxed text-muted">
+            {t.it}
+            {t.guide && (
+              <>
+                {' '}
+                <a href={itGuide(t.guide)} class="whitespace-nowrap text-brand-600 underline">
+                  Leggi la guida →
+                </a>
+              </>
+            )}
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</BaseLayout>

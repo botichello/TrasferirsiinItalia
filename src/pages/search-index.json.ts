@@ -73,6 +73,12 @@ export const GET: APIRoute = async () => {
       type: 'Page',
       text: 'start here wizard personalized path situation worker student economically inactive family which steps',
     },
+    {
+      title: 'Glossary',
+      url: '/glossary',
+      type: 'Page',
+      text: 'glossary definitions terms codice fiscale anagrafe SSN ASL SPID CIE PEC marca da bollo autocertificazione permesso di soggiorno',
+    },
   );
 
   return new Response(JSON.stringify(entries), {

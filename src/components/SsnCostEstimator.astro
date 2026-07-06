@@ -1,0 +1,161 @@
+---
+/**
+ * Voluntary-SSN-contribution estimator, shown on the servizio-sanitario guide
+ * pages. Implements the national formula (L. 213/2023, in force since 2024):
+ * 7.5% of the previous year's worldwide income up to €20,658.28, plus 4% on the
+ * excess up to an income ceiling of €51,645.69 — never below the €2,000 floor
+ * (students: flat €700; au pairs: €1,200). Calendar-year, not pro-rated.
+ *
+ * Progressive enhancement: worked examples render server-side; the JS island
+ * reveals a small income input and computes the exact figure locally (nothing
+ * is sent anywhere).
+ */
+import { getLocale } from '../i18n/ui';
+
+const locale = getLocale(Astro.url);
+const c =
+  locale === 'it'
+    ? {
+        title: 'Quanto costerebbe a te? (iscrizione volontaria)',
+        intro:
+          'Formula nazionale dal 2024: 7,5% del reddito (dell’anno precedente, ovunque prodotto) fino a 20.658,28 €, più il 4% sulla parte eccedente fino a 51.645,69 € — mai sotto il minimo di 2.000 €. Studenti: 700 € forfettari; alla pari: 1.200 €.',
+        examplesTitle: 'Esempi',
+        exIncome: 'Reddito annuo',
+        exContribution: 'Contributo',
+        exFloorNote: 'minimo',
+        exCapNote: 'massimo',
+        student: 'Studente (senza altri redditi): 700 € · Alla pari: 1.200 €',
+        inputLabel: 'Il tuo reddito annuo (anno precedente, €)',
+        result: 'Contributo stimato',
+        floorApplied: 'si applica il minimo di 2.000 €',
+        capApplied: 'reddito oltre il tetto: si applica il massimo',
+        yearNote: 'Vale per l’anno solare e scade il 31 dicembre, qualunque sia la data di iscrizione. Si versa con modello F24.',
+        disclaimer: 'Stima informativa — conferma l’importo con la tua ASL.',
+      }
+    : {
+        title: 'What would it cost you? (voluntary enrolment)',
+        intro:
+          "National formula since 2024: 7.5% of the previous year's income (worldwide) up to €20,658.28, plus 4% on the excess up to €51,645.69 — never below the €2,000 floor. Students: flat €700; au pairs: €1,200.",
+        examplesTitle: 'Examples',
+        exIncome: 'Annual income',
+        exContribution: 'Contribution',
+        exFloorNote: 'floor',
+        exCapNote: 'maximum',
+        student: 'Student (no other income): €700 · Au pair: €1,200',
+        inputLabel: 'Your annual income (previous year, €)',
+        result: 'Estimated contribution',
+        floorApplied: 'the €2,000 floor applies',
+        capApplied: 'income above the ceiling: the maximum applies',
+        yearNote: 'Covers the calendar year and expires on 31 December, whatever the enrolment date. Paid via an F24 form.',
+        disclaimer: 'Informational estimate — confirm the exact figure with your ASL.',
+      };
+
+// Formula constants (L. 213/2023 framework).
+const T1 = 20658.28;
+const R1 = 0.075;
+const R2 = 0.04;
+const CEIL = 51645.69;
+const FLOOR = 2000;
+
+const contribution = (income: number) => {
+  const capped = Math.min(Math.max(income, 0), CEIL);
+  const raw = Math.min(capped, T1) * R1 + Math.max(capped - T1, 0) * R2;
+  return Math.max(raw, FLOOR);
+};
+const fmt = (n: number) =>
+  n.toLocaleString(locale === 'it' ? 'it-IT' : 'en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+const examples = [
+  { income: 25000, note: c.exFloorNote },
+  { income: 40000, note: '' },
+  { income: CEIL, note: c.exCapNote },
+];
+---
+
+<section
+  class="not-prose mt-10 rounded-lg border border-line bg-white/70 p-6"
+  data-ssn-estimator
+  data-locale={locale}
+>
+  <h2 class="font-serif text-xl">{c.title}</h2>
+  <p class="mt-2 text-sm text-muted">{c.intro}</p>
+
+  <div class="mt-4 overflow-x-auto">
+    <table class="w-full max-w-md text-sm">
+      <caption class="sr-only">{c.examplesTitle}</caption>
+      <thead>
+        <tr class="border-b border-line text-left text-muted">
+          <th class="py-1.5 pr-4 font-medium">{c.exIncome}</th>
+          <th class="py-1.5 font-medium">{c.exContribution}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          examples.map((e) => (
+            <tr class="border-b border-line/60">
+              <td class="py-1.5 pr-4">€{fmt(e.income)}</td>
+              <td class="py-1.5">
+                €{fmt(contribution(e.income))}
+                {e.note && <span class="text-muted"> ({e.note})</span>}
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  <p class="mt-2 text-sm text-muted">{c.student}</p>
+
+  <div data-estimator-input hidden class="mt-4 flex flex-wrap items-end gap-3">
+    <label class="text-sm">
+      <span class="mb-1 block font-medium">{c.inputLabel}</span>
+      <input
+        type="number"
+        min="0"
+        step="500"
+        inputmode="numeric"
+        data-income
+        class="w-44 rounded-md border border-line bg-white px-3 py-1.5 text-sm focus:border-brand-500 focus:outline-none"
+      />
+    </label>
+    <output data-result class="rounded-md bg-brand-50 px-4 py-2 text-sm font-medium text-brand-700"></output>
+  </div>
+
+  <p class="mt-3 text-xs text-muted">{c.yearNote} {c.disclaimer}</p>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ssn-estimator]').forEach((root) => {
+    const box = root.querySelector<HTMLElement>('[data-estimator-input]');
+    const input = root.querySelector<HTMLInputElement>('[data-income]');
+    const out = root.querySelector<HTMLOutputElement>('[data-result]');
+    if (!box || !input || !out) return;
+    box.hidden = false; // JS available → reveal the live input
+
+    const it = root.dataset.locale === 'it';
+    const T1 = 20658.28, R1 = 0.075, R2 = 0.04, CEIL = 51645.69, FLOOR = 2000;
+    const fmt = (n: number) =>
+      n.toLocaleString(it ? 'it-IT' : 'en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const labels = {
+      result: it ? 'Contributo stimato' : 'Estimated contribution',
+      floor: it ? 'si applica il minimo di 2.000 €' : 'the €2,000 floor applies',
+      cap: it ? 'massimo raggiunto' : 'maximum reached',
+    };
+
+    const render = () => {
+      const income = parseFloat(input.value);
+      if (!isFinite(income) || income < 0) {
+        out.textContent = '';
+        return;
+      }
+      const capped = Math.min(income, CEIL);
+      const raw = Math.min(capped, T1) * R1 + Math.max(capped - T1, 0) * R2;
+      const due = Math.max(raw, FLOOR);
+      let note = '';
+      if (raw < FLOOR) note = ` — ${labels.floor}`;
+      else if (income >= CEIL) note = ` — ${labels.cap}`;
+      out.textContent = `${labels.result}: €${fmt(due)}${note}`;
+    };
+    input.addEventListener('input', render);
+  });
+</script>

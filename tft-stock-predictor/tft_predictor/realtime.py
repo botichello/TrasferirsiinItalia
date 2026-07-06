@@ -14,7 +14,9 @@ from __future__ import annotations
 
 import json
 import logging
+import threading
 import time
+from collections import deque
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -45,6 +47,9 @@ class RealtimePredictor:
         self.out_path.parent.mkdir(parents=True, exist_ok=True)
         self.last_bar: pd.Timestamp | None = None
         self.history: pd.DataFrame | None = None
+        self.last_record: dict | None = None
+        self.recent: deque[dict] = deque(maxlen=50)
+        self._lock = threading.Lock()  # guards state read by the dashboard
         self._optimizer = None
         if config.online_learning:
             self._optimizer = torch.optim.AdamW(
@@ -157,3 +162,49 @@ class RealtimePredictor:
         }
         with self.out_path.open("a") as fh:
             fh.write(json.dumps(record) + "\n")
+        with self._lock:
+            self.last_record = record
+            self.recent.append({
+                "generated_at": record["generated_at"],
+                "last_bar_time": record["last_bar_time"],
+                "last_close": record["last_close"],
+                "median_end": float(result["price"][-1][med_i]),
+                "lo_end": float(result["price"][-1][0]),
+                "hi_end": float(result["price"][-1][-1]),
+                "signal": result["signal"],
+            })
+
+    def snapshot(self, history_bars: int = 180) -> dict:
+        """JSON-serializable state for the dashboard."""
+        with self._lock:
+            record = self.last_record
+            recent = list(self.recent)
+        base = {
+            "ticker": self.ticker,
+            "interval": self.config.interval,
+            "provider": self.config.provider,
+            "refresh_seconds": self.config.refresh_seconds,
+            "online_learning": self.config.online_learning,
+            "server_time": datetime.now(timezone.utc).isoformat(),
+        }
+        if record is None or self.history is None:
+            return {**base, "status": "warming_up"}
+        closed = self.history.iloc[:-1] if len(self.history) > 1 else self.history
+        tail = closed.iloc[-history_bars:]
+        return {
+            **base,
+            "status": "live",
+            "history": [[int(ts.timestamp() * 1000), float(c)]
+                        for ts, c in zip(tail.index, tail["close"])],
+            "forecast": {
+                "generated_at": record["generated_at"],
+                "last_bar_time": record["last_bar_time"],
+                "last_close": record["last_close"],
+                "timestamps": [int(pd.Timestamp(t).timestamp() * 1000)
+                               for t in record["horizon_timestamps"]],
+                "quantiles": record["quantiles"],
+                "price": record["price_quantiles"],
+            },
+            "signal": record["signal"],
+            "recent": recent,
+        }

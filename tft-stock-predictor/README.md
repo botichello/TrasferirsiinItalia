@@ -18,6 +18,7 @@ live prediction for BTC-USD every 60s — Ctrl-C to stop
 | Data providers | `tft_predictor/data/` | `yahoo` (stocks/ETFs, plain-`requests` chart API client with retry + cookie priming) and `coinbase` (crypto, 24/7, no auth) |
 | Features | `tft_predictor/data/features.py` | 11 observed features (returns, RSI, MACD, Bollinger %, ATR, realized vol, volume z-score, momentum) + 5 known-future calendar encodings |
 | Real-time engine | `tft_predictor/realtime.py` | Polls for fresh bars, re-forecasts when a bar closes, optional **online learning** (gradient steps on newly labeled windows), emits console lines + `predictions.jsonl` |
+| Live dashboard | `tft_predictor/dashboard.py` + `dashboard.html` | Zero-dependency web UI: price chart with quantile fan, signal/confidence tiles, forecast log; light + dark |
 | Backtest | `tft_predictor/backtest.py` | Walk-forward holdout: quantile loss, interval coverage, directional accuracy, naive signal PnL |
 | Tests | `tests/test_smoke.py` | Offline end-to-end suite on synthetic data (incl. a causality test on the attention mask) |
 
@@ -51,7 +52,26 @@ python -m tft_predictor live --artifacts artifacts/BTC-USD_1h --refresh 60
 
 # ... with online fine-tuning on each newly closed bar
 python -m tft_predictor live --artifacts artifacts/BTC-USD_1h --online-learning
+
+# ... with the live web dashboard at http://127.0.0.1:8000
+python -m tft_predictor live --artifacts artifacts/BTC-USD_1h --dashboard 8000
 ```
+
+## Live dashboard
+
+`live --dashboard PORT` serves a zero-dependency web dashboard (stdlib HTTP
+server + a single self-contained HTML page, no CDN or build step) that polls
+the engine every few seconds and shows:
+
+- **Price chart with forecast fan** — recent closes, the dashed median path,
+  and shaded 50%/80% quantile bands, with a crosshair tooltip.
+- **Stat tiles** — last close (with bar-over-bar delta), LONG/SHORT/FLAT
+  signal, median forecast at the horizon, confidence meter, and band width.
+- **Recent forecasts table** — the last dozen updates with expected move,
+  band, signal, and confidence.
+
+Light and dark themes follow the OS preference. Bind beyond localhost with
+`--dashboard-host 0.0.0.0` if you need to reach it from another machine.
 
 Each live update is appended to `artifacts/<run>/predictions.jsonl` (full
 quantile price paths + trading signal), so dashboards or execution engines can

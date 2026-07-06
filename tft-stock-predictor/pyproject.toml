@@ -22,3 +22,6 @@ tft-predictor = "tft_predictor.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["tft_predictor*"]
+
+[tool.setuptools.package-data]
+tft_predictor = ["dashboard.html"]

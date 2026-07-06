@@ -138,6 +138,29 @@ def test_train_and_predict_end_to_end(config, tmp_path):
     assert 0.0 <= bt["interval_coverage"] <= 1.0
 
 
+def test_dashboard_serves_state_and_page():
+    import json as jsonlib
+    import urllib.request
+
+    from tft_predictor.dashboard import DashboardServer
+
+    class FakeEngine:
+        def snapshot(self):
+            return {"status": "warming_up", "ticker": "SYN"}
+
+    srv = DashboardServer(FakeEngine(), port=0)  # ephemeral port
+    srv.start()
+    try:
+        port = srv.httpd.server_address[1]
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/state") as r:
+            assert jsonlib.loads(r.read())["status"] == "warming_up"
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/") as r:
+            html = r.read().decode()
+        assert "TFT Live Forecast" in html and "drawChart" in html
+    finally:
+        srv.stop()
+
+
 def test_trading_signal_directions():
     q = [0.1, 0.5, 0.9]
     up = np.array([[0.001, 0.004, 0.006]])

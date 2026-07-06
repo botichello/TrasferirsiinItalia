@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TFT Live Forecast</title>
+<style>
+  :root {
+    --page:        #f9f9f7;
+    --surface:     #fcfcfb;
+    --ink:         #0b0b0b;
+    --ink-2:       #52514e;
+    --muted:       #898781;
+    --grid:        #e1e0d9;
+    --baseline:    #c3c2b7;
+    --border:      rgba(11,11,11,0.10);
+    --series:      #2a78d6;   /* observed + median */
+    --band-outer:  rgba(42,120,214,0.14);   /* q10–q90 */
+    --band-inner:  rgba(42,120,214,0.28);   /* q25–q75 */
+    --good:        #0ca30c;
+    --good-text:   #006300;
+    --critical:    #d03b3b;
+    --tooltip-bg:  #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page:        #0d0d0d;
+      --surface:     #1a1a19;
+      --ink:         #ffffff;
+      --ink-2:       #c3c2b7;
+      --muted:       #898781;
+      --grid:        #2c2c2a;
+      --baseline:    #383835;
+      --border:      rgba(255,255,255,0.10);
+      --series:      #3987e5;
+      --band-outer:  rgba(57,135,229,0.16);
+      --band-inner:  rgba(57,135,229,0.32);
+      --good-text:   #0ca30c;
+      --tooltip-bg:  #242423;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: var(--page); color: var(--ink);
+    font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 20px 16px 40px; }
+
+  header { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  header h1 { font-size: 20px; font-weight: 650; }
+  .meta { color: var(--ink-2); font-size: 13px; }
+  .live { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-2); font-size: 13px; margin-left: auto; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--good); }
+  .dot.pulse { animation: pulse 2s ease-out infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(12,163,12,.45); } 70% { box-shadow: 0 0 0 7px rgba(12,163,12,0); } 100% { box-shadow: 0 0 0 0 rgba(12,163,12,0); } }
+
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 14px; }
+  .tile { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+  .tile .label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .tile .value { font-size: 22px; font-weight: 650; letter-spacing: -0.01em; }
+  .tile .sub { font-size: 12px; color: var(--ink-2); margin-top: 3px; }
+  .up   { color: var(--good-text); }
+  .down { color: var(--critical); }
+  .meter { height: 4px; background: var(--grid); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+  .meter i { display: block; height: 100%; background: var(--series); border-radius: 2px; transition: width .4s; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 14px; }
+  .card h2 { font-size: 14px; font-weight: 650; }
+  .chart-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
+  .legend { display: flex; gap: 14px; margin-left: auto; font-size: 12px; color: var(--ink-2); flex-wrap: wrap; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .sw { width: 16px; height: 0; border-top: 2px solid var(--series); }
+  .sw.dash { border-top-style: dashed; }
+  .sw.box { width: 14px; height: 10px; border: none; border-radius: 2px; }
+
+  .chart-wrap { position: relative; }
+  svg { display: block; width: 100%; }
+  .tooltip {
+    position: absolute; pointer-events: none; display: none; z-index: 2;
+    background: var(--tooltip-bg); border: 1px solid var(--border); border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.14); padding: 8px 10px; font-size: 12px;
+    color: var(--ink-2); white-space: nowrap;
+  }
+  .tooltip b { color: var(--ink); font-weight: 650; }
+  .tooltip .row { display: flex; justify-content: space-between; gap: 14px; }
+
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th { text-align: right; font-size: 12px; color: var(--muted); font-weight: 500; padding: 6px 8px; border-bottom: 1px solid var(--grid); }
+  th:first-child, td:first-child { text-align: left; }
+  td { text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--grid); font-size: 13px; }
+  tr:last-child td { border-bottom: none; }
+  .chip { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; }
+
+  .banner { background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+            padding: 28px; text-align: center; color: var(--ink-2); }
+  footer { color: var(--muted); font-size: 12px; margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="title">TFT Live Forecast</h1>
+    <span class="meta" id="meta"></span>
+    <span class="live"><span class="dot" id="dot"></span><span id="ago">connecting…</span></span>
+  </header>
+
+  <div id="app">
+    <div class="banner">Waiting for the first forecast…</div>
+  </div>
+
+  <footer>Quantile forecasts from a Temporal Fusion Transformer. Bands are the model's
+    own uncertainty (50% and 80% intervals). Research tooling — not investment advice.</footer>
+</div>
+
+<script>
+"use strict";
+let state = null, lastFetch = 0;
+
+const fmtPrice = v => v >= 1000 ? v.toLocaleString("en-US", {maximumFractionDigits: 2, minimumFractionDigits: 2})
+                                : v.toLocaleString("en-US", {maximumFractionDigits: 4});
+const fmtPct = v => (v >= 0 ? "+" : "") + (v * 100).toFixed(2) + "%";
+const fmtAxis = v => v >= 10000 ? (v / 1000).toLocaleString("en-US", {maximumFractionDigits: 1}) + "k"
+                                : fmtPrice(v);
+const fmtTime = ms => new Date(ms).toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"});
+const fmtDT = ms => new Date(ms).toLocaleString([], {month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"});
+
+async function refresh() {
+  try {
+    const r = await fetch("/api/state");
+    state = await r.json();
+    lastFetch = Date.now();
+    render();
+  } catch (e) { /* transient; keep last state */ }
+}
+
+function signalBits(action) {
+  if (action === "LONG")  return {icon: "▲", cls: "up",   color: "var(--good-text)"};
+  if (action === "SHORT") return {icon: "▼", cls: "down", color: "var(--critical)"};
+  return {icon: "→", cls: "", color: "var(--ink-2)"};
+}
+
+function render() {
+  if (!state) return;
+  document.getElementById("title").textContent = (state.ticker || "TFT") + " live forecast";
+  document.getElementById("meta").textContent =
+    `${state.interval} bars · ${state.provider}` + (state.online_learning ? " · online learning" : "");
+  document.title = `${state.ticker} — TFT Live Forecast`;
+
+  const app = document.getElementById("app");
+  if (state.status !== "live") {
+    app.innerHTML = `<div class="banner">Warming up — fetching history and computing the first forecast…</div>`;
+    return;
+  }
+  const f = state.forecast, sig = state.signal;
+  const H = f.price.length, Q = f.quantiles.length;
+  const medI = f.quantiles.reduce((b, q, i) => Math.abs(q - .5) < Math.abs(f.quantiles[b] - .5) ? i : b, 0);
+  const end = f.price[H - 1];
+  const hist = state.history.slice(-96);
+  const prevClose = hist.length > 1 ? hist[hist.length - 2][1] : f.last_close;
+  const dPrev = f.last_close / prevClose - 1;
+  const move = end[medI] / f.last_close - 1;
+  const bandW = (end[Q - 1] - end[0]) / f.last_close;
+  const sb = signalBits(sig.action);
+
+  app.innerHTML = `
+    <div class="tiles">
+      <div class="tile"><div class="label">Last close (${fmtTime(Date.parse(f.last_bar_time))} bar)</div>
+        <div class="value">${fmtPrice(f.last_close)}</div>
+        <div class="sub ${dPrev >= 0 ? "up" : "down"}">${dPrev >= 0 ? "▲" : "▼"} ${fmtPct(dPrev)} vs prev bar</div></div>
+      <div class="tile"><div class="label">Signal</div>
+        <div class="value" style="color:${sb.color}">${sb.icon} ${sig.action}</div>
+        <div class="sub">expected ${fmtPct(sig.expected_return)}</div></div>
+      <div class="tile"><div class="label">Median forecast · ${H} bars</div>
+        <div class="value">${fmtPrice(end[medI])}</div>
+        <div class="sub ${move >= 0 ? "up" : "down"}">${fmtPct(move)} by ${fmtDT(f.timestamps[H - 1])}</div></div>
+      <div class="tile"><div class="label">Confidence</div>
+        <div class="value">${Math.round(sig.confidence * 100)}%</div>
+        <div class="meter"><i style="width:${Math.min(100, sig.confidence * 100)}%"></i></div>
+        <div class="sub">median edge vs band width</div></div>
+      <div class="tile"><div class="label">80% band at horizon</div>
+        <div class="value">±${(bandW * 50).toFixed(2)}%</div>
+        <div class="sub">${fmtPrice(end[0])} – ${fmtPrice(end[Q - 1])}</div></div>
+    </div>
+
+    <div class="card">
+      <div class="chart-head"><h2>Price &amp; quantile forecast</h2>
+        <div class="legend">
+          <span><i class="sw"></i>observed</span>
+          <span><i class="sw dash"></i>median forecast</span>
+          <span><i class="sw box" style="background:var(--band-inner)"></i>50% band</span>
+          <span><i class="sw box" style="background:var(--band-outer)"></i>80% band</span>
+        </div></div>
+      <div class="chart-wrap" id="chartwrap"><div class="tooltip" id="tip"></div></div>
+    </div>
+
+    <div class="card"><h2 style="margin-bottom:8px">Recent forecasts</h2>
+      <div style="overflow-x:auto"><table><thead><tr>
+        <th>Generated</th><th>Bar close</th><th>Price</th><th>Median @ horizon</th>
+        <th>Δ expected</th><th>80% band</th><th>Signal</th><th>Conf.</th>
+      </tr></thead><tbody>${
+        [...state.recent].reverse().slice(0, 12).map(r => {
+          const b = signalBits(r.signal.action);
+          const d = r.median_end / r.last_close - 1;
+          return `<tr>
+            <td>${fmtDT(Date.parse(r.generated_at))}</td>
+            <td>${fmtTime(Date.parse(r.last_bar_time))}</td>
+            <td>${fmtPrice(r.last_close)}</td>
+            <td>${fmtPrice(r.median_end)}</td>
+            <td class="${d >= 0 ? "up" : "down"}">${fmtPct(d)}</td>
+            <td>${fmtPrice(r.lo_end)} – ${fmtPrice(r.hi_end)}</td>
+            <td><span class="chip" style="color:${b.color}">${b.icon} ${r.signal.action}</span></td>
+            <td>${Math.round(r.signal.confidence * 100)}%</td></tr>`;
+        }).join("")
+      }</tbody></table></div></div>`;
+
+  drawChart(hist, f, medI);
+}
+
+function drawChart(hist, f, medI) {
+  const wrap = document.getElementById("chartwrap");
+  const W = Math.max(320, wrap.clientWidth), Hpx = 340;
+  const m = {t: 14, r: 12, b: 26, l: 58};
+  const Q = f.quantiles.length;
+
+  const anchor = [Date.parse(f.last_bar_time), f.last_close];
+  const fc = f.timestamps.map((t, i) => ({t, row: f.price[i]}));
+  const xs = [hist[0][0], fc[fc.length - 1].t];
+  let lo = Infinity, hi = -Infinity;
+  hist.forEach(([, c]) => { lo = Math.min(lo, c); hi = Math.max(hi, c); });
+  fc.forEach(p => { lo = Math.min(lo, p.row[0]); hi = Math.max(hi, p.row[Q - 1]); });
+  const pad = (hi - lo) * 0.06 || 1;
+  lo -= pad; hi += pad;
+
+  const X = t => m.l + (t - xs[0]) / (xs[1] - xs[0]) * (W - m.l - m.r);
+  const Y = v => m.t + (hi - v) / (hi - lo) * (Hpx - m.t - m.b);
+  const line = pts => pts.map((p, i) => (i ? "L" : "M") + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1)).join("");
+  const band = (loI, hiI) => {
+    const upper = [anchor, ...fc.map(p => [p.t, p.row[hiI]])];
+    const lower = [...fc.map(p => [p.t, p.row[loI]]).reverse(), anchor];
+    return line(upper)
+      + lower.map(p => "L" + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1)).join("")
+      + "Z";
+  };
+
+  // y gridlines: 4 nice steps
+  let grid = "", labels = "";
+  const steps = 4, span = hi - lo;
+  for (let i = 0; i <= steps; i++) {
+    const v = lo + span * i / steps, y = Y(v).toFixed(1);
+    grid += `<line x1="${m.l}" x2="${W - m.r}" y1="${y}" y2="${y}" stroke="var(--grid)" stroke-width="1"/>`;
+    labels += `<text x="${m.l - 8}" y="${+y + 4}" text-anchor="end" fill="var(--muted)" font-size="11">${fmtAxis(v)}</text>`;
+  }
+  // x ticks: 5, hist+fc span
+  const nTicks = 5;
+  for (let i = 0; i <= nTicks; i++) {
+    const t = xs[0] + (xs[1] - xs[0]) * i / nTicks;
+    labels += `<text x="${X(t).toFixed(1)}" y="${Hpx - 8}" text-anchor="middle" fill="var(--muted)" font-size="11">${
+      (xs[1] - xs[0]) < 3 * 864e5 ? fmtTime(t) : new Date(t).toLocaleDateString([], {month: "short", day: "numeric"})}</text>`;
+  }
+
+  const nowX = X(anchor[0]).toFixed(1);
+  const medPts = [anchor, ...fc.map(p => [p.t, p.row[medI]])];
+
+  wrap.innerHTML = `
+    <svg viewBox="0 0 ${W} ${Hpx}" width="${W}" height="${Hpx}" role="img"
+         aria-label="Price history and quantile forecast">
+      ${grid}
+      <path d="${band(0, Q - 1)}" fill="var(--band-outer)"/>
+      <path d="${band(1, Q - 2)}" fill="var(--band-inner)"/>
+      <line x1="${nowX}" x2="${nowX}" y1="${m.t}" y2="${Hpx - m.b}" stroke="var(--baseline)" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="${nowX}" y="${m.t - 2}" text-anchor="middle" fill="var(--muted)" font-size="10">now</text>
+      <path d="${line(hist)}" fill="none" stroke="var(--series)" stroke-width="2" stroke-linejoin="round"/>
+      <path d="${line(medPts)}" fill="none" stroke="var(--series)" stroke-width="2" stroke-dasharray="5 4" stroke-linejoin="round"/>
+      <circle cx="${X(anchor[0])}" cy="${Y(anchor[1])}" r="3.5" fill="var(--series)"/>
+      <line x1="${m.l}" x2="${W - m.r}" y1="${Hpx - m.b}" y2="${Hpx - m.b}" stroke="var(--baseline)" stroke-width="1"/>
+      ${labels}
+      <line id="xhair" y1="${m.t}" y2="${Hpx - m.b}" stroke="var(--baseline)" stroke-width="1" visibility="hidden"/>
+      <circle id="xdot" r="4" fill="var(--series)" stroke="var(--surface)" stroke-width="2" visibility="hidden"/>
+      <rect x="${m.l}" y="${m.t}" width="${W - m.l - m.r}" height="${Hpx - m.t - m.b}" fill="transparent" id="hover"/>
+    </svg>
+    <div class="tooltip" id="tip"></div>`;
+
+  // hover: nearest point over observed + forecast
+  const all = hist.map(([t, c]) => ({t, kind: "obs", v: c}))
+    .concat(fc.map(p => ({t: p.t, kind: "fc", v: p.row[medI], lo: p.row[0], hi: p.row[Q - 1]})));
+  const svg = wrap.querySelector("svg"), tip = wrap.querySelector("#tip");
+  const xhair = svg.querySelector("#xhair"), xdot = svg.querySelector("#xdot");
+  svg.querySelector("#hover").addEventListener("mousemove", ev => {
+    const rect = svg.getBoundingClientRect();
+    const t = xs[0] + (ev.clientX - rect.left - m.l) / (W - m.l - m.r) * (xs[1] - xs[0]);
+    let best = all[0];
+    for (const p of all) if (Math.abs(p.t - t) < Math.abs(best.t - t)) best = p;
+    const px = X(best.t), py = Y(best.v);
+    xhair.setAttribute("x1", px); xhair.setAttribute("x2", px); xhair.setAttribute("visibility", "visible");
+    xdot.setAttribute("cx", px); xdot.setAttribute("cy", py); xdot.setAttribute("visibility", "visible");
+    tip.style.display = "block";
+    tip.innerHTML = best.kind === "obs"
+      ? `<div><b>${fmtDT(best.t)}</b></div><div class="row"><span>close</span><b>${fmtPrice(best.v)}</b></div>`
+      : `<div><b>${fmtDT(best.t)}</b> · forecast</div>
+         <div class="row"><span>median</span><b>${fmtPrice(best.v)}</b></div>
+         <div class="row"><span>80% band</span><b>${fmtPrice(best.lo)} – ${fmtPrice(best.hi)}</b></div>`;
+    const tw = tip.offsetWidth;
+    tip.style.left = Math.min(Math.max(px - tw / 2, 4), W - tw - 4) + "px";
+    tip.style.top = (py - tip.offsetHeight - 14) + "px";
+  });
+  svg.querySelector("#hover").addEventListener("mouseleave", () => {
+    tip.style.display = "none";
+    xhair.setAttribute("visibility", "hidden"); xdot.setAttribute("visibility", "hidden");
+  });
+}
+
+setInterval(() => {   // "updated N s ago" ticker
+  const el = document.getElementById("ago"), dot = document.getElementById("dot");
+  if (!lastFetch) return;
+  const s = Math.round((Date.now() - lastFetch) / 1000);
+  el.textContent = state && state.status === "live" ? `updated ${s}s ago` : "warming up…";
+  dot.classList.toggle("pulse", s < 10);
+}, 1000);
+
+refresh();
+setInterval(refresh, 3000);
+window.addEventListener("resize", () => { if (state) render(); });
+</script>
+</body>
+</html>

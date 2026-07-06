@@ -59,6 +59,11 @@ def main(argv: list[str] | None = None) -> int:
                                      help="fine-tune on newly closed bars")
     sub.choices["live"].add_argument("--max-updates", type=int, default=None,
                                      help="stop after N forecasts (default: run forever)")
+    sub.choices["live"].add_argument("--dashboard", type=int, default=None,
+                                     metavar="PORT",
+                                     help="serve the live dashboard on this port")
+    sub.choices["live"].add_argument("--dashboard-host", default="127.0.0.1",
+                                     help="dashboard bind address (default localhost)")
 
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.INFO,
@@ -105,12 +110,21 @@ def main(argv: list[str] | None = None) -> int:
             config.online_learning = True
         engine = RealtimePredictor(model, scaler, config, ticker=ticker,
                                    out_dir=Path(args.artifacts))
+        server = None
+        if args.dashboard is not None:
+            from .dashboard import DashboardServer
+            server = DashboardServer(engine, port=args.dashboard,
+                                     host=args.dashboard_host).start()
+            print(f"dashboard: {server.url}")
         print(f"live prediction for {ticker} every {config.refresh_seconds}s "
               f"(online learning: {config.online_learning}) — Ctrl-C to stop")
         try:
             engine.run(max_updates=args.max_updates)
         except KeyboardInterrupt:
             print("\nstopped")
+        finally:
+            if server is not None:
+                server.stop()
         return 0
 
     return 1

@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tft-stock-predictor"
+version = "0.1.0"
+description = "Temporal Fusion Transformer stock predictor with real-time updating forecasts"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.0",
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "requests>=2.28",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+tft-predictor = "tft_predictor.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["tft_predictor*"]

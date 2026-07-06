@@ -1,0 +1,128 @@
+"""Command-line interface.
+
+    python -m tft_predictor train    --tickers AAPL MSFT --interval 1h --epochs 20
+    python -m tft_predictor predict  --artifacts artifacts/AAPL_1h
+    python -m tft_predictor backtest --artifacts artifacts/AAPL_1h
+    python -m tft_predictor live     --artifacts artifacts/AAPL_1h --refresh 60
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import logging
+from pathlib import Path
+
+from .backtest import backtest
+from .config import TFTConfig, artifacts_dir
+from .data import PROVIDERS, get_client
+from .data.features import build_features
+from .predict import predict_from_frame
+from .realtime import RealtimePredictor
+from .training import load_artifacts, train
+
+
+def _add_train_args(p: argparse.ArgumentParser) -> None:
+    p.add_argument("--tickers", nargs="+", default=["AAPL"])
+    p.add_argument("--provider", choices=sorted(PROVIDERS), default="yahoo",
+                   help="yahoo for stocks/ETFs, coinbase for crypto (24/7)")
+    p.add_argument("--interval", default="1h")
+    p.add_argument("--lookback", default="730d")
+    p.add_argument("--encoder-length", type=int, default=96)
+    p.add_argument("--horizon", type=int, default=12)
+    p.add_argument("--hidden-size", type=int, default=64)
+    p.add_argument("--heads", type=int, default=4)
+    p.add_argument("--epochs", type=int, default=30)
+    p.add_argument("--batch-size", type=int, default=64)
+    p.add_argument("--lr", type=float, default=1e-3)
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(prog="tft_predictor")
+    parser.add_argument("--artifacts-root", default="artifacts")
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    p_train = sub.add_parser("train", help="fetch data and train a model")
+    _add_train_args(p_train)
+
+    for name, help_ in [("predict", "one-shot forecast from latest data"),
+                        ("backtest", "walk-forward evaluation on holdout"),
+                        ("live", "real-time prediction loop")]:
+        p = sub.add_parser(name, help=help_)
+        p.add_argument("--artifacts", required=True,
+                       help="path to a trained model dir, e.g. artifacts/AAPL_1h")
+        p.add_argument("--ticker", default=None,
+                       help="override ticker (defaults to first trained ticker)")
+    sub.choices["live"].add_argument("--refresh", type=int, default=None,
+                                     help="seconds between polls")
+    sub.choices["live"].add_argument("--online-learning", action="store_true",
+                                     help="fine-tune on newly closed bars")
+    sub.choices["live"].add_argument("--max-updates", type=int, default=None,
+                                     help="stop after N forecasts (default: run forever)")
+
+    args = parser.parse_args(argv)
+    logging.basicConfig(level=logging.INFO,
+                        format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+
+    if args.command == "train":
+        config = TFTConfig(
+            tickers=args.tickers, provider=args.provider,
+            interval=args.interval, lookback=args.lookback,
+            encoder_length=args.encoder_length, horizon=args.horizon,
+            hidden_size=args.hidden_size, attention_heads=args.heads,
+            max_epochs=args.epochs, batch_size=args.batch_size,
+            learning_rate=args.lr)
+        _, history = train(config, artifacts=args.artifacts_root)
+        out = artifacts_dir(config, args.artifacts_root)
+        print(f"best val quantile loss: {history['best_val_loss']:.6f}")
+        print(f"artifacts saved to {out}")
+        return 0
+
+    model, scaler, config = load_artifacts(args.artifacts)
+    ticker = args.ticker or config.tickers[0]
+    ticker_id = config.tickers.index(ticker) if ticker in config.tickers else 0
+
+    if args.command == "predict":
+        client = get_client(config.provider)
+        ohlcv = client.fetch(ticker, interval=config.interval)
+        features = build_features(ohlcv)
+        result = predict_from_frame(model, scaler, config, features, ticker_id)
+        _print_forecast(ticker, result)
+        return 0
+
+    if args.command == "backtest":
+        client = get_client(config.provider)
+        ohlcv = client.fetch(ticker, interval=config.interval, range_=config.lookback)
+        features = build_features(ohlcv)
+        results = backtest(model, scaler, config, features, ticker_id)
+        print(json.dumps(results, indent=2))
+        return 0
+
+    if args.command == "live":
+        if args.refresh is not None:
+            config.refresh_seconds = args.refresh
+        if args.online_learning:
+            config.online_learning = True
+        engine = RealtimePredictor(model, scaler, config, ticker=ticker,
+                                   out_dir=Path(args.artifacts))
+        print(f"live prediction for {ticker} every {config.refresh_seconds}s "
+              f"(online learning: {config.online_learning}) — Ctrl-C to stop")
+        try:
+            engine.run(max_updates=args.max_updates)
+        except KeyboardInterrupt:
+            print("\nstopped")
+        return 0
+
+    return 1
+
+
+def _print_forecast(ticker: str, result: dict) -> None:
+    qs = result["quantiles"]
+    print(f"\n{ticker} — last close {result['last_close']:.2f} "
+          f"at {result['last_bar_time']}")
+    print(f"signal: {result['signal']}")
+    header = "timestamp".ljust(22) + "".join(f"q{q:g}".rjust(10) for q in qs)
+    print(header)
+    for ts, row in zip(result["timestamps"], result["price"]):
+        print(f"{ts:%Y-%m-%d %H:%M}".ljust(22)
+              + "".join(f"{p:10.2f}" for p in row))

@@ -65,8 +65,15 @@ def main(argv: list[str] | None = None) -> int:
     sub.choices["live"].add_argument("--dashboard", type=int, default=None,
                                      metavar="PORT",
                                      help="serve the live dashboard on this port")
-    sub.choices["live"].add_argument("--dashboard-host", default="127.0.0.1",
+    sub.choices["live"].add_argument("--dashboard-host", default=None,
                                      help="dashboard bind address (default localhost)")
+    sub.choices["live"].add_argument("--dashboard-public", action="store_true",
+                                     help="bind the dashboard on all interfaces "
+                                          "(shorthand for --dashboard-host 0.0.0.0)")
+    sub.choices["live"].add_argument("--dashboard-auth", default=None,
+                                     metavar="USER:PASS",
+                                     help="require HTTP Basic credentials "
+                                          "(strongly recommended with --dashboard-public)")
     sub.choices["live"].add_argument("--webhook", default=None, metavar="URL",
                                      help="POST the forecast here when the signal changes")
 
@@ -139,9 +146,15 @@ def main(argv: list[str] | None = None) -> int:
         server = None
         if args.dashboard is not None:
             from .dashboard import DashboardServer
-            server = DashboardServer(engine, port=args.dashboard,
-                                     host=args.dashboard_host).start()
-            print(f"dashboard: {server.url}")
+            host = args.dashboard_host or ("0.0.0.0" if args.dashboard_public
+                                           else "127.0.0.1")
+            server = DashboardServer(engine, port=args.dashboard, host=host,
+                                     auth=args.dashboard_auth).start()
+            print("dashboard: " + "  ".join(server.urls())
+                  + ("  (basic auth)" if server.protected else ""))
+            if host == "0.0.0.0" and not server.protected:
+                print("WARNING: dashboard is open to the network without "
+                      "authentication — add --dashboard-auth USER:PASS")
         print(f"live prediction for {ticker} every {config.refresh_seconds}s "
               f"(online learning: {config.online_learning}) — Ctrl-C to stop")
         try:

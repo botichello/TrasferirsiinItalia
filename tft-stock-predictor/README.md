@@ -82,8 +82,34 @@ the engine every few seconds and shows:
 - **Recent forecasts table** — the last dozen updates with expected move,
   band, signal, and confidence.
 
-Light and dark themes follow the OS preference. Bind beyond localhost with
-`--dashboard-host 0.0.0.0` if you need to reach it from another machine.
+Light and dark themes follow the OS preference.
+
+### Exposing the dashboard on a network
+
+By default the dashboard binds to localhost only. To reach it from other
+machines:
+
+```bash
+python -m tft_predictor live --artifacts artifacts/BTC-USD_1h \
+    --dashboard 8000 --dashboard-public --dashboard-auth trader:S0mePassw0rd
+```
+
+- `--dashboard-public` binds on all interfaces (`0.0.0.0`); the CLI prints
+  every reachable URL, including your LAN address.
+- `--dashboard-auth USER:PASS` requires HTTP Basic credentials on every
+  request (the browser prompts once). Without it, a public bind logs a
+  loud warning — anyone who can reach the port sees your forecasts.
+- Basic auth over plain HTTP is readable in transit. On networks you don't
+  fully trust, front it with a TLS reverse proxy or keep it on localhost
+  and use an SSH tunnel:
+
+```bash
+# TLS in one line with Caddy (auto-HTTPS on a public host)
+caddy reverse-proxy --from dash.example.com --to localhost:8000
+
+# ...or an SSH tunnel, no public exposure at all
+ssh -L 8000:localhost:8000 user@trading-box   # then open http://localhost:8000
+```
 
 Each live update is appended to `artifacts/<run>/predictions.jsonl` (full
 quantile price paths + trading signal), so dashboards or execution engines can

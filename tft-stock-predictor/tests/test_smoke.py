@@ -180,12 +180,45 @@ def test_dashboard_serves_state_and_page():
     srv = DashboardServer(FakeEngine(), port=0)  # ephemeral port
     srv.start()
     try:
-        port = srv.httpd.server_address[1]
+        port = srv.port
         with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/state") as r:
             assert jsonlib.loads(r.read())["status"] == "warming_up"
         with urllib.request.urlopen(f"http://127.0.0.1:{port}/") as r:
             html = r.read().decode()
         assert "TFT Live Forecast" in html and "drawChart" in html
+    finally:
+        srv.stop()
+
+
+def test_dashboard_basic_auth():
+    import base64
+    import urllib.error
+    import urllib.request
+
+    from tft_predictor.dashboard import DashboardServer
+
+    class FakeEngine:
+        def snapshot(self):
+            return {"status": "warming_up"}
+
+    srv = DashboardServer(FakeEngine(), port=0, host="0.0.0.0",
+                          auth="trader:s3cret")
+    srv.start()
+    try:
+        url = f"http://127.0.0.1:{srv.port}/api/state"
+        try:
+            urllib.request.urlopen(url)
+            raise AssertionError("expected 401 without credentials")
+        except urllib.error.HTTPError as err:
+            assert err.code == 401
+            assert "Basic" in err.headers.get("WWW-Authenticate", "")
+        req = urllib.request.Request(url, headers={
+            "Authorization": "Basic "
+                             + base64.b64encode(b"trader:s3cret").decode()})
+        with urllib.request.urlopen(req) as r:
+            assert r.status == 200
+        # bound to all interfaces → urls() lists at least localhost
+        assert any("127.0.0.1" in u for u in srv.urls())
     finally:
         srv.stop()
 

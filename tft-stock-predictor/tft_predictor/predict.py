@@ -9,7 +9,7 @@ import torch
 import torch.nn as nn
 
 from .config import TFTConfig
-from .conformal import apply_conformal
+from .conformal import apply_conformal, select_offsets
 from .data import FeatureScaler
 from .data.features import KNOWN_FEATURES, OBSERVED_FEATURES, future_known_frame
 
@@ -49,8 +49,9 @@ def predict_from_frame(model: nn.Module, scaler: FeatureScaler,
         cum_log_ret = cum_log_ret * float(features["target_scale"].iloc[-1])
     # Enforce non-crossing quantiles, then apply the CQR coverage correction.
     cum_log_ret = np.sort(cum_log_ret, axis=-1)
-    if config.conformal:
-        cum_log_ret = apply_conformal(cum_log_ret, config.conformal)
+    offsets = select_offsets(config.conformal, ticker_id)
+    if offsets:
+        cum_log_ret = apply_conformal(cum_log_ret, offsets)
     prices = last_close * np.exp(cum_log_ret)
 
     # Mean selection weight per input variable over the encoder window —

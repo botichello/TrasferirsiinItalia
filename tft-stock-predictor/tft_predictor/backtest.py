@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader
 import torch.nn as nn
 
 from .config import TFTConfig
-from .conformal import apply_conformal
+from .conformal import apply_conformal, select_offsets
 from .data import FeatureScaler, WindowDataset
 from .model import QuantileLoss
 from .predict import trading_signal
@@ -60,8 +60,9 @@ def backtest(model: nn.Module, scaler: FeatureScaler,
         # by the origin's vol scale and apply the conformal correction
         scale = batch["scale"].view(-1, 1, 1).numpy()
         p = np.sort(out["prediction"].numpy(), axis=-1) * scale
-        if config.conformal:
-            p = apply_conformal(p, config.conformal)
+        offsets = select_offsets(config.conformal, ticker_id)
+        if offsets:
+            p = apply_conformal(p, offsets)
         preds.append(p)
         targets.append(batch["target"].numpy() * batch["scale"].view(-1, 1).numpy())
     pred = np.concatenate(preds)        # (N, H, Q) cumulative log returns

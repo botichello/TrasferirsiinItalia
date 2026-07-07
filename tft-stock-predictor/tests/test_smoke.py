@@ -162,7 +162,8 @@ def test_train_and_predict_end_to_end(config, tmp_path):
     assert (tmp_path / "SYN_1h" / "model.pt").exists()
     assert (tmp_path / "SYN_1h" / "model_1.pt").exists()   # 2nd ensemble member
     assert (tmp_path / "SYN_1h" / "history.json").exists()
-    assert config.conformal and config.conformal["pairs"]  # CQR fitted
+    assert config.conformal and config.conformal["pooled"]["pairs"]  # CQR fitted
+    assert "0" in config.conformal["per_ticker"]  # per-ticker offsets too
 
     from tft_predictor.model import EnsembleTFT
     from tft_predictor.training import load_artifacts

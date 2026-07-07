@@ -44,6 +44,27 @@ Treat as promising but unconfirmed:
   standard practice and implemented here; the specific quotes just weren't
   re-verified before the cutoff).
 
+## In-house experiments (July 2026, Coinbase hourly bars)
+
+Findings from running this codebase's own pipeline; all backtests are on
+embargoed holdouts with CQR applied, i.e. deployment conditions.
+
+**TFT vs. VLSTM (BTC-USD, 180d).** The benchmark's daily-futures result did
+*not* transfer to intraday crypto with a quantile objective: the full TFT
+beat the VLSTM variant on val quantile loss (0.720 single / 0.716 ensemble
+vs. 0.737) and directional accuracy (49.1% vs. 42.5%). Both stayed
+calibrated (CQR does its job regardless of architecture). Caveats: single
+seed, quantile loss not a Sharpe objective, hourly crypto not daily futures.
+`--no-attention` remains available for daily-bar experiments.
+
+**Multi-asset model (BTC/ETH/SOL, 120d, one model via ticker embedding).**
+Works: directional accuracy 48.7/51.8/52.3%. But it exposed a calibration
+defect: conformal offsets fitted on *pooled* validation scores were right on
+average and wrong per asset (coverage 84.2/78.2/76.5% vs. 80% nominal — the
+quieter asset over-covered, the wilder one under-covered). Fitting offsets
+**per ticker** (now the default; pooled kept as fallback) restored
+per-asset coverage to 80.3/80.3/78.2% with no retraining.
+
 ## How this maps to defaults
 
 Everything marked **Implemented** is on by default: robust scaling,

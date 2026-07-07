@@ -54,17 +54,43 @@ def apply_conformal(pred: np.ndarray, conf: dict) -> np.ndarray:
     return np.sort(pred, axis=-1)
 
 
+def select_offsets(conf: dict | None, ticker_id: int) -> dict | None:
+    """Pick the offsets for a ticker: per-ticker when available, else the
+    pooled fit; transparently handles the legacy single-dict format."""
+    if not conf:
+        return None
+    if "pairs" in conf:          # legacy pooled-only format
+        return conf
+    return (conf.get("per_ticker", {}).get(str(ticker_id))
+            or conf.get("pooled"))
+
+
 @torch.no_grad()
 def fit_conformal(model, loader: DataLoader, quantiles: list[float]) -> dict:
     """Collect model predictions over a calibration loader (validation set)
-    and fit offsets in real return space."""
+    and fit offsets in real return space.
+
+    Offsets are fitted both pooled and per ticker: multi-asset models
+    calibrated only on pooled scores are right on average but drift per
+    asset (a quieter asset ends over-covered, a wilder one under-covered).
+    """
     model.eval()
-    preds, trues = [], []
+    preds, trues, tids = [], [], []
     for batch in loader:
         out = model(batch["observed"], batch["known_enc"],
                     batch["known_dec"], batch["static"])
         scale = batch["scale"].view(-1, 1, 1)
         preds.append(np.sort((out["prediction"] * scale).numpy(), axis=-1))
         trues.append((batch["target"] * batch["scale"].view(-1, 1)).numpy())
-    return conformal_offsets(np.concatenate(preds), np.concatenate(trues),
-                             quantiles)
+        tids.append(batch["static"].numpy())
+    pred = np.concatenate(preds)
+    true = np.concatenate(trues)
+    tid = np.concatenate(tids)
+    result = {"pooled": conformal_offsets(pred, true, quantiles),
+              "per_ticker": {}}
+    for t in np.unique(tid):
+        mask = tid == t
+        if mask.sum() >= 50:     # enough scores for a stable quantile
+            result["per_ticker"][str(int(t))] = conformal_offsets(
+                pred[mask], true[mask], quantiles)
+    return result

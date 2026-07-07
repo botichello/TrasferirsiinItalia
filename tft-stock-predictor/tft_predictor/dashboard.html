@@ -229,7 +229,7 @@ function render() {
     </div>
 
     <div class="two-col">
-      <div class="card"><h2 style="margin-bottom:6px">Live model health</h2>${healthHTML(state.health)}${aciHTML(state.aci)}</div>
+      <div class="card"><h2 style="margin-bottom:6px">Live model health</h2>${healthHTML(state.health)}${aciHTML(state.aci)}${driftHTML(state.drift)}</div>
       <div class="card"><h2 style="margin-bottom:6px">What the model is looking at</h2>${importanceHTML(state.variable_importance)}</div>
     </div>
 
@@ -284,6 +284,16 @@ function aciHTML(aci) {
   return `<div class="kv"><span>Adaptive band adjustment <span class="hint">ACI ·
     ${aci.n_updates} update${aci.n_updates === 1 ? "" : "s"}</span></span>
     <b>${sign}${(aci.expand * 100).toFixed(1)}% width</b></div>`;
+}
+
+function driftHTML(d) {
+  if (!d) return "";
+  const label = d.retrain_recommended
+    ? `<b class="down">⚠ ${d.max_psi} — retrain (${d.drifted.slice(0, 2).join(", ")})</b>`
+    : d.max_psi > 0.1
+      ? `<b>${d.max_psi} · moderate</b>`
+      : `<b class="up">${d.max_psi} · stable</b>`;
+  return `<div class="kv"><span>Feature drift <span class="hint">max PSI vs training</span></span>${label}</div>`;
 }
 
 function importanceHTML(imp) {

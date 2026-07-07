@@ -19,6 +19,7 @@ import logging
 import math
 from pathlib import Path
 
+import pandas as pd
 import torch
 from torch.utils.data import DataLoader
 
@@ -196,6 +197,14 @@ def train(config: TFTConfig, frames: dict | None = None,
                    out_dir / ("model.pt" if i == 0 else f"model_{i}.pt"))
     scaler.save(out_dir / "scaler.json")
     config.save(out_dir / "config.json")
+
+    # drift reference: decile bins per feature on the raw training data
+    from .drift import fit_reference, save_reference
+    train_concat = pd.concat(
+        [df.iloc[:int(len(df) * (1 - config.val_fraction))]
+         for df in frames.values()])
+    save_reference(fit_reference(train_concat, OBSERVED_FEATURES),
+                   out_dir / "drift.json")
 
     history = {
         "members": histories,

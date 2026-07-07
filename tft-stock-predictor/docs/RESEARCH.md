@@ -65,6 +65,16 @@ quieter asset over-covered, the wilder one under-covered). Fitting offsets
 **per ticker** (now the default; pooled kept as fallback) restored
 per-asset coverage to 80.3/80.3/78.2% with no retraining.
 
+**Sharpe-objective head (BTC-USD, 180d, 5 bps/side fees).** Implemented per
+the benchmark: a tanh position head trained end-to-end on negative Sharpe
+(`--objective sharpe`). On the embargoed holdout it produced the project's
+first fee-positive strategy: +0.75% total over the holdout, annualized
+Sharpe 0.31, hit rate 50.4%, max drawdown −6.9%, avg |position| 0.55,
+turnover 5.3%/bar. Weak but positive — and a real contrast with the quantile
+signal rule, which (honestly) stays flat on the same data. The two
+objectives are complementary: quantile artifacts for calibrated bands and
+risk, the Sharpe head for directional posture.
+
 ## How this maps to defaults
 
 Everything marked **Implemented** is on by default: robust scaling,

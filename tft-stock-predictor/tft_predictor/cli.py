@@ -95,6 +95,13 @@ def main(argv: list[str] | None = None) -> int:
                                           "(strongly recommended with --dashboard-public)")
     sub.choices["live"].add_argument("--webhook", default=None, metavar="URL",
                                      help="POST the forecast here when the signal changes")
+    sub.choices["live"].add_argument(
+        "--auto-retrain", action="store_true",
+        help="retrain in the background on drift (or --retrain-every-bars) "
+             "and hot-swap when validation doesn't regress; single ticker only")
+    sub.choices["live"].add_argument(
+        "--retrain-every-bars", type=int, default=None, metavar="N",
+        help="also retrain every N bars regardless of drift")
     for name in ("backtest", "evaluate"):
         sub.choices[name].add_argument(
             "--fee-bps", type=float, default=None,
@@ -182,9 +189,15 @@ def main(argv: list[str] | None = None) -> int:
         if args.online_learning:
             config.online_learning = True
         tickers = args.tickers or [ticker]
+        if args.auto_retrain and len(tickers) > 1:
+            print("--auto-retrain supports a single ticker (engines share "
+                  "the model; a per-ticker retrain would clobber the others)")
+            return 1
         engines = [RealtimePredictor(model, scaler, config, ticker=t,
                                      out_dir=Path(args.artifacts),
-                                     webhook_url=args.webhook)
+                                     webhook_url=args.webhook,
+                                     auto_retrain=args.auto_retrain,
+                                     retrain_every_bars=args.retrain_every_bars)
                    for t in tickers]
         server = None
         if args.dashboard is not None:

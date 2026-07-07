@@ -229,6 +229,59 @@ def test_embargo_gap_between_train_and_val(config):
     assert gap_bars >= config.horizon - 1   # embargoed, no adjacent labels
 
 
+def test_auto_retrain_gate_and_hot_swap(config, tmp_path):
+    import dataclasses
+
+    from tft_predictor.realtime import RealtimePredictor
+    from tft_predictor.training import load_artifacts, train
+
+    rcfg = dataclasses.replace(config, ensemble_size=1, max_epochs=1,
+                               conformal=None)
+    ohlcv = synthetic_ohlcv()
+    frames = {"SYN": build_features(ohlcv)}
+    train(rcfg, frames=frames, artifacts=tmp_path)
+    art = tmp_path / "SYN_1h"
+    model, scaler, cfg = load_artifacts(art)
+
+    eng = RealtimePredictor(model, scaler, cfg, out_dir=art, auto_retrain=True)
+    eng.history = ohlcv
+    old_model = eng.model
+    old_mtime = (art / "model.pt").stat().st_mtime
+    eng._retrain_now("test")
+
+    assert eng.last_retrain is not None
+    assert eng.last_retrain["reason"] == "test"
+    assert eng._retraining is False and eng._retrain_cooldown > 0
+    if eng.last_retrain["accepted"]:
+        assert eng.model is not old_model              # hot-swapped
+        assert (art / "model.pt").stat().st_mtime > old_mtime
+        assert eng._bars_since_train == 0
+    else:  # gate may reject on a 1-epoch candidate — still a valid outcome
+        assert eng.model is old_model
+
+
+def test_drift_detection():
+    from tft_predictor.drift import drift_report, fit_reference, psi
+
+    rng = np.random.default_rng(0)
+    train_df = pd.DataFrame({"a": rng.standard_normal(2000),
+                             "b": rng.standard_normal(2000)})
+    ref = fit_reference(train_df, ["a", "b"])
+    # same distribution → tiny PSI, no retrain flag
+    same = pd.DataFrame({"a": rng.standard_normal(300),
+                         "b": rng.standard_normal(300)})
+    rep = drift_report(same, ref)
+    assert rep["max_psi"] < 0.1 and not rep["retrain_recommended"]
+    # shifted feature → major PSI, retrain flag names the culprit
+    shifted = pd.DataFrame({"a": rng.standard_normal(300) + 3.0,
+                            "b": rng.standard_normal(300)})
+    rep = drift_report(shifted, ref)
+    assert rep["per_feature"]["a"] > 0.25
+    assert rep["retrain_recommended"] and rep["drifted"] == ["a"]
+    # psi is symmetric-ish sanity: zero-length series is safe
+    assert psi(pd.Series([], dtype=float), ref["a"]) == 0.0
+
+
 def test_trade_stats_and_threshold_tuning(config):
     import dataclasses
 

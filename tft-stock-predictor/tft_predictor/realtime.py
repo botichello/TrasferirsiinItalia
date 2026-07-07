@@ -30,6 +30,7 @@ from .config import TFTConfig
 from .conformal import ACIState
 from .data import FeatureScaler, WindowDataset, get_client
 from .data.features import build_features, interval_to_timedelta
+from .drift import drift_report, load_reference
 from .evaluation import evaluate_file
 from .model import QuantileLoss, TemporalFusionTransformer
 from .predict import predict_from_frame
@@ -67,7 +68,9 @@ class RealtimePredictor:
     def __init__(self, model: TemporalFusionTransformer, scaler: FeatureScaler,
                  config: TFTConfig, ticker: str | None = None,
                  out_dir: str | Path = "artifacts",
-                 webhook_url: str | None = None):
+                 webhook_url: str | None = None,
+                 auto_retrain: bool = False,
+                 retrain_every_bars: int | None = None):
         self.model = model
         self.scaler = scaler
         self.config = config
@@ -87,6 +90,14 @@ class RealtimePredictor:
         self._health_cache: tuple | None = None
         self.aci_path = self.out_path.parent / "aci.json"
         self.aci = self._load_aci()
+        self.drift_ref = load_reference(self.out_path.parent / "drift.json")
+        self.last_drift: dict | None = None
+        self.auto_retrain = auto_retrain
+        self.retrain_every_bars = retrain_every_bars
+        self.last_retrain: dict | None = None
+        self._bars_since_train = 0
+        self._retraining = False
+        self._retrain_cooldown = 0
         self._optimizer = None
         if config.online_learning:
             self._optimizer = torch.optim.AdamW(
@@ -125,11 +136,21 @@ class RealtimePredictor:
             self._update_aci(closed)
 
         features = build_features(closed)
+        if self.drift_ref:
+            window = features.iloc[-2 * self.config.encoder_length:]
+            with self._lock:
+                self.last_drift = drift_report(window, self.drift_ref)
+            if self.last_drift["retrain_recommended"]:
+                log.warning("%s: feature drift detected (max PSI %.2f: %s) — "
+                            "retrain recommended", self.ticker,
+                            self.last_drift["max_psi"],
+                            ", ".join(self.last_drift["drifted"][:3]))
         result = predict_from_frame(
             self.model, self.scaler, self.config, features, self.ticker_id,
             aci_expand=(self.aci.expand if self.config.adaptive_conformal
                         else 0.0))
         self._emit(result)
+        self._maybe_start_retrain()
         return result
 
     def run(self, max_updates: int | None = None) -> None:
@@ -223,6 +244,86 @@ class RealtimePredictor:
         except requests.RequestException as err:
             log.warning("webhook alert failed: %s", err)
 
+    # ------------------------------------------------------------------
+    def _maybe_start_retrain(self) -> None:
+        """Kick off a background retrain when drift or age says so."""
+        self._bars_since_train += 1
+        if self._retrain_cooldown > 0:
+            self._retrain_cooldown -= 1
+        if not self.auto_retrain or self._retraining or self._retrain_cooldown:
+            return
+        drifted = bool(self.last_drift
+                       and self.last_drift["retrain_recommended"])
+        aged = (self.retrain_every_bars is not None
+                and self._bars_since_train >= self.retrain_every_bars)
+        if not (drifted or aged):
+            return
+        reason = "drift" if drifted else "age"
+        self._retraining = True
+        threading.Thread(target=self._retrain_now, args=(reason,),
+                         name=f"retrain-{self.ticker}", daemon=True).start()
+
+    def _retrain_now(self, reason: str) -> None:
+        """Retrain on current history; hot-swap only if the candidate's
+        validation loss doesn't regress vs the running model on the same
+        split. Runs on a worker thread; polling continues on the old model
+        until the swap."""
+        import dataclasses
+        import shutil
+        import tempfile
+
+        from .data import build_datasets
+        from .training import evaluate, load_artifacts, make_criterion, train
+        try:
+            log.info("%s: auto-retrain started (%s)", self.ticker, reason)
+            with self._lock:
+                closed = (self.history.iloc[:-1] if len(self.history) > 1
+                          else self.history).copy()
+            frames = {self.ticker: build_features(closed)}
+            cand_cfg = dataclasses.replace(
+                self.config, tickers=[self.ticker], conformal=None)
+
+            with tempfile.TemporaryDirectory() as tmp:
+                _, hist = train(cand_cfg, frames=frames, artifacts=tmp)
+                cand_dir = next(Path(tmp).iterdir())
+                cand_val = hist["ensemble_val_loss"]
+
+                # gate: current model on the candidate's validation split
+                _, val_ds, _ = build_datasets(frames, self.config,
+                                              scaler=self.scaler)
+                from torch.utils.data import DataLoader
+                current_val = evaluate(
+                    self.model, DataLoader(val_ds, batch_size=64),
+                    make_criterion(self.config))
+                accepted = cand_val <= current_val * 1.02
+                event = {"reason": reason, "candidate_val": round(cand_val, 6),
+                         "current_val": round(current_val, 6),
+                         "accepted": accepted,
+                         "at": datetime.now(timezone.utc).isoformat()}
+                if accepted:
+                    art_dir = self.out_path.parent
+                    for f in cand_dir.iterdir():
+                        shutil.copy2(f, art_dir / f.name)
+                    new_model, new_scaler, new_config = load_artifacts(art_dir)
+                    with self._lock:
+                        self.model = new_model
+                        self.scaler = new_scaler
+                        self.config.conformal = new_config.conformal
+                        self.config.edge_threshold = new_config.edge_threshold
+                        self.drift_ref = load_reference(art_dir / "drift.json")
+                        self._bars_since_train = 0
+                    log.info("%s: auto-retrain ACCEPTED (val %.6f -> %.6f)",
+                             self.ticker, current_val, cand_val)
+                else:
+                    log.info("%s: auto-retrain rejected (val %.6f vs %.6f)",
+                             self.ticker, cand_val, current_val)
+            self.last_retrain = event
+        except Exception:  # noqa: BLE001 - a failed retrain must not kill live
+            log.exception("%s: auto-retrain failed", self.ticker)
+        finally:
+            self._retraining = False
+            self._retrain_cooldown = max(2 * self.config.horizon, 24)
+
     def _load_aci(self) -> ACIState:
         if self.aci_path.exists():
             raw = json.loads(self.aci_path.read_text())
@@ -311,5 +412,10 @@ class RealtimePredictor:
             "health": self.health(),
             "aci": (self.aci.as_dict()
                     if self.config.adaptive_conformal else None),
+            "drift": self.last_drift,
+            "retrain": {"auto": self.auto_retrain,
+                        "in_progress": self._retraining,
+                        "bars_since_train": self._bars_since_train,
+                        "last": self.last_retrain},
             "recent": recent,
         }

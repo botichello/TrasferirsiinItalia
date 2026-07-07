@@ -170,9 +170,18 @@ literature, applied to this codebase:
 - **Experience replay for online learning**: live fine-tuning mixes fresh
   windows with randomly replayed historical windows, preventing catastrophic
   forgetting of older regimes.
-- **Fractional Kelly sizing**: signals carry a suggested position size —
-  quarter-Kelly on the quantile-implied mean/variance, capped at 1x — the
-  standard guard against estimation-error blowups of full Kelly.
+- **SEMA (Switch EMA)**: the online model is reset to the EMA weights each
+  epoch (arXiv:2402.09240) — verified to beat vanilla EMA, SWA, and Lookahead
+  with zero extra cost.
+- **Dual position sizing**: every signal carries both a fractional-Kelly size
+  (quarter-Kelly on quantile-implied mean/variance) and a volatility-target
+  size (position scaled so forecast risk hits a fixed target — the convention
+  in the momentum-network benchmarks), each capped at 1x.
+
+The full research pass behind these choices — every claim adversarially
+verified with sources — is in [`docs/RESEARCH.md`](docs/RESEARCH.md), along
+with the verified findings not yet implemented (Sharpe-objective training,
+VLSTM hybrid, CPCV, greedy soups).
 
 Interpretability tensors (attention weights, per-variable selection weights)
 are returned by every forward pass. Each prediction includes

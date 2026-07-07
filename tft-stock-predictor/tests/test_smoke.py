@@ -193,13 +193,20 @@ def test_embargo_gap_between_train_and_val(config):
     assert gap_bars >= config.horizon - 1   # embargoed, no adjacent labels
 
 
-def test_kelly_sizing():
+def test_kelly_and_vol_target_sizing():
     q = [0.1, 0.5, 0.9]
     strong = np.array([[0.004, 0.008, 0.012]])   # tight band, clear edge
     sig = trading_signal(strong, q)
-    assert sig["action"] == "LONG" and 0 < sig["size"] <= 1.0
+    assert sig["action"] == "LONG"
+    assert 0 < sig["size"] <= 1.0
+    assert 0 < sig["size_vol_target"] <= 1.0
     flat = np.array([[-0.004, 0.0, 0.004]])
-    assert trading_signal(flat, q)["size"] == 0.0
+    fsig = trading_signal(flat, q)
+    assert fsig["size"] == 0.0 and fsig["size_vol_target"] == 0.0
+    # wider band → smaller vol-target size
+    wide = np.array([[-0.02, 0.008, 0.036]])
+    assert (trading_signal(wide, q)["size_vol_target"]
+            < sig["size_vol_target"])
 
 
 def test_evaluation_scores_matured_forecasts():

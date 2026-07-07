@@ -40,6 +40,7 @@ class TFTConfig:
     seed: int = 42
     warmup_fraction: float = 0.05   # linear LR warmup, then cosine decay
     ema_decay: float = 0.995        # exponential moving average of weights
+    switch_ema: bool = True         # SEMA: reset online weights to EMA each epoch
     ensemble_size: int = 1          # deep ensemble members (different seeds)
 
     # --- data conditioning ---

@@ -75,17 +75,21 @@ def predict_from_frame(model: nn.Module, scaler: FeatureScaler,
 
 def trading_signal(cum_log_ret: np.ndarray, quantiles: list[float],
                    edge_threshold: float = 0.0005,
-                   kelly_fraction: float = 0.25) -> dict:
+                   kelly_fraction: float = 0.25,
+                   vol_target: float = 0.01) -> dict:
     """Turn horizon-end quantiles into a position signal with sizing.
 
     Direction: long when the median predicted move clears the threshold and
     the downside quantile doesn't overwhelm it; symmetric for shorts.
 
-    Size: fractional Kelly. The quantile spread implies a forecast standard
-    deviation (an 80% interval spans ±1.2816σ under normality); the Kelly
-    ratio μ/σ² is scaled by `kelly_fraction` (quarter-Kelly by default —
-    full Kelly is famously too aggressive under estimation error) and capped
-    at 1.0 of capital.
+    Two research-backed sizes are reported (both capped at 1x capital):
+    - `size` — fractional Kelly: the quantile spread implies a forecast
+      standard deviation (an 80% interval spans ±1.2816σ under normality);
+      the Kelly ratio μ/σ² is scaled by `kelly_fraction` (quarter-Kelly —
+      full Kelly is famously too aggressive under estimation error).
+    - `size_vol_target` — volatility targeting, the convention in the
+      momentum-network literature (e.g. arXiv:2603.01820): position scaled
+      so forecast risk equals `vol_target` per horizon (default 1%).
     """
     q = np.asarray(quantiles)
     lo_i, hi_i = int(q.argmin()), int(q.argmax())
@@ -98,6 +102,7 @@ def trading_signal(cum_log_ret: np.ndarray, quantiles: list[float],
     z_span = 2 * 1.2816 * (q[hi_i] - q[lo_i]) / 0.8  # σ multiple of the interval
     sigma = max(spread / z_span, 1e-6)
     size = min(abs(median) / sigma ** 2 * kelly_fraction, 1.0)
+    size_vol_target = min(vol_target / sigma, 1.0)
 
     if median > edge_threshold and lo > -abs(median):
         action = "LONG"
@@ -112,4 +117,5 @@ def trading_signal(cum_log_ret: np.ndarray, quantiles: list[float],
         "upper": hi,
         "confidence": round(confidence, 4),
         "size": round(size if action != "FLAT" else 0.0, 4),
+        "size_vol_target": round(size_vol_target if action != "FLAT" else 0.0, 4),
     }

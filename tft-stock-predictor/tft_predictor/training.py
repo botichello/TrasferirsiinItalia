@@ -102,10 +102,13 @@ def _train_member(config: TFTConfig, train_loader: DataLoader,
         train_loss = total / max(count, 1)
 
         # validate the EMA weights — that's what would ship
-        raw_state = copy.deepcopy(model.state_dict())
+        raw_state = None if config.switch_ema else copy.deepcopy(model.state_dict())
         model.load_state_dict(ema.shadow)
         val_loss = evaluate(model, val_loader, criterion)
-        model.load_state_dict(raw_state)
+        if raw_state is not None:
+            model.load_state_dict(raw_state)
+        # with switch_ema the online model keeps training FROM the EMA
+        # weights (SEMA, arXiv:2402.09240) — a "free lunch" over vanilla EMA
 
         history["train_loss"].append(train_loss)
         history["val_loss"].append(val_loss)

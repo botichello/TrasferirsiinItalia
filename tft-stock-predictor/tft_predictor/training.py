@@ -27,8 +27,22 @@ from .conformal import fit_conformal
 from .data import FeatureScaler, build_datasets, get_client
 from .data.features import KNOWN_FEATURES, OBSERVED_FEATURES, build_features
 from .model import EnsembleTFT, QuantileLoss, TemporalFusionTransformer
+from .model.loss import SharpeLoss
 
 log = logging.getLogger(__name__)
+
+
+def make_criterion(config: TFTConfig) -> torch.nn.Module:
+    if config.objective == "sharpe":
+        return SharpeLoss()
+    return QuantileLoss(config.quantiles)
+
+
+def compute_loss(criterion: torch.nn.Module, out: dict, batch: dict,
+                 config: TFTConfig) -> torch.Tensor:
+    if config.objective == "sharpe":
+        return criterion(out["prediction"].squeeze(-1), batch["target"])
+    return criterion(out["prediction"], batch["target"])
 
 
 def fetch_training_frames(config: TFTConfig) -> dict:
@@ -75,7 +89,7 @@ def _train_member(config: TFTConfig, train_loader: DataLoader,
     """Train one ensemble member; returns (best EMA state_dict, history)."""
     torch.manual_seed(seed)
     model = TemporalFusionTransformer(config)
-    criterion = QuantileLoss(config.quantiles)
+    criterion = make_criterion(config)
     optimizer = torch.optim.AdamW(model.parameters(), lr=config.learning_rate)
     total_steps = config.max_epochs * max(1, len(train_loader))
     scheduler = _warmup_cosine(optimizer, total_steps, config.warmup_fraction)
@@ -91,7 +105,7 @@ def _train_member(config: TFTConfig, train_loader: DataLoader,
             optimizer.zero_grad()
             out = model(batch["observed"], batch["known_enc"],
                         batch["known_dec"], batch["static"])
-            loss = criterion(out["prediction"], batch["target"])
+            loss = compute_loss(criterion, out, batch, config)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), config.gradient_clip)
             optimizer.step()
@@ -166,9 +180,13 @@ def train(config: TFTConfig, frames: dict | None = None,
                               else EnsembleTFT(members))
     model.eval()
 
-    # conformal calibration on the embargoed validation set
-    config.conformal = fit_conformal(model, val_loader, config.quantiles)
-    criterion = QuantileLoss(config.quantiles)
+    if config.objective == "quantile":
+        # conformal calibration on the embargoed validation set
+        config.conformal = fit_conformal(model, val_loader, config.quantiles)
+        # then tune the signal threshold on the same calibrated outputs
+        from .backtest import tune_edge_threshold
+        config.edge_threshold = tune_edge_threshold(model, val_loader, config)
+    criterion = make_criterion(config)
     ensemble_val = evaluate(model, val_loader, criterion)
 
     out_dir = artifacts_dir(config, artifacts)
@@ -192,13 +210,14 @@ def train(config: TFTConfig, frames: dict | None = None,
 
 @torch.no_grad()
 def evaluate(model: torch.nn.Module, loader: DataLoader,
-             criterion: QuantileLoss) -> float:
+             criterion: torch.nn.Module) -> float:
     model.eval()
     total, count = 0.0, 0
+    config = getattr(model, "config", None) or model.members[0].config
     for batch in loader:
         out = model(batch["observed"], batch["known_enc"],
                     batch["known_dec"], batch["static"])
-        loss = criterion(out["prediction"], batch["target"])
+        loss = compute_loss(criterion, out, batch, config)
         total += loss.item() * len(batch["static"])
         count += len(batch["static"])
     return total / max(count, 1)

@@ -264,10 +264,14 @@ class RealtimePredictor:
         key = (stat.st_mtime_ns, stat.st_size, self.last_bar)
         if self._health_cache is not None and self._health_cache[0] == key:
             return self._health_cache[1]
+        from .backtest import PERIODS_PER_YEAR
         tolerance = interval_to_timedelta(self.config.interval) / 2
+        tpy = (PERIODS_PER_YEAR.get(self.config.interval, 8_760)
+               / self.config.horizon)
         summary = evaluate_file(self.out_path, self.history["close"],
                                 tolerance, fee_bps=self.config.fee_bps,
-                                ticker=self.ticker)["summary"]
+                                ticker=self.ticker,
+                                trades_per_year=tpy)["summary"]
         self._health_cache = (key, summary)
         return summary
 

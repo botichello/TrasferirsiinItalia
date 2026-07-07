@@ -31,6 +31,9 @@ class TFTConfig:
     use_attention: bool = True   # False = VLSTM variant (VSN + LSTM only),
                                  # which beat full TFT on daily futures
                                  # (arXiv:2603.01820, Sharpe 2.40 vs 2.20)
+    objective: str = "quantile"  # "quantile" (probabilistic bands) or
+                                 # "sharpe" (position head trained end-to-end
+                                 # on risk-adjusted returns, arXiv:2603.01820)
     quantiles: list[float] = field(default_factory=lambda: [0.1, 0.25, 0.5, 0.75, 0.9])
 
     # --- training ---
@@ -47,6 +50,8 @@ class TFTConfig:
     ensemble_size: int = 1          # deep ensemble members (different seeds)
     ensemble_keep: int | None = None  # keep top-K members by val loss (None = all)
     fee_bps: float = 0.0            # per-side transaction cost in basis points
+    edge_threshold: float = 0.0005  # min |median move| to act; tuned on
+                                    # validation at train time
 
     # --- data conditioning ---
     robust_scaling: bool = True         # median/IQR instead of mean/std

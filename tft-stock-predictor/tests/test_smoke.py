@@ -229,6 +229,69 @@ def test_embargo_gap_between_train_and_val(config):
     assert gap_bars >= config.horizon - 1   # embargoed, no adjacent labels
 
 
+def test_trade_stats_and_threshold_tuning(config):
+    import dataclasses
+
+    from tft_predictor.backtest import simulate_trades, trade_stats, tune_edge_threshold
+
+    # trade_stats math
+    pnl = np.array([0.01, -0.005, 0.02, -0.01])
+    stats = trade_stats(pnl, trades_per_year=100)
+    assert stats["annualized_sharpe"] > 0
+    assert stats["max_drawdown"] == pytest.approx(-0.01)
+    assert trade_stats(np.array([]), 100)["annualized_sharpe"] is None
+
+    # simulate_trades honors the threshold: strong signal trades, huge
+    # threshold doesn't
+    cfg = dataclasses.replace(config, horizon=2, quantiles=[0.1, 0.5, 0.9])
+    pred = np.tile(np.array([[0.004, 0.006, 0.008],
+                             [0.005, 0.007, 0.009]]), (6, 1, 1))
+    true = np.full((6, 2), 0.01)
+    assert len(simulate_trades(pred, true, cfg, 0.001, fee=0.0)) > 0
+    assert len(simulate_trades(pred, true, cfg, 0.05, fee=0.0)) == 0
+
+
+def test_sharpe_objective_end_to_end(config, tmp_path):
+    import dataclasses
+
+    from tft_predictor.backtest import backtest
+    from tft_predictor.model.loss import SharpeLoss
+    from tft_predictor.training import train
+
+    # loss: perfect positions (sign of return) beat inverted positions
+    loss_fn = SharpeLoss()
+    rng = np.random.default_rng(0)
+    steps = rng.standard_normal((64, 6)).astype(np.float32)
+    cum = torch.tensor(np.cumsum(steps, axis=1))
+    good = torch.tensor(np.sign(steps))
+    assert loss_fn(good, cum) < loss_fn(-good, cum)
+
+    scfg = dataclasses.replace(config, objective="sharpe", ensemble_size=1,
+                               max_epochs=2, conformal=None)
+    frames = {"SYN": build_features(synthetic_ohlcv())}
+    model, history = train(scfg, frames=frames, artifacts=tmp_path)
+    assert scfg.conformal is None            # no bands to calibrate
+    B, E, H = 2, scfg.encoder_length, scfg.horizon
+    with torch.no_grad():
+        out = model(torch.randn(B, E, len(OBSERVED_FEATURES)),
+                    torch.randn(B, E, len(KNOWN_FEATURES)),
+                    torch.randn(B, H, len(KNOWN_FEATURES)),
+                    torch.zeros(B, dtype=torch.long))
+    pos = out["prediction"]
+    assert pos.shape == (B, H, 1)
+    assert (pos.abs() <= 1).all()            # tanh-bounded positions
+
+    from tft_predictor.training import load_artifacts
+    model, scaler, cfg = load_artifacts(tmp_path / "SYN_1h")
+    results = backtest(model, scaler, cfg, frames["SYN"])
+    assert results["objective"] == "sharpe"
+    assert set(results) >= {"annualized_sharpe", "turnover_per_bar",
+                            "max_drawdown", "avg_abs_position"}
+    # quantile prediction path must refuse a position-head model
+    with pytest.raises(ValueError, match="quantile"):
+        predict_from_frame(model, scaler, cfg, frames["SYN"])
+
+
 def test_adaptive_conformal_state():
     from tft_predictor.conformal import ACIState, apply_aci
 

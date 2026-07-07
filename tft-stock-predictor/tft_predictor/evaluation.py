@@ -36,7 +36,8 @@ def read_records(path: str | Path) -> list[dict]:
 
 
 def evaluate_records(records: list[dict], closes: pd.Series,
-                     tolerance: pd.Timedelta, fee_bps: float = 0.0) -> dict:
+                     tolerance: pd.Timedelta, fee_bps: float = 0.0,
+                     trades_per_year: float | None = None) -> dict:
     """Join forecasts with realized closes and compute health metrics.
 
     `closes` must be indexed by tz-aware timestamps. A forecast is scored
@@ -106,13 +107,19 @@ def evaluate_records(records: list[dict], closes: pd.Series,
         peak = np.maximum.accumulate(np.concatenate([[0.0], equity]))[1:]
         summary["sized_total_return"] = float(equity[-1])
         summary["max_drawdown"] = float((equity - peak).min())
+        sized = np.array([r["sized_return"] for r in chron])
+        if trades_per_year and len(sized) >= 2 and sized.std() > 0:
+            summary["sized_annualized_sharpe"] = float(
+                sized.mean() / sized.std() * np.sqrt(trades_per_year))
     return {"summary": summary, "rows": rows}
 
 
 def evaluate_file(jsonl_path: str | Path, closes: pd.Series,
                   tolerance: pd.Timedelta, fee_bps: float = 0.0,
-                  ticker: str | None = None) -> dict:
+                  ticker: str | None = None,
+                  trades_per_year: float | None = None) -> dict:
     records = read_records(jsonl_path)
     if ticker is not None:
         records = [r for r in records if r.get("ticker") == ticker]
-    return evaluate_records(records, closes, tolerance, fee_bps=fee_bps)
+    return evaluate_records(records, closes, tolerance, fee_bps=fee_bps,
+                            trades_per_year=trades_per_year)

@@ -43,6 +43,10 @@ def _add_train_args(p: argparse.ArgumentParser) -> None:
                    help="keep only the top K ensemble members by val loss")
     p.add_argument("--no-attention", action="store_true",
                    help="VLSTM variant: variable selection + LSTM, no attention")
+    p.add_argument("--objective", choices=["quantile", "sharpe"],
+                   default="quantile",
+                   help="quantile bands (default) or an end-to-end position "
+                        "head trained on risk-adjusted returns")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -108,7 +112,8 @@ def main(argv: list[str] | None = None) -> int:
             hidden_size=args.hidden_size, attention_heads=args.heads,
             max_epochs=args.epochs, batch_size=args.batch_size,
             learning_rate=args.lr, ensemble_size=args.ensemble,
-            ensemble_keep=args.keep, use_attention=not args.no_attention)
+            ensemble_keep=args.keep, use_attention=not args.no_attention,
+            objective=args.objective)
         _, history = train(config, artifacts=args.artifacts_root)
         out = artifacts_dir(config, args.artifacts_root)
         print(f"best val quantile loss: {history['best_val_loss']:.6f}")

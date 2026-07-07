@@ -23,6 +23,11 @@ def predict_from_frame(model: nn.Module, scaler: FeatureScaler,
     Returns quantile *price* paths (cumulative-return quantiles applied to the
     last close), future timestamps, and interpretability weights.
     """
+    if config.objective != "quantile":
+        raise ValueError(
+            "predict/live need a quantile-objective model (bands); "
+            f"this artifact was trained with objective={config.objective!r}. "
+            "Sharpe-objective models are evaluated with `backtest`.")
     if len(features) < config.encoder_length:
         raise ValueError(
             f"need >= {config.encoder_length} feature rows, got {len(features)}")
@@ -71,7 +76,8 @@ def predict_from_frame(model: nn.Module, scaler: FeatureScaler,
         "attention": out["attention"].squeeze(0).numpy(),
         "encoder_var_weights": out["encoder_var_weights"].squeeze(0).numpy(),
         "variable_importance": dict(zip(feature_names, importance.round(4).tolist())),
-        "signal": trading_signal(cum_log_ret, config.quantiles),
+        "signal": trading_signal(cum_log_ret, config.quantiles,
+                                 edge_threshold=config.edge_threshold),
     }
 
 

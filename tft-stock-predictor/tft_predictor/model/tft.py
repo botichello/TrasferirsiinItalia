@@ -90,7 +90,8 @@ class TemporalFusionTransformer(nn.Module):
             self.pos_wise_ff = GatedResidualNetwork(d, d, d, config.dropout)
             self.pre_output_gate = GateAddNorm(d, d, dropout=0.0)
 
-        self.output_layer = nn.Linear(d, config.n_quantiles)
+        out_dim = 1 if config.objective == "sharpe" else config.n_quantiles
+        self.output_layer = nn.Linear(d, out_dim)
 
     # ------------------------------------------------------------------
     def forward(self, observed: torch.Tensor, known_enc: torch.Tensor,
@@ -158,8 +159,11 @@ class TemporalFusionTransformer(nn.Module):
             attn_weights = torch.zeros(enriched.shape[0], T, T,
                                        device=enriched.device)
 
+        out = self.output_layer(fused)
+        if self.config.objective == "sharpe":
+            out = torch.tanh(out)     # position in [-1, 1] per horizon step
         return {
-            "prediction": self.output_layer(fused),              # (B, H, Q)
+            "prediction": out,                                   # (B, H, Q|1)
             "attention": attn_weights[:, E:],                    # (B, H, E+H)
             "static_weights": static_weights.squeeze(-1),
             "encoder_var_weights": enc_var_weights,              # (B, E, n_vars)

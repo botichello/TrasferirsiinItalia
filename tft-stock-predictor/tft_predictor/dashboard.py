@@ -33,6 +33,41 @@ log = logging.getLogger(__name__)
 _PAGE_PATH = Path(__file__).with_name("dashboard.html")
 
 
+def _prometheus_metrics(engines: dict) -> str:
+    """Prometheus text exposition of each engine's live state — the hook
+    for Grafana/Alertmanager-style ops around the predictor."""
+    lines = [
+        "# TYPE tft_last_close gauge",
+        "# TYPE tft_forecasts_total counter",
+        "# TYPE tft_matured_total counter",
+        "# TYPE tft_band_coverage gauge",
+        "# TYPE tft_paper_pnl gauge",
+        "# TYPE tft_drift_max_psi gauge",
+        "# TYPE tft_aci_expand gauge",
+        "# TYPE tft_signal gauge",
+    ]
+    for ticker, engine in engines.items():
+        s = engine.snapshot()
+        lbl = f'{{ticker="{ticker}"}}'
+        if s.get("status") != "live":
+            continue
+        lines.append(f"tft_last_close{lbl} {s['forecast']['last_close']}")
+        sig = {"LONG": 1, "SHORT": -1}.get(s["signal"]["action"], 0)
+        lines.append(f"tft_signal{lbl} {sig}")
+        health = s.get("health") or {}
+        lines.append(f"tft_forecasts_total{lbl} {health.get('n_forecasts', 0)}")
+        lines.append(f"tft_matured_total{lbl} {health.get('n_matured', 0)}")
+        if health.get("band_coverage") is not None:
+            lines.append(f"tft_band_coverage{lbl} {health['band_coverage']}")
+        if health.get("sized_total_return") is not None:
+            lines.append(f"tft_paper_pnl{lbl} {health['sized_total_return']}")
+        if s.get("drift"):
+            lines.append(f"tft_drift_max_psi{lbl} {s['drift']['max_psi']}")
+        if s.get("aci"):
+            lines.append(f"tft_aci_expand{lbl} {s['aci']['expand']}")
+    return "\n".join(lines) + "\n"
+
+
 def _json_fallback(obj):
     """Serialize numpy scalars (np.bool_, np.float32, ...) transparently."""
     if hasattr(obj, "item"):
@@ -62,6 +97,9 @@ class _Handler(BaseHTTPRequestHandler):
             state["tickers"] = list(self.engines)
             body = json.dumps(state, default=_json_fallback).encode()
             self._respond(body, "application/json")
+        elif parsed.path == "/metrics":
+            self._respond(_prometheus_metrics(self.engines).encode(),
+                          "text/plain; version=0.0.4; charset=utf-8")
         elif parsed.path == "/":
             self._respond(_PAGE_PATH.read_bytes(), "text/html; charset=utf-8")
         else:

@@ -652,6 +652,41 @@ def test_coinbase_cache_spans(tmp_path):
     assert (loaded.index == cached.index).all()
 
 
+def test_metrics_endpoint():
+    import urllib.request
+
+    from tft_predictor.dashboard import DashboardServer
+
+    class FakeEngine:
+        def __init__(self, ticker):
+            self.ticker = ticker
+
+        def snapshot(self):
+            return {"status": "live",
+                    "forecast": {"last_close": 100.5},
+                    "signal": {"action": "LONG"},
+                    "health": {"n_forecasts": 7, "n_matured": 3,
+                               "band_coverage": 0.8,
+                               "sized_total_return": 0.012},
+                    "drift": {"max_psi": 0.07},
+                    "aci": {"expand": 0.04}}
+
+    srv = DashboardServer({"X-USD": FakeEngine("X-USD")}, port=0)
+    srv.start()
+    try:
+        with urllib.request.urlopen(
+                f"http://127.0.0.1:{srv.port}/metrics") as r:
+            body = r.read().decode()
+            assert "text/plain" in r.headers["Content-Type"]
+        assert 'tft_last_close{ticker="X-USD"} 100.5' in body
+        assert 'tft_signal{ticker="X-USD"} 1' in body
+        assert 'tft_band_coverage{ticker="X-USD"} 0.8' in body
+        assert 'tft_drift_max_psi{ticker="X-USD"} 0.07' in body
+        assert 'tft_aci_expand{ticker="X-USD"} 0.04' in body
+    finally:
+        srv.stop()
+
+
 def test_dashboard_basic_auth():
     import base64
     import urllib.error

@@ -9,7 +9,7 @@ import torch
 import torch.nn as nn
 
 from .config import TFTConfig
-from .conformal import apply_conformal, select_offsets
+from .conformal import apply_aci, apply_conformal, select_offsets
 from .data import FeatureScaler
 from .data.features import KNOWN_FEATURES, OBSERVED_FEATURES, future_known_frame
 
@@ -17,7 +17,7 @@ from .data.features import KNOWN_FEATURES, OBSERVED_FEATURES, future_known_frame
 @torch.no_grad()
 def predict_from_frame(model: nn.Module, scaler: FeatureScaler,
                        config: TFTConfig, features: pd.DataFrame,
-                       ticker_id: int = 0) -> dict:
+                       ticker_id: int = 0, aci_expand: float = 0.0) -> dict:
     """Forecast from the last `encoder_length` rows of a feature frame.
 
     Returns quantile *price* paths (cumulative-return quantiles applied to the
@@ -52,6 +52,7 @@ def predict_from_frame(model: nn.Module, scaler: FeatureScaler,
     offsets = select_offsets(config.conformal, ticker_id)
     if offsets:
         cum_log_ret = apply_conformal(cum_log_ret, offsets)
+    cum_log_ret = apply_aci(cum_log_ret, aci_expand)
     prices = last_close * np.exp(cum_log_ret)
 
     # Mean selection weight per input variable over the encoder window —

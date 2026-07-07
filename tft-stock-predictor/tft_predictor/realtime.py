@@ -27,6 +27,7 @@ import torch
 import requests
 
 from .config import TFTConfig
+from .conformal import ACIState
 from .data import FeatureScaler, WindowDataset, get_client
 from .data.features import build_features, interval_to_timedelta
 from .evaluation import evaluate_file
@@ -58,6 +59,8 @@ class RealtimePredictor:
         self.webhook_url = webhook_url
         self._last_action: str | None = None
         self._health_cache: tuple | None = None
+        self.aci_path = self.out_path.parent / "aci.json"
+        self.aci = self._load_aci()
         self._optimizer = None
         if config.online_learning:
             self._optimizer = torch.optim.AdamW(
@@ -92,10 +95,14 @@ class RealtimePredictor:
         if self.config.online_learning and self.last_bar is not None:
             self._online_update(closed)
         self.last_bar = newest
+        if self.config.adaptive_conformal:
+            self._update_aci(closed)
 
         features = build_features(closed)
         result = predict_from_frame(
-            self.model, self.scaler, self.config, features, self.ticker_id)
+            self.model, self.scaler, self.config, features, self.ticker_id,
+            aci_expand=(self.aci.expand if self.config.adaptive_conformal
+                        else 0.0))
         self._emit(result)
         return result
 
@@ -202,6 +209,38 @@ class RealtimePredictor:
         except requests.RequestException as err:
             log.warning("webhook alert failed: %s", err)
 
+    def _load_aci(self) -> ACIState:
+        if self.aci_path.exists():
+            raw = json.loads(self.aci_path.read_text())
+            return ACIState.from_dict(raw.get(self.ticker))
+        return ACIState()
+
+    def _save_aci(self) -> None:
+        raw = (json.loads(self.aci_path.read_text())
+               if self.aci_path.exists() else {})
+        raw[self.ticker] = self.aci.as_dict()
+        self.aci_path.write_text(json.dumps(raw, indent=2))
+
+    def _update_aci(self, closed: pd.DataFrame) -> None:
+        """Score forecasts that matured since the last update and adapt the
+        band expansion — misses widen future bands, hits narrow them."""
+        if not self.out_path.exists():
+            return
+        tolerance = interval_to_timedelta(self.config.interval) / 2
+        rows = evaluate_file(self.out_path, closed["close"], tolerance,
+                             ticker=self.ticker)["rows"]
+        alpha = 1.0 - (max(self.config.quantiles) - min(self.config.quantiles))
+        fresh = sorted((r for r in rows
+                        if r["generated_at"] > self.aci.processed_through),
+                       key=lambda r: r["generated_at"])
+        for row in fresh:
+            self.aci.update(row["in_band"], alpha, self.config.aci_gamma)
+            self.aci.processed_through = row["generated_at"]
+        if fresh:
+            self._save_aci()
+            log.info("ACI: %d matured forecasts scored, expand now %+.3f",
+                     len(fresh), self.aci.expand)
+
     def health(self) -> dict | None:
         """Score matured past forecasts against realized closes (cached
         until predictions.jsonl or the bar clock moves)."""
@@ -252,5 +291,7 @@ class RealtimePredictor:
             "signal": record["signal"],
             "variable_importance": record.get("variable_importance", {}),
             "health": self.health(),
+            "aci": (self.aci.as_dict()
+                    if self.config.adaptive_conformal else None),
             "recent": recent,
         }

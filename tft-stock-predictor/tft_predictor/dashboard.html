@@ -210,7 +210,7 @@ function render() {
     </div>
 
     <div class="two-col">
-      <div class="card"><h2 style="margin-bottom:6px">Live model health</h2>${healthHTML(state.health)}</div>
+      <div class="card"><h2 style="margin-bottom:6px">Live model health</h2>${healthHTML(state.health)}${aciHTML(state.aci)}</div>
       <div class="card"><h2 style="margin-bottom:6px">What the model is looking at</h2>${importanceHTML(state.variable_importance)}</div>
     </div>
 
@@ -257,6 +257,14 @@ function healthHTML(h) {
     <div class="kv"><span>Max drawdown</span><b>${(h.max_drawdown * 100).toFixed(2)}%</b></div>` : ""}
     <div class="note">Live forecasts scored against realized closes. Coverage drifting
       well below target means the market regime moved — consider retraining.</div>`;
+}
+
+function aciHTML(aci) {
+  if (!aci) return "";
+  const sign = aci.expand >= 0 ? "+" : "";
+  return `<div class="kv"><span>Adaptive band adjustment <span class="hint">ACI ·
+    ${aci.n_updates} update${aci.n_updates === 1 ? "" : "s"}</span></span>
+    <b>${sign}${(aci.expand * 100).toFixed(1)}% width</b></div>`;
 }
 
 function importanceHTML(imp) {

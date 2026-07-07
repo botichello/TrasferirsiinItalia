@@ -229,6 +229,38 @@ def test_embargo_gap_between_train_and_val(config):
     assert gap_bars >= config.horizon - 1   # embargoed, no adjacent labels
 
 
+def test_adaptive_conformal_state():
+    from tft_predictor.conformal import ACIState, apply_aci
+
+    aci = ACIState()
+    alpha, gamma = 0.2, 0.1
+    # sustained misses widen: each miss adds gamma*(1-alpha)
+    for _ in range(5):
+        aci.update(in_band=False, alpha=alpha, gamma=gamma)
+    assert aci.expand == pytest.approx(5 * gamma * (1 - alpha))
+    widened = aci.expand
+    # hits slowly narrow: each hit subtracts gamma*alpha
+    for _ in range(3):
+        aci.update(in_band=True, alpha=alpha, gamma=gamma)
+    assert aci.expand == pytest.approx(widened - 3 * gamma * alpha)
+    assert aci.n_updates == 8
+    # long runs stay clipped
+    for _ in range(200):
+        aci.update(in_band=False, alpha=alpha, gamma=gamma)
+    assert aci.expand == ACIState.MAX_EXPAND
+    # round trip through persistence
+    clone = ACIState.from_dict(aci.as_dict())
+    assert clone.expand == aci.expand and clone.n_updates == aci.n_updates
+
+    # applying expansion widens only the outer band, keeps monotonicity
+    pred = np.array([[[-1.0, 0.0, 1.0]]])
+    out = apply_aci(pred, 0.5)
+    assert out[0, 0, 0] == pytest.approx(-1.5)
+    assert out[0, 0, 2] == pytest.approx(1.5)
+    assert out[0, 0, 1] == pytest.approx(0.0)
+    assert (apply_aci(pred, 0.0) == pred).all()
+
+
 def test_prob_up_from_quantile_cdf():
     q = [0.1, 0.5, 0.9]
     up = np.array([[0.001, 0.005, 0.009]])       # all quantiles above zero

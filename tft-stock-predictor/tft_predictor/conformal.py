@@ -54,6 +54,56 @@ def apply_conformal(pred: np.ndarray, conf: dict) -> np.ndarray:
     return np.sort(pred, axis=-1)
 
 
+class ACIState:
+    """Adaptive conformal inference (in the spirit of Gibbs & Candès, 2021).
+
+    Static CQR offsets guarantee coverage on the calibration distribution;
+    markets drift away from it. ACI closes the loop online: each matured
+    forecast updates a scale-free expansion factor
+        expand += gamma * (miss - alpha)
+    where miss is 1 when the realized value fell outside the published band.
+    The factor is applied as a fraction of the current band half-width, so
+    one state serves any volatility level. Long-run miss rate converges to
+    alpha regardless of distribution shift.
+    """
+
+    MIN_EXPAND, MAX_EXPAND = -0.5, 2.0
+
+    def __init__(self, expand: float = 0.0, n_updates: int = 0,
+                 processed_through: str = ""):
+        self.expand = expand
+        self.n_updates = n_updates
+        self.processed_through = processed_through  # last scored generated_at
+
+    def update(self, in_band: bool, alpha: float, gamma: float) -> None:
+        err = 0.0 if in_band else 1.0
+        self.expand = float(np.clip(self.expand + gamma * (err - alpha),
+                                    self.MIN_EXPAND, self.MAX_EXPAND))
+        self.n_updates += 1
+
+    def as_dict(self) -> dict:
+        return {"expand": self.expand, "n_updates": self.n_updates,
+                "processed_through": self.processed_through}
+
+    @classmethod
+    def from_dict(cls, raw: dict | None) -> "ACIState":
+        raw = raw or {}
+        return cls(raw.get("expand", 0.0), raw.get("n_updates", 0),
+                   raw.get("processed_through", ""))
+
+
+def apply_aci(pred: np.ndarray, expand: float) -> np.ndarray:
+    """Expand (or shrink) the outer band by `expand` x half-width.
+    pred: (..., H, Q) with ascending quantile columns."""
+    if not expand:
+        return pred
+    pred = pred.copy()
+    half = (pred[..., -1] - pred[..., 0]) / 2.0
+    pred[..., 0] -= expand * half
+    pred[..., -1] += expand * half
+    return np.sort(pred, axis=-1)
+
+
 def select_offsets(conf: dict | None, ticker_id: int) -> dict | None:
     """Pick the offsets for a ticker: per-ticker when available, else the
     pooled fit; transparently handles the legacy single-dict format."""

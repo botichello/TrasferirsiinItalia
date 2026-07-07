@@ -56,6 +56,10 @@ class TFTConfig:
     # Conformal (CQR) offsets fitted on validation after training; applied
     # at prediction time so quantile bands carry a coverage guarantee.
     conformal: dict | None = None
+    # Adaptive conformal inference: live band expansion updated online as
+    # forecasts mature, so coverage tracks the target under regime drift.
+    adaptive_conformal: bool = True
+    aci_gamma: float = 0.1
 
     # --- realtime ---
     refresh_seconds: int = 60

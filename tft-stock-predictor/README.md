@@ -71,7 +71,15 @@ python -m tft_predictor live --artifacts artifacts/BTC-USD_1h --dashboard 8000
 
 # ... POSTing the full forecast to a webhook whenever the signal changes
 python -m tft_predictor live --artifacts artifacts/BTC-USD_1h --webhook https://example.com/hook
+
+# multi-asset live: one process, one dashboard with a ticker switcher
+python -m tft_predictor live --artifacts artifacts/BTC-USD-ETH-USD-SOL-USD_1h \
+    --tickers BTC-USD ETH-USD SOL-USD --dashboard 8000
 ```
+
+Coinbase bars are cached on disk (`~/.cache/tft-predictor`, override with
+`TFT_CACHE_DIR`, empty to disable), so repeat warm starts and retrains fetch
+only the bars they're missing.
 
 ## Live dashboard
 
@@ -83,9 +91,14 @@ the engine every few seconds and shows:
   and shaded 50%/80% quantile bands, with a crosshair tooltip.
 - **Stat tiles** — last close (with bar-over-bar delta), LONG/SHORT/FLAT
   signal, median forecast at the horizon, confidence meter, and band width.
+- **Ticker switcher** — with `--tickers A B C` every asset gets its own
+  chart, health, and forecast log behind one dropdown.
 - **Live model health** — matured forecasts scored against realized closes
   (band coverage vs. target, directional accuracy, median error, signal hit
-  rate). Coverage drifting well below nominal is the retrain signal.
+  rate, fee-adjusted paper P&L). Coverage drifting well below nominal is the
+  retrain signal — and the **adaptive band adjustment (ACI)** row shows how
+  the engine is already compensating online: matured band misses widen
+  future bands, hits narrow them.
 - **What the model is looking at** — the TFT's variable-selection weights
   for the current forecast, as a ranked bar list.
 - **Recent forecasts table** — the last dozen updates with expected move,

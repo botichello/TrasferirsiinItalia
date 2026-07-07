@@ -37,6 +37,32 @@ from .predict import predict_from_frame
 log = logging.getLogger(__name__)
 
 
+def run_many(engines: list["RealtimePredictor"], refresh_seconds: int,
+             max_updates: int | None = None) -> None:
+    """Round-robin poll several engines (one per ticker) in one process.
+
+    Each engine keeps its own bar clock, ACI state, and health; they share
+    the process, the output file, and one polling cadence. `max_updates`
+    counts forecasts across all engines (useful for tests/smoke runs).
+    """
+    for engine in engines:
+        engine.warm_start()
+    updates = 0
+    while True:
+        for engine in engines:
+            try:
+                result = engine.poll()
+            except ConnectionError as err:
+                log.warning("%s poll failed, will retry: %s",
+                            engine.ticker, err)
+                result = None
+            if result is not None:
+                updates += 1
+                if max_updates is not None and updates >= max_updates:
+                    return
+        time.sleep(refresh_seconds)
+
+
 class RealtimePredictor:
     def __init__(self, model: TemporalFusionTransformer, scaler: FeatureScaler,
                  config: TFTConfig, ticker: str | None = None,
@@ -108,19 +134,7 @@ class RealtimePredictor:
 
     def run(self, max_updates: int | None = None) -> None:
         """Blocking loop: poll every `refresh_seconds` until interrupted."""
-        self.warm_start()
-        updates = 0
-        while True:
-            try:
-                result = self.poll()
-            except ConnectionError as err:
-                log.warning("poll failed, will retry: %s", err)
-                result = None
-            if result is not None:
-                updates += 1
-                if max_updates is not None and updates >= max_updates:
-                    return
-            time.sleep(self.config.refresh_seconds)
+        run_many([self], self.config.refresh_seconds, max_updates)
 
     # ------------------------------------------------------------------
     def _online_update(self, closed: pd.DataFrame) -> None:

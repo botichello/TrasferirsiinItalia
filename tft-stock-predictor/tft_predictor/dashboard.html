@@ -49,6 +49,8 @@
 
   header { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
   header h1 { font-size: 20px; font-weight: 650; }
+  #tickersel { background: var(--surface); color: var(--ink); border: 1px solid var(--border);
+               border-radius: 8px; padding: 4px 8px; font: inherit; font-weight: 600; display: none; }
   .meta { color: var(--ink-2); font-size: 13px; }
   .live { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-2); font-size: 13px; margin-left: auto; }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--good); }
@@ -114,6 +116,7 @@
 <div class="wrap">
   <header>
     <h1 id="title">TFT Live Forecast</h1>
+    <select id="tickersel" aria-label="Ticker"></select>
     <span class="meta" id="meta"></span>
     <span class="live"><span class="dot" id="dot"></span><span id="ago">connecting…</span></span>
   </header>
@@ -128,7 +131,7 @@
 
 <script>
 "use strict";
-let state = null, lastFetch = 0;
+let state = null, lastFetch = 0, currentTicker = null;
 
 const fmtPrice = v => v >= 1000 ? v.toLocaleString("en-US", {maximumFractionDigits: 2, minimumFractionDigits: 2})
                                 : v.toLocaleString("en-US", {maximumFractionDigits: 4});
@@ -140,11 +143,27 @@ const fmtDT = ms => new Date(ms).toLocaleString([], {month: "short", day: "numer
 
 async function refresh() {
   try {
-    const r = await fetch("/api/state");
+    const url = "/api/state" + (currentTicker ? "?ticker=" + encodeURIComponent(currentTicker) : "");
+    const r = await fetch(url);
     state = await r.json();
     lastFetch = Date.now();
+    renderTickerSelect();
     render();
   } catch (e) { /* transient; keep last state */ }
+}
+
+function renderTickerSelect() {
+  const sel = document.getElementById("tickersel");
+  const tickers = state.tickers || [];
+  if (tickers.length < 2) { sel.style.display = "none"; return; }
+  const want = tickers.join("|");
+  if (sel.dataset.opts !== want) {
+    sel.dataset.opts = want;
+    sel.innerHTML = tickers.map(t => `<option value="${t}">${t}</option>`).join("");
+    sel.onchange = () => { currentTicker = sel.value; refresh(); };
+  }
+  sel.value = state.ticker;
+  sel.style.display = "inline-block";
 }
 
 function signalBits(action) {

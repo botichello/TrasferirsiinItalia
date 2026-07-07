@@ -361,20 +361,78 @@ def test_dashboard_serves_state_and_page():
     from tft_predictor.dashboard import DashboardServer
 
     class FakeEngine:
-        def snapshot(self):
-            return {"status": "warming_up", "ticker": "SYN"}
+        def __init__(self, ticker):
+            self.ticker = ticker
 
-    srv = DashboardServer(FakeEngine(), port=0)  # ephemeral port
+        def snapshot(self):
+            return {"status": "warming_up", "ticker": self.ticker}
+
+    engines = {"SYN": FakeEngine("SYN"), "SYN2": FakeEngine("SYN2")}
+    srv = DashboardServer(engines, port=0)  # ephemeral port
     srv.start()
     try:
         port = srv.port
         with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/state") as r:
-            assert jsonlib.loads(r.read())["status"] == "warming_up"
+            state = jsonlib.loads(r.read())
+        assert state["status"] == "warming_up" and state["ticker"] == "SYN"
+        assert state["tickers"] == ["SYN", "SYN2"]
+        with urllib.request.urlopen(
+                f"http://127.0.0.1:{port}/api/state?ticker=SYN2") as r:
+            assert jsonlib.loads(r.read())["ticker"] == "SYN2"
         with urllib.request.urlopen(f"http://127.0.0.1:{port}/") as r:
             html = r.read().decode()
         assert "TFT Live Forecast" in html and "drawChart" in html
     finally:
         srv.stop()
+
+
+def test_run_many_round_robin():
+    from tft_predictor.realtime import run_many
+
+    calls = []
+
+    class FakeEngine:
+        def __init__(self, ticker):
+            self.ticker = ticker
+
+        def warm_start(self):
+            calls.append(("warm", self.ticker))
+
+        def poll(self):
+            calls.append(("poll", self.ticker))
+            return {"ok": self.ticker}
+
+    engines = [FakeEngine("A"), FakeEngine("B"), FakeEngine("C")]
+    run_many(engines, refresh_seconds=0, max_updates=3)
+    assert [c for c in calls if c[0] == "warm"] == [
+        ("warm", "A"), ("warm", "B"), ("warm", "C")]
+    assert [c[1] for c in calls if c[0] == "poll"] == ["A", "B", "C"]
+
+
+def test_coinbase_cache_spans(tmp_path):
+    from datetime import datetime, timedelta, timezone
+
+    from tft_predictor.data.coinbase import CoinbaseClient
+
+    client = CoinbaseClient(cache_dir=tmp_path)
+    end = datetime(2026, 7, 1, tzinfo=timezone.utc)
+    start = end - timedelta(days=10)
+    # no cache → one span covering everything
+    assert client._missing_spans(None, start, end, 3600) == [(start, end)]
+    # cache covering the middle → older gap + fresh tail
+    idx = pd.date_range(start + timedelta(days=2), end - timedelta(days=2),
+                        freq="1h", tz="UTC")
+    cached = pd.DataFrame({"open": 1.0, "high": 1.0, "low": 1.0,
+                           "close": 1.0, "volume": 0.0}, index=idx)
+    spans = client._missing_spans(cached, start, end, 3600)
+    assert len(spans) == 2
+    assert spans[0][0] == start                      # older gap
+    assert spans[1][1] == end                        # fresh tail
+    # cache round trip preserves the index and values
+    client._save_cache("TEST-USD", "1h", cached)
+    loaded = client._load_cache("TEST-USD", "1h")
+    assert len(loaded) == len(cached)
+    assert (loaded.index == cached.index).all()
 
 
 def test_dashboard_basic_auth():
@@ -385,10 +443,12 @@ def test_dashboard_basic_auth():
     from tft_predictor.dashboard import DashboardServer
 
     class FakeEngine:
+        ticker = "SYN"
+
         def snapshot(self):
             return {"status": "warming_up"}
 
-    srv = DashboardServer(FakeEngine(), port=0, host="0.0.0.0",
+    srv = DashboardServer({"SYN": FakeEngine()}, port=0, host="0.0.0.0",
                           auth="trader:s3cret")
     srv.start()
     try:

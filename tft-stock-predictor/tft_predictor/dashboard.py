@@ -24,6 +24,7 @@ import threading
 from functools import partial
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.parse import parse_qs, urlparse
 
 from .realtime import RealtimePredictor
 
@@ -33,9 +34,9 @@ _PAGE_PATH = Path(__file__).with_name("dashboard.html")
 
 
 class _Handler(BaseHTTPRequestHandler):
-    def __init__(self, engine: RealtimePredictor, auth_header: str | None,
-                 *args, **kwargs):
-        self.engine = engine
+    def __init__(self, engines: dict[str, RealtimePredictor],
+                 auth_header: str | None, *args, **kwargs):
+        self.engines = engines
         self.auth_header = auth_header
         super().__init__(*args, **kwargs)
 
@@ -46,11 +47,14 @@ class _Handler(BaseHTTPRequestHandler):
             self.send_header("Content-Length", "0")
             self.end_headers()
             return
-        path = self.path.split("?")[0]
-        if path == "/api/state":
-            body = json.dumps(self.engine.snapshot()).encode()
-            self._respond(body, "application/json")
-        elif path == "/":
+        parsed = urlparse(self.path)
+        if parsed.path == "/api/state":
+            requested = parse_qs(parsed.query).get("ticker", [None])[0]
+            engine = self.engines.get(requested) or next(iter(self.engines.values()))
+            state = engine.snapshot()
+            state["tickers"] = list(self.engines)
+            self._respond(json.dumps(state).encode(), "application/json")
+        elif parsed.path == "/":
             self._respond(_PAGE_PATH.read_bytes(), "text/html; charset=utf-8")
         else:
             self.send_error(404)
@@ -74,17 +78,28 @@ class _Handler(BaseHTTPRequestHandler):
 
 
 class DashboardServer:
-    def __init__(self, engine: RealtimePredictor, port: int = 8000,
-                 host: str = "127.0.0.1", auth: str | None = None):
-        """`auth` is "user:password"; when set, every request must carry
+    def __init__(self, engine: "RealtimePredictor | dict[str, RealtimePredictor] | list[RealtimePredictor]",
+                 port: int = 8000, host: str = "127.0.0.1",
+                 auth: str | None = None):
+        """`engine` may be a single engine, a list, or a {ticker: engine}
+        dict — the dashboard serves them all with a ticker switcher.
+        `auth` is "user:password"; when set, every request must carry
         matching HTTP Basic credentials."""
+        if isinstance(engine, RealtimePredictor):
+            engines = {engine.ticker: engine}
+        elif isinstance(engine, dict):
+            engines = engine
+        else:
+            engines = {e.ticker: e for e in engine}
+        if not engines:
+            raise ValueError("dashboard needs at least one engine")
         auth_header = None
         if auth:
             if ":" not in auth:
                 raise ValueError("--dashboard-auth expects USER:PASSWORD")
             auth_header = "Basic " + base64.b64encode(auth.encode()).decode()
         self.httpd = ThreadingHTTPServer(
-            (host, port), partial(_Handler, engine, auth_header))
+            (host, port), partial(_Handler, engines, auth_header))
         self._thread = threading.Thread(
             target=self.httpd.serve_forever, name="dashboard", daemon=True)
         self.host = host

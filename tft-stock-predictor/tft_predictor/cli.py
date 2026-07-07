@@ -68,6 +68,9 @@ def main(argv: list[str] | None = None) -> int:
                        help="path to a trained model dir, e.g. artifacts/AAPL_1h")
         p.add_argument("--ticker", default=None,
                        help="override ticker (defaults to first trained ticker)")
+    sub.choices["live"].add_argument(
+        "--tickers", nargs="+", default=None,
+        help="run several tickers in one process (multi-asset live)")
     sub.choices["live"].add_argument("--refresh", type=int, default=None,
                                      help="seconds between polls")
     sub.choices["live"].add_argument("--online-learning", action="store_true",
@@ -167,29 +170,35 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "live":
+        from .realtime import run_many
+
         if args.refresh is not None:
             config.refresh_seconds = args.refresh
         if args.online_learning:
             config.online_learning = True
-        engine = RealtimePredictor(model, scaler, config, ticker=ticker,
-                                   out_dir=Path(args.artifacts),
-                                   webhook_url=args.webhook)
+        tickers = args.tickers or [ticker]
+        engines = [RealtimePredictor(model, scaler, config, ticker=t,
+                                     out_dir=Path(args.artifacts),
+                                     webhook_url=args.webhook)
+                   for t in tickers]
         server = None
         if args.dashboard is not None:
             from .dashboard import DashboardServer
             host = args.dashboard_host or ("0.0.0.0" if args.dashboard_public
                                            else "127.0.0.1")
-            server = DashboardServer(engine, port=args.dashboard, host=host,
+            server = DashboardServer(engines, port=args.dashboard, host=host,
                                      auth=args.dashboard_auth).start()
             print("dashboard: " + "  ".join(server.urls())
                   + ("  (basic auth)" if server.protected else ""))
             if host == "0.0.0.0" and not server.protected:
                 print("WARNING: dashboard is open to the network without "
                       "authentication — add --dashboard-auth USER:PASS")
-        print(f"live prediction for {ticker} every {config.refresh_seconds}s "
+        print(f"live prediction for {', '.join(tickers)} every "
+              f"{config.refresh_seconds}s "
               f"(online learning: {config.online_learning}) — Ctrl-C to stop")
         try:
-            engine.run(max_updates=args.max_updates)
+            run_many(engines, config.refresh_seconds,
+                     max_updates=args.max_updates)
         except KeyboardInterrupt:
             print("\nstopped")
         finally:

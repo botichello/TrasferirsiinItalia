@@ -47,6 +47,7 @@ def walkforward(config: TFTConfig, features: pd.DataFrame,
 
     folds = []
     all_pnl, covered, dir_hits, dir_total = [], [], 0, 0
+    step_cov_sum, step_cov_n = None, 0
     for k in range(n_folds):
         lo, hi = bounds[k], bounds[k + 1]
         train_df = features.iloc[:lo]
@@ -75,6 +76,9 @@ def walkforward(config: TFTConfig, features: pd.DataFrame,
         end_pred, end_true = pred[:, -1, :], true[:, -1]
         in_band = ((end_true >= end_pred[:, 0])
                    & (end_true <= end_pred[:, -1]))
+        step_cov = ((true >= pred[:, :, 0]) & (true <= pred[:, :, -1])).sum(axis=0)
+        step_cov_sum = step_cov if step_cov_sum is None else step_cov_sum + step_cov
+        step_cov_n += len(true)
         nz = end_true != 0
         med_i = int(np.abs(q - 0.5).argmin())
         hits = int((np.sign(end_pred[nz, med_i])
@@ -104,6 +108,8 @@ def walkforward(config: TFTConfig, features: pd.DataFrame,
         "n_folds": len(folds),
         "windows": int(sum(f["windows"] for f in folds)),
         "coverage": float(np.mean(covered)) if covered else None,
+        "coverage_by_step": (np.round(step_cov_sum / step_cov_n, 4).tolist()
+                             if step_cov_n else None),
         "nominal_coverage": float(max(config.quantiles) - min(config.quantiles)),
         "directional_accuracy": (dir_hits / dir_total) if dir_total else None,
         "fee_bps_per_side": (config.fee_bps if fee_bps is None else fee_bps),

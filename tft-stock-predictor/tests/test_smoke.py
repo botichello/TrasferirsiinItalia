@@ -229,6 +229,87 @@ def test_embargo_gap_between_train_and_val(config):
     assert gap_bars >= config.horizon - 1   # embargoed, no adjacent labels
 
 
+def test_report_generation(config, tmp_path):
+    from tft_predictor.report import build_report, write_report
+
+    bt = {"objective": "quantile", "windows": 100,
+          "interval_coverage": 0.79, "nominal_coverage": 0.8,
+          "coverage_by_step": [0.8, 0.79, 0.81], "inner_coverage": 0.5,
+          "inner_nominal": 0.5, "directional_accuracy": 0.51,
+          "fee_bps_per_side": 5.0, "edge_threshold": 0.001, "trades": 4,
+          "total_return": 0.012, "hit_rate": 0.5, "avg_return_per_trade": 0.003,
+          "annualized_sharpe": 1.1, "annualized_sortino": None,
+          "max_drawdown": -0.01}
+    ev = {"summary": {"n_forecasts": 5, "n_matured": 3, "band_coverage": 0.67,
+                      "nominal_coverage": 0.8, "sized_total_return": 0.01,
+                      "max_drawdown": -0.002},
+          "rows": [{"horizon_end": f"2026-01-0{i}", "sized_return": 0.003}
+                   for i in range(1, 4)]}
+    html_text = build_report(config, bt, eval_results=ev)
+    for needle in ("tear-sheet", "Band coverage", "coverage by horizon",
+                   "Live forecasts scored", "not\ninvestment advice"):
+        assert needle in html_text, needle
+    out = write_report(tmp_path, config, bt, eval_results=ev)
+    assert out.exists() and out.name == "report.html"
+    # sharpe-mode report renders the position tiles instead
+    sbt = {"objective": "sharpe", "windows": 10, "fee_bps_per_side": 5.0,
+           "total_return": 0.01, "annualized_sharpe": 0.3,
+           "max_drawdown": -0.05, "avg_abs_position": 0.5,
+           "turnover_per_bar": 0.05, "hit_rate": 0.51}
+    assert "Turnover" in build_report(config, sbt)
+
+
+def test_greedy_soup(config, tmp_path):
+    import dataclasses
+
+    from tft_predictor.data import build_datasets
+    from tft_predictor.model import EnsembleTFT
+    from tft_predictor.training import greedy_soup, train
+    from torch.utils.data import DataLoader
+
+    frames = {"SYN": build_features(synthetic_ohlcv())}
+    gcfg = dataclasses.replace(config, ensemble_size=2, max_epochs=1,
+                               conformal=None, greedy_soup=True)
+    model, history = train(gcfg, frames=frames, artifacts=tmp_path)
+    assert history["soup"] is not None
+    assert history["soup"]["ingredients"] >= 1
+    if history["soup"]["deployed"]:
+        # soup deployed as a single model, no stale member files
+        assert not isinstance(model, EnsembleTFT)
+        assert not (tmp_path / "SYN_1h" / "model_1.pt").exists()
+        assert history["soup"]["soup_val"] <= history["soup"]["ensemble_val"]
+    else:
+        assert isinstance(model, EnsembleTFT)
+
+    # mechanics: soup of two identical members == the member itself
+    _, val_ds, _ = build_datasets(frames, gcfg)
+    loader = DataLoader(val_ds, batch_size=64)
+    from tft_predictor.model import TemporalFusionTransformer
+    m = TemporalFusionTransformer(gcfg)
+    hists = [{"best_val_loss": 1.0}, {"best_val_loss": 2.0}]
+    sd, val, n = greedy_soup([m, m], hists, loader, gcfg)
+    assert n == 2  # identical weights: averaging can never hurt
+    for k, v in m.state_dict().items():
+        assert torch.allclose(sd[k], v)
+
+
+def test_coverage_by_step_shapes(config, tmp_path):
+    import dataclasses
+
+    from tft_predictor.backtest import backtest
+    from tft_predictor.training import train
+
+    frames = {"SYN": build_features(synthetic_ohlcv())}
+    ccfg = dataclasses.replace(config, ensemble_size=1, max_epochs=1,
+                               conformal=None)
+    model, _ = train(ccfg, frames=frames, artifacts=tmp_path)
+    from tft_predictor.training import load_artifacts
+    model, scaler, cfg = load_artifacts(tmp_path / "SYN_1h")
+    results = backtest(model, scaler, cfg, frames["SYN"])
+    assert len(results["coverage_by_step"]) == cfg.horizon
+    assert all(0.0 <= c <= 1.0 for c in results["coverage_by_step"])
+
+
 def test_walkforward(config):
     import dataclasses
 

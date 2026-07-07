@@ -142,6 +142,46 @@ def _train_member(config: TFTConfig, train_loader: DataLoader,
     return best_state, history
 
 
+def greedy_soup(members: list[torch.nn.Module], histories: list[dict],
+                val_loader: DataLoader, config: TFTConfig
+                ) -> tuple[dict, float, int]:
+    """Greedy model soup (Wortsman et al., 2022).
+
+    Sort members by validation loss, then add each to a uniform weight
+    average only if validation doesn't degrade — guaranteed no worse than
+    the best single member on the held-out split. Returns (state_dict,
+    val_loss, n_ingredients). A soup is one model: N× cheaper at inference
+    than an output-averaged ensemble.
+    """
+    criterion = make_criterion(config)
+    probe = TemporalFusionTransformer(config)
+
+    def average(states: list[dict]) -> dict:
+        out = {}
+        for k, v in states[0].items():
+            if v.dtype.is_floating_point:
+                out[k] = torch.stack([s[k] for s in states]).mean(dim=0)
+            else:
+                out[k] = v.clone()
+        return out
+
+    def val_of(sd: dict) -> float:
+        probe.load_state_dict(sd)
+        probe.eval()
+        return evaluate(probe, val_loader, criterion)
+
+    order = sorted(range(len(members)),
+                   key=lambda i: histories[i]["best_val_loss"])
+    soup = [members[order[0]].state_dict()]
+    best_val = val_of(average(soup))
+    for idx in order[1:]:
+        candidate = soup + [members[idx].state_dict()]
+        v = val_of(average(candidate))
+        if v <= best_val:
+            soup, best_val = candidate, v
+    return average(soup), best_val, len(soup)
+
+
 def train(config: TFTConfig, frames: dict | None = None,
           artifacts: str | Path = "artifacts"
           ) -> tuple[torch.nn.Module, dict]:
@@ -181,6 +221,23 @@ def train(config: TFTConfig, frames: dict | None = None,
                               else EnsembleTFT(members))
     model.eval()
 
+    soup_note = None
+    if len(members) > 1 and config.greedy_soup:
+        criterion = make_criterion(config)
+        ensemble_val_pre = evaluate(model, val_loader, criterion)
+        soup_sd, soup_val, n_ing = greedy_soup(
+            members, histories, val_loader, config)
+        deployed = soup_val <= ensemble_val_pre
+        soup_note = {"ingredients": n_ing, "soup_val": soup_val,
+                     "ensemble_val": ensemble_val_pre, "deployed": deployed}
+        log.info("greedy soup: %s", soup_note)
+        if deployed:
+            soup_model = TemporalFusionTransformer(config)
+            soup_model.load_state_dict(soup_sd)
+            soup_model.eval()
+            members = [soup_model]
+            model = soup_model
+
     if config.objective == "quantile":
         # conformal calibration on the embargoed validation set
         config.conformal = fit_conformal(model, val_loader, config.quantiles)
@@ -192,6 +249,8 @@ def train(config: TFTConfig, frames: dict | None = None,
 
     out_dir = artifacts_dir(config, artifacts)
     out_dir.mkdir(parents=True, exist_ok=True)
+    for stale in out_dir.glob("model_[0-9]*.pt"):
+        stale.unlink()  # don't let members from a previous run linger
     for i, member in enumerate(members):
         torch.save(member.state_dict(),
                    out_dir / ("model.pt" if i == 0 else f"model_{i}.pt"))
@@ -210,6 +269,7 @@ def train(config: TFTConfig, frames: dict | None = None,
         "members": histories,
         "best_val_loss": min(h["best_val_loss"] for h in histories),
         "ensemble_val_loss": ensemble_val,
+        "soup": soup_note,
         "train_loss": histories[0]["train_loss"],
         "val_loss": histories[0]["val_loss"],
     }

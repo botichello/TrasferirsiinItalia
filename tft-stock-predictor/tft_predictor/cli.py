@@ -67,6 +67,7 @@ def main(argv: list[str] | None = None) -> int:
                         ("backtest", "single-split evaluation on holdout"),
                         ("walkforward", "rolling-origin eval with retraining per fold"),
                         ("evaluate", "score matured live forecasts vs realized prices"),
+                        ("report", "write a self-contained HTML tear-sheet"),
                         ("live", "real-time prediction loop")]:
         p = sub.add_parser(name, help=help_)
         p.add_argument("--artifacts", required=True,
@@ -103,7 +104,7 @@ def main(argv: list[str] | None = None) -> int:
     sub.choices["live"].add_argument(
         "--retrain-every-bars", type=int, default=None, metavar="N",
         help="also retrain every N bars regardless of drift")
-    for name in ("backtest", "evaluate", "walkforward"):
+    for name in ("backtest", "evaluate", "walkforward", "report"):
         sub.choices[name].add_argument(
             "--fee-bps", type=float, default=None,
             help="per-side transaction cost in basis points")
@@ -176,6 +177,29 @@ def main(argv: list[str] | None = None) -> int:
         results = walkforward(config, build_features(ohlcv),
                               n_folds=args.folds, fee_bps=args.fee_bps)
         print(json.dumps(results, indent=2))
+        return 0
+
+    if args.command == "report":
+        from .data.features import interval_to_timedelta
+        from .evaluation import evaluate_file, read_records
+        from .report import write_report
+
+        client = get_client(config.provider)
+        ohlcv = client.fetch(ticker, interval=config.interval,
+                             range_=config.lookback)
+        features = build_features(ohlcv)
+        bt = backtest(model, scaler, config, features, ticker_id,
+                      fee_bps=args.fee_bps)
+        jsonl = Path(args.artifacts) / "predictions.jsonl"
+        ev = None
+        if read_records(jsonl):
+            ev = evaluate_file(jsonl, ohlcv["close"],
+                               interval_to_timedelta(config.interval) / 2,
+                               fee_bps=(config.fee_bps if args.fee_bps is None
+                                        else args.fee_bps),
+                               ticker=ticker)
+        out = write_report(args.artifacts, config, bt, eval_results=ev)
+        print(f"report written to {out}")
         return 0
 
     if args.command == "evaluate":

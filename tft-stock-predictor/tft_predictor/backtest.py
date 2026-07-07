@@ -163,6 +163,8 @@ def backtest(model: nn.Module, scaler: FeatureScaler,
 
     end_pred, end_true = pred[:, -1, :], true[:, -1]
     covered = (end_true >= end_pred[:, lo_i]) & (end_true <= end_pred[:, hi_i])
+    coverage_by_step = ((true >= pred[:, :, lo_i]) & (true <= pred[:, :, hi_i])
+                        ).mean(axis=0)
     nonzero = end_true != 0
     direction_hit = np.sign(end_pred[nonzero, med_i]) == np.sign(end_true[nonzero])
 
@@ -183,6 +185,7 @@ def backtest(model: nn.Module, scaler: FeatureScaler,
         "windows": len(ds),
         "quantile_loss": total_loss / max(count, 1),
         "interval_coverage": float(covered.mean()),
+        "coverage_by_step": np.round(coverage_by_step, 4).tolist(),
         "nominal_coverage": float(q[hi_i] - q[lo_i]),
         "inner_coverage": inner_coverage,
         "inner_nominal": (float(q[len(q) - 2] - q[1]) if len(q) >= 4 else None),

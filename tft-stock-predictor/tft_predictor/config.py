@@ -49,6 +49,9 @@ class TFTConfig:
     switch_ema: bool = True         # SEMA: reset online weights to EMA each epoch
     ensemble_size: int = 1          # deep ensemble members (different seeds)
     ensemble_keep: int | None = None  # keep top-K members by val loss (None = all)
+    greedy_soup: bool = True        # try weight-averaging members (Wortsman
+                                    # 2022); deployed when it matches the
+                                    # output-averaged ensemble on validation
     fee_bps: float = 0.0            # per-side transaction cost in basis points
     edge_threshold: float = 0.0005  # min |median move| to act; tuned on
                                     # validation at train time

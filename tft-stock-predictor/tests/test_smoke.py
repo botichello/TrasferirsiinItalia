@@ -229,6 +229,55 @@ def test_embargo_gap_between_train_and_val(config):
     assert gap_bars >= config.horizon - 1   # embargoed, no adjacent labels
 
 
+def test_prob_up_from_quantile_cdf():
+    q = [0.1, 0.5, 0.9]
+    up = np.array([[0.001, 0.005, 0.009]])       # all quantiles above zero
+    assert trading_signal(up, q)["prob_up"] == pytest.approx(0.9)
+    down = np.array([[-0.009, -0.005, -0.001]])
+    assert trading_signal(down, q)["prob_up"] == pytest.approx(0.1)
+    mid = np.array([[-0.005, 0.0, 0.005]])       # median exactly at zero
+    assert trading_signal(mid, q)["prob_up"] == pytest.approx(0.5)
+
+
+def test_fees_reduce_pnl():
+    from tft_predictor.evaluation import evaluate_records
+
+    idx = pd.date_range("2026-01-01", periods=30, freq="1h", tz="UTC")
+    closes = pd.Series([100.0 + i for i in range(30)], index=idx)
+    rec = {
+        "generated_at": idx[8].isoformat(),
+        "horizon_timestamps": [idx[20].isoformat()],
+        "last_close": 100.0,
+        "quantiles": [0.1, 0.5, 0.9],
+        "price_quantiles": [[105.0, 115.0, 125.0]],
+        "signal": {"action": "LONG", "size_vol_target": 1.0},
+    }
+    free = evaluate_records([rec], closes, pd.Timedelta("30min"))["summary"]
+    costly = evaluate_records([rec], closes, pd.Timedelta("30min"),
+                              fee_bps=50)["summary"]
+    # 50 bps per side → 100 bps round trip off the 20% move
+    assert costly["trade_total_return"] == pytest.approx(
+        free["trade_total_return"] - 0.01)
+    assert costly["sized_total_return"] < free["sized_total_return"]
+
+
+def test_ensemble_top_k_selection(config, tmp_path):
+    import dataclasses
+
+    kcfg = dataclasses.replace(config, ensemble_size=3, ensemble_keep=2,
+                               max_epochs=1)
+    frames = {"SYN": build_features(synthetic_ohlcv())}
+    from tft_predictor.model import EnsembleTFT
+    from tft_predictor.training import train
+
+    model, history = train(kcfg, frames=frames, artifacts=tmp_path)
+    assert isinstance(model, EnsembleTFT) and len(model.members) == 2
+    assert len(history["members"]) == 2
+    # only the kept members are on disk
+    assert (tmp_path / "SYN_1h" / "model_1.pt").exists()
+    assert not (tmp_path / "SYN_1h" / "model_2.pt").exists()
+
+
 def test_kelly_and_vol_target_sizing():
     q = [0.1, 0.5, 0.9]
     strong = np.array([[0.004, 0.008, 0.012]])   # tight band, clear edge

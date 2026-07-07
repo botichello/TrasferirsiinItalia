@@ -45,6 +45,8 @@ class TFTConfig:
     ema_decay: float = 0.995        # exponential moving average of weights
     switch_ema: bool = True         # SEMA: reset online weights to EMA each epoch
     ensemble_size: int = 1          # deep ensemble members (different seeds)
+    ensemble_keep: int | None = None  # keep top-K members by val loss (None = all)
+    fee_bps: float = 0.0            # per-side transaction cost in basis points
 
     # --- data conditioning ---
     robust_scaling: bool = True         # median/IQR instead of mean/std

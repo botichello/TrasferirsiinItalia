@@ -105,6 +105,13 @@ def trading_signal(cum_log_ret: np.ndarray, quantiles: list[float],
     size = min(abs(median) / sigma ** 2 * kelly_fraction, 1.0)
     size_vol_target = min(vol_target / sigma, 1.0)
 
+    # P(return > 0) by interpolating the forecast CDF at zero. np.interp
+    # clamps outside the outer quantiles, so with the default set prob_up
+    # lives in [0.1, 0.9] — the model never claims certainty its quantiles
+    # don't support.
+    order = np.argsort(end)
+    prob_up = 1.0 - float(np.interp(0.0, end[order], q[order]))
+
     if median > edge_threshold and lo > -abs(median):
         action = "LONG"
     elif median < -edge_threshold and hi < abs(median):
@@ -117,6 +124,7 @@ def trading_signal(cum_log_ret: np.ndarray, quantiles: list[float],
         "lower": lo,
         "upper": hi,
         "confidence": round(confidence, 4),
+        "prob_up": round(prob_up, 4),
         "size": round(size if action != "FLAT" else 0.0, 4),
         "size_vol_target": round(size_vol_target if action != "FLAT" else 0.0, 4),
     }

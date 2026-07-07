@@ -36,12 +36,14 @@ def read_records(path: str | Path) -> list[dict]:
 
 
 def evaluate_records(records: list[dict], closes: pd.Series,
-                     tolerance: pd.Timedelta) -> dict:
+                     tolerance: pd.Timedelta, fee_bps: float = 0.0) -> dict:
     """Join forecasts with realized closes and compute health metrics.
 
     `closes` must be indexed by tz-aware timestamps. A forecast is scored
     when a realized bar exists within `tolerance` of its horizon end.
+    `fee_bps` charges a per-side cost on signal returns (round trip = 2x).
     """
+    fee = fee_bps * 1e-4
     closes = closes.sort_index()
     rows = []
     for rec in records:
@@ -72,8 +74,10 @@ def evaluate_records(records: list[dict], closes: pd.Series,
                       and realized != last_close,
             "abs_pct_err": abs(realized - med) / realized,
             "action": action,
-            "signal_return": direction * (realized / last_close - 1),
-            "sized_return": direction * size * (realized / last_close - 1),
+            "signal_return": direction * (realized / last_close - 1)
+                             - 2 * fee * abs(direction),
+            "sized_return": size * (direction * (realized / last_close - 1)
+                                    - 2 * fee * abs(direction)),
         })
 
     summary: dict = {"n_forecasts": len(records), "n_matured": len(rows)}
@@ -106,5 +110,9 @@ def evaluate_records(records: list[dict], closes: pd.Series,
 
 
 def evaluate_file(jsonl_path: str | Path, closes: pd.Series,
-                  tolerance: pd.Timedelta) -> dict:
-    return evaluate_records(read_records(jsonl_path), closes, tolerance)
+                  tolerance: pd.Timedelta, fee_bps: float = 0.0,
+                  ticker: str | None = None) -> dict:
+    records = read_records(jsonl_path)
+    if ticker is not None:
+        records = [r for r in records if r.get("ticker") == ticker]
+    return evaluate_records(records, closes, tolerance, fee_bps=fee_bps)

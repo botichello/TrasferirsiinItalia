@@ -213,7 +213,8 @@ class RealtimePredictor:
             return self._health_cache[1]
         tolerance = interval_to_timedelta(self.config.interval) / 2
         summary = evaluate_file(self.out_path, self.history["close"],
-                                tolerance)["summary"]
+                                tolerance, fee_bps=self.config.fee_bps,
+                                ticker=self.ticker)["summary"]
         self._health_cache = (key, summary)
         return summary
 

@@ -151,6 +151,17 @@ def train(config: TFTConfig, frames: dict | None = None,
         members.append(member)
         histories.append(hist)
 
+    # top-K-of-N selection by validation loss (the 2026 futures benchmark's
+    # core robustness recipe: ensemble the best seeds, not all seeds)
+    if config.ensemble_keep and config.ensemble_keep < len(members):
+        ranked = sorted(range(len(members)),
+                        key=lambda i: histories[i]["best_val_loss"])
+        kept = sorted(ranked[:config.ensemble_keep])
+        log.info("keeping top %d/%d members by val loss: %s",
+                 config.ensemble_keep, len(members), kept)
+        members = [members[i] for i in kept]
+        histories = [histories[i] for i in kept]
+
     model: torch.nn.Module = (members[0] if len(members) == 1
                               else EnsembleTFT(members))
     model.eval()

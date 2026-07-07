@@ -39,6 +39,8 @@ def _add_train_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--lr", type=float, default=1e-3)
     p.add_argument("--ensemble", type=int, default=1, metavar="N",
                    help="train a deep ensemble of N members (different seeds)")
+    p.add_argument("--keep", type=int, default=None, metavar="K",
+                   help="keep only the top K ensemble members by val loss")
     p.add_argument("--no-attention", action="store_true",
                    help="VLSTM variant: variable selection + LSTM, no attention")
 
@@ -86,6 +88,10 @@ def main(argv: list[str] | None = None) -> int:
                                           "(strongly recommended with --dashboard-public)")
     sub.choices["live"].add_argument("--webhook", default=None, metavar="URL",
                                      help="POST the forecast here when the signal changes")
+    for name in ("backtest", "evaluate"):
+        sub.choices[name].add_argument(
+            "--fee-bps", type=float, default=None,
+            help="per-side transaction cost in basis points")
 
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.INFO,
@@ -99,7 +105,7 @@ def main(argv: list[str] | None = None) -> int:
             hidden_size=args.hidden_size, attention_heads=args.heads,
             max_epochs=args.epochs, batch_size=args.batch_size,
             learning_rate=args.lr, ensemble_size=args.ensemble,
-            use_attention=not args.no_attention)
+            ensemble_keep=args.keep, use_attention=not args.no_attention)
         _, history = train(config, artifacts=args.artifacts_root)
         out = artifacts_dir(config, args.artifacts_root)
         print(f"best val quantile loss: {history['best_val_loss']:.6f}")
@@ -133,7 +139,8 @@ def main(argv: list[str] | None = None) -> int:
         client = get_client(config.provider)
         ohlcv = client.fetch(ticker, interval=config.interval, range_=config.lookback)
         features = build_features(ohlcv)
-        results = backtest(model, scaler, config, features, ticker_id)
+        results = backtest(model, scaler, config, features, ticker_id,
+                           fee_bps=args.fee_bps)
         print(json.dumps(results, indent=2))
         return 0
 
@@ -152,8 +159,10 @@ def main(argv: list[str] | None = None) -> int:
                            - pd.Timestamp(earliest)).days) + 2)
         client = get_client(config.provider)
         ohlcv = client.fetch(ticker, interval=config.interval, range_=f"{days}d")
+        fee = config.fee_bps if args.fee_bps is None else args.fee_bps
         result = evaluate_file(jsonl, ohlcv["close"],
-                               interval_to_timedelta(config.interval) / 2)
+                               interval_to_timedelta(config.interval) / 2,
+                               fee_bps=fee, ticker=ticker)
         print(json.dumps(result["summary"], indent=2))
         return 0
 

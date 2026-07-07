@@ -24,11 +24,14 @@ log = logging.getLogger(__name__)
 def backtest(model: nn.Module, scaler: FeatureScaler,
              config: TFTConfig, features: pd.DataFrame, ticker_id: int = 0,
              holdout_fraction: float | None = None,
-             edge_threshold: float = 0.0005) -> dict:
+             edge_threshold: float = 0.0005,
+             fee_bps: float | None = None) -> dict:
     """Evaluate on the chronological tail of `features`.
 
     `holdout_fraction` defaults to `config.val_fraction`; keep it <= that
     value so the evaluated windows were never seen during training.
+    `fee_bps` (default `config.fee_bps`) charges a per-side transaction
+    cost on every trade — a round trip costs 2x.
 
     Reports quantile loss, coverage of the outer and inner intervals,
     directional accuracy of the median, and a friction-free PnL of the
@@ -84,10 +87,11 @@ def backtest(model: nn.Module, scaler: FeatureScaler,
         {"LONG": 1, "SHORT": -1}.get(
             trading_signal(pred[i], config.quantiles, edge_threshold)["action"], 0)
         for i in range(len(pred))])
+    fee = (config.fee_bps if fee_bps is None else fee_bps) * 1e-4
     pnl, i = [], 0
     while i < len(position):
         if position[i] != 0:
-            pnl.append(position[i] * end_true[i])
+            pnl.append(position[i] * end_true[i] - 2 * fee)  # round trip
             i += config.horizon      # hold for the horizon, no overlap
         else:
             i += 1
@@ -101,6 +105,7 @@ def backtest(model: nn.Module, scaler: FeatureScaler,
         "inner_coverage": inner_coverage,
         "inner_nominal": (float(q[len(q) - 2] - q[1]) if len(q) >= 4 else None),
         "directional_accuracy": float(direction_hit.mean()) if nonzero.any() else None,
+        "fee_bps_per_side": (config.fee_bps if fee_bps is None else fee_bps),
         "trades": int(len(pnl)),
         "total_return": float(pnl.sum()) if len(pnl) else 0.0,
         "hit_rate": float((pnl > 0).mean()) if len(pnl) else None,

@@ -250,6 +250,10 @@ function healthHTML(h) {
     <div class="kv"><span>Directional accuracy</span><b>${pct(h.directional_accuracy)}</b></div>
     <div class="kv"><span>Median error</span><b>${h.median_abs_pct_error == null ? "–" : (h.median_abs_pct_error * 100).toFixed(2) + "%"}</b></div>
     <div class="kv"><span>Signals acted on</span><b>${h.trades}${h.trade_hit_rate != null ? ` · ${pct(h.trade_hit_rate)} hit` : ""}</b></div>
+    ${h.sized_total_return != null ? `
+    <div class="kv"><span>Paper P&amp;L <span class="hint">vol-target sized</span></span>
+      <b class="${h.sized_total_return >= 0 ? "up" : "down"}">${(h.sized_total_return * 100).toFixed(2)}%</b></div>
+    <div class="kv"><span>Max drawdown</span><b>${(h.max_drawdown * 100).toFixed(2)}%</b></div>` : ""}
     <div class="note">Live forecasts scored against realized closes. Coverage drifting
       well below target means the market regime moved — consider retraining.</div>`;
 }

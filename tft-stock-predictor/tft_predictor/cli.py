@@ -39,6 +39,8 @@ def _add_train_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--lr", type=float, default=1e-3)
     p.add_argument("--ensemble", type=int, default=1, metavar="N",
                    help="train a deep ensemble of N members (different seeds)")
+    p.add_argument("--no-attention", action="store_true",
+                   help="VLSTM variant: variable selection + LSTM, no attention")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -48,6 +50,12 @@ def main(argv: list[str] | None = None) -> int:
 
     p_train = sub.add_parser("train", help="fetch data and train a model")
     _add_train_args(p_train)
+
+    p_retrain = sub.add_parser(
+        "retrain", help="retrain from an existing artifact dir's config")
+    p_retrain.add_argument("--artifacts", required=True)
+    p_retrain.add_argument("--epochs", type=int, default=None,
+                           help="override max epochs")
 
     for name, help_ in [("predict", "one-shot forecast from latest data"),
                         ("backtest", "walk-forward evaluation on holdout"),
@@ -90,11 +98,23 @@ def main(argv: list[str] | None = None) -> int:
             encoder_length=args.encoder_length, horizon=args.horizon,
             hidden_size=args.hidden_size, attention_heads=args.heads,
             max_epochs=args.epochs, batch_size=args.batch_size,
-            learning_rate=args.lr, ensemble_size=args.ensemble)
+            learning_rate=args.lr, ensemble_size=args.ensemble,
+            use_attention=not args.no_attention)
         _, history = train(config, artifacts=args.artifacts_root)
         out = artifacts_dir(config, args.artifacts_root)
         print(f"best val quantile loss: {history['best_val_loss']:.6f}")
         print(f"artifacts saved to {out}")
+        return 0
+
+    if args.command == "retrain":
+        config = TFTConfig.load(Path(args.artifacts) / "config.json")
+        if args.epochs is not None:
+            config.max_epochs = args.epochs
+        config.conformal = None  # refitted on the new validation split
+        root = Path(args.artifacts).parent
+        _, history = train(config, artifacts=root)
+        print(f"best val quantile loss: {history['best_val_loss']:.6f}")
+        print(f"artifacts refreshed in {artifacts_dir(config, root)}")
         return 0
 
     model, scaler, config = load_artifacts(args.artifacts)

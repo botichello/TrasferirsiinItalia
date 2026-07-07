@@ -43,11 +43,19 @@ pip install -r requirements.txt      # or: pip install -e .
 python -m tft_predictor train --tickers AAPL --interval 1h --lookback 365d --epochs 20
 python -m tft_predictor train --tickers BTC-USD --provider coinbase --interval 1h --lookback 180d
 
+# variants: deep ensemble, multi-asset (one model, ticker embedding), VLSTM
+python -m tft_predictor train --tickers BTC-USD --provider coinbase --ensemble 3
+python -m tft_predictor train --tickers BTC-USD ETH-USD SOL-USD --provider coinbase
+python -m tft_predictor train --tickers BTC-USD --provider coinbase --no-attention
+
 # 2. Evaluate on the untrained chronological tail
 python -m tft_predictor backtest --artifacts artifacts/BTC-USD_1h
 
 # 2b. Score past LIVE forecasts against what actually happened
 python -m tft_predictor evaluate --artifacts artifacts/BTC-USD_1h
+
+# 2c. Refresh a deployed model on latest data with its saved config
+python -m tft_predictor retrain --artifacts artifacts/BTC-USD_1h
 
 # 3. One-shot forecast from the latest data
 python -m tft_predictor predict --artifacts artifacts/BTC-USD_1h
@@ -228,6 +236,18 @@ distributional forecast, not investment advice.
 - Short-horizon return forecasting is *hard*; expect directional accuracy
   near 50% and wide, honest uncertainty bands. The value of the TFT here is
   calibrated distributions and interpretability, not a money printer.
+
+## Deployment
+
+- **Docker**: `docker build -t tft-predictor .` then run any CLI command;
+  see the header of `Dockerfile` for train/live examples with a persistent
+  artifacts volume.
+- **CI**: GitHub Actions (`.github/workflows/tft-predictor-ci.yml` at the
+  repo root) runs the test suite on every push touching this project.
+- **Paper P&L**: the health panel and `evaluate` output include the
+  cumulative return of vol-target-sized signals held to horizon, with max
+  drawdown — a friction-free paper-trading ledger derived from the persisted
+  forecasts.
 
 ## Tests
 

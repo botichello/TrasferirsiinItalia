@@ -57,6 +57,8 @@ def evaluate_records(records: list[dict], closes: pd.Series,
         last_close = float(rec["last_close"])
         action = rec.get("signal", {}).get("action", "FLAT")
         direction = {"LONG": 1, "SHORT": -1}.get(action, 0)
+        size = rec.get("signal", {}).get("size_vol_target",
+                                         rec.get("signal", {}).get("size", 1.0))
         rows.append({
             "generated_at": rec["generated_at"],
             "horizon_end": t_end.isoformat(),
@@ -71,6 +73,7 @@ def evaluate_records(records: list[dict], closes: pd.Series,
             "abs_pct_err": abs(realized - med) / realized,
             "action": action,
             "signal_return": direction * (realized / last_close - 1),
+            "sized_return": direction * size * (realized / last_close - 1),
         })
 
     summary: dict = {"n_forecasts": len(records), "n_matured": len(rows)}
@@ -92,6 +95,13 @@ def evaluate_records(records: list[dict], closes: pd.Series,
                                if trades else None),
             "trade_total_return": float(sum(r["signal_return"] for r in trades)),
         })
+        # sized paper-P&L: vol-target-sized positions, held to horizon,
+        # chronological equity curve with max drawdown
+        chron = sorted(rows, key=lambda r: r["horizon_end"])
+        equity = np.cumsum([r["sized_return"] for r in chron])
+        peak = np.maximum.accumulate(np.concatenate([[0.0], equity]))[1:]
+        summary["sized_total_return"] = float(equity[-1])
+        summary["max_drawdown"] = float((equity - peak).min())
     return {"summary": summary, "rows": rows}
 
 

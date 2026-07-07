@@ -112,6 +112,41 @@ def test_causal_masking(config):
     assert torch.allclose(base[:, :-1], pert[:, :-1], atol=1e-5)
 
 
+def test_vlstm_variant(config):
+    import dataclasses
+
+    vcfg = dataclasses.replace(config, use_attention=False)
+    model = TemporalFusionTransformer(vcfg)
+    assert not hasattr(model, "attention")   # attention block not built
+    model.eval()
+    B, E, H = 2, vcfg.encoder_length, vcfg.horizon
+    with torch.no_grad():
+        out = model(
+            torch.randn(B, E, len(OBSERVED_FEATURES)),
+            torch.randn(B, E, len(KNOWN_FEATURES)),
+            torch.randn(B, H, len(KNOWN_FEATURES)),
+            torch.zeros(B, dtype=torch.long),
+        )
+    assert out["prediction"].shape == (B, H, vcfg.n_quantiles)
+    # fewer parameters than the full TFT
+    full = sum(p.numel() for p in TemporalFusionTransformer(config).parameters())
+    slim = sum(p.numel() for p in model.parameters())
+    assert slim < full
+
+
+def test_multiticker_datasets(config):
+    import dataclasses
+
+    mcfg = dataclasses.replace(config, tickers=["SYN", "SYN2"])
+    frames = {"SYN": build_features(synthetic_ohlcv(seed=0)),
+              "SYN2": build_features(synthetic_ohlcv(seed=1))}
+    train_ds, val_ds, _ = build_datasets(frames, mcfg)
+    assert len(train_ds.datasets) == 2 and len(val_ds.datasets) == 2
+    # static ids differ per ticker
+    assert train_ds.datasets[0][0]["static"].item() == 0
+    assert train_ds.datasets[1][0]["static"].item() == 1
+
+
 def test_quantile_loss_pinball():
     loss_fn = QuantileLoss([0.5])
     pred = torch.zeros(1, 1, 1)
@@ -220,7 +255,7 @@ def test_evaluation_scores_matured_forecasts():
         "last_close": 100.0,
         "quantiles": [0.1, 0.5, 0.9],
         "price_quantiles": [[105.0, 115.0, 125.0]],
-        "signal": {"action": "LONG"},
+        "signal": {"action": "LONG", "size_vol_target": 0.5},
     }
     pending = {**matured,
                "horizon_timestamps": [(idx[-1] + pd.Timedelta("10h")).isoformat()]}
@@ -232,6 +267,9 @@ def test_evaluation_scores_matured_forecasts():
     assert s["trades"] == 1
     assert s["trade_total_return"] == pytest.approx(0.20)
     assert s["median_abs_pct_error"] == pytest.approx(5 / 120)
+    # sized paper P&L: 0.5 size on a +20% move, no drawdown
+    assert s["sized_total_return"] == pytest.approx(0.10)
+    assert s["max_drawdown"] == pytest.approx(0.0)
 
 
 def test_dashboard_serves_state_and_page():

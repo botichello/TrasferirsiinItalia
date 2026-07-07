@@ -80,14 +80,15 @@ class TemporalFusionTransformer(nn.Module):
                                     dropout=config.dropout if config.lstm_layers > 1 else 0.0)
         self.post_lstm_gate = GateAddNorm(d, d, config.dropout)
 
-        # --- temporal fusion decoder ---
+        # --- temporal fusion decoder (skipped in the VLSTM variant) ---
         self.static_enrichment = GatedResidualNetwork(
             d, d, d, config.dropout, context_size=d)
-        self.attention = InterpretableMultiHeadAttention(
-            d, config.attention_heads, config.dropout)
-        self.post_attn_gate = GateAddNorm(d, d, config.dropout)
-        self.pos_wise_ff = GatedResidualNetwork(d, d, d, config.dropout)
-        self.pre_output_gate = GateAddNorm(d, d, dropout=0.0)
+        if config.use_attention:
+            self.attention = InterpretableMultiHeadAttention(
+                d, config.attention_heads, config.dropout)
+            self.post_attn_gate = GateAddNorm(d, d, config.dropout)
+            self.pos_wise_ff = GatedResidualNetwork(d, d, d, config.dropout)
+            self.pre_output_gate = GateAddNorm(d, d, dropout=0.0)
 
         self.output_layer = nn.Linear(d, config.n_quantiles)
 
@@ -139,16 +140,23 @@ class TemporalFusionTransformer(nn.Module):
 
         # static enrichment + causal interpretable attention
         enriched = self.static_enrichment(temporal, c_enrich)
-        T = enriched.shape[1]
-        causal_mask = torch.triu(
-            torch.ones(T, T, dtype=torch.bool, device=enriched.device), diagonal=1)
-        attn_out, attn_weights = self.attention(
-            enriched, enriched, enriched, mask=causal_mask)
-
-        # decoder positions only from here on
-        attn_dec = self.post_attn_gate(attn_out[:, E:], enriched[:, E:])
-        ff = self.pos_wise_ff(attn_dec)
-        fused = self.pre_output_gate(ff, temporal[:, E:])
+        if self.config.use_attention:
+            T = enriched.shape[1]
+            causal_mask = torch.triu(
+                torch.ones(T, T, dtype=torch.bool, device=enriched.device),
+                diagonal=1)
+            attn_out, attn_weights = self.attention(
+                enriched, enriched, enriched, mask=causal_mask)
+            # decoder positions only from here on
+            attn_dec = self.post_attn_gate(attn_out[:, E:], enriched[:, E:])
+            ff = self.pos_wise_ff(attn_dec)
+            fused = self.pre_output_gate(ff, temporal[:, E:])
+        else:
+            # VLSTM: variable selection + LSTM carry the forecast directly
+            fused = enriched[:, E:]
+            T = enriched.shape[1]
+            attn_weights = torch.zeros(enriched.shape[0], T, T,
+                                       device=enriched.device)
 
         return {
             "prediction": self.output_layer(fused),              # (B, H, Q)

@@ -28,6 +28,9 @@ class TFTConfig:
     lstm_layers: int = 1
     attention_heads: int = 4
     dropout: float = 0.1
+    use_attention: bool = True   # False = VLSTM variant (VSN + LSTM only),
+                                 # which beat full TFT on daily futures
+                                 # (arXiv:2603.01820, Sharpe 2.40 vs 2.20)
     quantiles: list[float] = field(default_factory=lambda: [0.1, 0.25, 0.5, 0.75, 0.9])
 
     # --- training ---

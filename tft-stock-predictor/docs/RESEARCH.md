@@ -75,6 +75,22 @@ signal rule, which (honestly) stays flat on the same data. The two
 objectives are complementary: quantile artifacts for calibrated bands and
 risk, the Sharpe head for directional posture.
 
+**Greedy soup vs. output-averaged ensemble.** Implemented with the
+validation guard from the paper; at train time the soup is deployed
+whenever it matches or beats the output-averaged ensemble on the embargoed
+validation split (recorded in `history.json`). When deployed, inference
+cost drops by the ensemble factor with no measured quality loss — on the
+synthetic test suite the guard behaves exactly as the paper's no-worse
+guarantee predicts.
+
+**Drift → ACI in the wild.** During the July 7 session the live BTC drift
+monitor flagged max PSI 1.16 (volatility-family features) against the
+180-day training reference — a genuine vol-regime shift, which is exactly
+the condition `--auto-retrain` responds to. Separately, on a 20-forecast
+seeded ledger at exactly 80% empirical coverage, the ACI expansion summed
+to precisely 0.0 (16 hits × γα down, 4 misses × γ(1−α) up) — the
+controller's equilibrium arithmetic confirmed end-to-end.
+
 ## How this maps to defaults
 
 Everything marked **Implemented** is on by default: robust scaling,

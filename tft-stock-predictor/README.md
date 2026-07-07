@@ -140,6 +140,28 @@ tail the file.
 Multi-ticker training is supported (`--tickers AAPL MSFT NVDA`): the ticker
 becomes a static covariate via an embedding, and one model serves all of them.
 
+## Measured results (BTC-USD, hourly, embargoed holdout, July 2026)
+
+All numbers are deployment-condition: conformal offsets and the tuned
+signal threshold applied, evaluated on data the model never trained on.
+
+| Metric | Quantile TFT (3-seed ensemble) | Sharpe-objective head |
+|---|---|---|
+| Outer band coverage (target 80%) | **80.1%** | — |
+| Inner band coverage (target 50%) | **50.1%** | — |
+| Directional accuracy | 49.1% | 50.4% (hit rate) |
+| Signal PnL @ 5 bps/side | 0 trades (abstains, honestly) | **+0.75%**, ann. Sharpe 0.31 |
+| Max drawdown | — | −6.9% |
+
+Read it straight: hourly BTC direction is near coin-flip (as efficient
+markets predict), the quantile bands are calibrated to within a tenth of a
+percentage point at both levels, the tuned signal rule declines to trade
+when it has no fee-adjusted edge, and the Sharpe head ekes out a small
+positive risk-adjusted return. Per-horizon-step coverage is uniform across
+all 12 steps (see `report`). `walkforward` reproduces this protocol with
+per-fold retraining. Full experiment log: [`docs/RESEARCH.md`](docs/RESEARCH.md);
+release history: [`CHANGELOG.md`](CHANGELOG.md).
+
 ## Model details
 
 Faithful to [Lim et al., *Temporal Fusion Transformers for Interpretable

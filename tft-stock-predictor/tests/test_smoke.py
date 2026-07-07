@@ -229,6 +229,26 @@ def test_embargo_gap_between_train_and_val(config):
     assert gap_bars >= config.horizon - 1   # embargoed, no adjacent labels
 
 
+def test_walkforward(config):
+    import dataclasses
+
+    from tft_predictor.walkforward import walkforward
+
+    wcfg = dataclasses.replace(config, ensemble_size=1, max_epochs=1,
+                               conformal=None)
+    features = build_features(synthetic_ohlcv())
+    results = walkforward(wcfg, features, n_folds=2, min_train_fraction=0.5)
+    assert results["n_folds"] == 2
+    assert results["windows"] > 0
+    assert 0.0 <= results["coverage"] <= 1.0
+    assert len(results["folds"]) == 2
+    # each fold's test starts strictly after the previous
+    assert results["folds"][1]["test_start"] > results["folds"][0]["test_start"]
+    # sharpe configs are rejected
+    with pytest.raises(ValueError, match="quantile"):
+        walkforward(dataclasses.replace(wcfg, objective="sharpe"), features)
+
+
 def test_auto_retrain_gate_and_hot_swap(config, tmp_path):
     import dataclasses
 

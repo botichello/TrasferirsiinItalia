@@ -231,6 +231,7 @@ function render() {
     <div class="two-col">
       <div class="card"><h2 style="margin-bottom:6px">Live model health</h2>${healthHTML(state.health)}${aciHTML(state.aci)}${driftHTML(state.drift)}</div>
       <div class="card"><h2 style="margin-bottom:6px">What the model is looking at</h2>${importanceHTML(state.variable_importance)}</div>
+      ${ledgerHTML(state.ledger)}
     </div>
 
     <div class="card"><h2 style="margin-bottom:8px">Recent forecasts</h2>
@@ -294,6 +295,31 @@ function driftHTML(d) {
       ? `<b>${d.max_psi} · moderate</b>`
       : `<b class="up">${d.max_psi} · stable</b>`;
   return `<div class="kv"><span>Feature drift <span class="hint">max PSI vs training</span></span>${label}</div>`;
+}
+
+function ledgerHTML(ledger) {
+  if (!ledger || ledger.length < 2) return "";
+  const W = 300, Hc = 70, Hs = 12;
+  let cum = 0;
+  const eq = ledger.map(p => (cum += p.r));
+  const lo = Math.min(0, ...eq), hi = Math.max(0, ...eq);
+  const X = i => (i / (ledger.length - 1)) * W;
+  const Y = v => 4 + (hi - v) / (hi - lo || 1) * (Hc - 8);
+  const path = eq.map((v, i) => (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(v).toFixed(1)).join("");
+  const last = eq[eq.length - 1];
+  const strip = ledger.map((p, i) =>
+    `<rect x="${(X(i) - W / ledger.length / 2 + 1).toFixed(1)}" y="0" width="${Math.max(1, W / ledger.length - 2).toFixed(1)}" height="${Hs}" rx="1"
+       fill="${p.in_band ? "var(--good)" : "var(--critical)"}" opacity="0.75"/>`).join("");
+  return `<div class="card"><h2 style="margin-bottom:6px">Paper equity <span class="hint" style="font-weight:400">
+      ${ledger.length} matured · <b class="${last >= 0 ? "up" : "down"}">${(last * 100).toFixed(2)}%</b></span></h2>
+    <svg viewBox="0 0 ${W} ${Hc}" width="100%" height="${Hc}" role="img" aria-label="Cumulative sized paper return">
+      <line x1="0" x2="${W}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--grid)" stroke-width="1"/>
+      <path d="${path}" fill="none" stroke="var(--series)" stroke-width="2" stroke-linejoin="round"/>
+    </svg>
+    <svg viewBox="0 0 ${W} ${Hs}" width="100%" height="${Hs}" style="margin-top:6px" role="img"
+         aria-label="Band coverage per forecast">${strip}</svg>
+    <div class="note">Top: cumulative vol-target-sized return of matured signals.
+      Strip: each forecast — green landed in its 80% band, red missed.</div></div>`;
 }
 
 function importanceHTML(imp) {

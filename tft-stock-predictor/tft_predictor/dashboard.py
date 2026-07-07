@@ -33,6 +33,13 @@ log = logging.getLogger(__name__)
 _PAGE_PATH = Path(__file__).with_name("dashboard.html")
 
 
+def _json_fallback(obj):
+    """Serialize numpy scalars (np.bool_, np.float32, ...) transparently."""
+    if hasattr(obj, "item"):
+        return obj.item()
+    raise TypeError(f"not JSON serializable: {type(obj).__name__}")
+
+
 class _Handler(BaseHTTPRequestHandler):
     def __init__(self, engines: dict[str, RealtimePredictor],
                  auth_header: str | None, *args, **kwargs):
@@ -53,7 +60,8 @@ class _Handler(BaseHTTPRequestHandler):
             engine = self.engines.get(requested) or next(iter(self.engines.values()))
             state = engine.snapshot()
             state["tickers"] = list(self.engines)
-            self._respond(json.dumps(state).encode(), "application/json")
+            body = json.dumps(state, default=_json_fallback).encode()
+            self._respond(body, "application/json")
         elif parsed.path == "/":
             self._respond(_PAGE_PATH.read_bytes(), "text/html; charset=utf-8")
         else:

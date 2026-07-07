@@ -64,7 +64,8 @@ def main(argv: list[str] | None = None) -> int:
                            help="override max epochs")
 
     for name, help_ in [("predict", "one-shot forecast from latest data"),
-                        ("backtest", "walk-forward evaluation on holdout"),
+                        ("backtest", "single-split evaluation on holdout"),
+                        ("walkforward", "rolling-origin eval with retraining per fold"),
                         ("evaluate", "score matured live forecasts vs realized prices"),
                         ("live", "real-time prediction loop")]:
         p = sub.add_parser(name, help=help_)
@@ -102,10 +103,14 @@ def main(argv: list[str] | None = None) -> int:
     sub.choices["live"].add_argument(
         "--retrain-every-bars", type=int, default=None, metavar="N",
         help="also retrain every N bars regardless of drift")
-    for name in ("backtest", "evaluate"):
+    for name in ("backtest", "evaluate", "walkforward"):
         sub.choices[name].add_argument(
             "--fee-bps", type=float, default=None,
             help="per-side transaction cost in basis points")
+    sub.choices["walkforward"].add_argument("--folds", type=int, default=4)
+    sub.choices["walkforward"].add_argument(
+        "--epochs", type=int, default=None,
+        help="override training epochs per fold (retraining is per-fold)")
 
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.INFO,
@@ -156,6 +161,20 @@ def main(argv: list[str] | None = None) -> int:
         features = build_features(ohlcv)
         results = backtest(model, scaler, config, features, ticker_id,
                            fee_bps=args.fee_bps)
+        print(json.dumps(results, indent=2))
+        return 0
+
+    if args.command == "walkforward":
+        from .walkforward import walkforward
+
+        if args.epochs is not None:
+            config.max_epochs = args.epochs
+        client = get_client(config.provider)
+        ohlcv = client.fetch(ticker, interval=config.interval,
+                             range_=config.lookback)
+        config.tickers = [ticker]
+        results = walkforward(config, build_features(ohlcv),
+                              n_folds=args.folds, fee_bps=args.fee_bps)
         print(json.dumps(results, indent=2))
         return 0
 

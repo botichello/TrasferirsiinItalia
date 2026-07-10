@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Served by Vercel for any unknown path (dist/404.html), in either language —
+// so the page carries both an English and an Italian line.
+---
+
+<BaseLayout title="Page not found" description="This page doesn't exist. Find your way back to the residency guides." noindex>
+  <div class="mx-auto max-w-xl py-16 text-center">
+    <p class="text-sm font-medium uppercase tracking-wide text-brand-600">404</p>
+    <h1 class="mt-2 font-serif text-4xl font-semibold">Page not found</h1>
+    <p class="mt-4 text-muted">
+      This page doesn't exist — it may have moved when the guides were reorganised.
+    </p>
+    <p class="mt-1 text-muted" lang="it">
+      Questa pagina non esiste. Torna alle guide per continuare.
+    </p>
+    <nav class="mt-8 flex flex-wrap justify-center gap-3 text-sm" aria-label="Not found">
+      <a href="/start" class="rounded-full bg-brand-600 px-4 py-2 font-medium text-white hover:bg-brand-700">Start here</a>
+      <a href="/cities" class="rounded-full border border-line px-4 py-2 hover:border-brand-300">Browse cities</a>
+      <a href="/regions" class="rounded-full border border-line px-4 py-2 hover:border-brand-300">Browse regions</a>
+      <a href="/search" class="rounded-full border border-line px-4 py-2 hover:border-brand-300">Search</a>
+      <a href="/it" class="rounded-full border border-line px-4 py-2 hover:border-brand-300" hreflang="it">Versione italiana</a>
+    </nav>
+  </div>
+</BaseLayout>

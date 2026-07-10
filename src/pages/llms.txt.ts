@@ -10,9 +10,10 @@ import { cities } from '../data/cities';
  */
 export const GET: APIRoute = async ({ site }) => {
   const base = site?.href.replace(/\/$/, '') ?? '';
-  const guides = (await getCollection('guides')).sort(
-    (a, b) => a.data.step - b.data.step,
-  );
+  const all = (await getCollection('guides')).sort((a, b) => a.data.step - b.data.step);
+  const guides = all.filter((g) => g.data.lang !== 'it');
+  const guidesIt = all.filter((g) => g.data.lang === 'it');
+  const itSlug = (id: string) => id.replace(/^it\//, '');
 
   const lines = [
     '# Trasferirsi in Italia',
@@ -25,6 +26,13 @@ export const GET: APIRoute = async ({ site }) => {
     ...guides.map(
       (g) =>
         `- [${g.data.title}](${base}/eu-citizens/residency/${g.id}): ${g.data.description} (last verified ${g.data.lastVerified.toISOString().slice(0, 10)})`,
+    ),
+    '',
+    '## Percorso di residenza UE (italiano)',
+    '> The same journey, in Italian, under /it/.',
+    ...guidesIt.map(
+      (g) =>
+        `- [${g.data.title}](${base}/it/eu-citizens/residency/${itSlug(g.id)}): ${g.data.description} (verificato il ${g.data.lastVerified.toISOString().slice(0, 10)})`,
     ),
     '',
     '## City-specific versions',

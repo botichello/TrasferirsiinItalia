@@ -2,9 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
+{/* noindex: the results are rendered client-side, so the page is an empty
+    shell to crawlers; the guide pages themselves are the indexable content. */}
 <BaseLayout
   title="Search"
   description="Search the relocation guides, regions, and cities."
+  noindex
 >
   <h1 class="text-4xl font-semibold">Search</h1>
   <p class="mt-3 text-muted">

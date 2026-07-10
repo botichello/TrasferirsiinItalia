@@ -10,21 +10,58 @@ interface Props {
   canonical?: string;
   /** Root-relative paths to the en/it twins of this page, for hreflang. */
   alternates?: { en: string; it: string };
+  /** Open Graph object type — 'article' for guide pages. */
+  ogType?: 'website' | 'article';
+  /** Last-modified date, emitted as article:modified_time for articles. */
+  modified?: Date;
+  /** Keep the page out of search indexes (e.g. the client-side /search). */
+  noindex?: boolean;
 }
-const { title, description, canonical: canonicalOverride, alternates } = Astro.props;
+const {
+  title,
+  description,
+  canonical: canonicalOverride,
+  alternates,
+  ogType = 'website',
+  modified,
+  noindex = false,
+} = Astro.props;
 const canonical = canonicalOverride ?? new URL(Astro.url.pathname, Astro.site).href;
 const siteName = 'Trasferirsi in Italia';
 
 const locale = getLocale(Astro.url);
 const t = ui[locale];
 
+const ogImage = new URL('/og-default.png', Astro.site).href;
+const ogLocale = locale === 'it' ? 'it_IT' : 'en_US';
+const ogLocaleAlternate = locale === 'it' ? 'en_US' : 'it_IT';
+
 const orgSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: siteName,
   url: Astro.site?.href,
+  logo: new URL('/apple-touch-icon.png', Astro.site).href,
   description:
     'A free, source-cited reference for relocating to Italy, covering the EU/EEA residency journey at national, regional, and comune level.',
+};
+
+// WebSite schema with a SearchAction: tells search engines and AI agents that
+// the site is searchable at /search?q=… (the search page reads ?q on load).
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteName,
+  url: Astro.site?.href,
+  inLanguage: ['en', 'it'],
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: new URL('/search?q={search_term_string}', Astro.site).href,
+    },
+    'query-input': 'required name=search_term_string',
+  },
 };
 
 const homeHref = locale === 'en' ? '/' : '/it';
@@ -35,10 +72,14 @@ const homeHref = locale === 'en' ? '/' : '/it';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#265840" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
 
     <title>{title} · {siteName}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonical} />
     {
       alternates && (
@@ -50,22 +91,35 @@ const homeHref = locale === 'en' ? '/' : '/it';
       )
     }
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={siteName} />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogLocaleAlternate} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={siteName} />
+    {
+      ogType === 'article' && modified && (
+        <meta property="article:modified_time" content={modified.toISOString()} />
+      )
+    }
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <script
       type="application/ld+json"
       set:html={JSON.stringify(orgSchema)}
+      is:inline
+    />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(websiteSchema)}
       is:inline
     />
 

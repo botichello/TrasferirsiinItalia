@@ -44,12 +44,16 @@ const ATTEMPTS = 3;
 const CONCURRENCY = 8;
 
 /**
- * Hosts verified (2026-06-12) to sit behind anti-bot / origin firewalls that
- * return 403/503 to automated fetches while resolving in a normal browser.
- * Their non-2xx is reported as "expected", never a failure. Stored www-stripped
- * to match host() below. Trim this list if a host starts answering cleanly.
+ * Hosts verified (2026-06-12; Milano/Palermo added 2026-07-10) to sit behind
+ * anti-bot / origin firewalls that return 401/403/503 to automated fetches
+ * while resolving in a normal browser. Their non-2xx is reported as
+ * "expected", never a failure. Stored www-stripped to match host() below.
+ * Trim this list if a host starts answering cleanly. All their cited URLs
+ * carry Wayback fallbacks in src/data/archives.json.
  */
 const KNOWN_BOTWALL = new Set([
+  'comune.milano.it',
+  'comune.palermo.it',
   'demografici.comune.napoli.it',
   'comune.napoli.it',
   'regione.campania.it',

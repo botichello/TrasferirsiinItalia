@@ -1,0 +1,1500 @@
+{
+ "comune-notes/ancona/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Vicenza, Treviso, Udine, Ancona (EN + IT)"
+  },
+  {
+   "verified": "2026-06-12",
+   "committed": "2026-06-12",
+   "subject": "Repair rotted overlay citations found by live link audit"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/bari/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for 8 more major cities (EN + IT)"
+  },
+  {
+   "verified": "2026-06-12",
+   "committed": "2026-06-12",
+   "subject": "Repair rotted overlay citations found by live link audit"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/bergamo/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Cagliari, Trieste, Bergamo, Parma (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/bologna/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Expand to city/comune selection with comune-level anagrafe overlays"
+  },
+  {
+   "verified": "2026-06-12",
+   "committed": "2026-06-12",
+   "subject": "Repair rotted overlay citations found by live link audit"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/bolzano/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Rimini, Trento, Bolzano, Lecce (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/brescia/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for 8 more major cities (EN + IT)"
+  },
+  {
+   "verified": "2026-06-12",
+   "committed": "2026-06-12",
+   "subject": "Repair rotted overlay citations found by live link audit"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/cagliari/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Cagliari, Trieste, Bergamo, Parma (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/catania/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for 8 more major cities (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/firenze/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Expand to city/comune selection with comune-level anagrafe overlays"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote the 5 draft comune anagrafe overlays (major cities)"
+  }
+ ],
+ "comune-notes/genova/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for 8 more major cities (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/ancona/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Vicenza, Treviso, Udine, Ancona (EN + IT)"
+  },
+  {
+   "verified": "2026-06-12",
+   "committed": "2026-06-12",
+   "subject": "Repair rotted overlay citations found by live link audit"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/bari/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for 8 more major cities (EN + IT)"
+  },
+  {
+   "verified": "2026-06-12",
+   "committed": "2026-06-12",
+   "subject": "Repair rotted overlay citations found by live link audit"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/bergamo/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Cagliari, Trieste, Bergamo, Parma (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/bologna/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Extend Italian to the region/city layer + locale-aware selector"
+  },
+  {
+   "verified": "2026-06-12",
+   "committed": "2026-06-12",
+   "subject": "Repair rotted overlay citations found by live link audit"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/bolzano/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Rimini, Trento, Bolzano, Lecce (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/brescia/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for 8 more major cities (EN + IT)"
+  },
+  {
+   "verified": "2026-06-12",
+   "committed": "2026-06-12",
+   "subject": "Repair rotted overlay citations found by live link audit"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/cagliari/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Cagliari, Trieste, Bergamo, Parma (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/catania/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for 8 more major cities (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/firenze/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Extend Italian to the region/city layer + locale-aware selector"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote the 5 draft comune anagrafe overlays (major cities)"
+  }
+ ],
+ "comune-notes/it/genova/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for 8 more major cities (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/lecce/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Rimini, Trento, Bolzano, Lecce (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/livorno/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Messina, Livorno, Pisa, Monza (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/messina/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Messina, Livorno, Pisa, Monza (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/milano/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Extend Italian to the region/city layer + locale-aware selector"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote the 5 draft comune anagrafe overlays (major cities)"
+  }
+ ],
+ "comune-notes/it/modena/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Modena, Reggio Emilia, Salerno, Perugia (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/monza/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Messina, Livorno, Pisa, Monza (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/napoli/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Extend Italian to the region/city layer + locale-aware selector"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote the 5 draft comune anagrafe overlays (major cities)"
+  }
+ ],
+ "comune-notes/it/padova/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for 8 more major cities (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/palermo/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for 8 more major cities (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/parma/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Cagliari, Trieste, Bergamo, Parma (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/perugia/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Modena, Reggio Emilia, Salerno, Perugia (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/pisa/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Messina, Livorno, Pisa, Monza (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/reggio-emilia/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Modena, Reggio Emilia, Salerno, Perugia (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/rimini/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Rimini, Trento, Bolzano, Lecce (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/roma/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Extend Italian to the region/city layer + locale-aware selector"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote the 5 draft comune anagrafe overlays (major cities)"
+  }
+ ],
+ "comune-notes/it/salerno/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Modena, Reggio Emilia, Salerno, Perugia (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/torino/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Extend Italian to the region/city layer + locale-aware selector"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote the 5 draft comune anagrafe overlays (major cities)"
+  }
+ ],
+ "comune-notes/it/trento/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Rimini, Trento, Bolzano, Lecce (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/treviso/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Vicenza, Treviso, Udine, Ancona (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/trieste/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Cagliari, Trieste, Bergamo, Parma (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/udine/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Vicenza, Treviso, Udine, Ancona (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/venezia/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for 8 more major cities (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/verona/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for 8 more major cities (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/vicenza/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Vicenza, Treviso, Udine, Ancona (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/lecce/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Rimini, Trento, Bolzano, Lecce (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/livorno/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Messina, Livorno, Pisa, Monza (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/messina/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Messina, Livorno, Pisa, Monza (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/milano/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Expand to city/comune selection with comune-level anagrafe overlays"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote the 5 draft comune anagrafe overlays (major cities)"
+  }
+ ],
+ "comune-notes/modena/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Modena, Reggio Emilia, Salerno, Perugia (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/monza/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Messina, Livorno, Pisa, Monza (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/napoli/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Expand to city/comune selection with comune-level anagrafe overlays"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote the 5 draft comune anagrafe overlays (major cities)"
+  }
+ ],
+ "comune-notes/padova/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for 8 more major cities (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/palermo/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for 8 more major cities (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/parma/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Cagliari, Trieste, Bergamo, Parma (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/perugia/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Modena, Reggio Emilia, Salerno, Perugia (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/pisa/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Messina, Livorno, Pisa, Monza (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/reggio-emilia/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Modena, Reggio Emilia, Salerno, Perugia (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/rimini/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Rimini, Trento, Bolzano, Lecce (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/roma/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Expand to city/comune selection with comune-level anagrafe overlays"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote the 5 draft comune anagrafe overlays (major cities)"
+  }
+ ],
+ "comune-notes/salerno/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Modena, Reggio Emilia, Salerno, Perugia (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/torino/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Expand to city/comune selection with comune-level anagrafe overlays"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote the 5 draft comune anagrafe overlays (major cities)"
+  }
+ ],
+ "comune-notes/trento/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Rimini, Trento, Bolzano, Lecce (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/treviso/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Vicenza, Treviso, Udine, Ancona (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/trieste/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Cagliari, Trieste, Bergamo, Parma (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/udine/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Vicenza, Treviso, Udine, Ancona (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/venezia/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for 8 more major cities (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/verona/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for 8 more major cities (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/vicenza/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Add comune anagrafe overlays for Vicenza, Treviso, Udine, Ancona (EN + IT)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "guides/codice-fiscale.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Scaffold v1: EU-citizen residency reference site"
+  },
+  {
+   "verified": "2026-06-12",
+   "committed": "2026-06-12",
+   "subject": "Verify national guides against live primary sources; fix rotted citations"
+  }
+ ],
+ "guides/conto-corrente.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-10",
+   "subject": "Items 1-4: verified link sweep, 4 new bilingual guides, SEO gate, verification log"
+  }
+ ],
+ "guides/familiari-non-ue.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-10",
+   "subject": "Items 1-4: verified link sweep, 4 new bilingual guides, SEO gate, verification log"
+  }
+ ],
+ "guides/identita-digitale.md": [
+  {
+   "verified": "2026-06-12",
+   "committed": "2026-06-26",
+   "subject": "Add Step 4: digital identity (SPID & CIE), EN + IT"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "CIE guide: fix booking guidance — comune channel, not the national portal"
+  }
+ ],
+ "guides/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Scaffold v1: EU-citizen residency reference site"
+  },
+  {
+   "verified": "2026-06-12",
+   "committed": "2026-06-12",
+   "subject": "Verify national guides against live primary sources; fix rotted citations"
+  }
+ ],
+ "guides/it/codice-fiscale.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the national residency journey into Italian (end-to-end)"
+  },
+  {
+   "verified": "2026-06-12",
+   "committed": "2026-06-12",
+   "subject": "Verify national guides against live primary sources; fix rotted citations"
+  }
+ ],
+ "guides/it/conto-corrente.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-10",
+   "subject": "Items 1-4: verified link sweep, 4 new bilingual guides, SEO gate, verification log"
+  }
+ ],
+ "guides/it/familiari-non-ue.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-10",
+   "subject": "Items 1-4: verified link sweep, 4 new bilingual guides, SEO gate, verification log"
+  }
+ ],
+ "guides/it/identita-digitale.md": [
+  {
+   "verified": "2026-06-12",
+   "committed": "2026-06-26",
+   "subject": "Add Step 4: digital identity (SPID & CIE), EN + IT"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "CIE guide: fix booking guidance — comune channel, not the national portal"
+  }
+ ],
+ "guides/it/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the national residency journey into Italian (end-to-end)"
+  },
+  {
+   "verified": "2026-06-12",
+   "committed": "2026-06-12",
+   "subject": "Verify national guides against live primary sources; fix rotted citations"
+  }
+ ],
+ "guides/it/patente-di-guida.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-10",
+   "subject": "Items 1-4: verified link sweep, 4 new bilingual guides, SEO gate, verification log"
+  }
+ ],
+ "guides/it/residenza-fiscale.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-10",
+   "subject": "Items 1-4: verified link sweep, 4 new bilingual guides, SEO gate, verification log"
+  }
+ ],
+ "guides/it/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the national residency journey into Italian (end-to-end)"
+  },
+  {
+   "verified": "2026-06-12",
+   "committed": "2026-06-12",
+   "subject": "Verify national guides against live primary sources; fix rotted citations"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "SSN: state the economically-inactive cost directly (2024 reform)"
+  }
+ ],
+ "guides/patente-di-guida.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-10",
+   "subject": "Items 1-4: verified link sweep, 4 new bilingual guides, SEO gate, verification log"
+  }
+ ],
+ "guides/residenza-fiscale.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-10",
+   "subject": "Items 1-4: verified link sweep, 4 new bilingual guides, SEO gate, verification log"
+  }
+ ],
+ "guides/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Scaffold v1: EU-citizen residency reference site"
+  },
+  {
+   "verified": "2026-06-12",
+   "committed": "2026-06-12",
+   "subject": "Verify national guides against live primary sources; fix rotted citations"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "SSN: state the economically-inactive cost directly (2024 reform)"
+  }
+ ],
+ "region-notes/abruzzo/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Complete SSN region overlays for all 20 regions (verified sources)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/basilicata/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Complete SSN region overlays for all 20 regions (verified sources)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/calabria/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Complete SSN region overlays for all 20 regions (verified sources)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/campania/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Add SSN region overlays for the 10 most-relocated-to regions"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/emilia-romagna/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Add SSN region overlays for the 10 most-relocated-to regions"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/friuli-venezia-giulia/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Complete SSN region overlays for all 20 regions (verified sources)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/abruzzo/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the remaining 14 region SSN overlays into Italian (all 20 done)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/basilicata/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the remaining 14 region SSN overlays into Italian (all 20 done)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/calabria/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the remaining 14 region SSN overlays into Italian (all 20 done)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/campania/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Extend Italian to the region/city layer + locale-aware selector"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/emilia-romagna/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Extend Italian to the region/city layer + locale-aware selector"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/friuli-venezia-giulia/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the remaining 14 region SSN overlays into Italian (all 20 done)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/lazio/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Extend Italian to the region/city layer + locale-aware selector"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/liguria/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the remaining 14 region SSN overlays into Italian (all 20 done)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/lombardia/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Extend Italian to the region/city layer + locale-aware selector"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/marche/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the remaining 14 region SSN overlays into Italian (all 20 done)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/molise/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the remaining 14 region SSN overlays into Italian (all 20 done)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/piemonte/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Extend Italian to the region/city layer + locale-aware selector"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/puglia/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the remaining 14 region SSN overlays into Italian (all 20 done)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/sardegna/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the remaining 14 region SSN overlays into Italian (all 20 done)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/sicilia/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the remaining 14 region SSN overlays into Italian (all 20 done)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/toscana/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Extend Italian to the region/city layer + locale-aware selector"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/trentino-alto-adige/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the remaining 14 region SSN overlays into Italian (all 20 done)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "SSN: state the economically-inactive cost directly (2024 reform)"
+  }
+ ],
+ "region-notes/it/umbria/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the remaining 14 region SSN overlays into Italian (all 20 done)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/valle-d-aosta/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the remaining 14 region SSN overlays into Italian (all 20 done)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/it/veneto/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-12",
+   "subject": "Translate the remaining 14 region SSN overlays into Italian (all 20 done)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/lazio/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Add region selection with region-specific guidance"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/liguria/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Add SSN region overlays for the 10 most-relocated-to regions"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/lombardia/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Add region selection with region-specific guidance"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/marche/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Add SSN region overlays for the 10 most-relocated-to regions"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/molise/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Complete SSN region overlays for all 20 regions (verified sources)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/piemonte/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Add SSN region overlays for the 10 most-relocated-to regions"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/puglia/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Add SSN region overlays for the 10 most-relocated-to regions"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/sardegna/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Add SSN region overlays for the 10 most-relocated-to regions"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/sicilia/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Add SSN region overlays for the 10 most-relocated-to regions"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/toscana/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Add SSN region overlays for the 10 most-relocated-to regions"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/trentino-alto-adige/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Complete SSN region overlays for all 20 regions (verified sources)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "SSN: state the economically-inactive cost directly (2024 reform)"
+  }
+ ],
+ "region-notes/umbria/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Complete SSN region overlays for all 20 regions (verified sources)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/valle-d-aosta/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Complete SSN region overlays for all 20 regions (verified sources)"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ],
+ "region-notes/veneto/servizio-sanitario.md": [
+  {
+   "verified": "2026-06-11",
+   "committed": "2026-06-11",
+   "subject": "Add SSN region overlays for the 10 most-relocated-to regions"
+  },
+  {
+   "verified": "2026-07-02",
+   "committed": "2026-07-02",
+   "subject": "Verify + promote all 20 region SSN overlays out of draft"
+  }
+ ]
+}

@@ -1,4 +1,8 @@
 @import 'tailwindcss';
+/* Self-hosted variable fonts (same-origin, no render-blocking third-party
+ * CSS or extra DNS hops — the fonts ship from /_astro/ with the bundle). */
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/fraunces/opsz.css';
 
 /*
  * Design language: modern, elegant, professional, trust-forward.
@@ -7,8 +11,8 @@
  * Italian "verde" and warm paper tones.
  */
 @theme {
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-serif: 'Fraunces', ui-serif, Georgia, serif;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Fraunces Variable', ui-serif, Georgia, serif;
 
   --color-paper: #fbfaf7;
   --color-ink: #1c1b18;

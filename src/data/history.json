@@ -867,6 +867,20 @@
    "subject": "Verify national guides against live primary sources; fix rotted citations"
   }
  ],
+ "guides/conto-corrente.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-10",
+   "subject": "Items 1-4: verified link sweep, 4 new bilingual guides, SEO gate, verification log"
+  }
+ ],
+ "guides/familiari-non-ue.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-10",
+   "subject": "Items 1-4: verified link sweep, 4 new bilingual guides, SEO gate, verification log"
+  }
+ ],
  "guides/identita-digitale.md": [
   {
    "verified": "2026-06-12",
@@ -903,6 +917,20 @@
    "subject": "Verify national guides against live primary sources; fix rotted citations"
   }
  ],
+ "guides/it/conto-corrente.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-10",
+   "subject": "Items 1-4: verified link sweep, 4 new bilingual guides, SEO gate, verification log"
+  }
+ ],
+ "guides/it/familiari-non-ue.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-10",
+   "subject": "Items 1-4: verified link sweep, 4 new bilingual guides, SEO gate, verification log"
+  }
+ ],
  "guides/it/identita-digitale.md": [
   {
    "verified": "2026-06-12",
@@ -927,6 +955,20 @@
    "subject": "Verify national guides against live primary sources; fix rotted citations"
   }
  ],
+ "guides/it/patente-di-guida.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-10",
+   "subject": "Items 1-4: verified link sweep, 4 new bilingual guides, SEO gate, verification log"
+  }
+ ],
+ "guides/it/residenza-fiscale.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-10",
+   "subject": "Items 1-4: verified link sweep, 4 new bilingual guides, SEO gate, verification log"
+  }
+ ],
  "guides/it/servizio-sanitario.md": [
   {
    "verified": "2026-06-11",
@@ -942,6 +984,20 @@
    "verified": "2026-07-02",
    "committed": "2026-07-02",
    "subject": "SSN: state the economically-inactive cost directly (2024 reform)"
+  }
+ ],
+ "guides/patente-di-guida.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-10",
+   "subject": "Items 1-4: verified link sweep, 4 new bilingual guides, SEO gate, verification log"
+  }
+ ],
+ "guides/residenza-fiscale.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-10",
+   "subject": "Items 1-4: verified link sweep, 4 new bilingual guides, SEO gate, verification log"
   }
  ],
  "guides/servizio-sanitario.md": [

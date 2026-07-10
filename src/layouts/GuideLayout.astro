@@ -8,9 +8,10 @@ import ReportIssue from '../components/ReportIssue.astro';
 import SourceList from '../components/SourceList.astro';
 import SsnCostEstimator from '../components/SsnCostEstimator.astro';
 import StructuredData from '../components/StructuredData.astro';
-import type { CollectionEntry } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import { getLocale, ui } from '../i18n/ui';
 import { guideSlug } from '../lib/guides';
+import { getFileHistory } from '../lib/updates';
 
 /** A place context (a region or a city) that scopes the guide. */
 export interface Place {
@@ -49,16 +50,22 @@ const journeyBase =
   place?.navBase ?? (locale === 'it' ? '/it/eu-citizens/residency' : '/eu-citizens/residency');
 const journeyHome = `${journeyBase}/codice-fiscale`;
 
-// Every guide page has an en/it twin at the mirrored path (national, region,
-// and city routes are all generated for both locales). Emit hreflang pairs on
-// pages that are canonical to themselves; pages that consolidate their
-// canonical elsewhere (thin place pages) must not declare alternates.
+// Guide pages have en/it twins at the mirrored path (national, region, and
+// city routes are generated per locale from the same-slug guide). Emit
+// hreflang pairs on pages that are canonical to themselves AND whose twin
+// actually exists — a guide not yet translated must not declare alternates.
+// Pages that consolidate their canonical elsewhere never declare them.
 const slug = guideSlug(entry);
+const twinLang = locale === 'en' ? 'it' : 'en';
+const twinExists = (await getCollection('guides')).some(
+  (g) => g.data.lang === twinLang && guideSlug(g) === slug,
+);
 const path = Astro.url.pathname;
 const enPath = locale === 'it' ? path.replace(/^\/it(\/|$)/, '/') : path;
-const alternates = canonical
-  ? undefined
-  : { en: enPath, it: `/it${enPath === '/' ? '' : enPath}` };
+const alternates =
+  canonical || !twinExists
+    ? undefined
+    : { en: enPath, it: `/it${enPath === '/' ? '' : enPath}` };
 
 const placeLabel = place
   ? place.kind === 'city' && place.regionName
@@ -87,6 +94,21 @@ const crumbs = [
   ...(place ? [{ name: placeLabel, url }] : []),
   { name: data.title, url },
 ];
+// Verification history (git-derived, see scripts/build-history.mjs) for the
+// page's binding document: the local overlay when there is one, else the
+// national guide.
+const historyKey = localNote
+  ? `${localNote.collection === 'regionNotes' ? 'region-notes' : 'comune-notes'}/${localNote.id}.md`
+  : `guides/${entry.id}.md`;
+const historyEvents = getFileHistory(historyKey);
+const fmtDate = (iso: string) =>
+  new Date(iso).toLocaleDateString(locale === 'it' ? 'it-IT' : 'en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+const updatesHref = locale === 'it' ? '/it/updates' : '/updates';
+
 // The guide's H2 sections, used as HowTo steps in the structured data.
 const sections = [...(entry.body ?? '').matchAll(/^## +(.+?) *$/gm)].map((m) =>
   m[1].replace(/[*_`]/g, ''),
@@ -155,6 +177,16 @@ const breadcrumbSchema = {
     <p class="mt-3 max-w-2xl text-lg text-muted">{data.description}</p>
     <div class="mt-4">
       <FreshnessBadge lastVerified={lastVerified} reviewBy={reviewBy} />
+      {
+        historyEvents.length > 0 && (
+          <p class="mt-2 text-sm text-muted">
+            {t.historySummary(historyEvents.length, fmtDate(historyEvents[0].verified))}
+            <a href={updatesHref} class="text-brand-700 hover:underline">
+              {t.allUpdates}
+            </a>
+          </p>
+        )
+      }
     </div>
   </div>
 

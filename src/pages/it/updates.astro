@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getUpdateFeed } from '../../lib/updates';
+
+const feed = await getUpdateFeed('it');
+const totalEvents = feed.reduce((n, d) => n + d.events.length, 0);
+
+const fmt = (iso: string) =>
+  new Date(iso).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const grouped = feed.map((day) => {
+  const bySubject = new Map<string, typeof day.events>();
+  for (const ev of day.events) {
+    const list = bySubject.get(ev.subject) ?? [];
+    list.push(ev);
+    bySubject.set(ev.subject, list);
+  }
+  return { date: day.date, groups: [...bySubject.entries()] };
+});
+---
+
+<BaseLayout
+  title="Aggiornamenti e registro delle verifiche"
+  description="Ogni data in cui una pagina di questa guida è stata verificata rispetto alle fonti primarie — derivata dalla cronologia delle modifiche, non dichiarata."
+  alternates={{ en: '/updates', it: '/it/updates' }}
+>
+  <h1 class="text-4xl font-semibold">Aggiornamenti e registro delle verifiche</h1>
+  <p class="mt-3 max-w-2xl text-muted">
+    Ogni pagina mostra una data di "ultima verifica"; questo registro ne è la prova.
+    Elenca tutte le {totalEvents} occasioni in cui la data di verifica di una pagina
+    è cambiata — cioè quando una persona ha ricontrollato il contenuto rispetto alle
+    fonti primarie citate — ricavate dalla cronologia delle modifiche del sito.
+  </p>
+
+  <div class="mt-10 space-y-10">
+    {
+      grouped.map(({ date, groups }) => (
+        <section>
+          <h2 class="font-serif text-2xl">
+            <time datetime={date}>{fmt(date)}</time>
+          </h2>
+          {groups.map(([subject, events]) => (
+            <div class="mt-4 rounded-lg border border-line bg-white/60 p-4">
+              <p class="text-sm font-medium">{subject}</p>
+              <ul class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+                {events.map((ev) => (
+                  <li>
+                    <a href={ev.url} class="text-brand-700 hover:underline">
+                      {ev.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>

@@ -45,10 +45,13 @@ not broad and stale. So the citability discipline is mechanical, not aspirationa
 ```bash
 npm install
 npm run dev          # local dev server
-npm run build        # runs the freshness gate, then builds to dist/
+npm run build        # freshness gate → astro build → SEO gate (dist/)
 npm run check:freshness   # the freshness gate on its own
+npm run check:seo         # the SEO gate on its own (canonicals, hreflang, sitemap, JSON-LD)
 npm run check:links       # fetch every cited URL; flag dead/hijacked citations (needs network)
 npm run fetch:archives    # refresh Wayback snapshots for cited sources (needs network)
+npm run build:history     # regenerate src/data/history.json (verification log) from git
+npm run submit:indexnow   # ping IndexNow with the live sitemap (after deploy, when public)
 ```
 
 ## Content model
@@ -119,13 +122,19 @@ text. `hreflang` alternates are emitted on the bilingual pages.
 4. ✅ Findability & Trust — search, browse hubs, About/How-we-verify, schema.
 5. ✅ Italian (i18n) — national journey, all 20 region SSN overlays, and the 34
    city anagrafe overlays, end-to-end.
-6. 🔶 Verify draft content against primary sources. **Done (2026-06-12, against
-   the live official sites):** the three national guides (codice fiscale,
-   anagrafe, SSN) in both languages, plus a full link audit of every cited
-   source — all dead or redirected citations were repaired (see below).
-   **Remaining:** the region-specific SSN detail and per-comune procedures keep
-   their draft date pending a content-level pass.
-7. Smaller comuni keep the honest national-procedure fallback (their process is
+6. ✅ Verify draft content against primary sources. **2026-06-12:** the three
+   national guides (codice fiscale, anagrafe, SSN) in both languages, plus a
+   full link audit of every cited source — all dead or redirected citations
+   were repaired (see below). **2026-07-02:** all 20 region SSN overlays and
+   all 34 comune anagrafe overlays deep-verified against primary sources and
+   promoted out of draft, in both languages. **2026-07-10:** link sweep re-run
+   — 0 broken citations; Milano and Palermo joined the known bot-walled hosts
+   (their citations carry Wayback fallbacks).
+7. ✅ Life-setup steps 5–8 (2026-07-10, verified against live primary sources):
+   bank account & conto di base, driving licence validity/conversion, tax
+   residency basics, and the residence card for non-EU family members — all
+   bilingual, all national-scope.
+8. Smaller comuni keep the honest national-procedure fallback (their process is
    the uniform national ANPR flow); add overlays on request. Then the non-EU
    visa journey.
 

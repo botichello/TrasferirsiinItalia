@@ -42,6 +42,9 @@ interface Strings {
     reset: string;
     reportPrompt: string;
     reportLink: string;
+    /** Builds "Verified N times since <date>." */
+    historySummary: (n: number, since: string) => string;
+    allUpdates: string;
   };
 }
 
@@ -63,6 +66,7 @@ export const ui: Record<Locale, Strings> = {
       { href: '/about', label: 'About' },
       { href: '/how-we-verify', label: 'How we verify' },
       { href: '/sources', label: 'Sources' },
+      { href: '/updates', label: 'Updates' },
       { href: '/glossary', label: 'Glossary' },
       { href: '/search', label: 'Search' },
     ],
@@ -86,6 +90,9 @@ export const ui: Record<Locale, Strings> = {
       reset: 'Reset',
       reportPrompt: 'Spotted something out of date?',
       reportLink: 'Suggest an update →',
+      historySummary: (n, since) =>
+        n === 1 ? `Verified once, on ${since}.` : `Verified ${n} times since ${since}.`,
+      allUpdates: 'See all updates →',
     },
   },
   it: {
@@ -104,6 +111,7 @@ export const ui: Record<Locale, Strings> = {
       { href: '/it/about', label: 'Chi siamo' },
       { href: '/it/how-we-verify', label: 'Come verifichiamo' },
       { href: '/it/sources', label: 'Fonti' },
+      { href: '/it/updates', label: 'Aggiornamenti' },
       { href: '/it/glossary', label: 'Glossario' },
       { href: '/', label: 'English site' },
     ],
@@ -127,6 +135,9 @@ export const ui: Record<Locale, Strings> = {
       reset: 'Reimposta',
       reportPrompt: 'Hai notato qualcosa di superato?',
       reportLink: 'Proponi un aggiornamento →',
+      historySummary: (n, since) =>
+        n === 1 ? `Verificata una volta, il ${since}.` : `Verificata ${n} volte dal ${since}.`,
+      allUpdates: 'Tutti gli aggiornamenti →',
     },
   },
 };

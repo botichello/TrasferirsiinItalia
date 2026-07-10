@@ -49,11 +49,16 @@ const journeyBase =
   place?.navBase ?? (locale === 'it' ? '/it/eu-citizens/residency' : '/eu-citizens/residency');
 const journeyHome = `${journeyBase}/codice-fiscale`;
 
-// National guide pages have en/it twins → emit hreflang alternates.
+// Every guide page has an en/it twin at the mirrored path (national, region,
+// and city routes are all generated for both locales). Emit hreflang pairs on
+// pages that are canonical to themselves; pages that consolidate their
+// canonical elsewhere (thin place pages) must not declare alternates.
 const slug = guideSlug(entry);
-const alternates = place
+const path = Astro.url.pathname;
+const enPath = locale === 'it' ? path.replace(/^\/it(\/|$)/, '/') : path;
+const alternates = canonical
   ? undefined
-  : { en: `/eu-citizens/residency/${slug}`, it: `/it/eu-citizens/residency/${slug}` };
+  : { en: enPath, it: `/it${enPath === '/' ? '' : enPath}` };
 
 const placeLabel = place
   ? place.kind === 'city' && place.regionName
@@ -82,6 +87,11 @@ const crumbs = [
   ...(place ? [{ name: placeLabel, url }] : []),
   { name: data.title, url },
 ];
+// The guide's H2 sections, used as HowTo steps in the structured data.
+const sections = [...(entry.body ?? '').matchAll(/^## +(.+?) *$/gm)].map((m) =>
+  m[1].replace(/[*_`]/g, ''),
+);
+
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
@@ -94,7 +104,14 @@ const breadcrumbSchema = {
 };
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical} alternates={alternates}>
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  alternates={alternates}
+  ogType="article"
+  modified={lastVerified}
+>
   <StructuredData
     slot="head"
     title={title}
@@ -102,6 +119,8 @@ const breadcrumbSchema = {
     url={url}
     lastVerified={lastVerified}
     faq={data.faq}
+    steps={sections}
+    inLanguage={locale}
   />
   <script
     slot="head"

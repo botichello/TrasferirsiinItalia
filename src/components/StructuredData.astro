@@ -14,8 +14,18 @@ interface Props {
   url: string;
   lastVerified: Date;
   faq?: FaqItem[];
+  /** Section names of the guide, emitted as HowTo steps. */
+  steps?: string[];
+  /** BCP-47 language of the page ('en' | 'it'). */
+  inLanguage?: string;
 }
-const { title, description, url, lastVerified, faq = [] } = Astro.props;
+const { title, description, url, lastVerified, faq = [], steps = [], inLanguage = 'en' } = Astro.props;
+
+const publisher = {
+  '@type': 'Organization',
+  name: 'Trasferirsi in Italia',
+  url: Astro.site?.href,
+};
 
 const graph: Record<string, unknown>[] = [
   {
@@ -23,13 +33,25 @@ const graph: Record<string, unknown>[] = [
     name: title,
     description,
     url,
+    inLanguage,
     dateModified: lastVerified.toISOString().slice(0, 10),
+    mainEntityOfPage: url,
+    publisher,
+    ...(steps.length > 0 && {
+      step: steps.map((name, i) => ({
+        '@type': 'HowToStep',
+        position: i + 1,
+        name,
+        url,
+      })),
+    }),
   },
 ];
 
 if (faq.length > 0) {
   graph.push({
     '@type': 'FAQPage',
+    inLanguage,
     mainEntity: faq.map((item) => ({
       '@type': 'Question',
       name: item.q,

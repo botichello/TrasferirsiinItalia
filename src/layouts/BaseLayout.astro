@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { getLocale, ui } from '../i18n/ui';
+import { SEARCH_INDEXING } from '../data/site';
 
 interface Props {
   title: string;
@@ -79,7 +80,7 @@ const homeHref = locale === 'en' ? '/' : '/it';
 
     <title>{title} · {siteName}</title>
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex" />}
+    {(noindex || !SEARCH_INDEXING) && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonical} />
     {
       alternates && (

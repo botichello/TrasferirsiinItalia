@@ -1,0 +1,83 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StepIcon from '../components/StepIcon.astro';
+
+// The whole journey as one printable checklist, composed from the verified
+// guides' frontmatter (steps + their document lists). No new claims — every
+// line traces back to a sourced guide page.
+const steps = (await getCollection('guides', ({ data }) => data.lang === 'en')).sort(
+  (a, b) => a.data.step - b.data.step,
+);
+const lastVerified = new Date(
+  Math.min(...steps.map((s) => s.data.lastVerified.getTime())),
+);
+---
+
+<BaseLayout
+  title="The full journey checklist"
+  description="Every step of the EU residency journey and every document to bring, on one printable page — composed from the verified, source-cited guides."
+  alternates={{ en: '/checklist', it: '/it/checklist' }}
+>
+  <div class="flex flex-wrap items-start justify-between gap-4">
+    <div>
+      <h1 class="text-4xl font-semibold">The full journey checklist</h1>
+      <p class="mt-3 max-w-2xl text-muted">
+        All eight steps and every document to bring, on one page. Print it, tick it
+        off as you go, and open each step's guide for the full verified procedure.
+        Content drawn from guides last verified no earlier than
+        <time datetime={lastVerified.toISOString().slice(0, 10)}>{lastVerified.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</time>.
+      </p>
+    </div>
+    <button
+      data-print
+      class="rounded-full border border-brand-600 px-5 py-2 text-sm font-medium text-brand-700 transition hover:bg-brand-50 print:hidden"
+    >
+      Print this checklist
+    </button>
+  </div>
+
+  <ol class="mt-10 space-y-8">
+    {
+      steps.map((s) => (
+        <li class="rounded-xl border border-line bg-white/60 p-6">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-600 font-serif font-semibold text-white">
+              {s.data.step}
+            </span>
+            <StepIcon slug={s.id} class="h-5 w-5 text-brand-500" />
+            <h2 class="font-serif text-xl">
+              <a href={`/eu-citizens/residency/${s.id}`} class="hover:text-brand-700">
+                {s.data.title}
+              </a>
+            </h2>
+          </div>
+          <p class="mt-2 text-sm text-muted">{s.data.description}</p>
+          {s.data.documents.length > 0 ? (
+            <ul class="mt-4 space-y-2">
+              {s.data.documents.map((d) => (
+                <li class="flex items-start gap-3 text-sm">
+                  <span class="mt-0.5 h-4 w-4 shrink-0 rounded border border-muted" aria-hidden="true" />
+                  {d}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="mt-4 text-sm italic text-muted">
+              No documents to prepare in advance — see the guide for the procedure.
+            </p>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+
+  <p class="mt-8 text-sm text-muted print:hidden">
+    City-specific offices and booking systems are on your city's pages — pick yours
+    from <a href="/cities" class="text-brand-700 underline underline-offset-2">Browse cities</a>.
+  </p>
+</BaseLayout>
+
+<script>
+  document.querySelector('[data-print]')?.addEventListener('click', () => window.print());
+</script>

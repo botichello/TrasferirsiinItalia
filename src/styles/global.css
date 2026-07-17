@@ -28,6 +28,48 @@
   --color-accent: #b8742f;
 }
 
+/*
+ * Dark mode: the palette lives in custom properties, so overriding them under
+ * prefers-color-scheme flips the theme. A handful of literal utilities
+ * (bg-white/*, the amber overdue badge) get targeted overrides below.
+ * Warm near-black paper keeps the "carta" feel; verde brightens for contrast.
+ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-paper: #171613;
+    --color-ink: #ece9e1;
+    --color-muted: #a7a196;
+    --color-line: #2f2d27;
+
+    --color-brand-50: #1e2b23;
+    --color-brand-100: #27392e;
+    --color-brand-500: #4e9e77;
+    --color-brand-600: #2f6b4f;
+    --color-brand-700: #8fcbaa;
+
+    --color-accent: #d0954f;
+  }
+  .bg-white\/60,
+  .bg-white\/70 {
+    background-color: rgb(255 255 255 / 0.04);
+  }
+  .bg-white {
+    background-color: #201f1b;
+  }
+  .bg-amber-50 {
+    background-color: #2b2210;
+  }
+  .border-amber-300 {
+    border-color: #6b5320;
+  }
+  .text-amber-800 {
+    color: #e4b95b;
+  }
+  .bg-amber-500 {
+    background-color: #c9971f;
+  }
+}
+
 html {
   scroll-behavior: smooth;
   accent-color: var(--color-brand-600);

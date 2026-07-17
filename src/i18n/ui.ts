@@ -65,6 +65,7 @@ export const ui: Record<Locale, Strings> = {
       { href: '/search', label: 'Search' },
     ],
     footerNav: [
+      { href: '/checklist', label: 'Checklist' },
       { href: '/cities', label: 'Browse cities' },
       { href: '/regions', label: 'Browse regions' },
       { href: '/about', label: 'About' },
@@ -114,6 +115,7 @@ export const ui: Record<Locale, Strings> = {
       { href: '/it/about', label: 'Chi siamo' },
     ],
     footerNav: [
+      { href: '/it/checklist', label: 'Checklist' },
       { href: '/it/cities', label: 'Sfoglia città' },
       { href: '/it/regions', label: 'Sfoglia regioni' },
       { href: '/it/about', label: 'Chi siamo' },

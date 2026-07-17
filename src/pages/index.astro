@@ -63,9 +63,9 @@ const steps = (await getCollection('guides', ({ data }) => data.lang === 'en'))
           <li>
             <a
               href={s.href}
-              class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-6 transition hover:border-brand-100"
+              class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-6 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md hover:shadow-brand-700/5"
             >
-              <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 font-serif font-semibold text-brand-700">
+              <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-600 font-serif font-semibold text-white">
                 {s.step}
               </span>
               <h3 class="mt-4 font-serif text-lg">{s.title}</h3>
@@ -81,26 +81,41 @@ const steps = (await getCollection('guides', ({ data }) => data.lang === 'en'))
     <h2 class="font-serif text-2xl">Why trust this guide</h2>
     <div class="mt-6 grid gap-6 sm:grid-cols-3 text-sm">
       <div>
-        <h3 class="font-serif text-lg">Dated</h3>
+        <h3 class="flex items-center gap-2 font-serif text-lg">
+          <span class="flex h-5 w-5 items-center justify-center rounded-full bg-brand-600 text-xs text-white" aria-hidden="true">✓</span>
+          Dated
+        </h3>
         <p class="mt-1 text-muted">
           Every page shows when it was last verified and when it is next due for
           review. Overdue pages are flagged, not silently trusted.
         </p>
       </div>
       <div>
-        <h3 class="font-serif text-lg">Sourced</h3>
+        <h3 class="flex items-center gap-2 font-serif text-lg">
+          <span class="flex h-5 w-5 items-center justify-center rounded-full bg-brand-600 text-xs text-white" aria-hidden="true">✓</span>
+          Sourced
+        </h3>
         <p class="mt-1 text-muted">
           Each page cites the primary official sources it is based on. The site
           cannot publish a page without them.
         </p>
       </div>
       <div>
-        <h3 class="font-serif text-lg">Narrow on purpose</h3>
+        <h3 class="flex items-center gap-2 font-serif text-lg">
+          <span class="flex h-5 w-5 items-center justify-center rounded-full bg-brand-600 text-xs text-white" aria-hidden="true">✓</span>
+          Narrow on purpose
+        </h3>
         <p class="mt-1 text-muted">
           We cover the EU national residency journey deeply rather than
           everything shallowly — so the information stays accurate.
         </p>
       </div>
     </div>
+    <p class="mt-6 text-sm text-muted">
+      The receipts are public: every re-verification is logged on the
+      <a href="/updates" class="text-brand-700 underline underline-offset-2">updates page</a>,
+      and every citation is indexed on the
+      <a href="/sources" class="text-brand-700 underline underline-offset-2">sources page</a>.
+    </p>
   </section>
 </BaseLayout>

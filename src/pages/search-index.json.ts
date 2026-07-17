@@ -2,24 +2,41 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { regions, getRegion } from '../data/regions';
 import { cities } from '../data/cities';
+import { glossary } from '../data/glossary';
+import { guideSlug } from '../lib/guides';
 
 /**
  * Static search index consumed by /search. Dependency-free: a small JSON
- * document the client filters in the browser. Covers national guides, region
- * SSN pages, city journeys, and the trust pages.
+ * document the client filters in the browser. Covers national guides (both
+ * languages), region SSN pages, city journeys, glossary terms, and the trust
+ * pages. City entries carry English exonyms (Florence → Firenze) so searches
+ * work in either naming.
  */
+
+/** English exonyms for cities whose Italian names differ. */
+const exonyms: Record<string, string> = {
+  roma: 'Rome',
+  milano: 'Milan',
+  napoli: 'Naples',
+  torino: 'Turin',
+  firenze: 'Florence',
+  venezia: 'Venice',
+  genova: 'Genoa',
+  padova: 'Padua',
+};
+
 export const GET: APIRoute = async () => {
   const guides = (await getCollection('guides')).sort((a, b) => a.data.step - b.data.step);
-  const comuneNotes = await getCollection('comuneNotes');
 
   type Entry = { title: string; url: string; type: string; text: string };
   const entries: Entry[] = [];
 
   for (const g of guides) {
+    const it = g.data.lang === 'it';
     entries.push({
       title: g.data.title,
-      url: `/eu-citizens/residency/${g.id}`,
-      type: 'National guide',
+      url: `${it ? '/it' : ''}/eu-citizens/residency/${guideSlug(g)}`,
+      type: it ? 'Guida nazionale (IT)' : 'National guide',
       text: g.data.description,
     });
   }
@@ -35,21 +52,21 @@ export const GET: APIRoute = async () => {
 
   for (const c of cities) {
     const region = getRegion(c.region);
+    const alias = exonyms[c.slug] ?? '';
     entries.push({
       title: `${c.name} (${c.province})`,
       url: `/cities/${c.slug}/residency/codice-fiscale`,
       type: `City · ${region?.name ?? ''}`,
-      text: `${c.name} ${region?.name ?? ''} ${c.province} residency relocation`,
+      text: `${c.name} ${alias} ${region?.name ?? ''} ${c.province} residency relocation anagrafe comune`,
     });
   }
 
-  for (const n of comuneNotes) {
-    if (n.data.guide !== 'iscrizione-anagrafica') continue;
+  for (const term of glossary) {
     entries.push({
-      title: n.data.title ?? `Residency registration — ${n.data.city}`,
-      url: `/cities/${n.data.city}/residency/iscrizione-anagrafica`,
-      type: 'City · anagrafe',
-      text: `${n.data.city} anagrafe residency registration comune`,
+      title: term.term,
+      url: `/glossary#${term.slug}`,
+      type: 'Glossary term',
+      text: term.en,
     });
   }
 
@@ -66,6 +83,12 @@ export const GET: APIRoute = async () => {
       url: '/sources',
       type: 'Page',
       text: 'all primary sources citations index official authorities checked dates transparency',
+    },
+    {
+      title: 'Updates',
+      url: '/updates',
+      type: 'Page',
+      text: 'updates verification log history changelog when pages were last checked',
     },
     {
       title: 'Start here',

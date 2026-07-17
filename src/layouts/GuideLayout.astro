@@ -7,6 +7,7 @@ import CitySelector from '../components/CitySelector.astro';
 import ReportIssue from '../components/ReportIssue.astro';
 import SourceList from '../components/SourceList.astro';
 import SsnCostEstimator from '../components/SsnCostEstimator.astro';
+import StepIcon from '../components/StepIcon.astro';
 import StructuredData from '../components/StructuredData.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { getLocale, ui } from '../i18n/ui';
@@ -94,6 +95,17 @@ const crumbs = [
   ...(place ? [{ name: placeLabel, url }] : []),
   { name: data.title, url },
 ];
+// Previous/next step in the journey, for the footer pager (internal linking
+// + a clear reading path). Links stay within the current place context.
+const journeySteps = (await getCollection('guides', ({ data: d }) => d.lang === locale)).sort(
+  (a, b) => a.data.step - b.data.step,
+);
+const stepIndex = journeySteps.findIndex((g) => guideSlug(g) === guideSlug(entry));
+const pager = {
+  prev: stepIndex > 0 ? journeySteps[stepIndex - 1] : undefined,
+  next: stepIndex >= 0 && stepIndex < journeySteps.length - 1 ? journeySteps[stepIndex + 1] : undefined,
+};
+
 // Verification history (git-derived, see scripts/build-history.mjs) for the
 // page's binding document: the local overlay when there is one, else the
 // national guide.
@@ -142,6 +154,7 @@ const breadcrumbSchema = {
   alternates={alternates}
   ogType="article"
   modified={lastVerified}
+  ogImage={`/og/${locale === 'it' ? 'it/' : ''}${slug}.png`}
 >
   <StructuredData
     slot="head"
@@ -179,7 +192,8 @@ const breadcrumbSchema = {
   </nav>
 
   <div class="mb-6">
-    <p class="text-sm font-medium uppercase tracking-wide text-brand-600">
+    <p class="flex items-center gap-2 text-sm font-medium uppercase tracking-wide text-brand-600">
+      <StepIcon slug={slug} class="h-5 w-5 text-brand-500" />
       {t.stepLabel(data.step)}{place ? ` · ${placeLabel}` : ''}
     </p>
     <h1 class="mt-2 text-4xl font-semibold">{data.title}</h1>
@@ -266,6 +280,41 @@ const breadcrumbSchema = {
       }
 
       <SourceList sources={sources} />
+
+      {
+        (pager.prev || pager.next) && (
+          <nav class="mt-10 grid gap-3 sm:grid-cols-2 print:hidden" aria-label={`${t.prevStep} / ${t.nextStep}`}>
+            {pager.prev ? (
+              <a
+                href={`${journeyBase}/${guideSlug(pager.prev)}`}
+                class="group rounded-lg border border-line bg-white/60 p-4 transition hover:border-brand-300"
+              >
+                <span class="text-xs font-medium uppercase tracking-wide text-muted">
+                  ← {t.prevStep} · {pager.prev.data.step}
+                </span>
+                <span class="mt-1 block font-serif text-lg group-hover:text-brand-700">
+                  {pager.prev.data.title}
+                </span>
+              </a>
+            ) : (
+              <span />
+            )}
+            {pager.next && (
+              <a
+                href={`${journeyBase}/${guideSlug(pager.next)}`}
+                class="group rounded-lg border border-line bg-white/60 p-4 text-right transition hover:border-brand-300"
+              >
+                <span class="text-xs font-medium uppercase tracking-wide text-muted">
+                  {t.nextStep} · {pager.next.data.step} →
+                </span>
+                <span class="mt-1 block font-serif text-lg group-hover:text-brand-700">
+                  {pager.next.data.title}
+                </span>
+              </a>
+            )}
+          </nav>
+        )
+      }
 
       <div class="print:hidden">
         <ReportIssue pageTitle={title} pageUrl={url} />

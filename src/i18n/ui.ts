@@ -47,6 +47,8 @@ interface Strings {
     allUpdates: string;
     tocHeading: string;
     faqHeading: string;
+    prevStep: string;
+    nextStep: string;
   };
 }
 
@@ -97,6 +99,8 @@ export const ui: Record<Locale, Strings> = {
       allUpdates: 'See all updates →',
       tocHeading: 'On this page',
       faqHeading: 'Frequently asked questions',
+      prevStep: 'Previous step',
+      nextStep: 'Next step',
     },
   },
   it: {
@@ -144,6 +148,8 @@ export const ui: Record<Locale, Strings> = {
       allUpdates: 'Tutti gli aggiornamenti →',
       tocHeading: 'In questa pagina',
       faqHeading: 'Domande frequenti',
+      prevStep: 'Passo precedente',
+      nextStep: 'Passo successivo',
     },
   },
 };

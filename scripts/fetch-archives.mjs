@@ -94,15 +94,28 @@ console.log(`Querying the Wayback Machine for ${list.length} source URL(s)…`);
 
 const results = await pool(list, CONCURRENCY, async (url) => [url, await closestSnapshot(url)]);
 
+// Merge with the existing map: the Wayback availability API is flaky, so a
+// miss for a URL we already have a snapshot of keeps the old snapshot — a
+// refresh must never silently drop an archived copy.
+let existing = {};
+try {
+  existing = JSON.parse(await readFile(OUT, 'utf8'));
+} catch {
+  /* first run */
+}
 const map = {};
 let found = 0;
 for (const [url, snap] of results) {
   if (snap) {
     map[url] = snap;
     found++;
+  } else if (existing[url]) {
+    map[url] = existing[url];
   }
 }
 // Stable, sorted output for clean diffs.
 const sorted = Object.fromEntries(Object.keys(map).sort().map((k) => [k, map[k]]));
 await writeFile(OUT, JSON.stringify(sorted, null, 2) + '\n', 'utf8');
-console.log(`Wrote ${found}/${list.length} archived snapshots to src/data/archives.json.`);
+console.log(
+  `Wrote ${found}/${list.length} fresh snapshots (+${Object.keys(sorted).length - found} kept from previous run) to src/data/archives.json.`,
+);

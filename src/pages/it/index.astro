@@ -1,16 +1,32 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import StepIcon from '../../components/StepIcon.astro';
 import { guideSlug } from '../../lib/guides';
 
 const steps = (await getCollection('guides', ({ data }) => data.lang === 'it'))
   .sort((a, b) => a.data.step - b.data.step)
   .map((e) => ({
     step: e.data.step,
+    slug: guideSlug(e),
     title: e.data.title,
     description: e.data.description,
     href: `/it/eu-citizens/residency/${guideSlug(e)}`,
   }));
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Percorso di residenza UE in Italia',
+  itemListOrder: 'https://schema.org/ItemListOrderAscending',
+  numberOfItems: steps.length,
+  itemListElement: steps.map((s) => ({
+    '@type': 'ListItem',
+    position: s.step,
+    name: s.title,
+    url: new URL(s.href, Astro.site).href,
+  })),
+};
 ---
 
 <BaseLayout
@@ -18,6 +34,7 @@ const steps = (await getCollection('guides', ({ data }) => data.lang === 'it'))
   description="Una guida chiara, datata e con fonti ufficiali per stabilire la residenza in Italia come cittadino UE/SEE: codice fiscale, iscrizione anagrafica e Servizio Sanitario Nazionale."
   alternates={{ en: '/', it: '/it' }}
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(itemListSchema)} is:inline />
   <section class="py-8 text-center">
     <p class="text-sm font-medium uppercase tracking-wide text-brand-600">
       Per cittadini UE e SEE
@@ -59,8 +76,11 @@ const steps = (await getCollection('guides', ({ data }) => data.lang === 'it'))
               href={s.href}
               class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-6 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md hover:shadow-brand-700/5"
             >
-              <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-600 font-serif font-semibold text-white">
-                {s.step}
+              <span class="flex items-start justify-between">
+                <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-600 font-serif font-semibold text-white">
+                  {s.step}
+                </span>
+                <StepIcon slug={s.slug} class="h-6 w-6 text-brand-500/70" />
               </span>
               <h3 class="mt-4 font-serif text-lg">{s.title}</h3>
               <p class="mt-2 text-sm text-muted">{s.description}</p>

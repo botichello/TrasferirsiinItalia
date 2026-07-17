@@ -1,334 +1,462 @@
 {
-  "https://europa.eu/youreurope/citizens/health/when-living-abroad/health-insurance-cover/index_it.htm": {
-    "archived": "https://web.archive.org/web/20260202103525/https://europa.eu/youreurope/citizens/health/when-living-abroad/health-insurance-cover/index_it.htm",
-    "timestamp": "20260202103525"
-  },
-  "https://europa.eu/youreurope/citizens/residence/documents-formalities/non-eu-family-members-residence-card/index_en.htm": {
-    "archived": "https://web.archive.org/web/20260616204000/https://europa.eu/youreurope/citizens/residence/documents-formalities/non-eu-family-members-residence-card/index_en.htm",
-    "timestamp": "20260616204000"
-  },
-  "https://europa.eu/youreurope/citizens/residence/documents-formalities/registering-residence/index_en.htm": {
-    "archived": "https://web.archive.org/web/20260404022013/https://europa.eu/youreurope/citizens/residence/documents-formalities/registering-residence/index_en.htm",
-    "timestamp": "20260404022013"
-  },
-  "https://europa.eu/youreurope/citizens/residence/documents-formalities/registering-residence/index_it.htm": {
-    "archived": "https://web.archive.org/web/20260328105027/https://europa.eu/youreurope/citizens/residence/documents-formalities/registering-residence/index_it.htm",
-    "timestamp": "20260328105027"
-  },
-  "https://europa.eu/youreurope/citizens/vehicles/driving-licence/driving-licence-recognition-validity/index_en.htm": {
-    "archived": "https://web.archive.org/web/20191231173801/https://europa.eu/youreurope/citizens/vehicles/driving-licence/driving-licence-recognition-validity/index_en.htm",
-    "timestamp": "20191231173801"
-  },
-  "https://europa.eu/youreurope/citizens/work/taxes/income-taxes-abroad/index_en.htm": {
-    "archived": "https://web.archive.org/web/20260603104554/https://europa.eu/youreurope/citizens/work/taxes/income-taxes-abroad/index_en.htm",
-    "timestamp": "20260603104554"
-  },
-  "https://integrazionemigranti.gov.it/it-it/Ricerca-news/Dettaglio-news/id/3457/DDl-Bilancio-aumenta-il-contributo-per-liscrizione-volontaria-al-SSN": {
-    "archived": "https://web.archive.org/web/20260511030940/https://www.integrazionemigranti.gov.it/it-it/Ricerca-news/Dettaglio-news/id/3457/DDl-Bilancio-aumenta-il-contributo-per-liscrizione-volontaria-al-SSN",
-    "timestamp": "20260511030940"
-  },
-  "https://salute.regione.emilia-romagna.it/": {
-    "archived": "https://web.archive.org/web/20260512101118/https://salute.regione.emilia-romagna.it/",
-    "timestamp": "20260512101118"
-  },
-  "https://salute.regione.veneto.it/": {
-    "archived": "https://web.archive.org/web/20260630074704/https://salute.regione.veneto.it/",
-    "timestamp": "20260630074704"
-  },
-  "https://sdg.interno.gov.it/en/d4-residence-another-member-state": {
-    "archived": "https://web.archive.org/web/20250113222727/https://sdg.interno.gov.it/en/d4-residence-another-member-state",
-    "timestamp": "20250113222727"
-  },
-  "https://sportellotelematico.comune.messina.it/procedure:s_italia:cambio.abitazione.residenza;dichiarazione": {
-    "archived": "https://web.archive.org/web/20251114091131/https://sportellotelematico.comune.messina.it/procedure:s_italia:cambio.abitazione.residenza;dichiarazione",
-    "timestamp": "20251114091131"
-  },
-  "https://www.agenziaentrate.gov.it/portale/web/english/how-and-when-to-file-a-tax-return": {
-    "archived": "https://web.archive.org/web/20251210131028/https://www.agenziaentrate.gov.it/portale/web/english/how-and-when-to-file-a-tax-return",
-    "timestamp": "20251210131028"
-  },
-  "https://www.agenziaentrate.gov.it/portale/web/english/nse/individuals/tax-identification-number-for-foreign-citizens": {
-    "archived": "https://web.archive.org/web/20260630070014/https://www.agenziaentrate.gov.it/portale/web/english/nse/individuals/tax-identification-number-for-foreign-citizens",
-    "timestamp": "20260630070014"
-  },
-  "https://www.agenziaentrate.gov.it/portale/web/english/residence-for-tax-purposes": {
-    "archived": "https://web.archive.org/web/20251004062143/https://www.agenziaentrate.gov.it/portale/web/english/residence-for-tax-purposes",
-    "timestamp": "20251004062143"
-  },
-  "https://www.anagrafenazionale.interno.it/area-cittadino/servizi-per-cittadini-europei/": {
-    "archived": "https://web.archive.org/web/20260707002126/https://www.anagrafenazionale.interno.it/area-cittadino/servizi-per-cittadini-europei/",
-    "timestamp": "20260707002126"
-  },
-  "https://www.aressardegna.it/": {
-    "archived": "https://web.archive.org/web/20260414154006/https://www.aressardegna.it/",
-    "timestamp": "20260414154006"
-  },
-  "https://www.asl1abruzzo.it/": {
-    "archived": "https://web.archive.org/web/20260528141255/https://www.asl1abruzzo.it/",
-    "timestamp": "20260528141255"
-  },
-  "https://www.asp.cz.it/": {
-    "archived": "https://web.archive.org/web/20260324215842/https://www.asp.cz.it/",
-    "timestamp": "20260324215842"
-  },
-  "https://www.asrem.molise.it/": {
-    "archived": "https://web.archive.org/web/20220123155258/https://www.asrem.molise.it",
-    "timestamp": "20220123155258"
-  },
-  "https://www.asuit.tn.it/": {
-    "archived": "https://web.archive.org/web/20260626133704/https://www.asuit.tn.it/",
-    "timestamp": "20260626133704"
-  },
-  "https://www.ausl.vda.it/": {
-    "archived": "https://web.archive.org/web/20260512102901/https://www.ausl.vda.it/",
-    "timestamp": "20260512102901"
-  },
-  "https://www.bancaditalia.it/pubblicazioni/guide-bi/guida-conto-corrente/Le_guide_della_Banca_d_Italia_Il_conto_corrente_in_parole_semplici.pdf": {
-    "archived": "https://web.archive.org/web/20250305213340/https://www.bancaditalia.it/pubblicazioni/guide-bi/guida-conto-corrente/Le_guide_della_Banca_d_Italia_Il_conto_corrente_in_parole_semplici.pdf",
-    "timestamp": "20250305213340"
-  },
-  "https://www.cartaidentita.interno.gov.it/en/topics/requested-cie/": {
-    "archived": "https://web.archive.org/web/20260210084132/https://www.cartaidentita.interno.gov.it/en/topics/requested-cie/",
-    "timestamp": "20260210084132"
-  },
-  "https://www.cartaidentita.interno.gov.it/la-carta/": {
-    "archived": "https://web.archive.org/web/20260118112320/https://www.cartaidentita.interno.gov.it/la-carta/",
-    "timestamp": "20260118112320"
-  },
-  "https://www.cinformi.it/Comunicazione/Notizie/Iscrizione-volontaria-al-Servizio-Sanitario-Nazionale": {
-    "archived": "https://web.archive.org/web/20250621233245/https://www.cinformi.it/Comunicazione/Notizie/Iscrizione-volontaria-al-Servizio-Sanitario-Nazionale",
-    "timestamp": "20250621233245"
-  },
-  "https://www.comune.ancona.it/it/unita_organizzative/anagrafe": {
-    "archived": "https://web.archive.org/web/20260213065942/https://www.comune.ancona.it/it/unita_organizzative/anagrafe",
-    "timestamp": "20260213065942"
-  },
-  "https://www.comune.bergamo.it/action:s_italia:accedere.servizi.anpr": {
-    "archived": "https://web.archive.org/web/20260211034826/https://www.comune.bergamo.it/action%3As_italia%3Aaccedere.servizi.anpr",
-    "timestamp": "20260211034826"
-  },
-  "https://www.comune.bergamo.it/page:c_a794:documentazione.anagrafe": {
-    "archived": "https://web.archive.org/web/20250814134814/https://www.comune.bergamo.it/page:c_a794:documentazione.anagrafe",
-    "timestamp": "20250814134814"
-  },
-  "https://www.comune.bolzano.bz.it/Servizi/Come-ottenere-la-residenza-o-un-cambio-di-indirizzo": {
-    "archived": "https://web.archive.org/web/20250926003150/https://www.comune.bolzano.bz.it/Servizi/Come-ottenere-la-residenza-o-un-cambio-di-indirizzo",
-    "timestamp": "20250926003150"
-  },
-  "https://www.comune.cagliari.it/portale/page/it/anagrafe__cittadini_extracomunitari_comunitari_e_italiani_residenti_allestero_aire?contentId=ORG9428": {
-    "archived": "https://web.archive.org/web/20240119084109/https://www.comune.cagliari.it/portale/page/it/anagrafe__cittadini_extracomunitari_comunitari_e_italiani_residenti_allestero_aire?contentId=ORG9428",
-    "timestamp": "20240119084109"
-  },
-  "https://www.comune.catania.it/il-comune/uffici/anagrafe/": {
-    "archived": "https://web.archive.org/web/20241213210040/https://www.comune.catania.it/il-comune/uffici/anagrafe/",
-    "timestamp": "20241213210040"
-  },
-  "https://www.comune.catania.it/il-comune/uffici/anagrafe/cosa-sono-i-servizi-anagrafici/": {
-    "archived": "https://web.archive.org/web/20240419115751/https://www.comune.catania.it/il-comune/uffici/anagrafe/cosa-sono-i-servizi-anagrafici/",
-    "timestamp": "20240419115751"
-  },
-  "https://www.comune.firenze.it/servizi/anagrafe-e-stato-civile/residenza-cittadino-comunitario": {
-    "archived": "https://web.archive.org/web/20260125023516/https://www.comune.firenze.it/servizi/anagrafe-e-stato-civile/residenza-cittadino-comunitario",
-    "timestamp": "20260125023516"
-  },
-  "https://www.comune.genova.it/servizi/anagrafe-e-stato-civile/cambio-di-residenza-cittadini-comunitari": {
-    "archived": "https://web.archive.org/web/20250125181949/https://www.comune.genova.it/servizi/anagrafe-e-stato-civile/cambio-di-residenza-cittadini-comunitari",
-    "timestamp": "20250125181949"
-  },
-  "https://www.comune.lecce.it/aree-tematiche/certificati-e-documenti/servizi-comunali/iscrizione-anagrafica-comunitari": {
-    "archived": "https://web.archive.org/web/20260415225830/https://www.comune.lecce.it/aree-tematiche/certificati-e-documenti/servizi-comunali/iscrizione-anagrafica-comunitari",
-    "timestamp": "20260415225830"
-  },
-  "https://www.comune.lecce.it/aree-tematiche/uffici-comunali/ufficio-iscrizioni-anagrafiche": {
-    "archived": "https://web.archive.org/web/20260210085813/https://www.comune.lecce.it/aree-tematiche/uffici-comunali/ufficio-iscrizioni-anagrafiche",
-    "timestamp": "20260210085813"
-  },
-  "https://www.comune.livorno.it/it/documenti_pubblici/procedura-per-la-prenotazione-servizi-anagrafici": {
-    "archived": "https://web.archive.org/web/20260519181448/https://comune.livorno.it/it/documenti_pubblici/procedura-per-la-prenotazione-servizi-anagrafici",
-    "timestamp": "20260519181448"
-  },
-  "https://www.comune.messina.it/it/unita_organizzative/servizio-anagrafe-stato-civile": {
-    "archived": "https://web.archive.org/web/20251013155019/https://www.comune.messina.it/it/unita_organizzative/servizio-anagrafe-stato-civile",
-    "timestamp": "20251013155019"
-  },
-  "https://www.comune.milano.it/en/servizi/anagrafe/cambio-di-residenza": {
-    "archived": "https://web.archive.org/web/20251119074328/https://www.comune.milano.it/en/servizi/anagrafe/cambio-di-residenza",
-    "timestamp": "20251119074328"
-  },
-  "https://www.comune.milano.it/servizi/anagrafe/cambio-di-residenza": {
-    "archived": "https://web.archive.org/web/20251119074322/https://www.comune.milano.it/servizi/anagrafe/cambio-di-residenza",
-    "timestamp": "20251119074322"
-  },
-  "https://www.comune.milano.it/servizi/anagrafe/richiesta-di-residenza-per-persone-straniere-provenienti-dall-estero": {
-    "archived": "https://web.archive.org/web/20251119092655/https://www.comune.milano.it/servizi/anagrafe/richiesta-di-residenza-per-persone-straniere-provenienti-dall-estero",
-    "timestamp": "20251119092655"
-  },
-  "https://www.comune.modena.it/amministrazione/uffici/ufficio-anagrafe": {
-    "archived": "https://web.archive.org/web/20250719143532/https://www.comune.modena.it/amministrazione/uffici/ufficio-anagrafe",
-    "timestamp": "20250719143532"
-  },
-  "https://www.comune.modena.it/servizi/anagrafe-e-stato-civile": {
-    "archived": "https://web.archive.org/web/20260511142728/https://www.comune.modena.it/servizi/anagrafe-e-stato-civile",
-    "timestamp": "20260511142728"
-  },
-  "https://www.comune.monza.it/it/news/al-via-il-cambio-di-residenza-online-su-monza-digitale": {
-    "archived": "https://web.archive.org/web/20260215082441/https://comune.monza.it/it/news/al-via-il-cambio-di-residenza-online-su-monza-digitale",
-    "timestamp": "20260215082441"
-  },
-  "https://www.comune.monza.it/it/servizi/cambio-residenza-indirizzo": {
-    "archived": "https://web.archive.org/web/20260207162036/https://comune.monza.it/it/servizi/cambio-residenza-indirizzo",
-    "timestamp": "20260207162036"
-  },
-  "https://www.comune.napoli.it/servizio/cambi-di-residenza/": {
-    "archived": "https://web.archive.org/web/20260512123726/https://www.comune.napoli.it/servizio/cambi-di-residenza/",
-    "timestamp": "20260512123726"
-  },
-  "https://www.comune.padova.it/attestato-di-soggiorno-permanente-e-attestazione-di-iscrizione-anagrafica-i-cittadini-e-le": {
-    "archived": "https://web.archive.org/web/20250513011618/https://www.comune.padova.it/attestato-di-soggiorno-permanente-e-attestazione-di-iscrizione-anagrafica-i-cittadini-e-le",
-    "timestamp": "20250513011618"
-  },
-  "https://www.comune.padova.it/servizi/anagrafe-e-stato-civile/cittadine-e-cittadini-dellunione-europea-italia-iscrizione": {
-    "archived": "https://web.archive.org/web/20260512183846/https://www.comune.padova.it/servizi/anagrafe-e-stato-civile/cittadine-e-cittadini-dellunione-europea-italia-iscrizione",
-    "timestamp": "20260512183846"
-  },
-  "https://www.comune.palermo.it/amministrazione/unita_organizzativa/ufficio-anagrafe-e-stato-civile/": {
-    "archived": "https://web.archive.org/web/20260512192450/https://www.comune.palermo.it/amministrazione/unita_organizzativa/ufficio-anagrafe-e-stato-civile/",
-    "timestamp": "20260512192450"
-  },
-  "https://www.comune.palermo.it/servizio/iscrizione-anagrafica-per-cittadini-europei/": {
-    "archived": "https://web.archive.org/web/20260222023701/https://www.comune.palermo.it/servizio/iscrizione-anagrafica-per-cittadini-europei/",
-    "timestamp": "20260222023701"
-  },
-  "https://www.comune.parma.it/it/amministrazione/uffici/ufficio-anagrafe": {
-    "archived": "https://web.archive.org/web/20260314103833/https://www.comune.parma.it/it/amministrazione/uffici/ufficio-anagrafe",
-    "timestamp": "20260314103833"
-  },
-  "https://www.comune.perugia.it/servizio/anagrafe-dichiarazione-di-cambio-di-residenza/": {
-    "archived": "https://web.archive.org/web/20260214013002/https://www.comune.perugia.it/servizio/anagrafe-dichiarazione-di-cambio-di-residenza/",
-    "timestamp": "20260214013002"
-  },
-  "https://www.comune.perugia.it/servizio/attestazione-di-iscrizione-anagrafica-e-soggiorno-permanente-cittadini-dellunione-europea/": {
-    "archived": "https://web.archive.org/web/20260415153912/https://www.comune.perugia.it/servizio/attestazione-di-iscrizione-anagrafica-e-soggiorno-permanente-cittadini-dellunione-europea/",
-    "timestamp": "20260415153912"
-  },
-  "https://www.comune.pisa.it/Servizi/Cambio-di-residenza-portale-ANPR": {
-    "archived": "https://web.archive.org/web/20250514070836/https://www.comune.pisa.it/Servizi/Cambio-di-residenza-portale-ANPR",
-    "timestamp": "20250514070836"
-  },
-  "https://www.comune.pisa.it/Servizi/Variazioni-di-residenza": {
-    "archived": "https://web.archive.org/web/20250910202047/https://www.comune.pisa.it/Servizi/Variazioni-di-residenza",
-    "timestamp": "20250910202047"
-  },
-  "https://www.comune.reggioemilia.it/servizi/anagrafe-e-stato-civile": {
-    "archived": "https://web.archive.org/web/20260617121149/https://www.comune.reggioemilia.it/servizi/anagrafe-e-stato-civile",
-    "timestamp": "20260617121149"
-  },
-  "https://www.comune.rimini.it/amministrazione/uffici/anagrafe": {
-    "archived": "https://web.archive.org/web/20250214011922/https://www.comune.rimini.it/amministrazione/uffici/anagrafe",
-    "timestamp": "20250214011922"
-  },
-  "https://www.comune.rimini.it/servizi/anagrafe-e-stato-civile/richiedere-il-cambio-di-residenza": {
-    "archived": "https://web.archive.org/web/20260520044008/https://www.comune.rimini.it/servizi/anagrafe-e-stato-civile/richiedere-il-cambio-di-residenza",
-    "timestamp": "20260520044008"
-  },
-  "https://www.comune.roma.it/web/it/scheda-servizi.page?contentId=INF33606": {
-    "archived": "https://web.archive.org/web/20260119094832/https://www.comune.roma.it/web/it/scheda-servizi.page?contentId=INF33606",
-    "timestamp": "20260119094832"
-  },
-  "https://www.comune.roma.it/web/it/scheda-servizi.page?contentId=INF35641": {
-    "archived": "https://web.archive.org/web/20260428151521/https://www.comune.roma.it/web/it/scheda-servizi.page?contentId=INF35641",
-    "timestamp": "20260428151521"
-  },
-  "https://www.comune.salerno.it/amministrazione/ufficio/ufficio-anagrafe": {
-    "archived": "https://web.archive.org/web/20260305134513/https://www.comune.salerno.it/amministrazione/ufficio/ufficio-anagrafe",
-    "timestamp": "20260305134513"
-  },
-  "https://www.comune.salerno.it/servizi/cambio-di-residenza": {
-    "archived": "https://web.archive.org/web/20260512223158/https://comune.salerno.it/servizi/cambio-di-residenza",
-    "timestamp": "20260512223158"
-  },
-  "https://www.comune.trento.it/Servizi/Cambio-di-residenza-cittadini-stranieri-dell-Unione-Europea": {
-    "archived": "https://web.archive.org/web/20260225141017/https://www.comune.trento.it/Servizi/Cambio-di-residenza-cittadini-stranieri-dell-Unione-Europea",
-    "timestamp": "20260225141017"
-  },
-  "https://www.comune.trento.it/Servizi/Richiedere-l-attestazione-di-iscrizione-anagrafica-per-cittadini-dell-Unione-Europea": {
-    "archived": "https://web.archive.org/web/20260114105836/https://www.comune.trento.it/Servizi/Richiedere-l-attestazione-di-iscrizione-anagrafica-per-cittadini-dell-Unione-Europea",
-    "timestamp": "20260114105836"
-  },
-  "https://www.comune.trieste.it/it/servizi-227101/anagrafe-iscrizione-per-residenza-210458": {
-    "archived": "https://web.archive.org/web/20250424100148/https://www.comune.trieste.it/it/servizi-227101/anagrafe-iscrizione-per-residenza-210458",
-    "timestamp": "20250424100148"
-  },
-  "https://www.comune.udine.it/Amministrazione/Uffici/Unita-Operativa-Anagrafe": {
-    "archived": "https://web.archive.org/web/20241004000345/https://www.comune.udine.it/Amministrazione/Uffici/Unita-Operativa-Anagrafe",
-    "timestamp": "20241004000345"
-  },
-  "https://www.comune.venezia.it/it/content/anagrafe": {
-    "archived": "https://web.archive.org/web/20260313071334/https://www.comune.venezia.it/it/content/anagrafe",
-    "timestamp": "20260313071334"
-  },
-  "https://www.comune.venezia.it/it/content/ufficio-soggiorno-cittadini-comunitari": {
-    "archived": "https://web.archive.org/web/20260208174432/https://www.comune.venezia.it/it/content/ufficio-soggiorno-cittadini-comunitari",
-    "timestamp": "20260208174432"
-  },
-  "https://www.comune.vicenza.it/Servizi/Cambio-di-residenza-cittadini-UE": {
-    "archived": "https://web.archive.org/web/20241211125506/https://www.comune.vicenza.it/Servizi/Cambio-di-residenza-cittadini-UE",
-    "timestamp": "20241211125506"
-  },
-  "https://www.mit.gov.it/conversione-patente-estera": {
-    "archived": "https://web.archive.org/web/20251007083136/https://www.mit.gov.it/conversione-patente-estera",
-    "timestamp": "20251007083136"
-  },
-  "https://www.mit.gov.it/nfsmitgov/files/media/normativa/2022-09/circolare_protocollo_29853_del_26-09-2022.pdf": {
-    "archived": "https://web.archive.org/web/20250503141452/https://mit.gov.it/nfsmitgov/files/media/normativa/2022-09/circolare_protocollo_29853_del_26-09-2022.pdf",
-    "timestamp": "20250503141452"
-  },
-  "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art136bis": {
-    "archived": "https://web.archive.org/web/20220813090525/https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art136bis",
-    "timestamp": "20220813090525"
-  },
-  "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2007-02-06;30!vig=": {
-    "archived": "https://web.archive.org/web/20260120062213/https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2007-02-06;30%21vig=",
-    "timestamp": "20260120062213"
-  },
-  "https://www.regione.calabria.it/website/organizzazione/dipartimento9/subsite/sancal/serviziosanitarioregionale/": {
-    "archived": "https://web.archive.org/web/20250802225259/https://www.regione.calabria.it/website/organizzazione/dipartimento9/subsite/sancal/serviziosanitarioregionale/",
-    "timestamp": "20250802225259"
-  },
-  "https://www.regione.liguria.it/homepage-salute.html": {
-    "archived": "https://web.archive.org/web/20260417043644/https://www.regione.liguria.it/homepage-salute.html",
-    "timestamp": "20260417043644"
-  },
-  "https://www.regione.marche.it/Regione-Utile/Salute": {
-    "archived": "https://web.archive.org/web/20250405095743/https://www.regione.marche.it/Regione-Utile/Salute",
-    "timestamp": "20250405095743"
-  },
-  "https://www.regione.piemonte.it/web/temi/sanita": {
-    "archived": "https://web.archive.org/web/20260309105102/https://www.regione.piemonte.it/web/temi/sanita",
-    "timestamp": "20260309105102"
-  },
-  "https://www.regione.sardegna.it/": {
-    "archived": "https://web.archive.org/web/20260610005921/https://www.regione.sardegna.it/",
-    "timestamp": "20260610005921"
-  },
-  "https://www.regione.sicilia.it/istituzioni/regione/strutture-regionali/assessorato-salute": {
-    "archived": "https://web.archive.org/web/20260317211850/https://www.regione.sicilia.it/istituzioni/regione/strutture-regionali/assessorato-salute",
-    "timestamp": "20260317211850"
-  },
-  "https://www.regione.toscana.it/sst": {
-    "archived": "https://web.archive.org/web/20260510204747/https://www.regione.toscana.it/sst",
-    "timestamp": "20260510204747"
-  },
-  "https://www.regione.umbria.it/salute/aziende-sanitarie-regionali": {
-    "archived": "https://web.archive.org/web/20260418005804/https://www.regione.umbria.it/salute/aziende-sanitarie-regionali",
-    "timestamp": "20260418005804"
-  },
-  "https://www.spid.gov.it/en/what-is-spid/": {
-    "archived": "https://web.archive.org/web/20260421165901/https://www.spid.gov.it/en/what-is-spid/",
-    "timestamp": "20260421165901"
-  },
-  "https://www.uslumbria1.it/": {
-    "archived": "https://web.archive.org/web/20260528140152/https://www.uslumbria1.it/",
-    "timestamp": "20260528140152"
-  }
+ "https://asugi.sanita.fvg.it/it/": {
+  "archived": "https://web.archive.org/web/20260520220811/https://asugi.sanita.fvg.it/it/",
+  "timestamp": "20260520220811"
+ },
+ "https://comune.matera.it/servizio/anpr/": {
+  "archived": "https://web.archive.org/web/20260521040325/https://comune.matera.it/servizio/anpr/",
+  "timestamp": "20260521040325"
+ },
+ "https://economiapertutti.bancaditalia.it/aree-tematiche/conto-corrente/il-conto-di-base/index.html": {
+  "archived": "https://web.archive.org/web/20260616211129/https://economiapertutti.bancaditalia.it/aree-tematiche/conto-corrente/il-conto-di-base/index.html",
+  "timestamp": "20260616211129"
+ },
+ "https://europa.eu/youreurope/citizens/health/when-living-abroad/health-insurance-cover/index_en.htm": {
+  "archived": "https://web.archive.org/web/20260707214430/https://europa.eu/youreurope/citizens/health/when-living-abroad/health-insurance-cover/index_en.htm",
+  "timestamp": "20260707214430"
+ },
+ "https://europa.eu/youreurope/citizens/health/when-living-abroad/health-insurance-cover/index_it.htm": {
+  "archived": "https://web.archive.org/web/20260202103525/https://europa.eu/youreurope/citizens/health/when-living-abroad/health-insurance-cover/index_it.htm",
+  "timestamp": "20260202103525"
+ },
+ "https://europa.eu/youreurope/citizens/residence/documents-formalities/non-eu-family-members-residence-card/index_en.htm": {
+  "archived": "https://web.archive.org/web/20260616204000/https://europa.eu/youreurope/citizens/residence/documents-formalities/non-eu-family-members-residence-card/index_en.htm",
+  "timestamp": "20260616204000"
+ },
+ "https://europa.eu/youreurope/citizens/residence/documents-formalities/registering-residence/index_en.htm": {
+  "archived": "https://web.archive.org/web/20260404022013/https://europa.eu/youreurope/citizens/residence/documents-formalities/registering-residence/index_en.htm",
+  "timestamp": "20260404022013"
+ },
+ "https://europa.eu/youreurope/citizens/work/taxes/income-taxes-abroad/index_en.htm": {
+  "archived": "https://web.archive.org/web/20260603104554/https://europa.eu/youreurope/citizens/work/taxes/income-taxes-abroad/index_en.htm",
+  "timestamp": "20260603104554"
+ },
+ "https://integrazionemigranti.gov.it/it-it/Ricerca-news/Dettaglio-news/id/3457/DDl-Bilancio-aumenta-il-contributo-per-liscrizione-volontaria-al-SSN": {
+  "archived": "https://web.archive.org/web/20260511030940/https://www.integrazionemigranti.gov.it/it-it/Ricerca-news/Dettaglio-news/id/3457/DDl-Bilancio-aumenta-il-contributo-per-liscrizione-volontaria-al-SSN",
+  "timestamp": "20260511030940"
+ },
+ "https://questure.poliziadistato.it/it/Milano/articolo/119060dc46cc21c95971814849": {
+  "archived": "https://web.archive.org/web/20250616074426/https://questure.poliziadistato.it/it/Milano/articolo/119060dc46cc21c95971814849",
+  "timestamp": "20250616074426"
+ },
+ "https://salute.regione.emilia-romagna.it/": {
+  "archived": "https://web.archive.org/web/20260512101118/https://salute.regione.emilia-romagna.it/",
+  "timestamp": "20260512101118"
+ },
+ "https://salute.regione.veneto.it/": {
+  "archived": "https://web.archive.org/web/20260630074704/https://salute.regione.veneto.it/",
+  "timestamp": "20260630074704"
+ },
+ "https://sanita.regione.abruzzo.it/": {
+  "archived": "https://web.archive.org/web/20260310194453/https://sanita.regione.abruzzo.it/",
+  "timestamp": "20260310194453"
+ },
+ "https://sdg.interno.gov.it/en/d4-residence-another-member-state": {
+  "archived": "https://web.archive.org/web/20250113222727/https://sdg.interno.gov.it/en/d4-residence-another-member-state",
+  "timestamp": "20250113222727"
+ },
+ "https://servizionline.comune.napoli.it/web/napoli/servizi-demografici": {
+  "archived": "https://web.archive.org/web/20260310180526/https://servizionline.comune.napoli.it/web/napoli/servizi-demografici",
+  "timestamp": "20260310180526"
+ },
+ "https://sportellotelematico.comune.ancona.it/action:c_a271:cambio.abitazione.residenza;residenza": {
+  "archived": "https://web.archive.org/web/20260521070946/https://sportellotelematico.comune.ancona.it/action%3Ac_a271%3Acambio.abitazione.residenza%3Bresidenza",
+  "timestamp": "20260521070946"
+ },
+ "https://sportellotelematico.comune.lucca.it/procedure%3As_italia%3Acambio.abitazione.residenza%3Bdichiarazione": {
+  "archived": "https://web.archive.org/web/20260316172523/https://sportellotelematico.comune.lucca.it/procedure%3As_italia%3Acambio.abitazione.residenza%3Bdichiarazione",
+  "timestamp": "20260316172523"
+ },
+ "https://sportellotelematico.comune.messina.it/procedure:s_italia:cambio.abitazione.residenza;dichiarazione": {
+  "archived": "https://web.archive.org/web/20251114091131/https://sportellotelematico.comune.messina.it/procedure:s_italia:cambio.abitazione.residenza;dichiarazione",
+  "timestamp": "20251114091131"
+ },
+ "https://www.agenziaentrate.gov.it/portale/trova-ufficio": {
+  "archived": "https://web.archive.org/web/20260619100229/https://www.agenziaentrate.gov.it/portale/trova-ufficio",
+  "timestamp": "20260619100229"
+ },
+ "https://www.agenziaentrate.gov.it/portale/web/english/how-and-when-to-file-a-tax-return": {
+  "archived": "https://web.archive.org/web/20251210131028/https://www.agenziaentrate.gov.it/portale/web/english/how-and-when-to-file-a-tax-return",
+  "timestamp": "20251210131028"
+ },
+ "https://www.agenziaentrate.gov.it/portale/web/english/nse/individuals/tax-identification-number-for-foreign-citizens": {
+  "archived": "https://web.archive.org/web/20260630070014/https://www.agenziaentrate.gov.it/portale/web/english/nse/individuals/tax-identification-number-for-foreign-citizens",
+  "timestamp": "20260630070014"
+ },
+ "https://www.agenziaentrate.gov.it/portale/web/english/residence-for-tax-purposes": {
+  "archived": "https://web.archive.org/web/20251004062143/https://www.agenziaentrate.gov.it/portale/web/english/residence-for-tax-purposes",
+  "timestamp": "20251004062143"
+ },
+ "https://www.anagrafenazionale.interno.it/area-cittadino/servizi-per-cittadini-europei/": {
+  "archived": "https://web.archive.org/web/20260717003725/https://www.anagrafenazionale.interno.it/area-cittadino/servizi-per-cittadini-europei/",
+  "timestamp": "20260717003725"
+ },
+ "https://www.aressardegna.it/": {
+  "archived": "https://web.archive.org/web/20260516113903/https://www.aressardegna.it/",
+  "timestamp": "20260516113903"
+ },
+ "https://www.asl1abruzzo.it/": {
+  "archived": "https://web.archive.org/web/20260528141255/https://www.asl1abruzzo.it/",
+  "timestamp": "20260528141255"
+ },
+ "https://www.asp.cz.it/": {
+  "archived": "https://web.archive.org/web/20260324215842/https://www.asp.cz.it/",
+  "timestamp": "20260324215842"
+ },
+ "https://www.aspbasilicata.it/": {
+  "archived": "https://web.archive.org/web/20260317121042/https://www.aspbasilicata.it/",
+  "timestamp": "20260317121042"
+ },
+ "https://www.asrem.molise.it/": {
+  "archived": "https://web.archive.org/web/20220123155258/https://www.asrem.molise.it",
+  "timestamp": "20220123155258"
+ },
+ "https://www.asuit.tn.it/": {
+  "archived": "https://web.archive.org/web/20260626133704/https://www.asuit.tn.it/",
+  "timestamp": "20260626133704"
+ },
+ "https://www.ats-milano.it/ats/carta-servizi/guida-servizi/assistenza-socio-sanitaria/iscrizione-ssr": {
+  "archived": "https://web.archive.org/web/20260510231538/https://www.ats-milano.it/ats/carta-servizi/guida-servizi/assistenza-socio-sanitaria/iscrizione-ssr",
+  "timestamp": "20260510231538"
+ },
+ "https://www.bancaditalia.it/pubblicazioni/guide-bi/guida-conto-corrente/Le_guide_della_Banca_d_Italia_Il_conto_corrente_in_parole_semplici.pdf": {
+  "archived": "https://web.archive.org/web/20250305213340/https://www.bancaditalia.it/pubblicazioni/guide-bi/guida-conto-corrente/Le_guide_della_Banca_d_Italia_Il_conto_corrente_in_parole_semplici.pdf",
+  "timestamp": "20250305213340"
+ },
+ "https://www.cartaidentita.interno.gov.it/en/request-cie/cie-online-booking/": {
+  "archived": "https://web.archive.org/web/20260515165535/https://www.cartaidentita.interno.gov.it/en/request-cie/cie-online-booking/",
+  "timestamp": "20260515165535"
+ },
+ "https://www.cartaidentita.interno.gov.it/en/topics/requested-cie/": {
+  "archived": "https://web.archive.org/web/20260210084132/https://www.cartaidentita.interno.gov.it/en/topics/requested-cie/",
+  "timestamp": "20260210084132"
+ },
+ "https://www.cartaidentita.interno.gov.it/la-carta/": {
+  "archived": "https://web.archive.org/web/20260515172529/https://www.cartaidentita.interno.gov.it/la-carta/",
+  "timestamp": "20260515172529"
+ },
+ "https://www.cinformi.it/Comunicazione/Notizie/Iscrizione-volontaria-al-Servizio-Sanitario-Nazionale": {
+  "archived": "https://web.archive.org/web/20250621233245/https://www.cinformi.it/Comunicazione/Notizie/Iscrizione-volontaria-al-Servizio-Sanitario-Nazionale",
+  "timestamp": "20250621233245"
+ },
+ "https://www.comune.bergamo.it/action:s_italia:accedere.servizi.anpr": {
+  "archived": "https://web.archive.org/web/20260211034826/https://www.comune.bergamo.it/action%3As_italia%3Aaccedere.servizi.anpr",
+  "timestamp": "20260211034826"
+ },
+ "https://www.comune.bergamo.it/page:c_a794:documentazione.anagrafe": {
+  "archived": "https://web.archive.org/web/20250814134814/https://www.comune.bergamo.it/page:c_a794:documentazione.anagrafe",
+  "timestamp": "20250814134814"
+ },
+ "https://www.comune.bolzano.bz.it/Servizi/Come-ottenere-la-residenza-o-un-cambio-di-indirizzo": {
+  "archived": "https://web.archive.org/web/20250926003150/https://www.comune.bolzano.bz.it/Servizi/Come-ottenere-la-residenza-o-un-cambio-di-indirizzo",
+  "timestamp": "20250926003150"
+ },
+ "https://www.comune.brescia.it/it/servizi/dichiarazione-di-residenza": {
+  "archived": "https://web.archive.org/web/20260517060312/https://comune.brescia.it/it/servizi/dichiarazione-di-residenza",
+  "timestamp": "20260517060312"
+ },
+ "https://www.comune.brescia.it/it/unita_organizzative/servizio-anagrafe": {
+  "archived": "https://web.archive.org/web/20260510141602/https://comune.brescia.it/it/unita_organizzative/servizio-anagrafe",
+  "timestamp": "20260510141602"
+ },
+ "https://www.comune.cagliari.it/portale/page/it/anagrafe__cittadini_extracomunitari_comunitari_e_italiani_residenti_allestero_aire?contentId=ORG9428": {
+  "archived": "https://web.archive.org/web/20240119084109/https://www.comune.cagliari.it/portale/page/it/anagrafe__cittadini_extracomunitari_comunitari_e_italiani_residenti_allestero_aire?contentId=ORG9428",
+  "timestamp": "20240119084109"
+ },
+ "https://www.comune.catania.it/il-comune/uffici/anagrafe/": {
+  "archived": "https://web.archive.org/web/20241213210040/https://www.comune.catania.it/il-comune/uffici/anagrafe/",
+  "timestamp": "20241213210040"
+ },
+ "https://www.comune.como.it/servizi/ANPR-Iscrizione-anagrafica-per-cittadini-europei/": {
+  "archived": "https://web.archive.org/web/20260211151333/https://www.comune.como.it/servizi/ANPR-Iscrizione-anagrafica-per-cittadini-europei/",
+  "timestamp": "20260211151333"
+ },
+ "https://www.comune.como.it/servizi/Trasferimento-di-residenza-a-Como-per-italiani-comunitari-ed-extracomunitari/": {
+  "archived": "https://web.archive.org/web/20260414054412/https://comune.como.it/servizi/Trasferimento-di-residenza-a-Como-per-italiani-comunitari-ed-extracomunitari/",
+  "timestamp": "20260414054412"
+ },
+ "https://www.comune.firenze.it/anagrafe-e-stato-civile": {
+  "archived": "https://web.archive.org/web/20251212102251/https://www.comune.firenze.it/anagrafe-e-stato-civile",
+  "timestamp": "20251212102251"
+ },
+ "https://www.comune.genova.it/amministrazione/uffici/anagrafe-ufficio-cittadini-ue": {
+  "archived": "https://web.archive.org/web/20260420095031/https://www.comune.genova.it/amministrazione/uffici/anagrafe-ufficio-cittadini-ue",
+  "timestamp": "20260420095031"
+ },
+ "https://www.comune.genova.it/servizi/anagrafe-e-stato-civile/cambio-di-residenza-cittadini-comunitari": {
+  "archived": "https://web.archive.org/web/20250125181949/https://www.comune.genova.it/servizi/anagrafe-e-stato-civile/cambio-di-residenza-cittadini-comunitari",
+  "timestamp": "20250125181949"
+ },
+ "https://www.comune.lecce.it/aree-tematiche/certificati-e-documenti/servizi-comunali/iscrizione-anagrafica-comunitari": {
+  "archived": "https://web.archive.org/web/20260415225830/https://www.comune.lecce.it/aree-tematiche/certificati-e-documenti/servizi-comunali/iscrizione-anagrafica-comunitari",
+  "timestamp": "20260415225830"
+ },
+ "https://www.comune.lecce.it/aree-tematiche/uffici-comunali/ufficio-iscrizioni-anagrafiche": {
+  "archived": "https://web.archive.org/web/20260210085813/https://www.comune.lecce.it/aree-tematiche/uffici-comunali/ufficio-iscrizioni-anagrafiche",
+  "timestamp": "20260210085813"
+ },
+ "https://www.comune.livorno.it/it/unita_organizzative/ufficio-anagrafe-e-notifiche": {
+  "archived": "https://web.archive.org/web/20260413044431/https://comune.livorno.it/it/unita_organizzative/ufficio-anagrafe-e-notifiche",
+  "timestamp": "20260413044431"
+ },
+ "https://www.comune.lucca.it/progetti/trasferimento-di-residenza/": {
+  "archived": "https://web.archive.org/web/20260316031130/https://www.comune.lucca.it/progetti/trasferimento-di-residenza/",
+  "timestamp": "20260316031130"
+ },
+ "https://www.comune.milano.it/en/servizi/anagrafe/cambio-di-residenza": {
+  "archived": "https://web.archive.org/web/20251119074328/https://www.comune.milano.it/en/servizi/anagrafe/cambio-di-residenza",
+  "timestamp": "20251119074328"
+ },
+ "https://www.comune.milano.it/servizi/anagrafe/cambio-di-residenza": {
+  "archived": "https://web.archive.org/web/20251119074322/https://www.comune.milano.it/servizi/anagrafe/cambio-di-residenza",
+  "timestamp": "20251119074322"
+ },
+ "https://www.comune.milano.it/servizi/anagrafe/richiesta-di-residenza-per-persone-straniere-provenienti-dall-estero": {
+  "archived": "https://web.archive.org/web/20251119092655/https://www.comune.milano.it/servizi/anagrafe/richiesta-di-residenza-per-persone-straniere-provenienti-dall-estero",
+  "timestamp": "20251119092655"
+ },
+ "https://www.comune.modena.it/amministrazione/uffici/ufficio-anagrafe": {
+  "archived": "https://web.archive.org/web/20260422173844/https://www.comune.modena.it/amministrazione/uffici/ufficio-anagrafe",
+  "timestamp": "20260422173844"
+ },
+ "https://www.comune.monza.it/it/news/al-via-il-cambio-di-residenza-online-su-monza-digitale": {
+  "archived": "https://web.archive.org/web/20260215082441/https://comune.monza.it/it/news/al-via-il-cambio-di-residenza-online-su-monza-digitale",
+  "timestamp": "20260215082441"
+ },
+ "https://www.comune.monza.it/it/servizi/cambio-residenza-indirizzo": {
+  "archived": "https://web.archive.org/web/20260207162036/https://comune.monza.it/it/servizi/cambio-residenza-indirizzo",
+  "timestamp": "20260207162036"
+ },
+ "https://www.comune.napoli.it/servizio/cambi-di-residenza/": {
+  "archived": "https://web.archive.org/web/20260512123726/https://www.comune.napoli.it/servizio/cambi-di-residenza/",
+  "timestamp": "20260512123726"
+ },
+ "https://www.comune.padova.it/attestato-di-soggiorno-permanente-e-attestazione-di-iscrizione-anagrafica-i-cittadini-e-le": {
+  "archived": "https://web.archive.org/web/20250513011618/https://www.comune.padova.it/attestato-di-soggiorno-permanente-e-attestazione-di-iscrizione-anagrafica-i-cittadini-e-le",
+  "timestamp": "20250513011618"
+ },
+ "https://www.comune.palermo.it/amministrazione/unita_organizzativa/ufficio-anagrafe-e-stato-civile/": {
+  "archived": "https://web.archive.org/web/20260512192450/https://www.comune.palermo.it/amministrazione/unita_organizzativa/ufficio-anagrafe-e-stato-civile/",
+  "timestamp": "20260512192450"
+ },
+ "https://www.comune.parma.it/it/amministrazione/uffici/ufficio-anagrafe": {
+  "archived": "https://web.archive.org/web/20260314103833/https://www.comune.parma.it/it/amministrazione/uffici/ufficio-anagrafe",
+  "timestamp": "20260314103833"
+ },
+ "https://www.comune.parma.it/it/servizi/anagrafe-stato-civile-ed-elettorale/iscrizione-cittadini-da-estero": {
+  "archived": "https://web.archive.org/web/20260514075422/https://www.comune.parma.it/it/servizi/anagrafe-stato-civile-ed-elettorale/iscrizione-cittadini-da-estero",
+  "timestamp": "20260514075422"
+ },
+ "https://www.comune.perugia.it/servizio/anagrafe-dichiarazione-di-cambio-di-residenza/": {
+  "archived": "https://web.archive.org/web/20260214013002/https://www.comune.perugia.it/servizio/anagrafe-dichiarazione-di-cambio-di-residenza/",
+  "timestamp": "20260214013002"
+ },
+ "https://www.comune.perugia.it/servizio/attestazione-di-iscrizione-anagrafica-e-soggiorno-permanente-cittadini-dellunione-europea/": {
+  "archived": "https://web.archive.org/web/20260415153912/https://www.comune.perugia.it/servizio/attestazione-di-iscrizione-anagrafica-e-soggiorno-permanente-cittadini-dellunione-europea/",
+  "timestamp": "20260415153912"
+ },
+ "https://www.comune.pisa.it/Servizi/Variazioni-di-residenza": {
+  "archived": "https://web.archive.org/web/20250910202047/https://www.comune.pisa.it/Servizi/Variazioni-di-residenza",
+  "timestamp": "20250910202047"
+ },
+ "https://www.comune.reggioemilia.it/servizi/anagrafe-e-stato-civile": {
+  "archived": "https://web.archive.org/web/20260617121149/https://www.comune.reggioemilia.it/servizi/anagrafe-e-stato-civile",
+  "timestamp": "20260617121149"
+ },
+ "https://www.comune.rimini.it/servizi/anagrafe-e-stato-civile/richiedere-il-cambio-di-residenza": {
+  "archived": "https://web.archive.org/web/20260520044008/https://www.comune.rimini.it/servizi/anagrafe-e-stato-civile/richiedere-il-cambio-di-residenza",
+  "timestamp": "20260520044008"
+ },
+ "https://www.comune.roma.it/web/it/scheda-servizi.page?contentId=INF33606": {
+  "archived": "https://web.archive.org/web/20260119094832/https://www.comune.roma.it/web/it/scheda-servizi.page?contentId=INF33606",
+  "timestamp": "20260119094832"
+ },
+ "https://www.comune.roma.it/web/it/scheda-servizi.page?contentId=INF35641": {
+  "archived": "https://web.archive.org/web/20260428151521/https://www.comune.roma.it/web/it/scheda-servizi.page?contentId=INF35641",
+  "timestamp": "20260428151521"
+ },
+ "https://www.comune.salerno.it/amministrazione/ufficio/ufficio-anagrafe": {
+  "archived": "https://web.archive.org/web/20260305134513/https://www.comune.salerno.it/amministrazione/ufficio/ufficio-anagrafe",
+  "timestamp": "20260305134513"
+ },
+ "https://www.comune.salerno.it/servizi/cambio-di-residenza": {
+  "archived": "https://web.archive.org/web/20260512223158/https://comune.salerno.it/servizi/cambio-di-residenza",
+  "timestamp": "20260512223158"
+ },
+ "https://www.comune.trento.it/Servizi/Cambio-di-residenza-cittadini-stranieri-dell-Unione-Europea": {
+  "archived": "https://web.archive.org/web/20260225141017/https://www.comune.trento.it/Servizi/Cambio-di-residenza-cittadini-stranieri-dell-Unione-Europea",
+  "timestamp": "20260225141017"
+ },
+ "https://www.comune.trento.it/Servizi/Richiedere-l-attestazione-di-iscrizione-anagrafica-per-cittadini-dell-Unione-Europea": {
+  "archived": "https://web.archive.org/web/20260114105836/https://www.comune.trento.it/Servizi/Richiedere-l-attestazione-di-iscrizione-anagrafica-per-cittadini-dell-Unione-Europea",
+  "timestamp": "20260114105836"
+ },
+ "https://www.comune.trieste.it/it/servizi-227101/anagrafe-iscrizione-per-residenza-210458": {
+  "archived": "https://web.archive.org/web/20250424100148/https://www.comune.trieste.it/it/servizi-227101/anagrafe-iscrizione-per-residenza-210458",
+  "timestamp": "20250424100148"
+ },
+ "https://www.comune.udine.it/Amministrazione/Uffici/Unita-Operativa-Anagrafe": {
+  "archived": "https://web.archive.org/web/20241004000345/https://www.comune.udine.it/Amministrazione/Uffici/Unita-Operativa-Anagrafe",
+  "timestamp": "20241004000345"
+ },
+ "https://www.comune.venezia.it/it/content/anagrafe": {
+  "archived": "https://web.archive.org/web/20260313071334/https://www.comune.venezia.it/it/content/anagrafe",
+  "timestamp": "20260313071334"
+ },
+ "https://www.comune.venezia.it/it/content/ufficio-soggiorno-cittadini-comunitari": {
+  "archived": "https://web.archive.org/web/20260208174432/https://www.comune.venezia.it/it/content/ufficio-soggiorno-cittadini-comunitari",
+  "timestamp": "20260208174432"
+ },
+ "https://www.comune.vicenza.it/Amministrazione/Uffici/Ufficio-Anagrafe": {
+  "archived": "https://web.archive.org/web/20240624165821/https://www.comune.vicenza.it/Amministrazione/Uffici/Ufficio-Anagrafe",
+  "timestamp": "20240624165821"
+ },
+ "https://www.comune.vicenza.it/Servizi/Cambio-di-residenza-cittadini-UE": {
+  "archived": "https://web.archive.org/web/20241211125506/https://www.comune.vicenza.it/Servizi/Cambio-di-residenza-cittadini-UE",
+  "timestamp": "20241211125506"
+ },
+ "https://www.mit.gov.it/nfsmitgov/files/media/normativa/2022-09/circolare_protocollo_29853_del_26-09-2022.pdf": {
+  "archived": "https://web.archive.org/web/20250503141452/https://mit.gov.it/nfsmitgov/files/media/normativa/2022-09/circolare_protocollo_29853_del_26-09-2022.pdf",
+  "timestamp": "20250503141452"
+ },
+ "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art136bis": {
+  "archived": "https://web.archive.org/web/20220813090525/https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art136bis",
+  "timestamp": "20220813090525"
+ },
+ "https://www.regione.basilicata.it/": {
+  "archived": "https://web.archive.org/web/20260713182931/https://www.regione.basilicata.it/",
+  "timestamp": "20260713182931"
+ },
+ "https://www.regione.calabria.it/website/organizzazione/dipartimento9/subsite/sancal/serviziosanitarioregionale/": {
+  "archived": "https://web.archive.org/web/20250802225259/https://www.regione.calabria.it/website/organizzazione/dipartimento9/subsite/sancal/serviziosanitarioregionale/",
+  "timestamp": "20250802225259"
+ },
+ "https://www.regione.fvg.it/": {
+  "archived": "https://web.archive.org/web/20070710120823/http://www.regione.fvg.it",
+  "timestamp": "20070710120823"
+ },
+ "https://www.regione.liguria.it/homepage-salute.html": {
+  "archived": "https://web.archive.org/web/20260417043644/https://www.regione.liguria.it/homepage-salute.html",
+  "timestamp": "20260417043644"
+ },
+ "https://www.regione.marche.it/Regione-Utile/Salute": {
+  "archived": "https://web.archive.org/web/20260516061035/https://www.regione.marche.it/Regione-Utile/Salute",
+  "timestamp": "20260516061035"
+ },
+ "https://www.regione.piemonte.it/web/temi/sanita": {
+  "archived": "https://web.archive.org/web/20260309105102/https://www.regione.piemonte.it/web/temi/sanita",
+  "timestamp": "20260309105102"
+ },
+ "https://www.regione.sardegna.it/": {
+  "archived": "https://web.archive.org/web/20260714011951/https://www.regione.sardegna.it/",
+  "timestamp": "20260714011951"
+ },
+ "https://www.regione.sicilia.it/istituzioni/regione/strutture-regionali/assessorato-salute": {
+  "archived": "https://web.archive.org/web/20260317211850/https://www.regione.sicilia.it/istituzioni/regione/strutture-regionali/assessorato-salute",
+  "timestamp": "20260317211850"
+ },
+ "https://www.regione.toscana.it/sst": {
+  "archived": "https://web.archive.org/web/20260510204747/https://www.regione.toscana.it/sst",
+  "timestamp": "20260510204747"
+ },
+ "https://www.regione.umbria.it/salute/aziende-sanitarie-regionali": {
+  "archived": "https://web.archive.org/web/20260418005804/https://www.regione.umbria.it/salute/aziende-sanitarie-regionali",
+  "timestamp": "20260418005804"
+ },
+ "https://www.salute.gov.it/imgs/C_17_pagineAree_2522_listaFile_itemName_0_file.pdf": {
+  "archived": "https://web.archive.org/web/20231207192821/https://www.salute.gov.it/imgs/C_17_pagineAree_2522_listaFile_itemName_0_file.pdf",
+  "timestamp": "20231207192821"
+ },
+ "https://www.salute.gov.it/new/it/tema/iscrizione-al-ssn/iscrizione-dei-cittadini-stranieri-al-servizio-sanitario-nazionale-ssn/": {
+  "archived": "https://web.archive.org/web/20260216135913/https://www.salute.gov.it/new/it/tema/iscrizione-al-ssn/iscrizione-dei-cittadini-stranieri-al-servizio-sanitario-nazionale-ssn/",
+  "timestamp": "20260216135913"
+ },
+ "https://www.salutelazio.it/": {
+  "archived": "https://web.archive.org/web/20260520192051/https://www.salutelazio.it/",
+  "timestamp": "20260520192051"
+ },
+ "https://www.sanita.puglia.it/": {
+  "archived": "https://web.archive.org/web/20260617140019/https://www.sanita.puglia.it/",
+  "timestamp": "20260617140019"
+ },
+ "https://www.spid.gov.it/cos-e-spid/": {
+  "archived": "https://web.archive.org/web/20260604103848/https://www.spid.gov.it/cos-e-spid/",
+  "timestamp": "20260604103848"
+ },
+ "https://www.spid.gov.it/cos-e-spid/come-attivare-spid/": {
+  "archived": "https://web.archive.org/web/20260715125942/https://www.spid.gov.it/cos-e-spid/come-attivare-spid/",
+  "timestamp": "20260715125942"
+ },
+ "https://www.spid.gov.it/en/what-is-spid/": {
+  "archived": "https://web.archive.org/web/20260421165901/https://www.spid.gov.it/en/what-is-spid/",
+  "timestamp": "20260421165901"
+ },
+ "https://www.spid.gov.it/en/what-is-spid/how-to-activate-spid/": {
+  "archived": "https://web.archive.org/web/20251211021235/https://www.spid.gov.it/en/what-is-spid/how-to-activate-spid/",
+  "timestamp": "20251211021235"
+ },
+ "https://www.uslumbria1.it/": {
+  "archived": "https://web.archive.org/web/20260528140152/https://www.uslumbria1.it/",
+  "timestamp": "20260528140152"
+ },
+ "https://europa.eu/youreurope/citizens/residence/documents-formalities/registering-residence/index_it.htm": {
+  "archived": "https://web.archive.org/web/20260328105027/https://europa.eu/youreurope/citizens/residence/documents-formalities/registering-residence/index_it.htm",
+  "timestamp": "20260328105027"
+ },
+ "https://europa.eu/youreurope/citizens/vehicles/driving-licence/driving-licence-recognition-validity/index_en.htm": {
+  "archived": "https://web.archive.org/web/20191231173801/https://europa.eu/youreurope/citizens/vehicles/driving-licence/driving-licence-recognition-validity/index_en.htm",
+  "timestamp": "20191231173801"
+ },
+ "https://www.ausl.vda.it/": {
+  "archived": "https://web.archive.org/web/20260512102901/https://www.ausl.vda.it/",
+  "timestamp": "20260512102901"
+ },
+ "https://www.comune.ancona.it/it/unita_organizzative/anagrafe": {
+  "archived": "https://web.archive.org/web/20260213065942/https://www.comune.ancona.it/it/unita_organizzative/anagrafe",
+  "timestamp": "20260213065942"
+ },
+ "https://www.comune.catania.it/il-comune/uffici/anagrafe/cosa-sono-i-servizi-anagrafici/": {
+  "archived": "https://web.archive.org/web/20240419115751/https://www.comune.catania.it/il-comune/uffici/anagrafe/cosa-sono-i-servizi-anagrafici/",
+  "timestamp": "20240419115751"
+ },
+ "https://www.comune.firenze.it/servizi/anagrafe-e-stato-civile/residenza-cittadino-comunitario": {
+  "archived": "https://web.archive.org/web/20260125023516/https://www.comune.firenze.it/servizi/anagrafe-e-stato-civile/residenza-cittadino-comunitario",
+  "timestamp": "20260125023516"
+ },
+ "https://www.comune.livorno.it/it/documenti_pubblici/procedura-per-la-prenotazione-servizi-anagrafici": {
+  "archived": "https://web.archive.org/web/20260519181448/https://comune.livorno.it/it/documenti_pubblici/procedura-per-la-prenotazione-servizi-anagrafici",
+  "timestamp": "20260519181448"
+ },
+ "https://www.comune.messina.it/it/unita_organizzative/servizio-anagrafe-stato-civile": {
+  "archived": "https://web.archive.org/web/20251013155019/https://www.comune.messina.it/it/unita_organizzative/servizio-anagrafe-stato-civile",
+  "timestamp": "20251013155019"
+ },
+ "https://www.comune.modena.it/servizi/anagrafe-e-stato-civile": {
+  "archived": "https://web.archive.org/web/20260511142728/https://www.comune.modena.it/servizi/anagrafe-e-stato-civile",
+  "timestamp": "20260511142728"
+ },
+ "https://www.comune.padova.it/servizi/anagrafe-e-stato-civile/cittadine-e-cittadini-dellunione-europea-italia-iscrizione": {
+  "archived": "https://web.archive.org/web/20260512183846/https://www.comune.padova.it/servizi/anagrafe-e-stato-civile/cittadine-e-cittadini-dellunione-europea-italia-iscrizione",
+  "timestamp": "20260512183846"
+ },
+ "https://www.comune.palermo.it/servizio/iscrizione-anagrafica-per-cittadini-europei/": {
+  "archived": "https://web.archive.org/web/20260222023701/https://www.comune.palermo.it/servizio/iscrizione-anagrafica-per-cittadini-europei/",
+  "timestamp": "20260222023701"
+ },
+ "https://www.comune.pisa.it/Servizi/Cambio-di-residenza-portale-ANPR": {
+  "archived": "https://web.archive.org/web/20250514070836/https://www.comune.pisa.it/Servizi/Cambio-di-residenza-portale-ANPR",
+  "timestamp": "20250514070836"
+ },
+ "https://www.comune.rimini.it/amministrazione/uffici/anagrafe": {
+  "archived": "https://web.archive.org/web/20250214011922/https://www.comune.rimini.it/amministrazione/uffici/anagrafe",
+  "timestamp": "20250214011922"
+ },
+ "https://www.mit.gov.it/conversione-patente-estera": {
+  "archived": "https://web.archive.org/web/20251007083136/https://www.mit.gov.it/conversione-patente-estera",
+  "timestamp": "20251007083136"
+ },
+ "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2007-02-06;30!vig=": {
+  "archived": "https://web.archive.org/web/20260120062213/https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2007-02-06;30%21vig=",
+  "timestamp": "20260120062213"
+ }
 }

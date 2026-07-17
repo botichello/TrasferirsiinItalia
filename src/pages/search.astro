@@ -52,9 +52,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   const escape = (s: string) =>
     s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 
+  // Accent-insensitive matching: "sanita" finds "sanità", "L'Aquila" folds
+  // its apostrophe, and so on.
+  const fold = (s: string) =>
+    s
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/\p{M}/gu, '')
+      .replace(/['’]/g, '');
+
   function score(entry: Entry, tokens: string[]): number {
-    const title = entry.title.toLowerCase();
-    const hay = `${entry.title} ${entry.text} ${entry.type}`.toLowerCase();
+    const title = fold(entry.title);
+    const hay = fold(`${entry.title} ${entry.text} ${entry.type}`);
     let s = 0;
     for (const t of tokens) {
       if (!hay.includes(t)) return -1; // require all tokens
@@ -66,7 +75,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   function render(query: string) {
     if (!list || !status) return;
-    const tokens = query.toLowerCase().split(/\s+/).filter(Boolean);
+    const tokens = fold(query).split(/\s+/).filter(Boolean);
     if (tokens.length === 0) {
       list.innerHTML = '';
       status.textContent = `Type to search ${entries.length} pages.`;

@@ -168,7 +168,7 @@ const breadcrumbSchema = {
     {
       place ? (
         <>
-          <span>{t.residency}</span>
+          <a href={journeyHome} class="hover:text-ink">{t.residency}</a>
           <span class="px-1">/</span>
           <span class="text-ink">{placeLabel}</span>
         </>
@@ -190,7 +190,7 @@ const breadcrumbSchema = {
         historyEvents.length > 0 && (
           <p class="mt-2 text-sm text-muted">
             {t.historySummary(historyEvents.length, fmtDate(historyEvents[0].verified))}
-            <a href={updatesHref} class="text-brand-700 hover:underline">
+            <a href={updatesHref} class="text-brand-700 underline underline-offset-2 hover:text-brand-500">
               {t.allUpdates}
             </a>
           </p>
@@ -199,11 +199,11 @@ const breadcrumbSchema = {
     </div>
   </div>
 
-  <div class="mb-8">
+  <div class="mb-8 print:hidden">
     <CitySelector currentGuide={slug} currentCity={place?.citySlug} />
   </div>
 
-  <div class="mb-10">
+  <div class="mb-10 print:hidden">
     <JourneyNav currentId={entry.id} base={journeyBase} />
   </div>
 
@@ -267,12 +267,14 @@ const breadcrumbSchema = {
 
       <SourceList sources={sources} />
 
-      <ReportIssue pageTitle={title} pageUrl={url} />
+      <div class="print:hidden">
+        <ReportIssue pageTitle={title} pageUrl={url} />
+      </div>
     </div>
 
     {
       sections.length > 0 && (
-        <aside class="hidden lg:block" aria-label={t.tocHeading}>
+        <aside class="hidden lg:block print:hidden" aria-label={t.tocHeading}>
           <nav class="sticky top-8 border-l border-line pl-5 text-sm">
             <p class="font-medium uppercase tracking-wide text-muted">{t.tocHeading}</p>
             <ul class="mt-3 space-y-2">

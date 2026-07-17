@@ -54,6 +54,8 @@ export const GET: APIRoute = async ({ site }) => {
     `- [Search](${base}/search) · [Browse cities](${base}/cities) · [Browse regions](${base}/regions)`,
     '',
     '## Notes',
+    `- Full inline content of every national guide (both languages): ${base}/llms-full.txt`,
+    `- Verification log (RSS): ${base}/updates.xml`,
     '- Informational only; not legal or tax advice.',
     '- Procedures change; always confirm against the cited official sources.',
     '',

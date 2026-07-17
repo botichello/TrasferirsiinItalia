@@ -125,3 +125,21 @@ h3 {
   border-radius: 0.25rem;
   font-size: 0.9em;
 }
+
+/* Print: guides double as checklists people take to the office. Strip the
+ * chrome (nav, selector, TOC — via Tailwind's print:hidden), keep the
+ * content, and spell out where each external link points. */
+@media print {
+  body {
+    background: white;
+  }
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    color: var(--color-muted);
+    word-break: break-all;
+  }
+  .prose {
+    max-width: none;
+  }
+}

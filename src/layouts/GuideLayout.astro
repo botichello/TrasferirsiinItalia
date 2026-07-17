@@ -109,10 +109,19 @@ const fmtDate = (iso: string) =>
   });
 const updatesHref = locale === 'it' ? '/it/updates' : '/updates';
 
-// The guide's H2 sections, used as HowTo steps in the structured data.
-const sections = [...(entry.body ?? '').matchAll(/^## +(.+?) *$/gm)].map((m) =>
-  m[1].replace(/[*_`]/g, ''),
-);
+// The guide's H2 sections — used as HowTo steps in the structured data and
+// as the on-page table of contents. Anchor slugs mirror Astro's markdown
+// heading ids (github-slugger): lowercase, punctuation stripped, spaces → -.
+const slugify = (s: string) =>
+  s
+    .toLowerCase()
+    .trim()
+    .replace(/[^\p{L}\p{N}\s-]/gu, '')
+    .replace(/\s+/g, '-');
+const sections = [...(entry.body ?? '').matchAll(/^## +(.+?) *$/gm)].map((m) => {
+  const name = m[1].replace(/[*_`]/g, '');
+  return { name, anchor: slugify(name) };
+});
 
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
@@ -141,7 +150,7 @@ const breadcrumbSchema = {
     url={url}
     lastVerified={lastVerified}
     faq={data.faq}
-    steps={sections}
+    steps={sections.map((s) => s.name)}
     inLanguage={locale}
   />
   <script
@@ -198,39 +207,93 @@ const breadcrumbSchema = {
     <JourneyNav currentId={entry.id} base={journeyBase} />
   </div>
 
-  <article class="prose">
-    <slot />
-  </article>
+  <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_230px] lg:gap-12">
+    <div class="min-w-0">
+      <article class="prose">
+        <slot />
+      </article>
 
-  {slug === 'servizio-sanitario' && <SsnCostEstimator />}
+      {slug === 'servizio-sanitario' && <SsnCostEstimator />}
 
-  {
-    place && (
-      <section
-        id="local-specifics"
-        class="mt-10 rounded-lg border-l-4 border-brand-500 bg-brand-50/60 p-6"
-      >
-        <h2 class="font-serif text-2xl">{localHeading ?? `In ${place.name}`}</h2>
-        {localNote ? (
-          <div class="prose mt-3">
-            <slot name="local-note" />
+      {
+        place && (
+          <section
+            id="local-specifics"
+            class="mt-10 rounded-lg border-l-4 border-brand-500 bg-brand-50/60 p-6"
+          >
+            <h2 class="font-serif text-2xl">{localHeading ?? `In ${place.name}`}</h2>
+            {localNote ? (
+              <div class="prose mt-3">
+                <slot name="local-note" />
+              </div>
+            ) : (
+              <p class="mt-3 text-muted">{localFallback}</p>
+            )}
+          </section>
+        )
+      }
+
+      {
+        data.documents.length > 0 && (
+          <div class="mt-10">
+            <DocumentChecklist id={entry.id} items={data.documents} />
           </div>
-        ) : (
-          <p class="mt-3 text-muted">{localFallback}</p>
-        )}
-      </section>
-    )
-  }
+        )
+      }
 
-  {
-    data.documents.length > 0 && (
-      <div class="mt-10">
-        <DocumentChecklist id={entry.id} items={data.documents} />
-      </div>
-    )
-  }
+      {
+        data.faq.length > 0 && (
+          <section id="faq" class="mt-10">
+            <h2 class="font-serif text-2xl">{t.faqHeading}</h2>
+            <div class="mt-4 divide-y divide-line rounded-lg border border-line bg-white/60">
+              {data.faq.map((item) => (
+                <details class="group px-5 py-4">
+                  <summary class="flex cursor-pointer list-none items-baseline justify-between gap-4 font-medium marker:hidden [&::-webkit-details-marker]:hidden">
+                    {item.q}
+                    <span
+                      class="select-none text-brand-500 transition-transform group-open:rotate-45"
+                      aria-hidden="true"
+                    >
+                      +
+                    </span>
+                  </summary>
+                  <p class="mt-2 max-w-prose text-muted">{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        )
+      }
 
-  <SourceList sources={sources} />
+      <SourceList sources={sources} />
 
-  <ReportIssue pageTitle={title} pageUrl={url} />
+      <ReportIssue pageTitle={title} pageUrl={url} />
+    </div>
+
+    {
+      sections.length > 0 && (
+        <aside class="hidden lg:block" aria-label={t.tocHeading}>
+          <nav class="sticky top-8 border-l border-line pl-5 text-sm">
+            <p class="font-medium uppercase tracking-wide text-muted">{t.tocHeading}</p>
+            <ul class="mt-3 space-y-2">
+              {sections.map((s) => (
+                <li>
+                  <a href={`#${s.anchor}`} class="text-muted transition hover:text-brand-700">
+                    {s.name}
+                  </a>
+                </li>
+              ))}
+              {data.faq.length > 0 && (
+                <li>
+                  <a href="#faq" class="text-muted transition hover:text-brand-700">
+                    {t.faqHeading}
+                  </a>
+                </li>
+              )}
+            </ul>
+          </nav>
+        </aside>
+      )
+    }
+  </div>
 </BaseLayout>

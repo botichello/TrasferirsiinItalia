@@ -6,7 +6,8 @@ import { guideSlug } from '../lib/guides';
 /**
  * Progress-style navigation for the EU residency journey. Reads the guides
  * collection for the active locale, orders by `step`, and highlights the
- * current page.
+ * current page. With eight steps the full titles no longer fit, so the rail
+ * uses compact labels and scrolls horizontally on small screens.
  */
 interface Props {
   currentId?: string;
@@ -17,6 +18,18 @@ const { currentId, base = '/eu-citizens/residency' } = Astro.props;
 const locale = getLocale(Astro.url);
 const currentSlug = currentId?.replace(/^it\//, '');
 
+/** Compact labels for the rail; full titles stay in title/aria attributes. */
+const short: Record<string, { en: string; it: string }> = {
+  'codice-fiscale': { en: 'Codice fiscale', it: 'Codice fiscale' },
+  'iscrizione-anagrafica': { en: 'Residency (anagrafe)', it: 'Residenza (anagrafe)' },
+  'servizio-sanitario': { en: 'Health (SSN)', it: 'Sanità (SSN)' },
+  'identita-digitale': { en: 'SPID & CIE', it: 'SPID e CIE' },
+  'conto-corrente': { en: 'Bank account', it: 'Conto corrente' },
+  'patente-di-guida': { en: 'Driving licence', it: 'Patente' },
+  'residenza-fiscale': { en: 'Tax residency', it: 'Residenza fiscale' },
+  'familiari-non-ue': { en: 'Non-EU family', it: 'Familiari non UE' },
+};
+
 const steps = (await getCollection('guides'))
   .filter((entry) => entry.data.lang === locale)
   .sort((a, b) => a.data.step - b.data.step)
@@ -26,37 +39,39 @@ const steps = (await getCollection('guides'))
       slug,
       step: entry.data.step,
       title: entry.data.title,
+      label: short[slug]?.[locale] ?? entry.data.title,
       href: `${base}/${slug}`,
     };
   });
 ---
 
-<nav aria-label="Residency journey" class="not-prose">
-  <ol class="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-3">
+<nav aria-label="Residency journey" class="not-prose -mx-5 px-5 sm:mx-0 sm:px-0">
+  <ol class="flex items-center gap-2 overflow-x-auto pb-2 lg:flex-wrap lg:overflow-visible lg:pb-0">
     {
       steps.map((s) => {
         const active = s.slug === currentSlug;
         return (
-          <li class="flex-1">
+          <li class="shrink-0">
             <a
               href={s.href}
+              title={s.title}
               aria-current={active ? 'step' : undefined}
               class:list={[
-                'flex h-full items-center gap-3 rounded-lg border px-4 py-3 transition',
+                'flex items-center gap-2 whitespace-nowrap rounded-full border py-1.5 pl-1.5 pr-3.5 text-sm font-medium transition',
                 active
-                  ? 'border-brand-500 bg-brand-50'
-                  : 'border-line bg-white/60 hover:border-brand-100',
+                  ? 'border-brand-600 bg-brand-600 text-white shadow-sm'
+                  : 'border-line bg-white/70 text-muted hover:border-brand-300 hover:text-brand-700',
               ]}
             >
               <span
                 class:list={[
-                  'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-semibold',
-                  active ? 'bg-brand-500 text-white' : 'bg-brand-50 text-brand-700',
+                  'flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold',
+                  active ? 'bg-white/20 text-white' : 'bg-brand-50 text-brand-700',
                 ]}
               >
                 {s.step}
               </span>
-              <span class="text-sm font-medium leading-tight">{s.title}</span>
+              {s.label}
             </a>
           </li>
         );

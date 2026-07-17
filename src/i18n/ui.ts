@@ -45,6 +45,8 @@ interface Strings {
     /** Builds "Verified N times since <date>." */
     historySummary: (n: number, since: string) => string;
     allUpdates: string;
+    tocHeading: string;
+    faqHeading: string;
   };
 }
 
@@ -93,6 +95,8 @@ export const ui: Record<Locale, Strings> = {
       historySummary: (n, since) =>
         n === 1 ? `Verified once, on ${since}.` : `Verified ${n} times since ${since}.`,
       allUpdates: 'See all updates →',
+      tocHeading: 'On this page',
+      faqHeading: 'Frequently asked questions',
     },
   },
   it: {
@@ -138,6 +142,8 @@ export const ui: Record<Locale, Strings> = {
       historySummary: (n, since) =>
         n === 1 ? `Verificata una volta, il ${since}.` : `Verificata ${n} volte dal ${since}.`,
       allUpdates: 'Tutti gli aggiornamenti →',
+      tocHeading: 'In questa pagina',
+      faqHeading: 'Domande frequenti',
     },
   },
 };

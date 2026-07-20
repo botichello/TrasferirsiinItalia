@@ -12,7 +12,10 @@
  *   - sitemap URLs whose page is missing, not self-canonical, or noindex;
  *   - JSON-LD that doesn't parse;
  *   - a missing/empty <title> or meta description, or a missing og:image
- *     (and the image file itself must exist in dist/).
+ *     (and the image file itself must exist in dist/);
+ *   - internal links that resolve to nothing: a root-relative href with no
+ *     built page or asset behind it, or a #fragment that matches no id on
+ *     the target page.
  *
  * "Private mode" (the SEARCH_INDEXING switch) is detected from dist/robots.txt:
  * when the site is a blanket Disallow, every page is intentionally noindex and
@@ -92,6 +95,9 @@ for (const file of htmlFiles(DIST)) {
     alternates,
     noindex: /<meta name="robots" content="noindex">/.test(html),
     ogImage,
+    ids: new Set([...html.matchAll(/ id="([^"]+)"/g)].map((m) => m[1])),
+    // Root-relative internal links (skip protocol/mailto/anchor-only).
+    links: [...html.matchAll(/ href="(\/[^"]*)"/g)].map((m) => m[1]),
   });
 }
 
@@ -124,6 +130,33 @@ for (const page of pages.values()) {
     if (!existsSync(imgPath)) {
       err(page.urlPath, `og:image file missing from dist: ${page.ogImage}`);
       break; // same default image everywhere — one report is enough
+    }
+  }
+}
+
+// ---- Internal links ------------------------------------------------------
+// Every root-relative link must land on a built page or asset, and a
+// #fragment must match an id on the target page. Deduplicate identical
+// (page-template) errors by reporting each broken href once.
+const seenLink = new Set();
+for (const page of pages.values()) {
+  for (const raw of page.links) {
+    const [pathPart, fragment] = raw.split('#');
+    const path = pathPart === '' ? page.urlPath : pathPart.replace(/\/$/, '') || '/';
+    const key = `${path}#${fragment ?? ''}`;
+    if (seenLink.has(key)) continue;
+    const target = pages.get(path);
+    if (!target) {
+      // Not a page — accept real files in dist (assets, txt/xml/json routes).
+      if (!existsSync(join(DIST, path))) {
+        seenLink.add(key);
+        err(page.urlPath, `internal link to nothing: ${raw}`);
+      }
+      continue;
+    }
+    if (fragment && !target.ids.has(fragment)) {
+      seenLink.add(key);
+      err(page.urlPath, `broken fragment: ${raw} (no id="${fragment}" on ${path})`);
     }
   }
 }

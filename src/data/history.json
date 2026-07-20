@@ -16,6 +16,13 @@
    "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
   }
  ],
+ "comune-notes/aosta/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-11",
+   "committed": "2026-07-20",
+   "subject": "WIP iterations 13-17: smoke+axe suite, CONTRIBUTING, hub OG cards, first capital overlays"
+  }
+ ],
  "comune-notes/bari/iscrizione-anagrafica.md": [
   {
    "verified": "2026-06-11",
@@ -103,6 +110,13 @@
    "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
   }
  ],
+ "comune-notes/campobasso/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-11",
+   "committed": "2026-07-20",
+   "subject": "WIP iterations 13-17: non-EU orientation pages, Campobasso overlay"
+  }
+ ],
  "comune-notes/catania/iscrizione-anagrafica.md": [
   {
    "verified": "2026-06-11",
@@ -113,6 +127,20 @@
    "verified": "2026-07-02",
    "committed": "2026-07-02",
    "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/catanzaro/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-11",
+   "committed": "2026-07-20",
+   "subject": "WIP iterations 13-17: smoke+axe suite, CONTRIBUTING, hub OG cards, first capital overlays"
+  }
+ ],
+ "comune-notes/como/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-17",
+   "subject": "Iterations 1-5: guide pager, per-guide OG cards, security headers, step icons, 4 new city overlays (#6)"
   }
  ],
  "comune-notes/firenze/iscrizione-anagrafica.md": [
@@ -154,6 +182,13 @@
    "verified": "2026-07-02",
    "committed": "2026-07-02",
    "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/aosta/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-11",
+   "committed": "2026-07-20",
+   "subject": "WIP iterations 13-17: smoke+axe suite, CONTRIBUTING, hub OG cards, first capital overlays"
   }
  ],
  "comune-notes/it/bari/iscrizione-anagrafica.md": [
@@ -243,6 +278,13 @@
    "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
   }
  ],
+ "comune-notes/it/campobasso/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-11",
+   "committed": "2026-07-20",
+   "subject": "WIP iterations 13-17: non-EU orientation pages, Campobasso overlay"
+  }
+ ],
  "comune-notes/it/catania/iscrizione-anagrafica.md": [
   {
    "verified": "2026-06-11",
@@ -253,6 +295,20 @@
    "verified": "2026-07-02",
    "committed": "2026-07-02",
    "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/catanzaro/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-11",
+   "committed": "2026-07-20",
+   "subject": "WIP iterations 13-17: smoke+axe suite, CONTRIBUTING, hub OG cards, first capital overlays"
+  }
+ ],
+ "comune-notes/it/como/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-17",
+   "subject": "Iterations 1-5: guide pager, per-guide OG cards, security headers, step icons, 4 new city overlays (#6)"
   }
  ],
  "comune-notes/it/firenze/iscrizione-anagrafica.md": [
@@ -279,6 +335,13 @@
    "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
   }
  ],
+ "comune-notes/it/laquila/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-11",
+   "committed": "2026-07-20",
+   "subject": "WIP iterations 13-17: smoke+axe suite, CONTRIBUTING, hub OG cards, first capital overlays"
+  }
+ ],
  "comune-notes/it/lecce/iscrizione-anagrafica.md": [
   {
    "verified": "2026-06-11",
@@ -301,6 +364,20 @@
    "verified": "2026-07-02",
    "committed": "2026-07-02",
    "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/it/lucca/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-17",
+   "subject": "Iterations 1-5: guide pager, per-guide OG cards, security headers, step icons, 4 new city overlays (#6)"
+  }
+ ],
+ "comune-notes/it/matera/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-17",
+   "subject": "Iterations 1-5: guide pager, per-guide OG cards, security headers, step icons, 4 new city overlays (#6)"
   }
  ],
  "comune-notes/it/messina/iscrizione-anagrafica.md": [
@@ -471,6 +548,13 @@
    "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
   }
  ],
+ "comune-notes/it/siena/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-17",
+   "subject": "Iterations 1-5: guide pager, per-guide OG cards, security headers, step icons, 4 new city overlays (#6)"
+  }
+ ],
  "comune-notes/it/torino/iscrizione-anagrafica.md": [
   {
    "verified": "2026-06-11",
@@ -567,6 +651,13 @@
    "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
   }
  ],
+ "comune-notes/laquila/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-11",
+   "committed": "2026-07-20",
+   "subject": "WIP iterations 13-17: smoke+axe suite, CONTRIBUTING, hub OG cards, first capital overlays"
+  }
+ ],
  "comune-notes/lecce/iscrizione-anagrafica.md": [
   {
    "verified": "2026-06-11",
@@ -589,6 +680,20 @@
    "verified": "2026-07-02",
    "committed": "2026-07-02",
    "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/lucca/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-17",
+   "subject": "Iterations 1-5: guide pager, per-guide OG cards, security headers, step icons, 4 new city overlays (#6)"
+  }
+ ],
+ "comune-notes/matera/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-17",
+   "subject": "Iterations 1-5: guide pager, per-guide OG cards, security headers, step icons, 4 new city overlays (#6)"
   }
  ],
  "comune-notes/messina/iscrizione-anagrafica.md": [
@@ -757,6 +862,13 @@
    "verified": "2026-07-02",
    "committed": "2026-07-02",
    "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
+  }
+ ],
+ "comune-notes/siena/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-10",
+   "committed": "2026-07-17",
+   "subject": "Iterations 1-5: guide pager, per-guide OG cards, security headers, step icons, 4 new city overlays (#6)"
   }
  ],
  "comune-notes/torino/iscrizione-anagrafica.md": [

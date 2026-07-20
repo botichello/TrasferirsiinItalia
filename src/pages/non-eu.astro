@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Orientation for non-EU visitors: this site's journey covers EU/EEA
+// citizens, but much of it still applies to third-country residents. Facts
+// below were verified against the fetched official sources listed at the
+// bottom (2026-07-20); this page is orientation, not a procedure guide.
+const sources = [
+  { title: 'Polizia di Stato — Entry visa', url: 'https://www.poliziadistato.it/articolo/10620' },
+  { title: 'Normattiva — D.Lgs. 286/1998 (Testo Unico immigrazione), art. 5', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art5!vig=' },
+  { title: 'Polizia di Stato — Permesso di soggiorno: come, dove e quanto costa', url: 'https://www.poliziadistato.it/articolo/come-dove-e-quanto-costa' },
+  { title: "Ministero dell'Interno — Decreto flussi 2026–2028", url: 'https://www.interno.gov.it/it/notizie/decreto-flussi-2026-2028-previste-497550-quote-tre-anni-precompilazione-domande-dal-23-ottobre' },
+  { title: 'MIT — Conversione patente estera', url: 'https://www.mit.gov.it/conversione-patente-estera' },
+];
+const applies = [
+  ['Codice fiscale (Step 1)', 'Yes', 'Same Agenzia delle Entrate offices and procedure for all foreign citizens.'],
+  ['Residency / anagrafe (Step 2)', 'Yes, with a valid permit', 'Registration happens under the same conditions as for Italians (TU art. 6); the comune notifies the Questura.'],
+  ['Health service / SSN (Step 3)', 'Yes — often mandatory', 'Workers and most permit categories must enrol, with equal treatment (TU art. 34).'],
+  ['Bank account (Step 5)', 'Yes', 'The right to a conto di base attaches to legal residence in the EU, not citizenship.'],
+  ['Driving licence (Step 6)', 'Different rules', 'A non-EU licence is valid 1 year from residence; conversion afterwards only if your country has a reciprocity agreement with Italy (MIT keeps the list) — otherwise the Italian exam.'],
+  ['Non-EU family of an EU citizen (Step 8)', 'Yes — the big exception', 'EU free-movement law (D.Lgs. 30/2007) overrides ordinary immigration law: no quotas, free priority visas, the 5-year carta di soggiorno.'],
+];
+---
+
+<BaseLayout
+  title="Not an EU citizen? Read this first"
+  description="How this site applies if you're not an EU/EEA citizen: the type D visa, decreto flussi quotas, the permesso di soggiorno — and which guides still work for you."
+  alternates={{ en: '/non-eu', it: '/it/non-eu' }}
+>
+  <div class="prose">
+    <h1>Not an EU citizen? Read this first</h1>
+    <p>
+      This reference covers the <strong>EU/EEA-citizen</strong> residency journey in
+      depth. If you're a third-country ("non-EU") citizen, the entry rules are
+      different — but a surprising amount of the site still applies to you once you
+      are here legally. This page is honest orientation, verified against the
+      official sources listed below (last verified <time datetime="2026-07-20">20 July 2026</time>);
+      it is not a procedure guide.
+    </p>
+
+    <h2>Before you travel: the type D visa</h2>
+    <p>
+      Any stay over 90 days requires a <strong>national long-stay (type D)
+      visa</strong> — even if your nationality is visa-exempt for short stays. Visas
+      are issued only by the Italian embassy or consulate in your country of
+      residence; you cannot apply for one (or convert a tourist stay) from inside
+      Italy. There are twenty visa types, including employment, self-employment,
+      study, family reunification, elective residence, the EU Blue Card for highly
+      qualified workers (outside the quotas), and — since 2024 — a digital-nomad /
+      remote-worker visa. The official self-assessment tool is
+      <a href="https://vistoperitalia.esteri.it/">vistoperitalia.esteri.it</a>.
+    </p>
+
+    <h2>Work visas are rationed: the decreto flussi</h2>
+    <p>
+      Most ordinary work visas are subject to annual quotas set by the
+      <strong>decreto flussi</strong>. The current decree covers 2026–2028 with
+      497,550 entries over three years; applications start with your
+      <em>employer's</em> nulla osta request and race for quota on "click days".
+      Official announcements live on
+      <a href="https://www.interno.gov.it/it/temi/immigrazione-e-asilo">interno.gov.it</a>.
+      The EU Blue Card and several other routes sit outside the quotas.
+    </p>
+
+    <h2>Your first week: the permesso di soggiorno</h2>
+    <p>
+      Within <strong>8 working days of entry</strong> you must apply for a
+      <strong>permesso di soggiorno</strong> (TU immigrazione, art. 5) — usually via
+      the yellow-striped postal kit at a Poste office with Sportello Amico (work and
+      family-reunification entries go through the Prefettura's Sportello Unico
+      instead). You'll be fingerprinted at a Questura appointment. All-in costs run
+      roughly <strong>€76–€176</strong> depending on the permit. Keep the postal
+      receipt: it documents your pending application and even allows travel home and
+      back in the meantime.
+    </p>
+
+    <h2>Which of our guides still apply to you</h2>
+  </div>
+
+  <div class="mt-6 overflow-x-auto">
+    <table class="w-full min-w-[560px] border-collapse text-sm">
+      <thead>
+        <tr class="border-b border-line text-left">
+          <th class="py-2 pr-4 font-semibold">Guide</th>
+          <th class="py-2 pr-4 font-semibold">Applies?</th>
+          <th class="py-2 font-semibold">Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          applies.map(([guide, ok, note]) => (
+            <tr class="border-b border-line align-top">
+              <td class="py-2.5 pr-4 font-medium">{guide}</td>
+              <td class="py-2.5 pr-4 whitespace-nowrap text-brand-700">{ok}</td>
+              <td class="py-2.5 text-muted">{note}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose mt-8">
+    <p>
+      A full non-EU journey — visas, permesso renewals, long-term residence — is on
+      this site's roadmap. Until then, treat the pages above as reliable for what
+      they cover, and always confirm entry questions with
+      <a href="https://vistoperitalia.esteri.it/">the official visa tool</a> or your
+      consulate.
+    </p>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Sources</h2>
+    <p class="mt-1 text-sm text-muted">
+      Primary, official sources this page is based on — each fetched and checked on 20 July 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

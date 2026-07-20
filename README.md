@@ -134,9 +134,14 @@ text. `hreflang` alternates are emitted on the bilingual pages.
    bank account & conto di base, driving licence validity/conversion, tax
    residency basics, and the residence card for non-EU family members — all
    bilingual, all national-scope.
-8. Smaller comuni keep the honest national-procedure fallback (their process is
-   the uniform national ANPR flow); add overlays on request. Then the non-EU
-   visa journey.
+8. ✅ Comune coverage milestone (2026-07): every one of the 20 regional
+   capitals — plus Como, Siena, Lucca, and Matera — now has a verified
+   anagrafe overlay (47 comuni, both languages). Smaller comuni keep the
+   honest national-procedure fallback; add overlays on request.
+9. 🔶 Non-EU journey: a verified orientation page (`/non-eu`, `/it/non-eu`)
+   now covers the type D visa, decreto flussi, and permesso di soggiorno
+   basics, and maps which guides apply to third-country residents. The full
+   non-EU journey (visa-by-visa, renewals, long-term residence) is next.
 
 ## Verifying content (network policy)
 

@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const sources = [
+  { title: 'Polizia di Stato — Il visto di ingresso', url: 'https://www.poliziadistato.it/articolo/10620' },
+  { title: 'Normattiva — D.Lgs. 286/1998 (Testo Unico immigrazione), art. 5', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art5!vig=' },
+  { title: 'Polizia di Stato — Permesso di soggiorno: come, dove e quanto costa', url: 'https://www.poliziadistato.it/articolo/come-dove-e-quanto-costa' },
+  { title: "Ministero dell'Interno — Decreto flussi 2026–2028", url: 'https://www.interno.gov.it/it/notizie/decreto-flussi-2026-2028-previste-497550-quote-tre-anni-precompilazione-domande-dal-23-ottobre' },
+  { title: 'MIT — Conversione patente estera', url: 'https://www.mit.gov.it/conversione-patente-estera' },
+];
+const applies = [
+  ['Codice fiscale (Passo 1)', 'Sì', "Stessi uffici dell'Agenzia delle Entrate e stessa procedura per tutti i cittadini stranieri."],
+  ['Residenza / anagrafe (Passo 2)', 'Sì, con permesso valido', "L'iscrizione avviene alle stesse condizioni degli italiani (TU art. 6); il Comune informa la Questura."],
+  ['Servizio sanitario / SSN (Passo 3)', 'Sì — spesso obbligatorio', 'Lavoratori e gran parte delle categorie di permesso devono iscriversi, a parità di trattamento (TU art. 34).'],
+  ['Conto corrente (Passo 5)', 'Sì', 'Il diritto al conto di base dipende dal soggiorno legale nell’UE, non dalla cittadinanza.'],
+  ['Patente di guida (Passo 6)', 'Regole diverse', 'Una patente extra-UE vale 1 anno dalla residenza; poi la conversione è possibile solo con un accordo di reciprocità (elenco del MIT) — altrimenti esame italiano.'],
+  ['Familiari non UE di cittadino UE (Passo 8)', 'Sì — la grande eccezione', 'Il diritto UE alla libera circolazione (D.Lgs. 30/2007) prevale sulla legge ordinaria: niente quote, visti gratuiti e prioritari, carta di soggiorno di 5 anni.'],
+];
+---
+
+<BaseLayout
+  title="Non sei cittadino UE? Leggi prima questo"
+  description="Come si applica questo sito se non sei cittadino UE/SEE: visto tipo D, quote del decreto flussi, permesso di soggiorno — e quali guide valgono comunque per te."
+  alternates={{ en: '/non-eu', it: '/it/non-eu' }}
+>
+  <div class="prose">
+    <h1>Non sei cittadino UE? Leggi prima questo</h1>
+    <p>
+      Questo sito copre in profondità il percorso di residenza dei <strong>cittadini
+      UE/SEE</strong>. Se sei un cittadino di un paese terzo ("non UE"), le regole di
+      ingresso sono diverse — ma una parte sorprendente del sito vale anche per te,
+      una volta che soggiorni legalmente. Questa pagina è un orientamento onesto,
+      verificato sulle fonti ufficiali elencate in fondo (ultima verifica
+      <time datetime="2026-07-20">20 luglio 2026</time>); non è una guida procedurale.
+    </p>
+
+    <h2>Prima di partire: il visto tipo D</h2>
+    <p>
+      Qualsiasi soggiorno oltre i 90 giorni richiede un <strong>visto nazionale di
+      lungo periodo (tipo D)</strong> — anche se la tua nazionalità è esente da visto
+      per i soggiorni brevi. I visti si richiedono solo all'ambasciata o al consolato
+      italiano nel paese di residenza; non si possono chiedere (né "convertire" un
+      soggiorno turistico) dall'interno dell'Italia. Le tipologie sono venti: lavoro
+      subordinato e autonomo, studio, ricongiungimento familiare, residenza elettiva,
+      la Carta blu UE per i lavoratori altamente qualificati (fuori quota) e — dal
+      2024 — il visto per nomadi digitali e lavoratori da remoto. Lo strumento
+      ufficiale di autovalutazione è
+      <a href="https://vistoperitalia.esteri.it/">vistoperitalia.esteri.it</a>.
+    </p>
+
+    <h2>I visti di lavoro sono contingentati: il decreto flussi</h2>
+    <p>
+      La maggior parte dei visti ordinari di lavoro è soggetta alle quote annuali del
+      <strong>decreto flussi</strong>. Il decreto attuale copre il 2026–2028 con
+      497.550 ingressi in tre anni; la domanda parte dal <em>datore di lavoro</em>
+      (nulla osta) e corre per la quota nei "click day". Gli annunci ufficiali sono su
+      <a href="https://www.interno.gov.it/it/temi/immigrazione-e-asilo">interno.gov.it</a>.
+      La Carta blu UE e altre vie restano fuori quota.
+    </p>
+
+    <h2>La prima settimana: il permesso di soggiorno</h2>
+    <p>
+      Entro <strong>8 giorni lavorativi dall'ingresso</strong> devi chiedere il
+      <strong>permesso di soggiorno</strong> (TU immigrazione, art. 5) — di norma con
+      il kit postale a banda gialla negli uffici Poste con Sportello Amico (per
+      lavoro e ricongiungimento familiare si passa invece dallo Sportello Unico della
+      Prefettura). I rilievi fotodattiloscopici si fanno su appuntamento in Questura.
+      Il costo complessivo va indicativamente da <strong>76 a 176 €</strong> a
+      seconda del permesso. Conserva la ricevuta postale: documenta la domanda in
+      corso e consente perfino di viaggiare verso il paese d'origine e tornare.
+    </p>
+
+    <h2>Quali delle nostre guide valgono anche per te</h2>
+  </div>
+
+  <div class="mt-6 overflow-x-auto">
+    <table class="w-full min-w-[560px] border-collapse text-sm">
+      <thead>
+        <tr class="border-b border-line text-left">
+          <th class="py-2 pr-4 font-semibold">Guida</th>
+          <th class="py-2 pr-4 font-semibold">Vale?</th>
+          <th class="py-2 font-semibold">Nota</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          applies.map(([guide, ok, note]) => (
+            <tr class="border-b border-line align-top">
+              <td class="py-2.5 pr-4 font-medium">{guide}</td>
+              <td class="py-2.5 pr-4 whitespace-nowrap text-brand-700">{ok}</td>
+              <td class="py-2.5 text-muted">{note}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose mt-8">
+    <p>
+      Un percorso completo per non UE — visti, rinnovi del permesso, soggiorno di
+      lungo periodo — è nella roadmap di questo sito. Nel frattempo considera
+      affidabili le pagine qui sopra per ciò che coprono, e verifica sempre le
+      questioni di ingresso con <a href="https://vistoperitalia.esteri.it/">lo
+      strumento ufficiale dei visti</a> o il tuo consolato.
+    </p>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Fonti</h2>
+    <p class="mt-1 text-sm text-muted">
+      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e verificata il 20 luglio 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

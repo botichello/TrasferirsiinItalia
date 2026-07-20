@@ -80,6 +80,30 @@ for (const lang of ['en', 'it']) {
   }
 }
 
+// Hub pages get cards too, so shared links to the checklist, updates log,
+// etc. carry their own title instead of the generic site card.
+const HUBS = [
+  ['checklist', 'The full journey checklist', 'La checklist completa del percorso'],
+  ['updates', 'Updates & verification log', 'Aggiornamenti e registro delle verifiche'],
+  ['glossary', 'Glossary of Italian bureaucracy', 'Glossario della burocrazia italiana'],
+  ['cities', 'Browse by city', 'Sfoglia per città'],
+  ['regions', 'Browse by region', 'Sfoglia per regione'],
+  ['start', 'Start here: your personalized path', 'Inizia qui: il tuo percorso personalizzato'],
+];
+for (const [name, en, it] of HUBS) {
+  for (const [lang, title] of [['en', en], ['it', it]]) {
+    await render(
+      card({
+        eyebrow: lang === 'it' ? 'Trasferirsi in Italia' : 'Moving to Italy, verified',
+        title,
+        footer: lang === 'it' ? 'verificato · con fonti' : 'verified · sourced',
+      }),
+      join(ROOT, `public/og/${lang === 'it' ? 'it/' : ''}${name}.png`),
+    );
+    n++;
+  }
+}
+
 await render(
   card({
     eyebrow: 'Moving to Italy, verified',
@@ -88,4 +112,4 @@ await render(
   }),
   join(ROOT, 'public/og-default.png'),
 );
-console.log(`✓ generated ${n} guide cards + og-default.png`);
+console.log(`✓ generated ${n} cards + og-default.png`);

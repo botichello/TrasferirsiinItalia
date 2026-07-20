@@ -1,0 +1,22 @@
+name: Build gates
+
+# The full build is the test suite: the freshness gate (dated, sourced
+# content), the Astro build, and the SEO gate (canonicals, hreflang,
+# sitemap, JSON-LD, internal links). Green here means shippable.
+on:
+  pull_request:
+  push:
+    branches: ['claude/focused-newton-1wfqgd']
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build

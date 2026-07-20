@@ -113,6 +113,7 @@ export const ui: Record<Locale, Strings> = {
       { href: '/it/regions', label: 'Regioni' },
       { href: '/it/how-we-verify', label: 'Come verifichiamo' },
       { href: '/it/about', label: 'Chi siamo' },
+      { href: '/it/search', label: 'Cerca' },
     ],
     footerNav: [
       { href: '/it/checklist', label: 'Checklist' },
@@ -123,6 +124,7 @@ export const ui: Record<Locale, Strings> = {
       { href: '/it/sources', label: 'Fonti' },
       { href: '/it/updates', label: 'Aggiornamenti' },
       { href: '/it/glossary', label: 'Glossario' },
+      { href: '/it/search', label: 'Cerca' },
       { href: '/', label: 'English site' },
     ],
     disclaimer:

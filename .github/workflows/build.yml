@@ -20,3 +20,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      # E2E smoke + axe accessibility scan against the built site. The
+      # chromium build must match playwright-core's registry version.
+      - name: Install Chromium
+        run: npx playwright@$(node -p "require('playwright-core/package.json').version") install --with-deps chromium
+      - run: npm run test:smoke

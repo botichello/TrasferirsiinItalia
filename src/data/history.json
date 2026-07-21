@@ -20,7 +20,7 @@
   {
    "verified": "2026-07-11",
    "committed": "2026-07-20",
-   "subject": "WIP iterations 13-17: smoke+axe suite, CONTRIBUTING, hub OG cards, first capital overlays"
+   "subject": "Iterations 13-17: non-EU orientation, all regional capitals verified, smoke+axe CI, CONTRIBUTING, hub OG cards"
   }
  ],
  "comune-notes/bari/iscrizione-anagrafica.md": [
@@ -114,7 +114,7 @@
   {
    "verified": "2026-07-11",
    "committed": "2026-07-20",
-   "subject": "WIP iterations 13-17: non-EU orientation pages, Campobasso overlay"
+   "subject": "Iterations 13-17: non-EU orientation, all regional capitals verified, smoke+axe CI, CONTRIBUTING, hub OG cards"
   }
  ],
  "comune-notes/catania/iscrizione-anagrafica.md": [
@@ -133,7 +133,7 @@
   {
    "verified": "2026-07-11",
    "committed": "2026-07-20",
-   "subject": "WIP iterations 13-17: smoke+axe suite, CONTRIBUTING, hub OG cards, first capital overlays"
+   "subject": "Iterations 13-17: non-EU orientation, all regional capitals verified, smoke+axe CI, CONTRIBUTING, hub OG cards"
   }
  ],
  "comune-notes/como/iscrizione-anagrafica.md": [
@@ -188,7 +188,7 @@
   {
    "verified": "2026-07-11",
    "committed": "2026-07-20",
-   "subject": "WIP iterations 13-17: smoke+axe suite, CONTRIBUTING, hub OG cards, first capital overlays"
+   "subject": "Iterations 13-17: non-EU orientation, all regional capitals verified, smoke+axe CI, CONTRIBUTING, hub OG cards"
   }
  ],
  "comune-notes/it/bari/iscrizione-anagrafica.md": [
@@ -282,7 +282,7 @@
   {
    "verified": "2026-07-11",
    "committed": "2026-07-20",
-   "subject": "WIP iterations 13-17: non-EU orientation pages, Campobasso overlay"
+   "subject": "Iterations 13-17: non-EU orientation, all regional capitals verified, smoke+axe CI, CONTRIBUTING, hub OG cards"
   }
  ],
  "comune-notes/it/catania/iscrizione-anagrafica.md": [
@@ -301,7 +301,7 @@
   {
    "verified": "2026-07-11",
    "committed": "2026-07-20",
-   "subject": "WIP iterations 13-17: smoke+axe suite, CONTRIBUTING, hub OG cards, first capital overlays"
+   "subject": "Iterations 13-17: non-EU orientation, all regional capitals verified, smoke+axe CI, CONTRIBUTING, hub OG cards"
   }
  ],
  "comune-notes/it/como/iscrizione-anagrafica.md": [
@@ -335,11 +335,18 @@
    "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
   }
  ],
+ "comune-notes/it/la-spezia/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-21",
+   "committed": "2026-07-21",
+   "subject": "WIP iterations 18-22: manifest+icons, glossary chips, Ravenna in cities, first overlays"
+  }
+ ],
  "comune-notes/it/laquila/iscrizione-anagrafica.md": [
   {
    "verified": "2026-07-11",
    "committed": "2026-07-20",
-   "subject": "WIP iterations 13-17: smoke+axe suite, CONTRIBUTING, hub OG cards, first capital overlays"
+   "subject": "Iterations 13-17: non-EU orientation, all regional capitals verified, smoke+axe CI, CONTRIBUTING, hub OG cards"
   }
  ],
  "comune-notes/it/lecce/iscrizione-anagrafica.md": [
@@ -500,6 +507,20 @@
    "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
   }
  ],
+ "comune-notes/it/potenza/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-11",
+   "committed": "2026-07-20",
+   "subject": "Iterations 13-17: non-EU orientation, all regional capitals verified, smoke+axe CI, CONTRIBUTING, hub OG cards"
+  }
+ ],
+ "comune-notes/it/ravenna/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-21",
+   "committed": "2026-07-21",
+   "subject": "WIP iterations 18-22: manifest+icons, glossary chips, Ravenna in cities, first overlays"
+  }
+ ],
  "comune-notes/it/reggio-emilia/iscrizione-anagrafica.md": [
   {
    "verified": "2026-06-11",
@@ -553,6 +574,13 @@
    "verified": "2026-07-10",
    "committed": "2026-07-17",
    "subject": "Iterations 1-5: guide pager, per-guide OG cards, security headers, step icons, 4 new city overlays (#6)"
+  }
+ ],
+ "comune-notes/it/siracusa/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-21",
+   "committed": "2026-07-21",
+   "subject": "WIP iterations 18-22: manifest+icons, glossary chips, Ravenna in cities, first overlays"
   }
  ],
  "comune-notes/it/torino/iscrizione-anagrafica.md": [
@@ -651,11 +679,18 @@
    "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
   }
  ],
+ "comune-notes/la-spezia/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-21",
+   "committed": "2026-07-21",
+   "subject": "WIP iterations 18-22: manifest+icons, glossary chips, Ravenna in cities, first overlays"
+  }
+ ],
  "comune-notes/laquila/iscrizione-anagrafica.md": [
   {
    "verified": "2026-07-11",
    "committed": "2026-07-20",
-   "subject": "WIP iterations 13-17: smoke+axe suite, CONTRIBUTING, hub OG cards, first capital overlays"
+   "subject": "Iterations 13-17: non-EU orientation, all regional capitals verified, smoke+axe CI, CONTRIBUTING, hub OG cards"
   }
  ],
  "comune-notes/lecce/iscrizione-anagrafica.md": [
@@ -816,6 +851,20 @@
    "subject": "Deep-verify all 29 remaining comune anagrafe overlays against primary sources"
   }
  ],
+ "comune-notes/potenza/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-11",
+   "committed": "2026-07-20",
+   "subject": "Iterations 13-17: non-EU orientation, all regional capitals verified, smoke+axe CI, CONTRIBUTING, hub OG cards"
+  }
+ ],
+ "comune-notes/ravenna/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-21",
+   "committed": "2026-07-21",
+   "subject": "WIP iterations 18-22: manifest+icons, glossary chips, Ravenna in cities, first overlays"
+  }
+ ],
  "comune-notes/reggio-emilia/iscrizione-anagrafica.md": [
   {
    "verified": "2026-06-11",
@@ -869,6 +918,13 @@
    "verified": "2026-07-10",
    "committed": "2026-07-17",
    "subject": "Iterations 1-5: guide pager, per-guide OG cards, security headers, step icons, 4 new city overlays (#6)"
+  }
+ ],
+ "comune-notes/siracusa/iscrizione-anagrafica.md": [
+  {
+   "verified": "2026-07-21",
+   "committed": "2026-07-21",
+   "subject": "WIP iterations 18-22: manifest+icons, glossary chips, Ravenna in cities, first overlays"
   }
  ],
  "comune-notes/torino/iscrizione-anagrafica.md": [

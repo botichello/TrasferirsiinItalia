@@ -112,4 +112,15 @@ await render(
   }),
   join(ROOT, 'public/og-default.png'),
 );
-console.log(`✓ generated ${n} cards + og-default.png`);
+
+// PWA / manifest icons: the favicon mark at the two required sizes.
+const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 32 32">
+  <rect width="32" height="32" fill="#265840"/>
+  <text x="16" y="22" font-family="${SERIF}" font-size="18" font-weight="700" fill="#fbfaf7" text-anchor="middle">It</text>
+</svg>`;
+for (const size of [192, 512]) {
+  await sharp(Buffer.from(iconSvg), { density: 300 }).resize(size, size).png()
+    .toFile(join(ROOT, `public/icon-${size}.png`));
+}
+
+console.log(`✓ generated ${n} cards + og-default.png + manifest icons`);

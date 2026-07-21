@@ -41,6 +41,7 @@ export const cities: City[] = [
   { slug: 'reggio-emilia', name: 'Reggio Emilia', province: 'RE', region: 'emilia-romagna' },
   { slug: 'rimini', name: 'Rimini', province: 'RN', region: 'emilia-romagna' },
   { slug: 'ferrara', name: 'Ferrara', province: 'FE', region: 'emilia-romagna' },
+  { slug: 'ravenna', name: 'Ravenna', province: 'RA', region: 'emilia-romagna' },
   // Friuli-Venezia Giulia
   { slug: 'trieste', name: 'Trieste', province: 'TS', region: 'friuli-venezia-giulia' },
   { slug: 'udine', name: 'Udine', province: 'UD', region: 'friuli-venezia-giulia' },

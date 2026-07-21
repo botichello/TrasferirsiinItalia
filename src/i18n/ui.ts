@@ -49,6 +49,7 @@ interface Strings {
     faqHeading: string;
     prevStep: string;
     nextStep: string;
+    termsHeading: string;
   };
 }
 
@@ -103,6 +104,7 @@ export const ui: Record<Locale, Strings> = {
       faqHeading: 'Frequently asked questions',
       prevStep: 'Previous step',
       nextStep: 'Next step',
+      termsHeading: 'Terms on this page',
     },
   },
   it: {
@@ -156,6 +158,7 @@ export const ui: Record<Locale, Strings> = {
       faqHeading: 'Domande frequenti',
       prevStep: 'Passo precedente',
       nextStep: 'Passo successivo',
+      termsHeading: 'Termini in questa pagina',
     },
   },
 };

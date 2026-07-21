@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const sources = [
+  { title: 'Normattiva — D.Lgs. 286/1998, art. 27 (lett. q-bis, c. 1-sexies)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art27!vig=' },
+  { title: 'Normattiva — D.Lgs. 286/1998, art. 27-quater (criteri di alta qualificazione)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art27quater!vig=' },
+  { title: "Ambasciata d'Italia Pristina — Visto per nomadi digitali e lavoratori da remoto", url: 'https://ambpristina.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/visti/visto-per-nomadi-digitali-e-lavoratori-da-remoto/' },
+  { title: "Consolato Generale d'Italia New York — Digital Nomad / Remote Worker visa", url: 'https://consnewyork.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/visti/visas-to-enter-italy/digital-nomad-remote-worker-visa/' },
+  { title: 'Integrazione Migranti (Ministero del Lavoro) — Nomadi digitali: le regole', url: 'https://integrazionemigranti.gov.it/it-it/Ricerca-news/Dettaglio-news/id/3736/Nomadi-digitali-e-lavoratori-da-remoto-ecco-le-regole' },
+];
+const checklist = [
+  'Cittadino non UE, altamente qualificato (laurea triennale, professione regolamentata, 5 anni di esperienza comparabile, oppure 3 degli ultimi 7 anni in ruoli ICT)',
+  'Un lavoro o un’attività autonoma svolgibile da remoto con strumenti tecnologici',
+  'Almeno 6 mesi di esperienza pregressa di lavoro da remoto',
+  'Reddito annuo dall’attività da remoto pari ad almeno 3 volte la soglia di esenzione dalla spesa sanitaria (≈ 24.789 €/anno, dato 2024)',
+  'Assicurazione sanitaria valida per tutto il soggiorno in Italia',
+  'Alloggio documentato (contratto registrato o atto di proprietà)',
+  'Solo dipendenti: contratto o offerta vincolante, più la dichiarazione del datore di lavoro di assenza di condanne negli ultimi 5 anni',
+];
+---
+
+<BaseLayout
+  title="Il visto per nomadi digitali"
+  description="Il visto per nomadi digitali e lavoratori da remoto (art. 27 q-bis): chi può richiederlo, la soglia di reddito ≈24.789 €, niente nulla osta né quote — verificato su fonti ufficiali."
+  alternates={{ en: '/non-eu/digital-nomad', it: '/it/non-eu/digital-nomad' }}
+>
+  <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
+    <a href="/it" class="hover:text-ink">Home</a>
+    <span class="px-1">/</span>
+    <a href="/it/non-eu" class="hover:text-ink">Cittadini non UE</a>
+    <span class="px-1">/</span>
+    <span class="text-ink">Visto nomadi digitali</span>
+  </nav>
+
+  <div class="prose">
+    <h1>Il visto per nomadi digitali</h1>
+    <p>
+      Dall'aprile 2024 l'Italia ha un canale di ingresso dedicato ai
+      <strong>nomadi digitali e lavoratori da remoto</strong> non UE (art. 27, c. 1,
+      lett. q-bis del Testo Unico immigrazione, attuato dal decreto
+      interministeriale del 29 febbraio 2024). Due caratteristiche chiave:
+      <strong>niente nulla osta</strong> e <strong>fuori dalle quote del decreto
+      flussi</strong> — la domanda si presenta direttamente in consolato. Fatti
+      verificati il <time datetime="2026-07-21">21 luglio 2026</time> sulle fonti in
+      fondo; questo è orientamento, non consulenza legale.
+    </p>
+
+    <h2>Chi può richiederlo</h2>
+    <p>
+      La norma riguarda lavoratori <strong>altamente qualificati</strong> che
+      lavorano da remoto con strumenti tecnologici, in due varianti: il
+      <strong>nomade digitale</strong> (autonomo — freelance, consulenti) e il
+      <strong>lavoratore da remoto</strong> (dipendente o collaboratore, anche di
+      un datore di lavoro senza presenza in Italia). L'"alta qualificazione"
+      riprende i criteri della Carta blu UE: laurea triennale, professione
+      regolamentata, cinque anni di esperienza professionale comparabile, oppure
+      tre degli ultimi sette anni in ruoli specialistici ICT.
+    </p>
+
+    <h2>I requisiti</h2>
+    <ul>
+      {checklist.map((item) => <li>{item}</li>)}
+    </ul>
+    <p>
+      La soglia di reddito è definita come tre volte il reddito minimo per
+      l'esenzione dalla partecipazione alla spesa sanitaria — il consolato di New
+      York la quantifica in <strong>almeno 24.789 € l'anno</strong> (dato 2024;
+      l'indicizzazione futura può variare), e deve derivare dall'attività da
+      remoto, non da redditi passivi.
+    </p>
+
+    <h2>Come funziona</h2>
+    <ol>
+      <li>Richiedi il <strong>visto tipo D</strong> (fino a 365 giorni) al consolato italiano competente per la tua residenza.</li>
+      <li>Entro <strong>8 giorni lavorativi dall'ingresso</strong>, chiedi in Questura il <strong>permesso di soggiorno</strong> con dicitura "nomade digitale – lavoratore da remoto" — massimo 1 anno, rinnovabile finché permangono le condizioni.</li>
+      <li>Il <strong>codice fiscale</strong> è rilasciato con il permesso; i nomadi digitali autonomi aprono la <strong>partita IVA</strong>.</li>
+      <li><strong>Coniuge e figli minori</strong> possono essere ricongiunti tramite la Questura una volta ottenuto il permesso.</li>
+    </ol>
+    <p>
+      Le disposizioni fiscali e contributive italiane si applicano fin da subito,
+      salvo accordi bilaterali — vedi le nostre
+      <a href="/it/eu-citizens/residency/residenza-fiscale">basi di residenza
+      fiscale</a>, che non dipendono dalla cittadinanza. Con il permesso in mano,
+      vale gran parte di <a href="/it/non-eu">ciò che si applica ai residenti non
+      UE</a>.
+    </p>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Fonti</h2>
+    <p class="mt-1 text-sm text-muted">
+      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e
+      verificata il 21 luglio 2026. (Il decreto: GU Serie Generale n. 79, 4 aprile 2024.)
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

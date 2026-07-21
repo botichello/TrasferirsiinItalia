@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Orientation page on the digital nomad / remote worker visa (art. 27 c.1
+// lett. q-bis TU immigrazione; interministerial decree 29 Feb 2024). Facts
+// verified 2026-07-21 against the fetched official sources listed below.
+const sources = [
+  { title: 'Normattiva — D.Lgs. 286/1998, art. 27 (lett. q-bis, c. 1-sexies)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art27!vig=' },
+  { title: 'Normattiva — D.Lgs. 286/1998, art. 27-quater (highly-qualified criteria)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art27quater!vig=' },
+  { title: "Ambasciata d'Italia Pristina — Digital nomad and remote worker visa", url: 'https://ambpristina.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/visti/visto-per-nomadi-digitali-e-lavoratori-da-remoto/' },
+  { title: "Consolato Generale d'Italia New York — Digital Nomad / Remote Worker visa", url: 'https://consnewyork.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/visti/visas-to-enter-italy/digital-nomad-remote-worker-visa/' },
+  { title: 'Integrazione Migranti (Ministero del Lavoro) — Nomadi digitali: le regole', url: 'https://integrazionemigranti.gov.it/it-it/Ricerca-news/Dettaglio-news/id/3736/Nomadi-digitali-e-lavoratori-da-remoto-ecco-le-regole' },
+];
+const checklist = [
+  'Non-EU national, highly qualified (3-year degree, regulated profession, 5 years’ comparable experience, or 3 of the last 7 years in ICT roles)',
+  'A job or freelance activity you can perform remotely with technological tools',
+  'At least 6 months’ prior experience working remotely',
+  'Annual income from the remote work of at least 3× the healthcare co-pay exemption threshold (≈ €24,789/year, 2024 figure)',
+  'Health insurance covering the whole stay in Italy',
+  'Documented accommodation (registered lease or deed)',
+  'Employees only: contract or binding offer, plus the employer’s declaration of no convictions in the last 5 years',
+];
+---
+
+<BaseLayout
+  title="Italy's digital nomad visa"
+  description="The digital nomad / remote worker visa (art. 27 q-bis): who qualifies, the ≈€24,789 income floor, no nulla osta, no quotas — verified against official sources."
+  alternates={{ en: '/non-eu/digital-nomad', it: '/it/non-eu/digital-nomad' }}
+>
+  <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
+    <a href="/" class="hover:text-ink">Home</a>
+    <span class="px-1">/</span>
+    <a href="/non-eu" class="hover:text-ink">Non-EU citizens</a>
+    <span class="px-1">/</span>
+    <span class="text-ink">Digital nomad visa</span>
+  </nav>
+
+  <div class="prose">
+    <h1>Italy's digital nomad visa</h1>
+    <p>
+      Since April 2024 Italy has a dedicated entry route for non-EU
+      <strong>digital nomads and remote workers</strong> (art. 27, c. 1, lett.
+      q-bis of the immigration code, implemented by the interministerial decree of
+      29 February 2024). Its two headline features: <strong>no nulla osta</strong>
+      (no prior work authorisation) and <strong>no decreto flussi quota</strong> —
+      you apply directly at the consulate. Facts below verified
+      <time datetime="2026-07-21">21 July 2026</time> against the sources at the
+      bottom; this is orientation, not legal advice.
+    </p>
+
+    <h2>Who qualifies</h2>
+    <p>
+      The law targets <strong>highly qualified</strong> workers who work remotely
+      through technological tools, in two flavours: the <strong>nomade
+      digitale</strong> (self-employed — freelancers, consultants) and the
+      <strong>lavoratore da remoto</strong> (employee or collaborator, including
+      for an employer with no Italian presence). "Highly qualified" borrows the EU
+      Blue Card criteria: a 3-year degree, a regulated profession, five years of
+      comparable professional experience, or three of the last seven years in
+      ICT-specialist roles.
+    </p>
+
+    <h2>The requirements</h2>
+    <ul>
+      {checklist.map((item) => <li>{item}</li>)}
+    </ul>
+    <p>
+      The income floor is defined as three times the healthcare co-pay exemption
+      threshold — the New York consulate quantifies it as <strong>no less than
+      €24,789 a year</strong> (2024 figure; future indexation may move it), and it
+      must come from the remote work itself, not passive income.
+    </p>
+
+    <h2>How it works</h2>
+    <ol>
+      <li>Apply for the <strong>type D visa</strong> (up to 365 days) at the Italian consulate for your place of residence.</li>
+      <li>Within <strong>8 working days of entry</strong>, apply at the Questura for the <strong>permesso di soggiorno</strong> marked "nomade digitale – lavoratore da remoto" — max 1 year, renewable while the conditions hold.</li>
+      <li>Your <strong>codice fiscale</strong> is issued with the permit; self-employed nomads open a <strong>partita IVA</strong>.</li>
+      <li>Your <strong>spouse and minor children</strong> can be sponsored via the Questura once you hold the permit.</li>
+    </ol>
+    <p>
+      Italian tax and social-security rules apply from the start ("le disposizioni
+      di carattere fiscale e contributivo vigenti"), subject to bilateral
+      agreements — see our <a href="/eu-citizens/residency/residenza-fiscale">tax
+      residency basics</a>, which are nationality-blind. Once you hold the permit,
+      most of <a href="/non-eu">what applies to non-EU residents</a> applies to
+      you.
+    </p>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Sources</h2>
+    <p class="mt-1 text-sm text-muted">
+      Primary, official sources this page is based on — each fetched and checked on 21 July 2026.
+      (The decree itself: GU Serie Generale n. 79, 4 April 2024.)
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

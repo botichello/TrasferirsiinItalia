@@ -13,6 +13,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { getLocale, ui } from '../i18n/ui';
 import { guideSlug } from '../lib/guides';
 import { getFileHistory } from '../lib/updates';
+import { glossary } from '../data/glossary';
 
 /** A place context (a region or a city) that scopes the guide. */
 export interface Place {
@@ -134,6 +135,19 @@ const sections = [...(entry.body ?? '').matchAll(/^## +(.+?) *$/gm)].map((m) => 
   const name = m[1].replace(/[*_`]/g, '');
   return { name, anchor: slugify(name) };
 });
+
+// Glossary terms actually used on this page (display-only cross-linking):
+// a term matches when any of its name variants appears in the guide body.
+const bodyLower = (entry.body ?? '').toLowerCase();
+const termsOnPage = glossary
+  .filter((term) =>
+    term.term
+      .split(/[/(),]| vs\.? /)
+      .map((v) => v.trim().toLowerCase())
+      .some((v) => v.length > 3 && bodyLower.includes(v)),
+  )
+  .slice(0, 8);
+const glossaryHref = locale === 'it' ? '/it/glossary' : '/glossary';
 
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
@@ -275,6 +289,26 @@ const breadcrumbSchema = {
                 </details>
               ))}
             </div>
+          </section>
+        )
+      }
+
+      {
+        termsOnPage.length > 0 && (
+          <section class="mt-10 print:hidden" aria-label={t.termsHeading}>
+            <h2 class="text-sm font-medium uppercase tracking-wide text-muted">{t.termsHeading}</h2>
+            <ul class="mt-3 flex flex-wrap gap-2">
+              {termsOnPage.map((term) => (
+                <li>
+                  <a
+                    href={`${glossaryHref}#${term.slug}`}
+                    class="inline-block rounded-full border border-line bg-white/60 px-3 py-1 text-sm text-brand-700 transition hover:border-brand-300"
+                  >
+                    {term.term}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </section>
         )
       }

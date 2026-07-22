@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const sources = [
+  { title: 'Normattiva — D.Lgs. 286/1998, artt. 28, 29, 29-bis, 30 (testo vigente)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art29!vig=' },
+  { title: 'Prefettura di Chieti — Ricongiungimento familiare (vademecum + income table)', url: 'https://prefettura.interno.gov.it/it/prefetture/chieti/ricongiungimento-familiare' },
+  { title: 'Prefettura di Pordenone — Guida al ricongiungimento familiare', url: 'https://prefettura.interno.gov.it/it/prefetture/pordenone/immigrazione-guida-ricongiungimento-familiare' },
+  { title: 'Polizia di Stato — Motivi familiari: ricongiungimento e coesione (PDF)', url: 'https://questure.poliziadistato.it/statics/16/famiglia-o-coesione.pdf?lang=it' },
+  { title: 'Integrazione Migranti — Permesso di soggiorno per motivi familiari', url: 'https://integrazionemigranti.gov.it/it-it/Ricerca-news/Dettaglio-news/id/3404/Permesso-di-soggiorno-per-motivi-familiari-chi-ne-ha-diritto-Cosa-succede-in-caso-di-separazione-' },
+];
+---
+
+<BaseLayout
+  title="Ricongiungimento familiare (sponsor non UE)"
+  description="Come un residente non UE porta la famiglia in Italia con l'art. 29 TU: chi può, i requisiti di reddito e alloggio, il nulla osta in 150 giorni e i diritti di lavoro del permesso."
+  alternates={{ en: '/non-eu/family-reunification', it: '/it/non-eu/family-reunification' }}
+  ogImage="/og/it/family-reunification.png"
+>
+  <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
+    <a href="/it" class="hover:text-ink">Home</a>
+    <span class="px-1">/</span>
+    <a href="/it/non-eu" class="hover:text-ink">Cittadini non UE</a>
+    <span class="px-1">/</span>
+    <span class="text-ink">Ricongiungimento familiare</span>
+  </nav>
+
+  <div class="prose">
+    <h1>Ricongiungimento familiare (sponsor non UE)</h1>
+    <p>
+      Questa è la via dell'<strong>immigrazione ordinaria</strong> (art. 29 del
+      testo unico sull'immigrazione) per un residente non UE che vuole portare in
+      Italia la famiglia dall'estero. <strong>Non</strong> è la via per i familiari
+      di cittadini UE — per loro valgono le regole di libera circolazione, ben più
+      favorevoli, spiegate nella nostra pagina sui
+      <a href="/it/eu-citizens/residency/familiari-non-ue">familiari non UE di
+      cittadini UE</a>. Fatti verificati il
+      <time datetime="2026-07-22">22 luglio 2026</time>; orientamento, non
+      consulenza legale.
+    </p>
+
+    <h2>Chi può fare da sponsor, e per chi</h2>
+    <p>
+      Puoi fare da sponsor se hai un permesso di lungo periodo/Carta Blu o un
+      permesso di <strong>almeno un anno</strong> (lavoro, asilo, studio, motivi
+      religiosi, famiglia). Una modifica recente aggiunge una soglia:
+      <strong>due anni di soggiorno regolare ininterrotto</strong> prima di poter
+      ricongiungere chiunque non sia un figlio minore (i titolari di protezione
+      internazionale sono esenti). Puoi ricongiungere: il <strong>coniuge</strong>
+      (maggiorenne, non legalmente separato), i <strong>figli minori</strong>, i
+      figli maggiorenni a carico solo se un'invalidità totale impedisce loro di
+      mantenersi, e i <strong>genitori a carico</strong> (senza altri figli nel
+      Paese d'origine, oppure over 65 con motivi documentati).
+    </p>
+
+    <h2>I due requisiti: reddito e alloggio</h2>
+    <ul>
+      <li>
+        <strong>Reddito</strong> ≥ l'assegno sociale annuo <strong>+ 50% per
+        familiare</strong> ricongiunto (2× per due o più figli sotto i 14 anni).
+        Sulla tabella 2025 significava 10.504,26 € per un familiare,
+        14.005,68 € per due — l'importo base viene rivalutato ogni gennaio,
+        quindi controlla la tabella aggiornata della tua prefettura. I rifugiati
+        sono esenti.
+      </li>
+      <li>
+        <strong>Alloggio</strong>: un certificato di <em>idoneità alloggiativa</em>
+        rilasciato dal tuo comune (requisiti igienico-sanitari e di abitabilità;
+        valido 6 mesi), più il titolo di disponibilità dell'alloggio. Per i
+        genitori over 65 serve anche un'assicurazione sanitaria o l'iscrizione
+        volontaria al SSN.
+      </li>
+    </ul>
+
+    <h2>Come funziona</h2>
+    <ol>
+      <li>La domanda si presenta <strong>solo online</strong>, sul <strong>Portale ALI</strong> del Ministero dell'Interno (SPID/CIE), indirizzata allo Sportello Unico per l'Immigrazione della tua prefettura.</li>
+      <li>Il <strong>nulla osta</strong> deve arrivare entro <strong>150 giorni</strong> (portati da 90 a 150 nel 2025; le richieste di documenti sospendono il termine).</li>
+      <li>Il tuo familiare lo presenta al consolato italiano <strong>entro 6 mesi</strong> e chiede il visto per ricongiungimento — il consolato verifica i legami familiari (documenti legalizzati; test del DNA in ultima istanza).</li>
+      <li>Dopo l'ingresso: dichiarazione di presenza entro 48 ore, appuntamento allo Sportello Unico entro 8 giorni, poi il <strong>permesso per motivi familiari</strong> tramite il kit postale.</li>
+    </ol>
+
+    <h2>Cosa dà il permesso per motivi familiari</h2>
+    <p>
+      Il permesso per motivi familiari dura <strong>quanto quello dello
+      sponsor</strong> e si rinnova con esso — e consente <strong>lavoro
+      dipendente e autonomo dal primo giorno</strong>, oltre a studio e accesso al
+      welfare (art. 30). Dopo un divorzio, la morte dello sponsor o il compimento
+      dei 18 anni di un figlio, può essere convertito in permesso per lavoro o
+      studio. E se il tuo familiare è <em>già</em> regolarmente in Italia, salta
+      tutta la procedura del nulla osta: la <strong>coesione familiare</strong> in
+      Questura converte direttamente il permesso che già ha.
+    </p>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Fonti</h2>
+    <p class="mt-1 text-sm text-muted">
+      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e verificata il 22 luglio 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

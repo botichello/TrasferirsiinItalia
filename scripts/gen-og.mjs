@@ -89,6 +89,12 @@ const HUBS = [
   ['cities', 'Browse by city', 'Sfoglia per città'],
   ['regions', 'Browse by region', 'Sfoglia per regione'],
   ['start', 'Start here: your personalized path', 'Inizia qui: il tuo percorso personalizzato'],
+  ['non-eu', 'Not an EU citizen? Read this first', 'Non sei cittadino UE? Leggi prima questo'],
+  ['digital-nomad', "Italy's digital nomad visa", 'Il visto per nomadi digitali'],
+  ['elective-residence', "Italy's elective residence visa", 'Il visto per residenza elettiva'],
+  ['study-visa', "Italy's student visa", 'Il visto per studio (università)'],
+  ['family-reunification', 'Family reunification in Italy', 'Ricongiungimento familiare in Italia'],
+  ['long-term-residence', 'The EU long-term residence permit', 'Soggiornanti di lungo periodo UE'],
 ];
 for (const [name, en, it] of HUBS) {
   for (const [lang, title] of [['en', en], ['it', it]]) {

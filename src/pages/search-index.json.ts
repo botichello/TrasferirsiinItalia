@@ -108,6 +108,42 @@ export const GET: APIRoute = async () => {
       text: 'residenza elettiva pensionati redditi passivi pensione 31000 niente lavoro visto',
     },
     {
+      title: "Italy's student visa (university)",
+      url: '/non-eu/study-visa',
+      type: 'Page',
+      text: 'study visa student university Universitaly pre-enrolment subsistence 20 hours work permesso studio',
+    },
+    {
+      title: 'Il visto per studio (università)',
+      url: '/it/non-eu/study-visa',
+      type: 'Pagina (IT)',
+      text: 'visto studio studente università Universitaly preiscrizione mezzi sussistenza lavoro 20 ore',
+    },
+    {
+      title: 'Family reunification (non-EU sponsors)',
+      url: '/non-eu/family-reunification',
+      type: 'Page',
+      text: 'family reunification ricongiungimento familiare nulla osta sportello unico spouse children parents income housing',
+    },
+    {
+      title: 'Ricongiungimento familiare (sponsor non UE)',
+      url: '/it/non-eu/family-reunification',
+      type: 'Pagina (IT)',
+      text: 'ricongiungimento familiare nulla osta sportello unico coniuge figli genitori reddito alloggio idoneità',
+    },
+    {
+      title: 'The EU long-term residence permit',
+      url: '/non-eu/long-term-residence',
+      type: 'Page',
+      text: 'long-term residence permanent permit 5 years carta soggiorno A2 test assegno sociale lungo periodo',
+    },
+    {
+      title: 'Il permesso UE per soggiornanti di lungo periodo',
+      url: '/it/non-eu/long-term-residence',
+      type: 'Pagina (IT)',
+      text: 'soggiornanti lungo periodo permesso permanente 5 anni carta soggiorno test A2 assegno sociale',
+    },
+    {
       title: 'The full journey checklist',
       url: '/checklist',
       type: 'Page',

@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const sources = [
+  { title: 'MUR — Procedure per studenti internazionali, a.a. 2026-2027 e 2027-2028 (PDF, Universitaly)', url: 'https://universitaly-private.cineca.it/uploads/universitaly-pubblico/Circolare_2026-2027_studenti_internazionali.pdf' },
+  { title: 'Normattiva — DPR 394/1999, art. 14 (lavoro part-time e conversione)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1999-08-31;394~art14!vig=' },
+  { title: 'Normattiva — D.Lgs. 286/1998, art. 39-bis.1 (permesso ricerca lavoro post-laurea)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art39bis.1!vig=' },
+  { title: "Ambasciata d'Italia Tel Aviv — Study visas, a.a. 2026-2027", url: 'https://ambtelaviv.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/visti/visti-studio-procedura-per-limmatricolazione-e-visti-anno-accademico-2025-2026/' },
+  { title: 'Normattiva — L. 213/2023, art. 1 commi 240-241 (contributo SSN studenti)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2023-12-30;213~art1!vig=' },
+];
+const checklist = [
+  'Preiscrizione su Universitaly convalidata dalla tua università (un corso, un ateneo, per anno accademico)',
+  '10.179,85 € per l’anno accademico (≈ 848,25 €/mese, a.a. 2026–27) da fonti lecite e tracciabili — tue o di familiari fino al 4° grado; una borsa di studio conta solo se già assegnata',
+  'Alloggio idoneo (la semplice idoneità a un posto in residenza universitaria non basta)',
+  'Assicurazione sanitaria valida in Italia senza massimali sui ricoveri urgenti (o dichiarazione di accordo bilaterale)',
+  'Fondi per il rimpatrio o biglietto di ritorno, oltre ai mezzi di sussistenza',
+  'Il titolo di studio: diploma dopo 12+ anni di scolarità, oppure attestazione CIMEA / Dichiarazione di Valore per l’accesso ai cicli successivi',
+];
+---
+
+<BaseLayout
+  title="Il visto per studio (università)"
+  description="Il visto tipo D per studio: preiscrizione su Universitaly, i 10.179,85 € di mezzi di sussistenza, le 20 ore di lavoro a settimana e il permesso post-laurea per cercare lavoro."
+  alternates={{ en: '/non-eu/study-visa', it: '/it/non-eu/study-visa' }}
+  ogImage="/og/it/study-visa.png"
+>
+  <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
+    <a href="/it" class="hover:text-ink">Home</a>
+    <span class="px-1">/</span>
+    <a href="/it/non-eu" class="hover:text-ink">Cittadini non UE</a>
+    <span class="px-1">/</span>
+    <span class="text-ink">Visto per studio</span>
+  </nav>
+
+  <div class="prose">
+    <h1>Il visto per studio (università)</h1>
+    <p>
+      Gli studenti non UE che restano oltre 90 giorni hanno bisogno del visto tipo D
+      <strong>"STUDIO – Immatricolazione Università"</strong>. Tutto il percorso
+      passa da un portale — <strong>Universitaly</strong> — e da un regolamento
+      riemesso ogni anno, la circolare MUR per gli studenti internazionali
+      (attualmente l'edizione a.a. 2026–27/2027–28). Fatti verificati il
+      <time datetime="2026-07-22">22 luglio 2026</time>; orientamento, non
+      consulenza legale.
+    </p>
+
+    <h2>I requisiti</h2>
+    <ul>
+      {checklist.map((item) => <li>{item}</li>)}
+    </ul>
+
+    <h2>Come funziona</h2>
+    <ol>
+      <li><strong>Preiscriviti su Universitaly</strong>; l'università convalida la domanda sul portale — senza convalida il consolato non rilascia il visto.</li>
+      <li>Domanda in consolato (per l'a.a. 2026/27: entro il <strong>30 novembre 2026</strong>; rilievi dattiloscopici obbligatori per i visti nazionali da gennaio 2025, con alcune nazionalità esenti). Il visto è rilasciato per <strong>365 giorni, ingressi multipli</strong>.</li>
+      <li>Entro <strong>8 giorni lavorativi dall'arrivo</strong>, chiedi il <strong>permesso di soggiorno per studio</strong> in Questura (kit postale o sportelli dell'ateneo).</li>
+      <li><strong>Rinnovo annuale legato al profitto</strong>: almeno un esame superato il primo anno, due negli anni successivi (uno basta per gravi motivi documentati). Rinnovabile per i cicli successivi più un anno.</li>
+    </ol>
+
+    <h2>Lavoro, sanità e dopo la laurea</h2>
+    <ul>
+      <li><strong>Lavoro</strong>: il permesso per studio consente lavoro subordinato fino a <strong>20 ore a settimana</strong>, massimo 1.040 ore l'anno (DPR 394/1999, art. 14).</li>
+      <li><strong>Sanità</strong>: gli studenti possono iscriversi volontariamente al SSN da <strong>700 € l'anno</strong> (L. 213/2023), con pagamento via F24 — vedi la nostra <a href="/it/eu-citizens/residency/servizio-sanitario">guida al SSN</a>.</li>
+      <li><strong>Dopo la laurea</strong>: conversione in permesso di lavoro, oppure il <strong>permesso di 9–12 mesi per ricerca lavoro o imprenditorialità</strong> (art. 39-bis.1 TU) per i laureati in Italia — a sua volta convertibile.</li>
+      <li>Gli anni da studente contano verso la <a href="/it/non-eu/long-term-residence">residenza di lungo periodo</a> solo con sfumature — non si può fare domanda mentre si soggiorna per studio.</li>
+    </ul>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Fonti</h2>
+    <p class="mt-1 text-sm text-muted">
+      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e verificata il 22 luglio 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

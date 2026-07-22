@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Orientation page on family reunification for non-EU sponsors (TU arts.
+// 28-30). Facts verified 2026-07-22 against the fetched official sources
+// below. Distinct from the EU-citizen family route (D.Lgs. 30/2007).
+const sources = [
+  { title: 'Normattiva — D.Lgs. 286/1998, artt. 28, 29, 29-bis, 30 (testo vigente)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art29!vig=' },
+  { title: 'Prefettura di Chieti — Ricongiungimento familiare (vademecum + income table)', url: 'https://prefettura.interno.gov.it/it/prefetture/chieti/ricongiungimento-familiare' },
+  { title: 'Prefettura di Pordenone — Guida al ricongiungimento familiare', url: 'https://prefettura.interno.gov.it/it/prefetture/pordenone/immigrazione-guida-ricongiungimento-familiare' },
+  { title: 'Polizia di Stato — Motivi familiari: ricongiungimento e coesione (PDF)', url: 'https://questure.poliziadistato.it/statics/16/famiglia-o-coesione.pdf?lang=it' },
+  { title: 'Integrazione Migranti — Permesso di soggiorno per motivi familiari', url: 'https://integrazionemigranti.gov.it/it-it/Ricerca-news/Dettaglio-news/id/3404/Permesso-di-soggiorno-per-motivi-familiari-chi-ne-ha-diritto-Cosa-succede-in-caso-di-separazione-' },
+];
+---
+
+<BaseLayout
+  title="Family reunification (non-EU sponsors)"
+  description="How a non-EU resident brings family to Italy under art. 29 TU: who qualifies, the income and housing tests, the 150-day nulla osta, and the family permit's work rights."
+  alternates={{ en: '/non-eu/family-reunification', it: '/it/non-eu/family-reunification' }}
+  ogImage="/og/family-reunification.png"
+>
+  <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
+    <a href="/" class="hover:text-ink">Home</a>
+    <span class="px-1">/</span>
+    <a href="/non-eu" class="hover:text-ink">Non-EU citizens</a>
+    <span class="px-1">/</span>
+    <span class="text-ink">Family reunification</span>
+  </nav>
+
+  <div class="prose">
+    <h1>Family reunification (non-EU sponsors)</h1>
+    <p>
+      This is the <strong>ordinary-immigration route</strong> (art. 29 of the
+      immigration code) for a non-EU resident of Italy who wants to bring family
+      from abroad. It is <strong>not</strong> the route for family of EU citizens —
+      they use the far more favourable free-movement rules on our
+      <a href="/eu-citizens/residency/familiari-non-ue">non-EU family of EU
+      citizens</a> page. Facts verified
+      <time datetime="2026-07-22">22 July 2026</time>; orientation, not legal advice.
+    </p>
+
+    <h2>Who can sponsor, and for whom</h2>
+    <p>
+      You can sponsor if you hold a long-term/Blue Card permit or a permesso of
+      <strong>at least one year</strong> (work, asylum, study, religious, family).
+      A recent amendment adds a threshold: <strong>two years of uninterrupted
+      legal residence</strong> before reunifying anyone other than minor children
+      (international-protection holders are exempt). You can bring: your
+      <strong>spouse</strong> (18+, not legally separated), <strong>minor
+      children</strong>, dependent adult children only where total invalidity
+      prevents self-support, and <strong>dependent parents</strong> (with no other
+      children at home, or over 65 with documented reasons).
+    </p>
+
+    <h2>The two tests: income and housing</h2>
+    <ul>
+      <li>
+        <strong>Income</strong> ≥ the annual assegno sociale <strong>+ 50% per
+        family member</strong> reunified (2× for two or more children under 14).
+        On the 2025 table that meant €10,504.26 for one family member,
+        €14,005.68 for two — the base amount is re-indexed every January, so
+        check your prefettura's current table. Refugees are exempt.
+      </li>
+      <li>
+        <strong>Housing</strong>: a certificate of <em>idoneità alloggiativa</em>
+        from your comune (hygiene and habitability standards; valid 6 months),
+        plus your title to the dwelling. For parents over 65, health insurance or
+        voluntary SSN enrolment is also required.
+      </li>
+    </ul>
+
+    <h2>How it works</h2>
+    <ol>
+      <li>You file <strong>online only</strong>, on the Interior Ministry's <strong>Portale ALI</strong> (SPID/CIE), addressed to the Sportello Unico per l'Immigrazione at your prefettura.</li>
+      <li>The <strong>nulla osta</strong> is due within <strong>150 days</strong> (extended from 90 in 2025; document requests pause the clock).</li>
+      <li>Your family member presents it to the Italian consulate <strong>within 6 months</strong> and applies for the reunification visa — the consulate verifies the family ties (legalised documents; DNA testing as fallback).</li>
+      <li>After entry: presence declaration within 48 hours, Sportello Unico appointment within 8 days, then the <strong>permesso per motivi familiari</strong> via the postal kit.</li>
+    </ol>
+
+    <h2>What the family permit gives</h2>
+    <p>
+      The family permit lasts <strong>as long as the sponsor's permit</strong> and
+      renews with it — and it allows <strong>employed and self-employed work from
+      day one</strong>, plus study and welfare access (art. 30). After divorce,
+      the sponsor's death, or a child turning 18, it can be converted to a work or
+      study permit. And if your family member is <em>already</em> legally in Italy,
+      skip the whole nulla osta procedure: <strong>coesione familiare</strong> at
+      the Questura converts their existing permit directly.
+    </p>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Sources</h2>
+    <p class="mt-1 text-sm text-muted">
+      Primary, official sources this page is based on — each fetched and checked on 22 July 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

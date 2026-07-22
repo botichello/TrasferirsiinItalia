@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Orientation page on the EU long-term residence permit (art. 9 TU) — the
+// destination of the "5-year path" the visa pages reference. Facts verified
+// 2026-07-22 against the fetched official sources below.
+const sources = [
+  { title: 'Normattiva — D.Lgs. 286/1998, art. 9 (testo vigente)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art9!vig=' },
+  { title: 'Polizia di Stato — Permesso di soggiorno UE per soggiornanti di lungo periodo', url: 'https://www.poliziadistato.it/articolo/permesso-di-soggiorno-ue-per-soggiornanti-di-lungo-periodo.--carta-di-soggiorno-per-cittadini-stranieri' },
+  { title: 'INPS — Circolare n. 153/2025, Allegato 2 (importi 2026)', url: 'https://www.inps.it/content/dam/inps-site/it/scorporati/circolari-e-messaggi/2025/12/Circolare_15109/Allegati/16486_Circolare-numero-153-del-19-12-2025_Allegato-n-2.pdf' },
+  { title: "Ministero dell'Interno — Test di conoscenza della lingua italiana", url: 'https://www.interno.gov.it/it/temi/immigrazione-e-asilo/modalita-dingresso/test-conoscenza-lingua-italiana' },
+  { title: 'DM 4 giugno 2010 — Modalità di svolgimento del test (PDF)', url: 'https://www.interno.gov.it/sites/default/files/allegati/2014_06_24_dm_24062014_test_italiano.pdf' },
+];
+---
+
+<BaseLayout
+  title="The EU long-term residence permit"
+  description="After 5 years in Italy: the permanent EU long-term permit (art. 9 TU) — income floor, the A2 Italian test, continuity rules, and the rights it locks in."
+  alternates={{ en: '/non-eu/long-term-residence', it: '/it/non-eu/long-term-residence' }}
+  ogImage="/og/long-term-residence.png"
+>
+  <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
+    <a href="/" class="hover:text-ink">Home</a>
+    <span class="px-1">/</span>
+    <a href="/non-eu" class="hover:text-ink">Non-EU citizens</a>
+    <span class="px-1">/</span>
+    <span class="text-ink">Long-term residence</span>
+  </nav>
+
+  <div class="prose">
+    <h1>The EU long-term residence permit</h1>
+    <p>
+      Five years of legal residence unlock the <strong>permesso di soggiorno UE
+      per soggiornanti di lungo periodo</strong> (art. 9 TU) — the permanent
+      status every temporary permit builds toward. Facts verified
+      <time datetime="2026-07-22">22 July 2026</time>; orientation, not legal advice.
+    </p>
+
+    <h2>Who qualifies</h2>
+    <ul>
+      <li>A valid permit held for <strong>at least 5 years</strong>. Short-stay and diplomatic periods never count, and you cannot apply while residing on a study/vocational permit, temporary protection, or the "special cases" permits. (A "study years count half" rule circulates online — <strong>it is not in art. 9</strong>; Italy did not transpose that directive option.)</li>
+      <li>Income of at least the annual assegno sociale — <strong>€7,101.12 for 2026</strong> (provisional INPS revaluation; re-indexed every January). Family applications use the family-reunification income scale plus suitable housing.</li>
+      <li>The <strong>A2 Italian test</strong> (pass mark 80%), booked online via the prefettura portal — with broad exemptions: under-14s, A2+ certificates from the four certifying bodies, Italian diplomas or university attendance, research-permit and international-protection holders, certified learning impairments.</li>
+      <li>No public-order or state-security concerns.</li>
+    </ul>
+
+    <h2>Continuity: how absences count</h2>
+    <p>
+      The 5 years survive absences shorter than <strong>6 consecutive
+      months</strong> and totalling <strong>no more than 10 months</strong> overall
+      (longer excusable for military service, serious health reasons, or other
+      proven serious grounds). After issuance, the status is lost only by absence
+      from the <strong>EU for 12 consecutive months</strong> or from
+      <strong>Italy for 6 years</strong> — and can be reacquired after just 3
+      years of new residence.
+    </p>
+
+    <h2>What it gives you</h2>
+    <ul>
+      <li><strong>Permanent status</strong>: the 10-year card renewal is a document update, not a re-test of the requirements.</li>
+      <li>Any <strong>employed or self-employed work</strong>, no work-contract formalities.</li>
+      <li>Equal access to social assistance, social security, health, education, and public housing (tied to actual residence in Italy).</li>
+      <li><strong>EU mobility</strong>: stays over 3 months in other member states to work or study, under the mirrored EU rules.</li>
+      <li>The strongest expulsion protection short of citizenship — only serious public-order or state-security grounds, weighed against age, ties, and length of stay.</li>
+    </ul>
+
+    <h2>How to apply</h2>
+    <ol>
+      <li>Pass (or be exempt from) the A2 test — the result reaches the Questura electronically; retakes only after 90 days.</li>
+      <li>Apply via the <strong>Poste Italiane kit</strong> (or at participating comuni/patronati) with passport copy, tax returns and payslips, criminal-record certificates, and residence/family certificates.</li>
+      <li>Costs: €30.46 electronic permit + €16 marca da bollo + €30 registered mail. Issuance is due within <strong>90 days</strong>.</li>
+    </ol>
+    <p>
+      Both the <a href="/non-eu/digital-nomad">digital-nomad</a> and
+      <a href="/non-eu/elective-residence">elective-residence</a> routes lead here —
+      as does the EU-citizen journey's
+      <a href="/eu-citizens/residency/familiari-non-ue">family residence card</a>,
+      via its own 5-year rule.
+    </p>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Sources</h2>
+    <p class="mt-1 text-sm text-muted">
+      Primary, official sources this page is based on — each fetched and checked on 22 July 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

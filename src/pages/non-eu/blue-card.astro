@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Orientation page on the EU Blue Card (art. 27-quater TU, post-2023 reform).
+// Facts verified 2026-07-22 against the fetched official sources below.
+const sources = [
+  { title: 'Normattiva — D.Lgs. 286/1998, art. 27-quater (testo vigente)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art27quater!vig=' },
+  { title: 'Normattiva — D.Lgs. 286/1998, art. 9-ter (lungo periodo per titolari di Carta blu UE)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art9ter!vig=' },
+  { title: "Integrazione Migranti — Cos'è e come si richiede la carta blu UE (FAQ)", url: 'https://integrazionemigranti.gov.it/it-it/Ricerca-news/Dettaglio-news/id/1978/Cose-e-come-si-richiede-la-carta-blue-Ue' },
+  { title: 'Integrazione Migranti — Carta blu UE, le nuove regole (2024)', url: 'https://integrazionemigranti.gov.it/it-it/Ricerca-news/Dettaglio-news/id/3730/Carta-blu-Ue-le-nuove-regole-per-i-lavoratori-stranieri-piu-qualificati' },
+  { title: 'Integrazione Migranti — Nulla osta entro 30 giorni (legge semplificazione, 2025)', url: 'https://integrazionemigranti.gov.it/it-it/Ricerca-news/Dettaglio-news/id/4515/Nulla-osta-entro-30-giorni-per-i-lavoratori-formati-allestero-o-altamente-qualificati-carta-blu' },
+];
+const checklist = [
+  'One of: a 3-year tertiary degree, a ≥3-year post-secondary qualification (EQF level 6), regulated-profession recognition, 5 years of comparable professional experience, or 3 of the last 7 years in ICT-specialist roles',
+  'A contract proposal or binding job offer of at least 6 months for a highly qualified role',
+  'Gross annual salary at least at the collective-agreement (CCNL) level and not below the ISTAT average gross annual salary (≈ €36,300 per the ministry FAQ)',
+  'Qualification documents legalised/apostilled with Italian translation (Dichiarazione di Valore or CIMEA attestation for degrees); experience proven by contracts and payslips',
+];
+---
+
+<BaseLayout
+  title="The EU Blue Card in Italy"
+  description="The Blue Card after the 2023 reform: experience can replace a degree, ≈€36,300 salary bar, 30-day nulla osta outside the quotas, and the 5-EU-year path to permanence."
+  alternates={{ en: '/non-eu/blue-card', it: '/it/non-eu/blue-card' }}
+  ogImage="/og/blue-card.png"
+>
+  <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
+    <a href="/" class="hover:text-ink">Home</a>
+    <span class="px-1">/</span>
+    <a href="/non-eu" class="hover:text-ink">Non-EU citizens</a>
+    <span class="px-1">/</span>
+    <span class="text-ink">EU Blue Card</span>
+  </nav>
+
+  <div class="prose">
+    <h1>The EU Blue Card in Italy</h1>
+    <p>
+      The <strong>Carta blu UE</strong> (art. 27-quater TU, rewritten in 2023 to
+      implement Directive 2021/1883) is the main work route for highly qualified
+      non-EU hires — <strong>outside the decreto flussi quotas</strong>, with no
+      click-days. Facts verified <time datetime="2026-07-22">22 July 2026</time>;
+      orientation, not legal advice.
+    </p>
+
+    <h2>The requirements</h2>
+    <ul>
+      {checklist.map((item) => <li>{item}</li>)}
+    </ul>
+    <p>
+      Two things the 2023 reform changed that older articles miss: <strong>a
+      degree is no longer mandatory</strong> (five years of comparable experience
+      qualifies — three for ICT specialists), and the minimum offer length dropped
+      to <strong>6 months</strong>. There is no fixed euro salary floor in the law:
+      the bar is the collective agreement plus the ISTAT average wage.
+    </p>
+
+    <h2>How it works</h2>
+    <ol>
+      <li>Your <strong>employer</strong> files the nulla osta (modello BC) with the Sportello Unico — decision due within <strong>30 days</strong> since the 2025 simplification law. A labour-market check applies, waived if you already hold a highly-qualified-work permit.</li>
+      <li>With the nulla osta, you get the <strong>type D visa</strong> at the consulate — or, if you are already legally in Italy (including on study, research, or protection permits), you can apply <strong>without leaving</strong>.</li>
+      <li>The Questura issues the permesso "Carta blu UE": <strong>2 years</strong> with a permanent contract, otherwise contract length + 3 months; renewable.</li>
+    </ol>
+
+    <h2>Rights and the road to permanence</h2>
+    <ul>
+      <li><strong>First 12 months</strong>: you work the highly qualified job the card was issued for; employer changes need labour-inspectorate authorisation (silent assent in 15 days). After that, equal treatment with nationals — parallel self-employment included.</li>
+      <li><strong>Losing the job doesn't lose the card</strong>: registered job-seeking is protected, with at least a year to find new work.</li>
+      <li><strong>Family</strong>: reunification regardless of the card's duration, with family permits issued alongside (the general 2-year prior-residence rule for spouses/parents has no verified Blue Card carve-out — check your prefettura's current practice).</li>
+      <li><strong>EU mobility</strong>: short assignments in Italy on another state's Blue Card (90 days in 180), and easier long-term moves after 12 months elsewhere.</li>
+      <li><strong>Permanence, faster in spirit</strong>: a dedicated route (art. 9-ter) grants <a href="/non-eu/long-term-residence">EU long-term residence</a> after <strong>5 years as a Blue Card holder across member states</strong> — cumulated, with the last 2 years in Italy.</li>
+    </ul>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Sources</h2>
+    <p class="mt-1 text-sm text-muted">
+      Primary, official sources this page is based on — each fetched and checked on 22 July 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

@@ -55,6 +55,8 @@ export const GET: APIRoute = async ({ site }) => {
     `- [Italy's student visa](${base}/non-eu/study-visa): Universitaly pre-enrolment, subsistence figure, work allowance, post-graduation permit.`,
     `- [Family reunification (non-EU sponsors)](${base}/non-eu/family-reunification): art. 29 TU — income/housing tests, 150-day nulla osta, family permit rights.`,
     `- [EU long-term residence permit](${base}/non-eu/long-term-residence): the permanent status after 5 years (art. 9 TU) — requirements and rights.`,
+    `- [EU Blue Card](${base}/non-eu/blue-card): highly qualified work outside the quotas (art. 27-quater, post-2023 rules).`,
+    `- [Italian citizenship](${base}/citizenship): residence (4 years EU / 10 non-EU), marriage, and descent after the 2025 reform.`,
     '',
     '## About & methodology',
     `- [About](${base}/about): what this reference is and who it's for.`,

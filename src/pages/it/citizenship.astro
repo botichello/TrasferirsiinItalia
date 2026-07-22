@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const sources = [
+  { title: 'Normattiva — L. 91/1992 (testo vigente: artt. 3-bis, 5, 9, 9.1, 9-bis, 11, 14)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1992-02-05;91!vig=' },
+  { title: 'Normattiva — D.L. 36/2025 (riforma iure sanguinis, conv. L. 74/2025)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2025-03-28;36!vig=' },
+  { title: "Ministero dell'Interno (DLCI) — Concessione per residenza (art. 9)", url: 'https://libertaciviliimmigrazione.dlci.interno.gov.it/temi/concessione-della-cittadinanza-italiana-residenza-sul-territorio-italiano-ai-sensi-dellart-9' },
+  { title: 'DLCI — Vademecum concessione cittadinanza (23 aprile 2025, PDF)', url: 'https://libertaciviliimmigrazione.dlci.interno.gov.it/sites/default/files/2025-06/vademecum_23_aprile_2025.pdf' },
+  { title: "Ministero dell'Interno — Cittadinanza: invia la tua domanda", url: 'https://www.interno.gov.it/it/temi/cittadinanza-e-altri-diritti-civili/cittadinanza/cittadinanza-invia-tua-domanda' },
+  { title: 'Consolato Generale San Francisco — Citizenship by descent (iure sanguinis)', url: 'https://conssanfrancisco.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/cittadinanza/citizenship-by-descent-iure-sanguinis/' },
+];
+const ladder = [
+  ['Cittadino UE', '4 anni'],
+  ['Cittadino non UE', '10 anni'],
+  ['Apolide o rifugiato', '5 anni'],
+  ['Discendente (fino al 2° grado) di cittadino per nascita', '2 anni'],
+  ['Nato in Italia', '3 anni'],
+  ['Maggiorenne adottato da cittadino italiano', '5 anni dall’adozione'],
+];
+---
+
+<BaseLayout
+  title="Cittadinanza italiana: l'orientamento onesto"
+  description="Cittadinanza per residenza (4 anni per i cittadini UE, 10 per i non UE), per matrimonio e per discendenza dopo la riforma 2025 — le regole attuali, verificate su fonti ufficiali."
+  alternates={{ en: '/citizenship', it: '/it/citizenship' }}
+  ogImage="/og/it/citizenship.png"
+>
+  <div class="prose">
+    <h1>Cittadinanza italiana: l'orientamento onesto</h1>
+    <p>
+      La legge sulla cittadinanza (L. 91/1992) è cambiata in modo significativo nel
+      2025, e molto di ciò che circola online è ormai superato. Questa pagina dà le
+      regole attuali per le tre vie principali, verificate il
+      <time datetime="2026-07-22">22 luglio 2026</time> sulle fonti ufficiali in
+      fondo. Orientamento, non consulenza legale.
+    </p>
+
+    <h2>Per residenza (naturalizzazione)</h2>
+    <p>Gli anni di <strong>residenza legale ininterrotta e registrata all'anagrafe</strong> necessari:</p>
+  </div>
+
+  <div class="mt-4 max-w-lg overflow-x-auto">
+    <table class="w-full border-collapse text-sm">
+      <tbody>
+        {
+          ladder.map(([who, years]) => (
+            <tr class="border-b border-line">
+              <td class="py-2 pr-4">{who}</td>
+              <td class="py-2 font-medium text-brand-700 whitespace-nowrap">{years}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose mt-6">
+    <p>
+      Nota le due correzioni 2025 rispetto alle credenze diffuse: per i discendenti
+      di cittadini italiani ora bastano <strong>2 anni</strong> (non i 3 spesso
+      citati), e "nato in Italia" è una categoria a sé da 3 anni. Oltre agli anni
+      servono: <strong>italiano B1</strong> (certificato riconosciuto; esenti i
+      titolari di permesso di lungo periodo e chi ha gravi limitazioni certificate —
+      i cittadini UE <em>non</em> sono esenti); redditi degli ultimi tre anni sopra
+      circa <strong>8.263,31 €</strong> (11.362,05 € con coniuge a carico, +516 €
+      per figlio a carico, secondo il Vademecum ministeriale 2025); e fedina penale
+      pulita. La domanda si presenta online sul portale DLCI con SPID/CIE, con
+      contributo di <strong>250 €</strong>; la decisione è dovuta entro
+      <strong>24 mesi, prorogabili a 36</strong>. La concessione è discrezionale. I
+      figli minori conviventi acquistano con te — dal 2025 solo se legalmente
+      residenti in Italia da 2 anni (o dalla nascita).
+    </p>
+
+    <h2>Per matrimonio</h2>
+    <p>
+      Il coniuge di cittadino italiano matura il diritto dopo <strong>2 anni di
+      residenza legale in Italia dal matrimonio</strong> (o 3 anni se residente
+      all'estero) — <strong>dimezzati in presenza di figli</strong>. A differenza
+      della naturalizzazione è un diritto, non una concessione discrezionale, ma
+      B1 e contributo di 250 € valgono ugualmente.
+    </p>
+
+    <h2>Per discendenza (iure sanguinis) — la riforma 2025</h2>
+    <p>
+      Dal <strong>29 marzo 2025</strong> (D.L. 36/2025, convertito con modifiche
+      dalla L. 74/2025), chi è <strong>nato all'estero con un'altra
+      cittadinanza</strong> è riconosciuto italiano per discendenza solo se: la sua
+      domanda (o un appuntamento consolare già prenotato) era presentata entro il
+      <strong>27 marzo 2025</strong> — in quel caso valgono le vecchie regole senza
+      limiti; oppure un <strong>genitore o nonno ha, o aveva alla morte,
+      esclusivamente la cittadinanza italiana</strong>; oppure un genitore ha
+      <strong>risieduto in Italia per 2 anni continuativi</strong> dopo l'acquisto
+      della cittadinanza e prima della nascita. Attenzione: il criterio del "nonno
+      nato in Italia" riportato da molti siti era nel decreto originale ma è stato
+      <strong>sostituito in sede di conversione</strong> — verifica la prassi sulle
+      pagine consolari.
+    </p>
+
+    <h2>Da sapere</h2>
+    <ul>
+      <li><strong>La doppia cittadinanza è ammessa</strong> dal lato italiano (art. 11) — verifica le regole del tuo paese.</li>
+      <li>Il conteggio richiede <strong>iscrizione anagrafica per tutto il periodo</strong> — un motivo per <a href="/it/eu-citizens/residency/iscrizione-anagrafica">registrarsi presto</a> e senza interruzioni.</li>
+      <li>Per i residenti non UE, il <a href="/it/non-eu/long-term-residence">permesso di lungo periodo</a> al quinto anno è la tappa naturale verso il decimo.</li>
+    </ul>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Fonti</h2>
+    <p class="mt-1 text-sm text-muted">
+      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e verificata il 22 luglio 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

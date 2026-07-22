@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Orientation page on Italian citizenship (L. 91/1992 as amended, incl. the
+// 2025 iure sanguinis reform). Facts verified 2026-07-22 against the fetched
+// official sources below. Serves both EU and non-EU readers.
+const sources = [
+  { title: 'Normattiva — L. 91/1992 (testo vigente: artt. 3-bis, 5, 9, 9.1, 9-bis, 11, 14)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1992-02-05;91!vig=' },
+  { title: 'Normattiva — D.L. 36/2025 (riforma iure sanguinis, conv. L. 74/2025)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2025-03-28;36!vig=' },
+  { title: "Ministero dell'Interno (DLCI) — Concessione per residenza (art. 9)", url: 'https://libertaciviliimmigrazione.dlci.interno.gov.it/temi/concessione-della-cittadinanza-italiana-residenza-sul-territorio-italiano-ai-sensi-dellart-9' },
+  { title: 'DLCI — Vademecum concessione cittadinanza (23 aprile 2025, PDF)', url: 'https://libertaciviliimmigrazione.dlci.interno.gov.it/sites/default/files/2025-06/vademecum_23_aprile_2025.pdf' },
+  { title: "Ministero dell'Interno — Cittadinanza: invia la tua domanda", url: 'https://www.interno.gov.it/it/temi/cittadinanza-e-altri-diritti-civili/cittadinanza/cittadinanza-invia-tua-domanda' },
+  { title: "Consolato Generale San Francisco — Citizenship by descent (iure sanguinis)", url: 'https://conssanfrancisco.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/cittadinanza/citizenship-by-descent-iure-sanguinis/' },
+];
+const ladder = [
+  ['EU citizen', '4 years'],
+  ['Non-EU citizen', '10 years'],
+  ['Stateless person or refugee', '5 years'],
+  ['Descendant (≤2nd degree) of a citizen by birth', '2 years'],
+  ['Born in Italy', '3 years'],
+  ['Adult adopted by an Italian citizen', '5 years after adoption'],
+];
+---
+
+<BaseLayout
+  title="Italian citizenship: the honest orientation"
+  description="Citizenship by residence (4 years for EU citizens, 10 non-EU), by marriage, and by descent after the 2025 reform — the current rules, verified on official sources."
+  alternates={{ en: '/citizenship', it: '/it/citizenship' }}
+  ogImage="/og/citizenship.png"
+>
+  <div class="prose">
+    <h1>Italian citizenship: the honest orientation</h1>
+    <p>
+      Citizenship law (L. 91/1992) changed significantly in 2025, and much of what
+      circulates online is now outdated. This page gives the current rules for the
+      three main routes, each verified on
+      <time datetime="2026-07-22">22 July 2026</time> against the official sources
+      below. Orientation, not legal advice.
+    </p>
+
+    <h2>By residence (naturalization)</h2>
+    <p>The years of <strong>uninterrupted, anagrafe-registered legal residence</strong> you need:</p>
+  </div>
+
+  <div class="mt-4 max-w-lg overflow-x-auto">
+    <table class="w-full border-collapse text-sm">
+      <tbody>
+        {
+          ladder.map(([who, years]) => (
+            <tr class="border-b border-line">
+              <td class="py-2 pr-4">{who}</td>
+              <td class="py-2 font-medium text-brand-700 whitespace-nowrap">{years}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose mt-6">
+    <p>
+      Note the two 2025 corrections to common knowledge: descendants of Italian
+      citizens now need <strong>2 years</strong> (not the widely-quoted 3), and
+      "born in Italy" is its own 3-year category. On top of the years you need:
+      <strong>B1 Italian</strong> (recognised certificate; long-term-permit holders
+      and certified serious learning limitations are exempt — EU citizens are
+      not); income over the last three years above roughly
+      <strong>€8,263.31</strong> (€11,362.05 with a dependent spouse, +€516 per
+      dependent child, per the 2025 ministry Vademecum); and clean records. You
+      apply online on the DLCI portal with SPID/CIE, pay <strong>€250</strong>,
+      and wait: the decision is due within <strong>24 months, extendable to
+      36</strong>. The grant is discretionary. Cohabiting minor children acquire
+      with you — since 2025, only if they've legally resided in Italy for 2 years
+      (or since birth).
+    </p>
+
+    <h2>By marriage</h2>
+    <p>
+      The spouse of an Italian citizen qualifies after <strong>2 years of legal
+      residence in Italy from the marriage</strong> (or 3 years if residing
+      abroad) — <strong>halved if you have children</strong> together. Unlike
+      naturalization it is an entitlement, not a discretionary grant, but the B1
+      requirement and €250 contribution apply equally.
+    </p>
+
+    <h2>By descent (iure sanguinis) — the 2025 reform</h2>
+    <p>
+      Since <strong>29 March 2025</strong> (D.L. 36/2025, converted with changes
+      by L. 74/2025), a person <strong>born abroad with another citizenship</strong>
+      is recognised as Italian by descent only if: their application (or a booked
+      consular appointment) was already in by <strong>27 March 2025</strong> —
+      those keep the old unlimited rules; or a <strong>parent or grandparent
+      holds, or held at death, exclusively Italian citizenship</strong>; or a
+      parent <strong>lived in Italy for 2 continuous years</strong> after acquiring
+      citizenship and before the birth. Beware: the "grandparent born in Italy"
+      test reported by many sites was in the original decree but was
+      <strong>replaced at conversion</strong> — check the consulate pages for
+      current practice.
+    </p>
+
+    <h2>Worth knowing</h2>
+    <ul>
+      <li><strong>Dual citizenship is allowed</strong> on the Italian side (art. 11) — check your home country's rules.</li>
+      <li>The residence clock needs <strong>anagrafe registration the whole time</strong> — a reason to <a href="/eu-citizens/residency/iscrizione-anagrafica">register early</a> and keep it unbroken.</li>
+      <li>For non-EU residents, <a href="/non-eu/long-term-residence">EU long-term residence</a> at year 5 is the natural staging post on the way to year 10.</li>
+    </ul>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Sources</h2>
+    <p class="mt-1 text-sm text-muted">
+      Primary, official sources this page is based on — each fetched and checked on 22 July 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

@@ -144,6 +144,30 @@ export const GET: APIRoute = async () => {
       text: 'soggiornanti lungo periodo permesso permanente 5 anni carta soggiorno test A2 assegno sociale',
     },
     {
+      title: 'The EU Blue Card in Italy',
+      url: '/non-eu/blue-card',
+      type: 'Page',
+      text: 'blue card carta blu highly qualified work visa salary ISTAT nulla osta outside quota ICT degree experience',
+    },
+    {
+      title: 'La Carta blu UE in Italia',
+      url: '/it/non-eu/blue-card',
+      type: 'Pagina (IT)',
+      text: 'carta blu lavoro altamente qualificato retribuzione ISTAT nulla osta fuori quota ICT laurea esperienza',
+    },
+    {
+      title: 'Italian citizenship: the honest orientation',
+      url: '/citizenship',
+      type: 'Page',
+      text: 'citizenship naturalization cittadinanza 10 years 4 years EU marriage descent iure sanguinis B1 2025 reform',
+    },
+    {
+      title: "Cittadinanza italiana: l'orientamento onesto",
+      url: '/it/citizenship',
+      type: 'Pagina (IT)',
+      text: 'cittadinanza naturalizzazione 10 anni 4 anni UE matrimonio discendenza iure sanguinis B1 riforma 2025',
+    },
+    {
       title: 'The full journey checklist',
       url: '/checklist',
       type: 'Page',

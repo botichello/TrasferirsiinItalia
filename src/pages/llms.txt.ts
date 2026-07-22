@@ -51,6 +51,7 @@ export const GET: APIRoute = async ({ site }) => {
     '## Non-EU citizens (orientation)',
     `- [Not an EU citizen? Read this first](${base}/non-eu): type D visas, decreto flussi, permesso di soggiorno, and which guides still apply.`,
     `- [Italy's digital nomad visa](${base}/non-eu/digital-nomad): requirements, income floor, procedure (art. 27 q-bis).`,
+    `- [Italy's elective residence visa](${base}/non-eu/elective-residence): the passive-income route for the financially independent (DM 850/2011).`,
     '',
     '## About & methodology',
     `- [About](${base}/about): what this reference is and who it's for.`,

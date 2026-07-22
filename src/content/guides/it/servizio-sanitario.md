@@ -24,7 +24,7 @@ sources:
     accessed: 2026-07-03
   - title: "Your Europe — Assistenza sanitaria quando si vive all'estero"
     url: 'https://europa.eu/youreurope/citizens/health/when-living-abroad/health-insurance-cover/index_it.htm'
-    accessed: 2026-06-12
+    accessed: 2026-07-21
 faq:
   - q: Dove mi iscrivo?
     a: Presso la tua ASL (Azienda Sanitaria Locale) di riferimento, l'autorità sanitaria della zona in cui sei residente.
@@ -32,6 +32,8 @@ faq:
     a: È la tessera che riporta il tuo codice fiscale, rilasciata una volta iscritto al SSN. Serve per accedere a medici, prescrizioni e cure.
   - q: L'iscrizione è automatica?
     a: "Per i lavoratori e i loro familiari è gratuita e deriva dalla residenza e dalla condizione. Se sei economicamente non attivo e ti iscrivi volontariamente, dal 2024 paghi un contributo nazionale di almeno 2.000 €/anno (studenti 700 €) per l'anno solare, con scadenza al 31 dicembre; conferma l'importo con la tua ASL locale."
+  - q: Sono un pensionato UE — devo pagare il contributo volontario?
+    a: "No. Chiedi all'istituzione sanitaria dello Stato che paga la tua pensione il modello S1 e consegnalo alla tua ASL: dà diritto alla piena copertura del SSN senza contributo volontario, alle stesse condizioni dei residenti italiani."
 ---
 
 > **Quanto costa per chi è economicamente non attivo.** I lavoratori e i loro

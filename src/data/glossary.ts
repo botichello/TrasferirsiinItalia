@@ -238,6 +238,13 @@ export const glossary: GlossaryTerm[] = [
     guide: '/eu-citizens/residency/residenza-fiscale',
   },
   {
+    slug: 'modello-s1',
+    term: 'Modello S1',
+    en: 'The EU form certifying healthcare entitlement when you live outside the country that insures you — pensioners get it from the state paying their pension and register it at the ASL for full, free SSN coverage.',
+    it: 'Il modulo UE che certifica il diritto all’assistenza sanitaria quando vivi fuori dal paese che ti assicura — i pensionati lo ottengono dallo Stato che paga la pensione e lo consegnano alla ASL per la piena copertura SSN gratuita.',
+    guide: '/eu-citizens/residency/servizio-sanitario',
+  },
+  {
     slug: 'legalizzazione-apostille',
     term: 'Legalizzazione / Apostille',
     en: 'Consular legalisation, or the Hague apostille, that makes a foreign civil-status certificate (marriage, birth) valid for Italian files — the most common cause of rejected applications when missing.',

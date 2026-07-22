@@ -78,6 +78,10 @@ try {
     await page.click('[data-status-btn="student"]');
     const highlighted = await page.locator('.status-row.is-you').count();
     assert(highlighted >= 2, 'picking a situation highlights its rows', `got ${highlighted}`);
+    assert(
+      (await page.locator('[data-status-btn="pensioner"]').count()) === 1,
+      'pensioner situation present',
+    );
     await page.selectOption('[data-wizard-city]', 'firenze');
     const href = await page.locator('[data-step-link]').first().getAttribute('href');
     assert(
@@ -102,6 +106,8 @@ try {
       await page.locator('input[type="checkbox"]').first().isChecked(),
       'ticked document survives reload (localStorage)',
     );
+    const chips = await page.locator('a[href*="/glossary#"]').count();
+    assert(chips > 0, 'glossary term chips render on guide pages', `got ${chips}`);
     await page.close();
     await ctx.close();
   }
@@ -136,7 +142,20 @@ try {
     console.log('axe (WCAG 2.1 A/AA)');
     const axeSource = readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
     const page = await (await browser.newContext()).newPage();
-    for (const path of ['/', '/eu-citizens/residency/codice-fiscale', '/checklist', '/updates', '/it', '/start']) {
+    for (const path of [
+      '/',
+      '/eu-citizens/residency/codice-fiscale',
+      '/cities/firenze/residency/iscrizione-anagrafica',
+      '/regions/toscana/residency/servizio-sanitario',
+      '/non-eu',
+      '/non-eu/digital-nomad',
+      '/glossary',
+      '/checklist',
+      '/updates',
+      '/it',
+      '/it/checklist',
+      '/start',
+    ]) {
       await page.goto(BASE + path, { waitUntil: 'networkidle' });
       await page.addScriptTag({ content: axeSource });
       const violations = await page.evaluate(async () =>

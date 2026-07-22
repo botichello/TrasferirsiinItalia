@@ -19,6 +19,14 @@
     "archived": "https://web.archive.org/web/20260422055305/https://comune.ravenna.it/servizi/anagrafe-e-stato-civile/nuova-iscrizione-in-anagrafe/",
     "timestamp": "20260422055305"
   },
+  "https://comune.trapani.it/novita/residenza-in-tempo-reale/": {
+    "archived": "https://web.archive.org/web/20260422042303/https://comune.trapani.it/novita/residenza-in-tempo-reale/",
+    "timestamp": "20260422042303"
+  },
+  "https://comune.trapani.it/servizio/cambio-di-residenza/": {
+    "archived": "https://web.archive.org/web/20260511022720/https://comune.trapani.it/servizio/cambio-di-residenza/",
+    "timestamp": "20260511022720"
+  },
   "https://demografici.comune.napoli.it/": {
     "archived": "https://web.archive.org/web/20250305143035/https://demografici.comune.napoli.it/",
     "timestamp": "20250305143035"
@@ -91,6 +99,14 @@
     "archived": "https://web.archive.org/web/20260521070946/https://sportellotelematico.comune.ancona.it/action%3Ac_a271%3Acambio.abitazione.residenza%3Bresidenza",
     "timestamp": "20260521070946"
   },
+  "https://sportellotelematico.comune.ferrara.it/procedure:s_italia:cambio.abitazione.residenza;dichiarazione": {
+    "archived": "https://web.archive.org/web/20260124014417/https://sportellotelematico.comune.ferrara.it/procedure:s_italia:cambio.abitazione.residenza;dichiarazione",
+    "timestamp": "20260124014417"
+  },
+  "https://sportellotelematico.comune.ferrara.it/procedure:s_italia:iscrizione.anagrafica;attestato;cittadini.comunitari;domanda": {
+    "archived": "https://web.archive.org/web/20260124023450/https://sportellotelematico.comune.ferrara.it/procedure%3As_italia%3Aiscrizione.anagrafica%3Battestato%3Bcittadini.comunitari%3Bdomanda",
+    "timestamp": "20260124023450"
+  },
   "https://sportellotelematico.comune.lucca.it/procedure%3As_italia%3Acambio.abitazione.residenza%3Bdichiarazione": {
     "archived": "https://web.archive.org/web/20260316172523/https://sportellotelematico.comune.lucca.it/procedure%3As_italia%3Acambio.abitazione.residenza%3Bdichiarazione",
     "timestamp": "20260316172523"
@@ -152,8 +168,8 @@
     "timestamp": "20220123155258"
   },
   "https://www.asuit.tn.it/": {
-    "archived": "https://web.archive.org/web/20260720212436/https://www.asuit.tn.it/",
-    "timestamp": "20260720212436"
+    "archived": "https://web.archive.org/web/20260721144602/https://www.asuit.tn.it/",
+    "timestamp": "20260721144602"
   },
   "https://www.ats-milano.it/ats/carta-servizi/guida-servizi/assistenza-socio-sanitaria/iscrizione-ssr": {
     "archived": "https://web.archive.org/web/20260510231538/https://www.ats-milano.it/ats/carta-servizi/guida-servizi/assistenza-socio-sanitaria/iscrizione-ssr",
@@ -254,6 +270,10 @@
   "https://www.comune.como.it/servizi/Trasferimento-di-residenza-a-Como-per-italiani-comunitari-ed-extracomunitari/": {
     "archived": "https://web.archive.org/web/20260414054412/https://comune.como.it/servizi/Trasferimento-di-residenza-a-Como-per-italiani-comunitari-ed-extracomunitari/",
     "timestamp": "20260414054412"
+  },
+  "https://www.comune.fe.it/it/b/11389/anagrafe-stato-civile-elettorale": {
+    "archived": "https://web.archive.org/web/20240602142453/https://www.comune.fe.it/it/b/11389/anagrafe-stato-civile-elettorale",
+    "timestamp": "20240602142453"
   },
   "https://www.comune.firenze.it/anagrafe-e-stato-civile": {
     "archived": "https://web.archive.org/web/20251212102251/https://www.comune.firenze.it/anagrafe-e-stato-civile",
@@ -406,6 +426,18 @@
   "https://www.comune.salerno.it/servizi/cambio-di-residenza": {
     "archived": "https://web.archive.org/web/20260512223158/https://comune.salerno.it/servizi/cambio-di-residenza",
     "timestamp": "20260512223158"
+  },
+  "https://www.comune.sassari.it/it/servizi/servizio/Cambio-di-residenza/": {
+    "archived": "https://web.archive.org/web/20260515195604/https://www.comune.sassari.it/it/servizi/servizio/Cambio-di-residenza/",
+    "timestamp": "20260515195604"
+  },
+  "https://www.comune.sassari.it/it/servizi/servizio/Cittadini-comunitari-con-lavoro-autonomo/": {
+    "archived": "https://web.archive.org/web/20260514040815/https://www.comune.sassari.it/it/servizi/servizio/Cittadini-comunitari-con-lavoro-autonomo/",
+    "timestamp": "20260514040815"
+  },
+  "https://www.comune.sassari.it/it/servizi/servizio/Cittadini-comunitari-con-lavoro-subordinato/": {
+    "archived": "https://web.archive.org/web/20260514051510/https://www.comune.sassari.it/it/servizi/servizio/Cittadini-comunitari-con-lavoro-subordinato/",
+    "timestamp": "20260514051510"
   },
   "https://www.comune.siracusa.it/servizio/cambio-di-residenza": {
     "archived": "https://web.archive.org/web/20260317001355/https://www.comune.siracusa.it/servizio/cambio-di-residenza",

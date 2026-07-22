@@ -23,7 +23,7 @@ sources:
     accessed: 2026-07-03
   - title: 'Your Europe — Healthcare when living abroad'
     url: 'https://europa.eu/youreurope/citizens/health/when-living-abroad/health-insurance-cover/index_en.htm'
-    accessed: 2026-06-12
+    accessed: 2026-07-21
 faq:
   - q: Where do I enrol?
     a: At your local ASL (Azienda Sanitaria Locale), the health authority for the area where you are registered as resident.
@@ -31,6 +31,8 @@ faq:
     a: It is the health card showing your codice fiscale, issued once you are enrolled in the SSN. It is used to access doctors, prescriptions, and treatment.
   - q: Is enrolment automatic?
     a: For workers and their families it is free and follows from your residency and status. If you are economically inactive and enrol voluntarily, since 2024 you pay a national contribution of at least €2,000/year (students €700) for the calendar year, expiring 31 December — confirm your exact figure with your local ASL.
+  - q: I'm an EU pensioner — do I have to pay the voluntary contribution?
+    a: No. Ask the health institution of the state that pays your pension for form S1 and register it at your ASL — it entitles you to full SSN coverage without the voluntary contribution, on the same terms as Italian residents.
 ---
 
 > **Cost note for the economically inactive.** Workers and their families enrol

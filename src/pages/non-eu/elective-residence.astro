@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Orientation page on the elective residence visa (DM 850/2011, Allegato A
+// §13). Facts verified 2026-07-22 against the fetched official sources below.
+const sources = [
+  { title: 'Ministero degli Esteri — DM Interministeriale 850/2011, Allegato A §13 (PDF)', url: 'https://www.esteri.it/mae/normative/Normativa_Consolare/Visti/Decreto_Interministeriale_850_11-5-2011.pdf' },
+  { title: 'Consolato Generale Los Angeles — Elective Residency Visa', url: 'https://conslosangeles.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/visti/visa-type/elective-residency-visa/' },
+  { title: 'Consolato Generale New York — Elective residency', url: 'https://consnewyork.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/visti/visas-to-enter-italy/elective-residency/' },
+  { title: "Ambasciata d'Italia Al Kuwait — Residenza elettiva (soglie e maggiorazioni)", url: 'https://ambalkuwait.esteri.it/it/italia-e-kuwait/diplomazia-economica/fare-affari-in-italia/opportunita-di-investimento/387-2/' },
+  { title: 'Normattiva — D.Lgs. 286/1998, art. 34 (SSN) e art. 9 (lungo periodo)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art34!vig=' },
+];
+const checklist = [
+  'Stable passive income of at least ≈ €31,000/year (3× the Interior Ministry’s Tabella A) — pensions, annuities, property or investment income; income from work of any kind is ineligible',
+  'For family: roughly +20% for a spouse and +5% per child (some consulates instead expect ≈ €31,000 per person)',
+  'Accommodation in Italy in your name — a deed or a lease registered with the Agenzia delle Entrate (no hotel bookings or hospitality letters)',
+  'Documented evidence: bank and pension letters, two years of tax returns (some consulates ask for 12 months of statements)',
+  'Health insurance covering the stay — consular practice varies; expect to need it',
+  'A motivation letter (why Italy, where, for how long, with whom)',
+];
+---
+
+<BaseLayout
+  title="Italy's elective residence visa"
+  description="The elective residence visa for financially independent non-EU citizens: the ≈€31,000 passive-income floor, the strict no-work rule, and what really follows."
+  alternates={{ en: '/non-eu/elective-residence', it: '/it/non-eu/elective-residence' }}
+>
+  <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
+    <a href="/" class="hover:text-ink">Home</a>
+    <span class="px-1">/</span>
+    <a href="/non-eu" class="hover:text-ink">Non-EU citizens</a>
+    <span class="px-1">/</span>
+    <span class="text-ink">Elective residence visa</span>
+  </nav>
+
+  <div class="prose">
+    <h1>Italy's elective residence visa</h1>
+    <p>
+      The <strong>visto per residenza elettiva</strong> is the route for non-EU
+      citizens — typically retirees — who can live in Italy off
+      <strong>stable passive income without working</strong>. It is defined by DM
+      850/2011: you must be able to support yourself "senza esercitare alcuna
+      attività lavorativa". Facts below verified
+      <time datetime="2026-07-22">22 July 2026</time> against the official sources
+      at the bottom; orientation, not legal advice.
+    </p>
+
+    <h2>The no-work rule is absolute</h2>
+    <p>
+      Consulates are explicit: the visa <strong>does not allow any work in
+      Italy</strong>, and the qualifying income cannot come from employment —
+      several consulates exclude even self-employment income. If you plan to work
+      remotely, this is the wrong visa: that is what the
+      <a href="/non-eu/digital-nomad">digital-nomad visa</a> exists for.
+    </p>
+
+    <h2>The requirements</h2>
+    <ul>
+      {checklist.map((item) => <li>{item}</li>)}
+    </ul>
+    <p>
+      Two honest caveats, both verifiable on consular pages. First, the
+      <strong>€31,000 is a floor, not a promise</strong>: consulates describe it
+      as "a starting point" and exercise wide discretion — a complete file can
+      still be refused. Second, <strong>practice varies by consulate</strong>
+      (per-person thresholds vs. the +20%/+5% formula; insurance required or not) —
+      always check the page of the consulate that serves your residence. A fixed
+      "€38,000 for couples" figure circulating on relocation blogs appears on no
+      official page.
+    </p>
+
+    <h2>How it works</h2>
+    <ol>
+      <li>Apply <strong>in person</strong> at the Italian consulate for your residence (processing up to 90 days; discretionary). The type D visa is issued for <strong>1 year</strong>.</li>
+      <li>Within <strong>8 days of entry</strong>, apply at the Questura for the <strong>permesso di soggiorno per residenza elettiva</strong> — renewable while income and housing hold; a continuous absence of over 6 months voids renewal.</li>
+      <li>Then the usual journey: codice fiscale, anagrafe registration, and healthcare.</li>
+      <li>After <strong>5 years</strong> you can apply for the EU long-term residence permit (art. 9 TU).</li>
+    </ol>
+
+    <h2>Healthcare is not automatic</h2>
+    <p>
+      Elective residents are <strong>not</strong> in the mandatory SSN enrolment
+      categories (art. 34 TU): you either keep a health policy valid in Italy or
+      enrol in the SSN <strong>voluntarily</strong>, paying an income-based annual
+      contribution of <strong>at least €2,000</strong> — our
+      <a href="/eu-citizens/residency/servizio-sanitario">SSN guide</a> covers how
+      voluntary enrolment works.
+    </p>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Sources</h2>
+    <p class="mt-1 text-sm text-muted">
+      Primary, official sources this page is based on — each fetched and checked on 22 July 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

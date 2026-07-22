@@ -92,6 +92,7 @@ export const cities: City[] = [
   { slug: 'messina', name: 'Messina', province: 'ME', region: 'sicilia' },
   { slug: 'siracusa', name: 'Siracusa', province: 'SR', region: 'sicilia' },
   { slug: 'ragusa', name: 'Ragusa', province: 'RG', region: 'sicilia' },
+  { slug: 'trapani', name: 'Trapani', province: 'TP', region: 'sicilia' },
   // Toscana
   { slug: 'firenze', name: 'Firenze', province: 'FI', region: 'toscana' },
   { slug: 'pisa', name: 'Pisa', province: 'PI', region: 'toscana' },

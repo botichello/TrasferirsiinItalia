@@ -71,6 +71,54 @@ export const GET: APIRoute = async () => {
   }
 
   entries.push(
+    {
+      title: 'Not an EU citizen? Read this first',
+      url: '/non-eu',
+      type: 'Page',
+      text: 'non-EU third country citizens visa type D decreto flussi permesso di soggiorno questura orientation',
+    },
+    {
+      title: 'Non sei cittadino UE? Leggi prima questo',
+      url: '/it/non-eu',
+      type: 'Pagina (IT)',
+      text: 'non UE extracomunitari visto tipo D decreto flussi permesso di soggiorno questura orientamento',
+    },
+    {
+      title: "Italy's digital nomad visa",
+      url: '/non-eu/digital-nomad',
+      type: 'Page',
+      text: 'digital nomad remote worker visa freelance income threshold nulla osta quota art 27 q-bis',
+    },
+    {
+      title: 'Il visto per nomadi digitali',
+      url: '/it/non-eu/digital-nomad',
+      type: 'Pagina (IT)',
+      text: 'nomadi digitali lavoratori da remoto visto soglia reddito nulla osta fuori quota',
+    },
+    {
+      title: "Italy's elective residence visa",
+      url: '/non-eu/elective-residence',
+      type: 'Page',
+      text: 'elective residence visa retirees passive income pension 31000 no work residenza elettiva',
+    },
+    {
+      title: 'Il visto per residenza elettiva',
+      url: '/it/non-eu/elective-residence',
+      type: 'Pagina (IT)',
+      text: 'residenza elettiva pensionati redditi passivi pensione 31000 niente lavoro visto',
+    },
+    {
+      title: 'The full journey checklist',
+      url: '/checklist',
+      type: 'Page',
+      text: 'checklist printable documents all steps journey print tick off',
+    },
+    {
+      title: 'La checklist completa del percorso',
+      url: '/it/checklist',
+      type: 'Pagina (IT)',
+      text: 'checklist stampabile documenti tutti i passi percorso stampa',
+    },
     { title: 'About', url: '/about', type: 'Page', text: 'about who maintains this reference' },
     {
       title: 'How we verify',

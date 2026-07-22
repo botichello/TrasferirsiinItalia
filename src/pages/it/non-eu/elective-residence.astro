@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const sources = [
+  { title: 'Ministero degli Esteri — DM Interministeriale 850/2011, Allegato A §13 (PDF)', url: 'https://www.esteri.it/mae/normative/Normativa_Consolare/Visti/Decreto_Interministeriale_850_11-5-2011.pdf' },
+  { title: 'Consolato Generale Los Angeles — Elective Residency Visa', url: 'https://conslosangeles.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/visti/visa-type/elective-residency-visa/' },
+  { title: 'Consolato Generale New York — Elective residency', url: 'https://consnewyork.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/visti/visas-to-enter-italy/elective-residency/' },
+  { title: "Ambasciata d'Italia Al Kuwait — Residenza elettiva (soglie e maggiorazioni)", url: 'https://ambalkuwait.esteri.it/it/italia-e-kuwait/diplomazia-economica/fare-affari-in-italia/opportunita-di-investimento/387-2/' },
+  { title: 'Normattiva — D.Lgs. 286/1998, art. 34 (SSN) e art. 9 (lungo periodo)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art34!vig=' },
+];
+const checklist = [
+  'Redditi passivi stabili di almeno ≈ 31.000 €/anno (3× la Tabella A del Ministero dell’Interno) — pensioni, rendite, redditi immobiliari o da investimenti; i redditi da lavoro, di qualsiasi tipo, non contano',
+  'Per la famiglia: circa +20% per il coniuge e +5% per figlio (alcuni consolati chiedono invece ≈ 31.000 € a persona)',
+  'Alloggio in Italia a tuo nome — atto di proprietà o contratto registrato all’Agenzia delle Entrate (niente prenotazioni alberghiere o lettere di ospitalità)',
+  'Prove documentate: lettere di banca e dell’ente pensionistico, due anni di dichiarazioni dei redditi (alcuni consolati chiedono 12 mesi di estratti conto)',
+  'Assicurazione sanitaria per il soggiorno — la prassi consolare varia; aspettati che serva',
+  'Una lettera di motivazione (perché l’Italia, dove, per quanto, con chi)',
+];
+---
+
+<BaseLayout
+  title="Il visto per residenza elettiva"
+  description="Il visto per residenza elettiva per cittadini non UE economicamente indipendenti: la soglia ≈31.000 € di redditi passivi, il divieto assoluto di lavoro, e cosa segue davvero."
+  alternates={{ en: '/non-eu/elective-residence', it: '/it/non-eu/elective-residence' }}
+>
+  <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
+    <a href="/it" class="hover:text-ink">Home</a>
+    <span class="px-1">/</span>
+    <a href="/it/non-eu" class="hover:text-ink">Cittadini non UE</a>
+    <span class="px-1">/</span>
+    <span class="text-ink">Residenza elettiva</span>
+  </nav>
+
+  <div class="prose">
+    <h1>Il visto per residenza elettiva</h1>
+    <p>
+      Il <strong>visto per residenza elettiva</strong> è la via per i cittadini non
+      UE — tipicamente pensionati — che possono vivere in Italia con
+      <strong>redditi passivi stabili, senza lavorare</strong>. Lo definisce il DM
+      850/2011: devi poterti mantenere "senza esercitare alcuna attività
+      lavorativa". Fatti verificati il <time datetime="2026-07-22">22 luglio 2026</time>
+      sulle fonti ufficiali in fondo; orientamento, non consulenza legale.
+    </p>
+
+    <h2>Il divieto di lavoro è assoluto</h2>
+    <p>
+      I consolati sono espliciti: il visto <strong>non consente alcuna attività
+      lavorativa in Italia</strong>, e il reddito qualificante non può derivare da
+      lavoro dipendente — diversi consolati escludono anche il lavoro autonomo. Se
+      pensi di lavorare da remoto, questo è il visto sbagliato: per quello esiste
+      il <a href="/it/non-eu/digital-nomad">visto per nomadi digitali</a>.
+    </p>
+
+    <h2>I requisiti</h2>
+    <ul>
+      {checklist.map((item) => <li>{item}</li>)}
+    </ul>
+    <p>
+      Due avvertenze oneste, entrambe verificabili sulle pagine consolari. Primo:
+      <strong>i 31.000 € sono una soglia minima, non una promessa</strong> — i
+      consolati la descrivono come "un punto di partenza" ed esercitano ampia
+      discrezionalità; un fascicolo completo può comunque essere respinto.
+      Secondo: <strong>la prassi varia da consolato a consolato</strong> (soglia a
+      persona vs. formula +20%/+5%; assicurazione richiesta o no) — controlla
+      sempre la pagina del consolato competente per la tua residenza. La cifra
+      fissa di "38.000 € per le coppie" che circola sui blog non compare su alcuna
+      pagina ufficiale.
+    </p>
+
+    <h2>Come funziona</h2>
+    <ol>
+      <li>Domanda <strong>di persona</strong> al consolato italiano competente (fino a 90 giorni di istruttoria; discrezionale). Il visto tipo D è rilasciato per <strong>1 anno</strong>.</li>
+      <li>Entro <strong>8 giorni dall'ingresso</strong>, chiedi in Questura il <strong>permesso di soggiorno per residenza elettiva</strong> — rinnovabile finché reddito e alloggio reggono; un'assenza continuativa oltre 6 mesi ne impedisce il rinnovo.</li>
+      <li>Poi il percorso consueto: codice fiscale, iscrizione anagrafica e sanità.</li>
+      <li>Dopo <strong>5 anni</strong> puoi chiedere il permesso di soggiorno UE per soggiornanti di lungo periodo (art. 9 TU).</li>
+    </ol>
+
+    <h2>La sanità non è automatica</h2>
+    <p>
+      I residenti elettivi <strong>non</strong> rientrano nelle categorie di
+      iscrizione obbligatoria al SSN (art. 34 TU): o mantieni una polizza sanitaria
+      valida in Italia, o ti iscrivi al SSN <strong>volontariamente</strong>,
+      pagando un contributo annuo commisurato al reddito di
+      <strong>almeno 2.000 €</strong> — la nostra
+      <a href="/it/eu-citizens/residency/servizio-sanitario">guida al SSN</a> spiega
+      come funziona l'iscrizione volontaria.
+    </p>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Fonti</h2>
+    <p class="mt-1 text-sm text-muted">
+      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e verificata il 22 luglio 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

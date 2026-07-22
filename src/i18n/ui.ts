@@ -67,6 +67,7 @@ export const ui: Record<Locale, Strings> = {
     ],
     footerNav: [
       { href: '/checklist', label: 'Checklist' },
+      { href: '/citizenship', label: 'Citizenship' },
       { href: '/non-eu', label: 'Non-EU citizens' },
       { href: '/cities', label: 'Browse cities' },
       { href: '/regions', label: 'Browse regions' },
@@ -120,6 +121,7 @@ export const ui: Record<Locale, Strings> = {
     ],
     footerNav: [
       { href: '/it/checklist', label: 'Checklist' },
+      { href: '/it/citizenship', label: 'Cittadinanza' },
       { href: '/it/non-eu', label: 'Cittadini non UE' },
       { href: '/it/cities', label: 'Sfoglia città' },
       { href: '/it/regions', label: 'Sfoglia regioni' },

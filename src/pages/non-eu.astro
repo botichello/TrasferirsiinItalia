@@ -12,6 +12,13 @@ const sources = [
   { title: "Ministero dell'Interno — Decreto flussi 2026–2028", url: 'https://www.interno.gov.it/it/notizie/decreto-flussi-2026-2028-previste-497550-quote-tre-anni-precompilazione-domande-dal-23-ottobre' },
   { title: 'MIT — Conversione patente estera', url: 'https://www.mit.gov.it/conversione-patente-estera' },
 ];
+const routes = [
+  ['/non-eu/study-visa', 'Study visa', 'Universitaly pre-enrolment, €10,179.85/yr subsistence, 20 h/week work, post-graduation job-search permit.'],
+  ['/non-eu/digital-nomad', 'Digital nomad / remote worker', 'No nulla osta, no quotas; ≈€24,789/yr income floor; 1-year renewable permit.'],
+  ['/non-eu/elective-residence', 'Elective residence', 'Passive income ≈€31,000/yr, absolute no-work rule — the retiree route.'],
+  ['/non-eu/family-reunification', 'Family reunification', 'For non-EU sponsors: income + housing tests, 150-day nulla osta, family permit with full work rights.'],
+  ['/non-eu/long-term-residence', 'EU long-term residence', 'The permanent status after 5 years: income floor, A2 test, the rights it locks in.'],
+];
 const applies = [
   ['Codice fiscale (Step 1)', 'Yes', 'Same Agenzia delle Entrate offices and procedure for all foreign citizens.'],
   ['Residency / anagrafe (Step 2)', 'Yes, with a valid permit', 'Registration happens under the same conditions as for Italians (TU art. 6); the comune notifies the Questura.'],
@@ -26,6 +33,7 @@ const applies = [
   title="Not an EU citizen? Read this first"
   description="How this site applies if you're not an EU/EEA citizen: the type D visa, decreto flussi quotas, the permesso di soggiorno — and which guides still work for you."
   alternates={{ en: '/non-eu', it: '/it/non-eu' }}
+  ogImage="/og/non-eu.png"
 >
   <div class="prose">
     <h1>Not an EU citizen? Read this first</h1>
@@ -77,6 +85,26 @@ const applies = [
       back in the meantime.
     </p>
 
+    <h2>The routes we cover in detail</h2>
+  </div>
+
+  <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+    {
+      routes.map(([href, title, blurb]) => (
+        <li>
+          <a
+            href={href}
+            class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-5 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md hover:shadow-brand-700/5"
+          >
+            <span class="font-serif text-lg text-brand-700">{title}</span>
+            <span class="mt-1 text-sm text-muted">{blurb}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="prose mt-10">
     <h2>Which of our guides still apply to you</h2>
   </div>
 

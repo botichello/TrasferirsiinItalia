@@ -8,6 +8,13 @@ const sources = [
   { title: "Ministero dell'Interno — Decreto flussi 2026–2028", url: 'https://www.interno.gov.it/it/notizie/decreto-flussi-2026-2028-previste-497550-quote-tre-anni-precompilazione-domande-dal-23-ottobre' },
   { title: 'MIT — Conversione patente estera', url: 'https://www.mit.gov.it/conversione-patente-estera' },
 ];
+const routes = [
+  ['/it/non-eu/study-visa', 'Visto per studio', 'Preiscrizione Universitaly, 10.179,85 €/anno di sussistenza, 20 h/settimana di lavoro, permesso post-laurea.'],
+  ['/it/non-eu/digital-nomad', 'Nomadi digitali / lavoro da remoto', 'Niente nulla osta né quote; soglia ≈24.789 €/anno; permesso annuale rinnovabile.'],
+  ['/it/non-eu/elective-residence', 'Residenza elettiva', 'Redditi passivi ≈31.000 €/anno, divieto assoluto di lavoro — la via dei pensionati.'],
+  ['/it/non-eu/family-reunification', 'Ricongiungimento familiare', 'Per sponsor non UE: requisiti di reddito e alloggio, nulla osta in 150 giorni, permesso familiare con pieni diritti di lavoro.'],
+  ['/it/non-eu/long-term-residence', 'Soggiornanti di lungo periodo UE', 'Lo status permanente dopo 5 anni: soglia di reddito, test A2, i diritti che consolida.'],
+];
 const applies = [
   ['Codice fiscale (Passo 1)', 'Sì', "Stessi uffici dell'Agenzia delle Entrate e stessa procedura per tutti i cittadini stranieri."],
   ['Residenza / anagrafe (Passo 2)', 'Sì, con permesso valido', "L'iscrizione avviene alle stesse condizioni degli italiani (TU art. 6); il Comune informa la Questura."],
@@ -22,6 +29,7 @@ const applies = [
   title="Non sei cittadino UE? Leggi prima questo"
   description="Come si applica questo sito se non sei cittadino UE/SEE: visto tipo D, quote del decreto flussi, permesso di soggiorno — e quali guide valgono comunque per te."
   alternates={{ en: '/non-eu', it: '/it/non-eu' }}
+  ogImage="/og/it/non-eu.png"
 >
   <div class="prose">
     <h1>Non sei cittadino UE? Leggi prima questo</h1>
@@ -73,6 +81,26 @@ const applies = [
       corso e consente perfino di viaggiare verso il paese d'origine e tornare.
     </p>
 
+    <h2>Le vie che copriamo in dettaglio</h2>
+  </div>
+
+  <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+    {
+      routes.map(([href, title, blurb]) => (
+        <li>
+          <a
+            href={href}
+            class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-5 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md hover:shadow-brand-700/5"
+          >
+            <span class="font-serif text-lg text-brand-700">{title}</span>
+            <span class="mt-1 text-sm text-muted">{blurb}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="prose mt-10">
     <h2>Quali delle nostre guide valgono anche per te</h2>
   </div>
 

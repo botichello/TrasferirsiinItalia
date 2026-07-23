@@ -245,6 +245,20 @@ export const glossary: GlossaryTerm[] = [
     guide: '/eu-citizens/residency/servizio-sanitario',
   },
   {
+    slug: 'obbligo-di-istruzione',
+    term: 'Obbligo di istruzione',
+    en: 'Compulsory education: 10 years, ages 6 to 16 (L. 296/2006). Applies to all minors in Italy, foreign or Italian, regardless of residence-permit status.',
+    it: "L'istruzione obbligatoria: 10 anni, dai 6 ai 16 anni (L. 296/2006). Vale per tutti i minori presenti in Italia, stranieri o italiani, a prescindere dalla regolarità del soggiorno.",
+    guide: '/schools',
+  },
+  {
+    slug: 'iscrizione-con-riserva',
+    term: 'Iscrizione con riserva',
+    en: 'Provisional school enrolment when a child’s documents are missing, irregular or incomplete — schools must enrol anyway, and it never blocks final qualifications (DPR 394/1999, art. 45).',
+    it: 'L’iscrizione scolastica provvisoria quando i documenti del minore mancano o sono irregolari o incompleti — la scuola deve iscrivere comunque, e non pregiudica i titoli finali (DPR 394/1999, art. 45).',
+    guide: '/schools',
+  },
+  {
     slug: 'legalizzazione-apostille',
     term: 'Legalizzazione / Apostille',
     en: 'Consular legalisation, or the Hague apostille, that makes a foreign civil-status certificate (marriage, birth) valid for Italian files — the most common cause of rejected applications when missing.',

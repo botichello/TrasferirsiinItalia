@@ -98,6 +98,7 @@ const HUBS = [
   ['blue-card', 'The EU Blue Card in Italy', 'La Carta blu UE in Italia'],
   ['citizenship', 'Italian citizenship', 'La cittadinanza italiana'],
   ['renting', 'Renting a home in Italy', 'Affittare casa in Italia'],
+  ['schools', 'School: enrolling your children', 'Scuola: iscrivere i figli'],
 ];
 for (const [name, en, it] of HUBS) {
   for (const [lang, title] of [['en', en], ['it', it]]) {

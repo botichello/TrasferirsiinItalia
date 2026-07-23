@@ -168,6 +168,18 @@ export const GET: APIRoute = async () => {
       text: 'cittadinanza naturalizzazione 10 anni 4 anni UE matrimonio discendenza iure sanguinis B1 riforma 2025',
     },
     {
+      title: 'Renting a home in Italy',
+      url: '/renting',
+      type: 'Page',
+      text: 'renting lease affitto contratto locazione 4+4 3+2 transitorio registration RLI deposit cedolare secca cauzione',
+    },
+    {
+      title: 'Affittare casa in Italia',
+      url: '/it/renting',
+      type: 'Pagina (IT)',
+      text: 'affitto contratto locazione 4+4 3+2 transitorio registrazione RLI deposito cauzionale cedolare secca',
+    },
+    {
       title: 'The full journey checklist',
       url: '/checklist',
       type: 'Page',

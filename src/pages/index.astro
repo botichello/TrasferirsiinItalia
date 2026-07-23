@@ -104,6 +104,30 @@ const itemListSchema = {
     </ol>
   </section>
 
+  <section class="mt-16">
+    <h2 class="font-serif text-2xl">Beyond the journey</h2>
+    <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+      {
+        [
+          ['/non-eu', 'Not an EU citizen?', 'Seven visa and permit routes covered in detail — from the digital-nomad visa to long-term residence.'],
+          ['/citizenship', 'Italian citizenship', 'The residence ladder (4 years for EU citizens), marriage, and descent after the 2025 reform.'],
+          ['/renting', 'Renting a home', 'Contract types, the 30-day registration rule, the 3-month deposit cap, cedolare secca.'],
+          ['/checklist', 'The full checklist', 'Every step and every document on one printable page.'],
+        ].map(([href, title, blurb]) => (
+          <li>
+            <a
+              href={href}
+              class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-5 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md hover:shadow-brand-700/5"
+            >
+              <span class="font-serif text-lg text-brand-700">{title}</span>
+              <span class="mt-1 text-sm text-muted">{blurb}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
   <section class="mt-16 rounded-xl border border-line bg-brand-50/50 p-8">
     <h2 class="font-serif text-2xl">Why trust this guide</h2>
     <div class="mt-6 grid gap-6 sm:grid-cols-3 text-sm">

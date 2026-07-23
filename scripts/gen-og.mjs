@@ -97,6 +97,7 @@ const HUBS = [
   ['long-term-residence', 'The EU long-term residence permit', 'Soggiornanti di lungo periodo UE'],
   ['blue-card', 'The EU Blue Card in Italy', 'La Carta blu UE in Italia'],
   ['citizenship', 'Italian citizenship', 'La cittadinanza italiana'],
+  ['renting', 'Renting a home in Italy', 'Affittare casa in Italia'],
 ];
 for (const [name, en, it] of HUBS) {
   for (const [lang, title] of [['en', en], ['it', it]]) {

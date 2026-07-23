@@ -57,6 +57,7 @@ export const GET: APIRoute = async ({ site }) => {
     `- [EU long-term residence permit](${base}/non-eu/long-term-residence): the permanent status after 5 years (art. 9 TU) — requirements and rights.`,
     `- [EU Blue Card](${base}/non-eu/blue-card): highly qualified work outside the quotas (art. 27-quater, post-2023 rules).`,
     `- [Italian citizenship](${base}/citizenship): residence (4 years EU / 10 non-EU), marriage, and descent after the 2025 reform.`,
+    `- [Renting a home](${base}/renting): contract types, the 30-day registration rule, deposit cap, cedolare secca.`,
     '',
     '## About & methodology',
     `- [About](${base}/about): what this reference is and who it's for.`,

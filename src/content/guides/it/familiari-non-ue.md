@@ -48,6 +48,10 @@ rispetto al diritto ordinario dell'immigrazione. Il documento chiave è la
 **carta di soggiorno di familiare di un cittadino dell'Unione**, rilasciata
 dalla **Questura**.
 
+> Questa pagina riguarda i familiari di un **cittadino UE**. Se lo sponsor è un
+> residente non UE, si applica il percorso ordinario — vedi la nostra
+> [pagina sul ricongiungimento familiare](/it/non-eu/family-reunification).
+
 ## Chi è considerato familiare
 
 Ai sensi dell'art. 2 del D.Lgs. 30/2007:

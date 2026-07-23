@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Orientation page on renting a home. Facts verified 2026-07-23 against the
+// fetched official sources below. Relevant to EU and non-EU newcomers alike.
+const sources = [
+  { title: 'Normattiva — L. 431/1998, artt. 2, 3, 5 (contratti di locazione abitativa)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1998-12-09;431!vig=' },
+  { title: 'Normattiva — L. 392/1978, artt. 8 e 11 (spese di registrazione, deposito)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1978-07-27;392!vig=' },
+  { title: 'Agenzia delle Entrate — Registrazione di un nuovo contratto (RLI)', url: 'https://www.agenziaentrate.gov.it/portale/schede/fabbricatiterreni/registrazione-di-un-nuovo-contratto/schedainfo-regime-ordinario' },
+  { title: 'Agenzia delle Entrate — Cedolare secca (scheda informativa)', url: 'https://www.agenziaentrate.gov.it/portale/schede/fabbricatiterreni/cedolare-secca/scheda-informativa-cedolare-secca' },
+  { title: 'Normattiva — TU 286/1998 art. 7 (comunicazione ospitalità stranieri) e D.L. 79/2012 art. 2', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art7!vig=' },
+  { title: 'Normattiva — D.L. 47/2014, art. 5 (titolo di occupazione, residenza e utenze)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2014-03-28;47~art5!vig=' },
+];
+const types = [
+  ['4+4 (canone libero)', 'Min. 4 years, auto-renews +4; 6-month registered-letter notice; free-market rent'],
+  ['3+2 (canone concordato)', 'Min. 3 years, +2 by right at first expiry; rent capped by local accords — often the cheaper deal'],
+  ['Transitorio', 'Up to 18 months for a documented temporary need; ends automatically, no notice'],
+  ['Student (6–36 months)', 'University towns; auto-renews for the same period unless the student cancels'],
+];
+---
+
+<BaseLayout
+  title="Renting a home in Italy"
+  description="Contract types (4+4, 3+2, transitorio), the 30-day registration rule, the 3-month deposit cap, cedolare secca, and what an unregistered lease costs you."
+  alternates={{ en: '/renting', it: '/it/renting' }}
+  ogImage="/og/renting.png"
+>
+  <div class="prose">
+    <h1>Renting a home in Italy</h1>
+    <p>
+      The lease is the document everything else hangs on: without a registered
+      contract you cannot register residency at that address — and residency is
+      the gateway to the whole <a href="/eu-citizens/residency/codice-fiscale">journey</a>.
+      Facts verified <time datetime="2026-07-23">23 July 2026</time>; orientation,
+      not legal advice.
+    </p>
+
+    <h2>The contract types (L. 431/1998)</h2>
+  </div>
+
+  <div class="mt-4 overflow-x-auto">
+    <table class="w-full min-w-[480px] border-collapse text-sm">
+      <tbody>
+        {
+          types.map(([type, note]) => (
+            <tr class="border-b border-line align-top">
+              <td class="py-2.5 pr-4 font-medium whitespace-nowrap">{type}</td>
+              <td class="py-2.5 text-muted">{note}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose mt-6">
+    <p>
+      At the first expiry of a 4+4 or 3+2, the landlord can decline renewal only
+      on listed grounds (own use, sale, major works…) with at least
+      <strong>6 months' notice</strong> by registered letter.
+    </p>
+
+    <h2>Registration: the non-negotiable</h2>
+    <p>
+      Every lease over 30 days a year must be <strong>registered with the
+      Agenzia delle Entrate within 30 days</strong> of signing (the RLI online
+      service). Costs in the ordinary regime: <strong>2% of the annual rent</strong>
+      (minimum €67 the first year) plus €16 stamp duty per copy —
+      <strong>split 50/50</strong> between landlord and tenant by law. If the
+      landlord opts for the <strong>cedolare secca</strong> flat tax (21%, or 10%
+      on concordato contracts in housing-shortage municipalities), registration
+      and stamp taxes drop to zero — and your rent is <strong>frozen</strong>,
+      with no ISTAT updates, for as long as the option lasts.
+    </p>
+    <p>
+      Why you should insist on it: an occupant without a registered title
+      <strong>cannot register residency at the address or activate utilities</strong>
+      in their own name (D.L. 47/2014, art. 5). Ask for the registration receipt.
+    </p>
+
+    <h2>Deposit and the non-EU notice</h2>
+    <ul>
+      <li>The security deposit is capped at <strong>3 months' rent</strong> and earns you legal interest, payable yearly (L. 392/1978, art. 11).</li>
+      <li>If the tenant is <strong>non-EU</strong>: whoever houses or rents to a foreigner must notify the local public-security authority <strong>within 48 hours</strong> (TU art. 7; fines €500–3,500). Lease registration does <strong>not</strong> absorb this notice (D.L. 79/2012) — expect it, and keep a copy: the registered contract also feeds <a href="/non-eu/family-reunification">idoneità alloggiativa</a> and visa accommodation files.</li>
+      <li>Agency fees of roughly one month's rent are market custom, not law — get them in writing early. (No official source sets them.)</li>
+    </ul>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Sources</h2>
+    <p class="mt-1 text-sm text-muted">
+      Primary, official sources this page is based on — each fetched and checked on 23 July 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

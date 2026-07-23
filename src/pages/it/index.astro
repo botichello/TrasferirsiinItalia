@@ -93,6 +93,30 @@ const itemListSchema = {
     </ol>
   </section>
 
+  <section class="mt-16">
+    <h2 class="font-serif text-2xl">Oltre il percorso</h2>
+    <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+      {
+        [
+          ['/it/non-eu', 'Non sei cittadino UE?', 'Sette vie di visto e permesso coperte in dettaglio — dal visto per nomadi digitali al lungo periodo.'],
+          ['/it/citizenship', 'Cittadinanza italiana', 'La scala della residenza (4 anni per i cittadini UE), il matrimonio e la discendenza dopo la riforma 2025.'],
+          ['/it/renting', 'Affittare casa', 'Tipi di contratto, registrazione entro 30 giorni, tetto di 3 mensilità di deposito, cedolare secca.'],
+          ['/it/checklist', 'La checklist completa', 'Ogni passo e ogni documento in una sola pagina stampabile.'],
+        ].map(([href, title, blurb]) => (
+          <li>
+            <a
+              href={href}
+              class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-5 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md hover:shadow-brand-700/5"
+            >
+              <span class="font-serif text-lg text-brand-700">{title}</span>
+              <span class="mt-1 text-sm text-muted">{blurb}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
   <section class="mt-16 rounded-xl border border-line bg-brand-50/50 p-8">
     <h2 class="font-serif text-2xl">Perché fidarsi di questa guida</h2>
     <div class="mt-6 grid gap-6 sm:grid-cols-3 text-sm">

@@ -46,6 +46,10 @@ is faster, cheaper and more protective than ordinary immigration law. The key
 document is the **carta di soggiorno di familiare di un cittadino
 dell'Unione**, issued by the **Questura** (provincial police headquarters).
 
+> This page is for family of an **EU citizen**. If the sponsor is a non-EU
+> resident of Italy, the ordinary route applies instead — see our
+> [family reunification page](/non-eu/family-reunification).
+
 ## Who counts as family
 
 Under art. 2 of D.Lgs. 30/2007:

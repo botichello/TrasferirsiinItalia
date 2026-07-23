@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Orientation page on enrolling children in Italian school. Facts verified
+// 2026-07-23 against the fetched official sources below. Relevant to EU and
+// non-EU newcomers alike.
+const sources = [
+  { title: 'Normattiva — TU 286/1998, art. 38 (istruzione degli stranieri)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art38!vig=' },
+  { title: 'Normattiva — DPR 394/1999, art. 45 (iscrizione scolastica dei minori stranieri)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1999-08-31;394~art45!vig=' },
+  { title: 'Normattiva — L. 296/2006, art. 1, c. 622 (obbligo di istruzione di 10 anni)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2006-12-27;296~art1!vig=' },
+  { title: 'Normattiva — D.L. 73/2017 conv. L. 119/2017, artt. 1, 3, 3-bis (obblighi vaccinali)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2017-06-07;73!vig=' },
+  { title: 'Normattiva — D.lgs 297/1994, art. 156 (libri di testo gratuiti nella primaria)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1994-04-16;297~art156!vig=' },
+  { title: 'MIM — Sistema educativo di istruzione e formazione', url: 'https://www.mim.gov.it/sistema-educativo-di-istruzione-e-formazione' },
+  { title: 'MIM / Unica — Iscrizioni on line', url: 'https://unica.istruzione.gov.it/it/orientamento/iscrizioni' },
+  { title: 'MIM — Tasse scolastiche e contributo volontario', url: 'https://www.mim.gov.it/tasse-scolastiche/contributo' },
+];
+const ladder = [
+  ['Nido (0–6 system)', '3–36 months', 'Optional'],
+  ['Scuola dell’infanzia', 'Ages 3–6', 'Optional'],
+  ['Scuola primaria', 'Ages 6–11 · 5 years', 'Compulsory'],
+  ['Scuola secondaria di I grado', 'Ages 11–14 · 3 years', 'Compulsory'],
+  ['Secondaria di II grado or regional IeFP', 'Ages 14–19 · 5 years', 'Compulsory to 16'],
+];
+---
+
+<BaseLayout
+  title="School in Italy: enrolling your children"
+  description="The school ladder, the 10-year compulsory-education rule (ages 6–16), mid-year enrolment for newcomers, age-based class placement, the Unica online window, vaccinations, and what is actually free."
+  alternates={{ en: '/schools', it: '/it/schools' }}
+  ogImage="/og/schools.png"
+>
+  <div class="prose">
+    <h1>School in Italy: enrolling your children</h1>
+    <p>
+      If you move with children, school is both a right and a duty: education is
+      <strong>compulsory for 10 years, from age 6 to 16</strong> (L. 296/2006,
+      art. 1, c. 622), and foreign minors in Italy have exactly the same
+      education rights and obligations as Italians (TU 286/1998, art. 38).
+      Facts verified <time datetime="2026-07-23">23 July 2026</time>;
+      orientation, not legal advice.
+    </p>
+
+    <h2>The school ladder</h2>
+  </div>
+
+  <div class="mt-4 overflow-x-auto">
+    <table class="w-full min-w-[480px] border-collapse text-sm">
+      <tbody>
+        {
+          ladder.map(([stage, ages, status]) => (
+            <tr class="border-b border-line align-top">
+              <td class="py-2.5 pr-4 font-medium">{stage}</td>
+              <td class="py-2.5 pr-4 text-muted whitespace-nowrap">{ages}</td>
+              <td class="py-2.5 text-muted whitespace-nowrap">{status}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose mt-6">
+    <p>
+      The last stage can be a liceo, a technical or vocational institute, or a
+      regional vocational pathway (<strong>IeFP</strong>) — all satisfy the
+      obbligo. After 16 there is still a right/duty to education or training up
+      to 18 (L. 53/2003).
+    </p>
+
+    <h2>Arriving mid-year: enrol any time, at the school itself</h2>
+    <p>
+      The newcomer rule most people don't know: enrolment
+      <strong>can be requested at any point in the school year</strong> — you do
+      not wait for September. Go directly to the chosen school's secretariat.
+      The right to education is <strong>independent of residence-permit
+      status</strong>; missing or incomplete papers mean enrolment
+      <em>con riserva</em> (provisional), never refusal, and it does not block
+      final qualifications (DPR 394/1999, art. 45).
+    </p>
+    <p>
+      Children are placed in the <strong>class matching their age</strong>,
+      unless the teachers' board (collegio dei docenti) decides one class up or
+      down based on the home-country system, assessed skills and prior study.
+      The same board adapts teaching and can run intensive Italian courses;
+      schools may use cultural mediators to communicate with families.
+    </p>
+    <p>
+      Bring: passports/ID, the child's <a href="/eu-citizens/residency/codice-fiscale">codice fiscale</a>
+      if you have one (a just-arrived child is enrolled with a provisional code),
+      and vaccination records. The school can submit the online application on
+      your behalf — including when a parent has no codice fiscale yet.
+    </p>
+
+    <h2>The ordinary route: the January window on Unica</h2>
+    <p>
+      First-year enrolments (primaria, both secondarie, IeFP) are filed online
+      on the MIM's <strong>Unica</strong> platform. For the 2026/27 school year
+      the window ran <strong>13 January – 21 February 2026</strong>; order of
+      arrival is irrelevant. You name a first-choice school plus up to two
+      backups — if the first is full, the application cascades. Access is via
+      SPID/CIE. <strong>Scuola dell'infanzia is the exception</strong>: paper
+      enrolment directly at the school, same period.
+    </p>
+
+    <h2>Vaccinations</h2>
+    <p>
+      Ten vaccinations are compulsory and free for ages 0–16 (D.L. 73/2017,
+      conv. L. 119/2017). Proof — or an ASL booking — is requested at
+      enrolment. For <strong>nido and scuola dell'infanzia it is a condition of
+      access</strong>; for the compulsory grades (6–16) it is not, but
+      non-compliance brings an ASL notice and a €100–500 fine.
+    </p>
+
+    <h2>What is actually free</h2>
+    <ul>
+      <li>State school is <strong>free throughout the obbligo</strong>; primaria textbooks are provided free by the Comune (D.lgs 297/1994, art. 156). Book subsidies for later grades vary by region — check your Comune.</li>
+      <li>State <em>tasse scolastiche</em> exist <strong>only for years 4–5 of secondaria di II grado</strong> (roughly €6–15 each), with merit and income (ISEE) exemptions.</li>
+      <li>The <em>contributo scolastico</em> schools ask for is <strong>voluntary</strong>: it cannot be a condition of enrolment. Only actual reimbursements (insurance, trips) are due.</li>
+    </ul>
+    <p>
+      Bringing children through <a href="/non-eu/family-reunification">family
+      reunification</a>? School enrolment works exactly as above once they are
+      here — including before the permesso di soggiorno is issued.
+    </p>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Sources</h2>
+    <p class="mt-1 text-sm text-muted">
+      Primary, official sources this page is based on — each fetched and checked on 23 July 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

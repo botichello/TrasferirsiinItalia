@@ -180,6 +180,18 @@ export const GET: APIRoute = async () => {
       text: 'affitto contratto locazione 4+4 3+2 transitorio registrazione RLI deposito cauzionale cedolare secca',
     },
     {
+      title: 'School in Italy: enrolling your children',
+      url: '/schools',
+      type: 'Page',
+      text: 'school enrol children compulsory education 6-16 scuola primaria secondaria infanzia Unica iscrizione mid-year con riserva vaccinations textbooks',
+    },
+    {
+      title: 'Scuola in Italia: iscrivere i figli',
+      url: '/it/schools',
+      type: 'Pagina (IT)',
+      text: 'scuola iscrizione figli obbligo istruzione 6-16 primaria secondaria infanzia Unica corso anno con riserva vaccini libri di testo',
+    },
+    {
       title: 'The full journey checklist',
       url: '/checklist',
       type: 'Page',

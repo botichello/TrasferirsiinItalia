@@ -87,6 +87,68 @@ for (const path of files) {
   }
 }
 
+// ---- Orientation pages (src/pages/*.astro outside the collections) --------
+// Same contract, tracked via the registry in src/data/orientation-pages.mjs.
+const { orientationPages } = await import(
+  new URL('../src/data/orientation-pages.mjs', import.meta.url)
+);
+const ROOT = fileURLToPath(new URL('..', import.meta.url));
+const SENTINELS = ['orientation, not legal advice', 'orientamento, non consulenza legale'];
+const registered = new Set();
+
+for (const entry of orientationPages) {
+  for (const [lang, rel] of [['en', entry.en], ['it', entry.it]]) {
+    registered.add(rel);
+    let raw;
+    try {
+      raw = await readFile(join(ROOT, rel), 'utf8');
+    } catch {
+      errors.push(`${rel}: registered orientation page (${lang}) does not exist`);
+      continue;
+    }
+    // The visible date on the page must match the registry.
+    const onPage = raw.match(/<time datetime="(\d{4}-\d{2}-\d{2})"/)?.[1];
+    if (onPage && onPage !== entry.lastVerified) {
+      errors.push(
+        `${rel}: on-page verified date ${onPage} != registry lastVerified ${entry.lastVerified}`,
+      );
+    }
+  }
+  const lv = new Date(entry.lastVerified);
+  const rb = new Date(entry.reviewBy);
+  if (!(rb > lv)) errors.push(`${entry.en}: registry \`reviewBy\` must be after \`lastVerified\``);
+  if (new Date() > rb) {
+    const msg = `${entry.en}: orientation review overdue (reviewBy ${entry.reviewBy})`;
+    (STRICT_OVERDUE ? errors : warnings).push(msg);
+  }
+}
+
+// Completeness: any page carrying the orientation sentinel must be registered.
+async function walkAstro(dir) {
+  let entries;
+  try {
+    entries = await readdir(dir, { withFileTypes: true });
+  } catch {
+    return [];
+  }
+  const out = [];
+  for (const e of entries) {
+    const full = join(dir, e.name);
+    if (e.isDirectory()) out.push(...(await walkAstro(full)));
+    else if (e.name.endsWith('.astro')) out.push(full);
+  }
+  return out;
+}
+for (const path of await walkAstro(join(ROOT, 'src/pages'))) {
+  const raw = await readFile(path, 'utf8');
+  if (SENTINELS.some((s) => raw.toLowerCase().includes(s))) {
+    const rel = relative(ROOT, path);
+    if (!registered.has(rel)) {
+      errors.push(`${rel}: orientation page not registered in src/data/orientation-pages.mjs`);
+    }
+  }
+}
+
 for (const w of warnings) console.warn(`⚠️  ${w}`);
 
 if (errors.length) {
@@ -96,7 +158,7 @@ if (errors.length) {
 }
 
 console.log(
-  `✓ Freshness check passed (${files.length} content file${files.length === 1 ? '' : 's'}` +
+  `✓ Freshness check passed (${files.length} content files + ${orientationPages.length} orientation pages` +
     (warnings.length ? `, ${warnings.length} overdue warning(s)` : '') +
     ').',
 );

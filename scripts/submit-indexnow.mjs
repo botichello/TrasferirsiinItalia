@@ -10,7 +10,7 @@
  *   npm run submit:indexnow            # uses the live production sitemap
  *   SITE_URL=https://example.com npm run submit:indexnow
  */
-const SITE = (process.env.SITE_URL || 'https://trasferirsiinitalia.vercel.app').replace(/\/$/, '');
+const SITE = (process.env.SITE_URL || 'https://www.trasferirsiinitalia.com').replace(/\/$/, '');
 const KEY = '16f5622b924b82ed4511062448e762d7';
 
 const host = new URL(SITE).host;

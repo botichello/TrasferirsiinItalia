@@ -4,19 +4,12 @@ import tailwindcss from '@tailwindcss/vite';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-// Canonical site URL. On Vercel, VERCEL_PROJECT_PRODUCTION_URL is injected at
-// build time and points at the production domain — so canonical URLs, the
-// sitemap, and the JSON-LD all resolve to production even on preview builds
-// (correct for SEO). Override with SITE_URL once a custom domain is attached.
-//
-// ⚠️ The env var is baked in at build time: after renaming the Vercel project,
-// production must be REDEPLOYED or every canonical keeps pointing at the old
-// (now dead) *.vercel.app domain.
-const SITE =
-  process.env.SITE_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : 'https://trasferirsiinitalia.vercel.app');
+// Canonical site URL — pinned to the primary custom domain (www; the bare
+// domain and *.vercel.app 308-redirect to it). Deliberately NOT derived from
+// VERCEL_PROJECT_PRODUCTION_URL: Vercel picks the *shortest* production domain
+// for that variable, which is the bare domain — a redirect, and canonicals
+// must never point at a redirect. Override with SITE_URL if the domain moves.
+const SITE = process.env.SITE_URL || 'https://www.trasferirsiinitalia.com';
 
 export default defineConfig({
   site: SITE,

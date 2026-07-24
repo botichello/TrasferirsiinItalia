@@ -20,4 +20,5 @@ export const orientationPages = [
   { en: 'src/pages/citizenship.astro', it: 'src/pages/it/citizenship.astro', lastVerified: '2026-07-22', reviewBy: '2027-01-22' },
   { en: 'src/pages/renting.astro', it: 'src/pages/it/renting.astro', lastVerified: '2026-07-23', reviewBy: '2027-01-23' },
   { en: 'src/pages/schools.astro', it: 'src/pages/it/schools.astro', lastVerified: '2026-07-23', reviewBy: '2027-01-23' },
+  { en: 'src/pages/driving.astro', it: 'src/pages/it/driving.astro', lastVerified: '2026-07-24', reviewBy: '2027-01-24' },
 ];

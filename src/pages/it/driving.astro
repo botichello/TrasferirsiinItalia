@@ -1,0 +1,141 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const sources = [
+  { title: 'Normattiva — CdS (D.lgs 285/1992), art. 135 (patenti extra-UE e sanzioni)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art135!vig=' },
+  { title: 'Normattiva — CdS, art. 136 (conversione delle patenti estere)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art136!vig=' },
+  { title: 'Normattiva — CdS, art. 136-bis (patenti UE/SEE equiparate)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art136bis!vig=' },
+  { title: 'Normattiva — CdS, art. 118-bis (residenza normale: 185 giorni)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art118bis!vig=' },
+  { title: 'Normattiva — CdS, art. 122 (foglio rosa) e art. 126, c. 11 (sanzione 158–638 €)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art122!vig=' },
+  { title: 'MIT — Conversione patente estera (elenco Stati, scadenze, costi)', url: 'https://www.mit.gov.it/conversione-patente-estera' },
+  { title: 'MIT — Conseguimento patente B (esami, foglio rosa, costi)', url: 'https://www.mit.gov.it/conseguimento-patente-b' },
+];
+const penalties = [
+  ['Patente extra-UE senza permesso internazionale/traduzione', 'Sanzione 408–1.634 € (art. 135, c. 8)'],
+  ['Residente da >1 anno, patente extra-UE ancora valida', '158–638 €; patente ritirata e inviata per la conversione — o restituita allo Stato se non convertibile (art. 135, c. 14)'],
+  ['Residente da >1 anno, patente extra-UE scaduta', 'Equiparato a guida senza patente: 5.000 €+ e fermo del veicolo 3 mesi (art. 135, c. 11 → art. 116)'],
+  ['Patente UE scaduta, o senza scadenza oltre i 2 anni dalla residenza', '158–638 € e ritiro del documento (art. 136-bis, c. 8)'],
+];
+---
+
+<BaseLayout
+  title="Guidare in Italia con la patente estera"
+  description="La patente UE vale così com'è; quella extra-UE vale un anno dall'iscrizione anagrafica, poi va convertita (elenco di reciprocità) o sostituita con gli esami italiani. Scadenze, costi, sanzioni."
+  alternates={{ en: '/driving', it: '/it/driving' }}
+  ogImage="/og/it/driving.png"
+>
+  <div class="prose">
+    <h1>Guidare in Italia con la patente estera</h1>
+    <p>
+      Due regimi, un orologio. La <strong>patente UE/SEE è riconosciuta così
+      com'è</strong> (art. 136-bis del Codice della Strada); quella
+      <strong>extra-UE vale un anno</strong> contato dal giorno dell'iscrizione
+      anagrafica — non dall'arrivo (art. 135). La "residenza normale" è dove
+      vivi <strong>almeno 185 giorni l'anno</strong> (art. 118-bis). Fatti
+      verificati il <time datetime="2026-07-24">24 luglio 2026</time>;
+      orientamento, non consulenza legale.
+    </p>
+
+    <h2>Patenti UE/SEE: niente da fare — fino alla scadenza</h2>
+    <p>
+      La tua patente è <em>equiparata</em> a quella italiana: stesse regole,
+      stesse sanzioni, nessun obbligo di cambio. Con la residenza arrivano due
+      doveri concreti: valgono per te le <strong>regole italiane su validità e
+      visite mediche</strong>, quindi alla scadenza non rinnovi nel tuo paese ma
+      <strong>converti in Motorizzazione</strong> (senza esami); e una patente
+      <strong>senza data di scadenza</strong> (o con validità superiore allo
+      standard UE) va convertita <strong>entro 2 anni</strong> dalla residenza.
+      Facoltativi il <em>riconoscimento</em> o la conversione anticipata —
+      entrambi ti portano nel sistema della patente a punti.
+    </p>
+
+    <h2>Patenti extra-UE: la finestra di un anno</h2>
+    <p>
+      Per un anno dall'<a href="/it/eu-citizens/residency/iscrizione-anagrafica">iscrizione
+      anagrafica</a> puoi guidare con la tua patente valida <strong>più il
+      permesso internazionale o una traduzione ufficiale in italiano</strong> —
+      tienila con te, o la sanzione è 408–1.634 €. Dopo l'anno la patente non è
+      più riconosciuta: o la <strong>converti</strong> (se il tuo paese ha un
+      accordo) o <strong>sostieni gli esami italiani</strong>.
+    </p>
+
+    <h2>Conversione senza esami: chi può</h2>
+    <p>
+      La conversione esiste solo con i <strong>paesi con accordo di
+      reciprocità</strong>. L'elenco MIT (aggiornato a luglio 2026) include
+      <strong>Regno Unito</strong> (con Gibilterra, Guernsey, Isola di Man,
+      Jersey — accordo fino al 30 marzo 2028), <strong>Svizzera</strong>
+      (prorogato a giugno 2031), <strong>Giappone, Corea del Sud, Brasile,
+      Argentina, Marocco, Tunisia, Turchia, Ucraina, Serbia, Albania</strong> e
+      una dozzina di altri; per <strong>USA, Canada e Cile</strong> la
+      conversione è limitata al <strong>personale diplomatico/consolare</strong>
+      — tutti gli altri fanno gli esami. Controlla
+      <a href="https://www.mit.gov.it/conversione-patente-estera">l'elenco
+      ufficiale del MIT</a>: gli accordi scadono e tornano.
+    </p>
+    <ul>
+      <li>La patente deve essere <strong>valida</strong> e <strong>ottenuta prima</strong> di diventare residente in Italia.</li>
+      <li>Finestre rigide dal 2023: <strong>4 anni</strong> dalla residenza per alcuni paesi (Svizzera, Ucraina, Albania, Argentina), <strong>6 anni</strong> per la maggior parte (Regno Unito, Brasile, Marocco…) — oltre, la domanda è respinta.</li>
+      <li>Una patente a sua volta ottenuta convertendone una non convertibile non si può convertire.</li>
+    </ul>
+
+    <h2>Come funziona la conversione</h2>
+    <p>
+      All'<strong>Ufficio Motorizzazione Civile</strong>: modello
+      <strong>TT2112</strong>, pagamento PagoPA di <strong>10,20 € + 32,00 €</strong>
+      (tariffa N003), patente con fotocopie, documento,
+      <a href="/it/eu-citizens/residency/codice-fiscale">codice fiscale</a>, due
+      foto e il <strong>certificato medico di idoneità</strong> (sempre per le
+      conversioni extra-UE; per quelle UE quando la patente è in scadenza o
+      senza scadenza). La patente estera viene ritirata e restituita allo Stato
+      che l'ha emessa — ti resta solo quella italiana.
+    </p>
+
+    <h2>Niente accordo? Gli esami italiani</h2>
+    <p>
+      Stesso percorso di un neopatentato: <strong>esame di teoria in
+      italiano</strong> (le istruzioni ufficiali della Motorizzazione prevedono
+      la traduzione solo in tedesco o francese — <strong>niente inglese</strong>;
+      esiste il supporto audio per i candidati stranieri che ne hanno diritto),
+      2 tentativi in 6 mesi; poi il <strong>foglio rosa</strong> (12 mesi) con
+      <strong>6 ore obbligatorie di guida in autoscuola</strong> prima della
+      prova pratica. Metti in conto circa 42 € + 16 € di diritti più
+      l'autoscuola; anche qui serve il certificato medico.
+    </p>
+
+    <h2>Se sbagli</h2>
+  </div>
+
+  <div class="mt-4 overflow-x-auto">
+    <table class="w-full min-w-[480px] border-collapse text-sm">
+      <tbody>
+        {
+          penalties.map(([scenario, sanction]) => (
+            <tr class="border-b border-line align-top">
+              <td class="py-2.5 pr-4 font-medium">{scenario}</td>
+              <td class="py-2.5 text-muted">{sanction}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Fonti</h2>
+    <p class="mt-1 text-sm text-muted">
+      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e verificata il 24 luglio 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

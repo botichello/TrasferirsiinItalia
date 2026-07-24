@@ -102,9 +102,10 @@ const itemListSchema = {
           ['/it/citizenship', 'Cittadinanza italiana', 'La scala della residenza (4 anni per i cittadini UE), il matrimonio e la discendenza dopo la riforma 2025.'],
           ['/it/renting', 'Affittare casa', 'Tipi di contratto, registrazione entro 30 giorni, tetto di 3 mensilità di deposito, cedolare secca.'],
           ['/it/schools', 'La scuola per i figli', "Obbligo 6–16, iscrizione in qualunque momento dell'anno, la finestra su Unica, cosa è davvero gratuito."],
+          ['/it/driving', 'Guidare con la tua patente', 'Le patenti UE valgono così come sono; le extra-UE un anno — poi conversione o esami italiani.'],
           ['/it/checklist', 'La checklist completa', 'Ogni passo e ogni documento in una sola pagina stampabile.'],
         ].map(([href, title, blurb]) => (
-          <li class="sm:last:col-span-2">
+          <li>
             <a
               href={href}
               class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-5 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md hover:shadow-brand-700/5"

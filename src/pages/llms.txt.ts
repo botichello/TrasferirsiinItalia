@@ -59,6 +59,7 @@ export const GET: APIRoute = async ({ site }) => {
     `- [Italian citizenship](${base}/citizenship): residence (4 years EU / 10 non-EU), marriage, and descent after the 2025 reform.`,
     `- [Renting a home](${base}/renting): contract types, the 30-day registration rule, deposit cap, cedolare secca.`,
     `- [School: enrolling your children](${base}/schools): compulsory 6–16, mid-year enrolment at any time (DPR 394 art. 45), the Unica window, vaccinations, costs.`,
+    `- [Driving on a foreign licence](${base}/driving): EU licences recognised as-is; non-EU valid 1 year from residence (art. 135 CdS), then conversion (reciprocity list) or Italian exams.`,
     '',
     '## About & methodology',
     `- [About](${base}/about): what this reference is and who it's for.`,

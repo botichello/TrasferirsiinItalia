@@ -259,6 +259,20 @@ export const glossary: GlossaryTerm[] = [
     guide: '/schools',
   },
   {
+    slug: 'conversione-della-patente',
+    term: 'Conversione della patente',
+    en: 'Swapping a foreign driving licence for an Italian one without exams — possible for EU/EEA licences and for non-EU countries with a reciprocity agreement (art. 136/136-bis CdS), at the Motorizzazione Civile.',
+    it: 'Il cambio della patente estera con una italiana senza esami — possibile per le patenti UE/SEE e per i paesi extra-UE con accordo di reciprocità (art. 136/136-bis CdS), presso la Motorizzazione Civile.',
+    guide: '/driving',
+  },
+  {
+    slug: 'foglio-rosa',
+    term: 'Foglio rosa',
+    en: 'The learner’s permit issued after passing the driving theory test — valid 12 months, with up to 3 practical-test attempts (art. 122 CdS).',
+    it: 'L’autorizzazione a esercitarsi alla guida rilasciata dopo l’esame di teoria — valida 12 mesi, con fino a 3 tentativi per la prova pratica (art. 122 CdS).',
+    guide: '/driving',
+  },
+  {
     slug: 'legalizzazione-apostille',
     term: 'Legalizzazione / Apostille',
     en: 'Consular legalisation, or the Hague apostille, that makes a foreign civil-status certificate (marriage, birth) valid for Italian files — the most common cause of rejected applications when missing.',

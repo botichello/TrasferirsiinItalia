@@ -113,9 +113,10 @@ const itemListSchema = {
           ['/citizenship', 'Italian citizenship', 'The residence ladder (4 years for EU citizens), marriage, and descent after the 2025 reform.'],
           ['/renting', 'Renting a home', 'Contract types, the 30-day registration rule, the 3-month deposit cap, cedolare secca.'],
           ['/schools', 'School for your children', 'Compulsory 6–16, mid-year enrolment at any time, the Unica window, what is actually free.'],
+          ['/driving', 'Driving on your licence', 'EU licences work as-is; non-EU ones for one year — then conversion or the Italian exams.'],
           ['/checklist', 'The full checklist', 'Every step and every document on one printable page.'],
         ].map(([href, title, blurb]) => (
-          <li class="sm:last:col-span-2">
+          <li>
             <a
               href={href}
               class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-5 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md hover:shadow-brand-700/5"

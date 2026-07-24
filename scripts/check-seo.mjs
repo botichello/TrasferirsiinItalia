@@ -40,6 +40,8 @@ function htmlFiles(dir) {
   return readdirSync(dir).flatMap((name) => {
     const p = join(dir, name);
     if (statSync(p).isDirectory()) return htmlFiles(p);
+    // Search-engine verification tokens (e.g. googleXXXX.html) are not pages.
+    if (/^google[0-9a-f]+\.html$/.test(name)) return [];
     return name.endsWith('.html') ? [p] : [];
   });
 }

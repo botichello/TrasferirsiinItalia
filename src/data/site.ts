@@ -8,4 +8,4 @@
  * When ready to go public: flip to true, deploy, then submit the sitemap in
  * Google Search Console and re-run `npm run submit:indexnow` for Bing & co.
  */
-export const SEARCH_INDEXING = false;
+export const SEARCH_INDEXING = true;

@@ -192,6 +192,18 @@ export const GET: APIRoute = async () => {
       text: 'scuola iscrizione figli obbligo istruzione 6-16 primaria secondaria infanzia Unica corso anno con riserva vaccini libri di testo',
     },
     {
+      title: 'Driving in Italy on a foreign licence',
+      url: '/driving',
+      type: 'Page',
+      text: 'driving licence license patente conversion conversione one year Motorizzazione reciprocity UK US exam foglio rosa IDP international permit',
+    },
+    {
+      title: 'Guidare in Italia con la patente estera',
+      url: '/it/driving',
+      type: 'Pagina (IT)',
+      text: 'patente estera conversione un anno Motorizzazione reciprocità esame foglio rosa permesso internazionale traduzione',
+    },
+    {
       title: 'The full journey checklist',
       url: '/checklist',
       type: 'Page',

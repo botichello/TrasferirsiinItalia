@@ -99,6 +99,7 @@ const HUBS = [
   ['citizenship', 'Italian citizenship', 'La cittadinanza italiana'],
   ['renting', 'Renting a home in Italy', 'Affittare casa in Italia'],
   ['schools', 'School: enrolling your children', 'Scuola: iscrivere i figli'],
+  ['driving', 'Driving on a foreign licence', 'Guidare con la patente estera'],
 ];
 for (const [name, en, it] of HUBS) {
   for (const [lang, title] of [['en', en], ['it', it]]) {

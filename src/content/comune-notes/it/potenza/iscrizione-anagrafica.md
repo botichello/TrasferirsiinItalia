@@ -13,10 +13,10 @@ sources:
     url: 'https://www.comune.potenza.it/?page_id=16631'
     accessed: 2026-07-11
   - title: 'ANPR — Cambio di residenza'
-    url: 'https://www.anagrafenazionale.gov.it/area-cittadino/cambio-di-residenza/'
+    url: 'https://www.anagrafenazionale.interno.it/area-cittadino/cambio-di-residenza/'
     accessed: 2026-07-11
   - title: 'ANPR — Servizi per cittadini europei'
-    url: 'https://www.anagrafenazionale.gov.it/area-cittadino/servizi-per-cittadini-europei/'
+    url: 'https://www.anagrafenazionale.interno.it/area-cittadino/servizi-per-cittadini-europei/'
     accessed: 2026-07-11
 ---
 

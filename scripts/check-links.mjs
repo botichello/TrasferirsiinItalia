@@ -69,6 +69,11 @@ const KNOWN_BOTWALL = new Set([
   'regione.basilicata.it',
   'regione.fvg.it',
   'sanita.puglia.it',
+  // WAF-fronted comuni: 403/503 to datacenter traffic, fine in a browser
+  // (Potenza confirmed alive via Wayback 200 snapshots).
+  'comune.potenza.it',
+  'comune.siracusa.it',
+  'servizidemografici.reggiocal.it',
 ]);
 
 /** Final-redirect hosts that smell like domain parking / hijack -> hard fail. */

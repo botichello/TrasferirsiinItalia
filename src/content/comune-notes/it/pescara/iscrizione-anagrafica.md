@@ -13,10 +13,10 @@ sources:
     url: 'https://www.comune.pescara.it/amministrazione/unita_organizzativa/servizio-anagrafe-datagovernance-e-statistica/'
     accessed: 2026-07-21
   - title: "Comune di Pescara — Attestazione di iscrizione anagrafica per cittadini comunitari"
-    url: 'https://www.comune.pescara.it/servizio/rilascio-dellattestazione-di-iscrizione-anagrafica-per-cittadini-comunitari/'
+    url: 'https://sportellotelematico.comune.pescara.it/procedure:s_italia:iscrizione.anagrafica;attestato;cittadini.comunitari;domanda'
     accessed: 2026-07-21
   - title: 'ANPR — Cambio di residenza'
-    url: 'https://www.anagrafenazionale.gov.it/area-cittadino/cambio-di-residenza/'
+    url: 'https://www.anagrafenazionale.interno.it/area-cittadino/cambio-di-residenza/'
     accessed: 2026-07-21
 ---
 

@@ -10,7 +10,7 @@ sources:
     url: 'https://sportellotelematico.comune.ferrara.it/procedure:s_italia:cambio.abitazione.residenza;dichiarazione'
     accessed: 2026-07-22
   - title: 'Comune di Ferrara — Anagrafe, Stato Civile e Elettorale (sedi e appuntamenti)'
-    url: 'https://www.comune.fe.it/it/b/11389/anagrafe-stato-civile-elettorale'
+    url: 'https://www.comune.ferrara.it/it/b/11389/anagrafe-stato-civile-elettorale'
     accessed: 2026-07-22
   - title: "Comune di Ferrara — Attestazione di iscrizione anagrafica per cittadini comunitari"
     url: 'https://sportellotelematico.comune.ferrara.it/procedure:s_italia:iscrizione.anagrafica;attestato;cittadini.comunitari;domanda'

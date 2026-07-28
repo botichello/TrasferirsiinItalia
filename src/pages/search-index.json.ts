@@ -204,6 +204,18 @@ export const GET: APIRoute = async () => {
       text: 'patente estera conversione un anno Motorizzazione reciprocità esame foglio rosa permesso internazionale traduzione',
     },
     {
+      title: 'Opening a bank account in Italy',
+      url: '/banking',
+      type: 'Page',
+      text: 'bank account banking conto di base corrente IBAN SEPA codice fiscale ISEE imposta di bollo stamp duty refusal ABF switching portability salary',
+    },
+    {
+      title: 'Aprire un conto bancario in Italia',
+      url: '/it/banking',
+      type: 'Pagina (IT)',
+      text: 'conto di base corrente banca IBAN SEPA codice fiscale ISEE imposta di bollo rifiuto ABF portabilità stipendio',
+    },
+    {
       title: 'The full journey checklist',
       url: '/checklist',
       type: 'Page',

@@ -100,6 +100,7 @@ const HUBS = [
   ['renting', 'Renting a home in Italy', 'Affittare casa in Italia'],
   ['schools', 'School: enrolling your children', 'Scuola: iscrivere i figli'],
   ['driving', 'Driving on a foreign licence', 'Guidare con la patente estera'],
+  ['banking', 'Opening a bank account', 'Aprire un conto bancario'],
 ];
 for (const [name, en, it] of HUBS) {
   for (const [lang, title] of [['en', en], ['it', it]]) {

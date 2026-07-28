@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Orientation page on opening a bank account. Facts verified 2026-07-28
+// against the fetched official sources below. The headline finding: the conto
+// di base is a statutory right tied to legal stay, not to registered residency.
+const sources = [
+  { title: "Normattiva — TUB (D.lgs 385/1993), art. 126-noviesdecies (diritto al conto di base)", url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1993-09-01;385~art126noviesdecies!vig=' },
+  { title: 'Normattiva — TUB, art. 126-vicies (apertura e motivi di rifiuto)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1993-09-01;385~art126vicies!vig=' },
+  { title: 'Normattiva — TUB, art. 126-viciessemel e 126-viciesbis (caratteristiche e spese)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1993-09-01;385~art126viciessemel!vig=' },
+  { title: 'Normattiva — TUB, artt. 126-quinquiesdecies e 126-septiesdecies (portabilità in 12 giorni, penale)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1993-09-01;385~art126quinquiesdecies!vig=' },
+  { title: 'Normattiva — DM MEF 3 maggio 2018, n. 70, artt. 4-5 (gratuità: ISEE 11.600 €, pensioni 18.000 €)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:ministero.economia.e.finanze:decreto:2018-05-03;70~art4!vig=' },
+  { title: 'Normattiva — DPR 605/1973, artt. 6-7 (codice fiscale nei rapporti bancari)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:presidente.repubblica:decreto:1973-09-29;605~art7!vig=' },
+  { title: 'Normattiva — D.L. 201/2011, art. 19 (imposta di bollo 34,20 €, esenzione sotto 5.000 € di giacenza media)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2011-12-06;201~art19!vig=' },
+  { title: "Banca d'Italia — Il conto di base (economiapertutti)", url: 'https://economiapertutti.bancaditalia.it/aree-tematiche/conto-corrente/il-conto-di-base/index.html' },
+  { title: "Banca d'Italia — Indagine sul costo dei conti correnti nel 2024", url: 'https://www.bancaditalia.it/pubblicazioni/indagine-costo-cc/indagine-costo-cc2025/index.html' },
+  { title: 'Regolamento (UE) 260/2012, art. 9 (accessibilità dei pagamenti — nessuna discriminazione per IBAN)', url: 'http://web.archive.org/web/20260111052929/https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX%3A32012R0260' },
+];
+const costs = [
+  ['Traditional bank account', '€101.10 / year average (2024)'],
+  ['Online account', '€30.60 / year average'],
+  ['Postal account', '€71.60 / year average'],
+  ['Imposta di bollo (stamp duty)', '€34.20 / year — not due if your average annual balance stays at or below €5,000'],
+];
+---
+
+<BaseLayout
+  title="Opening a bank account in Italy"
+  description="The conto di base is a legal right for anyone staying legally in the EU — no registered residency needed. Documents, the free tiers, refusal rules, real costs, and why your employer cannot demand an Italian IBAN."
+  alternates={{ en: '/banking', it: '/it/banking' }}
+  ogImage="/og/banking.png"
+>
+  <div class="prose">
+    <h1>Opening a bank account in Italy</h1>
+    <p>
+      Newcomers are often told they are stuck in a loop: no residency without an
+      address, no account without residency. For one specific product that loop
+      does not exist in law. Italy must offer a <strong>conto di base</strong> to
+      any consumer <strong>staying legally in the EU</strong>, expressly
+      "regardless of place of residence" (art. 126-noviesdecies TUB). Facts
+      verified <time datetime="2026-07-28">28 July 2026</time>; orientation, not
+      legal or financial advice.
+    </p>
+
+    <h2>Your legal right: the conto di base</h2>
+    <p>
+      Every bank, Poste Italiane and payment institution offering consumer
+      accounts <strong>must</strong> offer this euro account. The entitlement
+      covers anyone with a right to stay under EU or Italian law — the statute
+      names <strong>people with no fixed abode and asylum seekers</strong>
+      explicitly. It carries a single all-inclusive annual fee, and for the
+      included operations no other charge may be added beyond taxes.
+    </p>
+    <ul>
+      <li><strong>Included</strong>: incoming and outgoing bonifici, salary or pension crediting, a debit card for payments and ATM withdrawals, online banking at no extra cost.</li>
+      <li><strong>Excluded by design</strong>: overdrafts and credit lines (legally prohibited on this account), a cheque book, a linked securities account.</li>
+      <li><strong>One per person</strong>: it is for consumers only, and not available if you already hold another payment account in Italy.</li>
+    </ul>
+
+    <h2>When it is free</h2>
+    <p>
+      Two tiers cost nothing (DM 70/2018): if your <strong>ISEE is below
+      €11,600</strong> the account is free <em>and</em> exempt from stamp duty;
+      if you draw a <strong>pension of up to €18,000 gross a year</strong> the
+      account is free but stamp duty still applies. Both need written
+      self-certification, and the ISEE must be re-communicated to the bank
+      <strong>by 31 May each year</strong> — miss it and the fee returns.
+      Operations beyond the included package can still be charged in either tier.
+    </p>
+
+    <h2>What you need to bring</h2>
+    <p>
+      A <strong>valid identity document</strong> (anti-money-laundering rules;
+      remote identification via SPID or CIE is also allowed) and your
+      <a href="/eu-citizens/residency/codice-fiscale">codice fiscale</a>, which
+      banks are required to record for anyone opening any relationship. If you
+      are not yet resident and have no codice fiscale, the law lets the bank
+      record your details with your foreign address instead — but get the codice
+      fiscale first if you are actually moving: every bank will ask.
+      No fetched official source makes a permesso di soggiorno a statutory
+      precondition; the legal test is lawful stay. What individual banks accept
+      as <em>evidence</em> of that varies, so ask before you queue.
+    </p>
+
+    <h2>If the bank says no</h2>
+    <p>
+      For the conto di base the grounds for refusal are a closed list: failing
+      the legal requirements, already holding an Italian payment account, or
+      anti-money-laundering concerns. A refusal must be given
+      <strong>in writing, free of charge, within 10 working days</strong>, with
+      the specific reasons and the routes to complain — a formal
+      <em>reclamo</em>, an <em>esposto</em> to Banca d'Italia, or the banking
+      ombudsman (<strong>ABF</strong>). Opening also cannot be made conditional
+      on buying other products.
+    </p>
+
+    <h2>What accounts really cost</h2>
+  </div>
+
+  <div class="mt-4 overflow-x-auto">
+    <table class="w-full min-w-[480px] border-collapse text-sm">
+      <tbody>
+        {
+          costs.map(([item, cost]) => (
+            <tr class="border-b border-line align-top">
+              <td class="py-2.5 pr-4 font-medium">{item}</td>
+              <td class="py-2.5 text-muted">{cost}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose mt-6">
+    <p>
+      Those are Banca d'Italia's own survey figures for 2024 (weighted average
+      across account types: €85.30). Compare the <em>Documento informativo sulle
+      spese</em> and the total-cost indicator (ICC) before choosing — the
+      regulator publishes both precisely so you can.
+    </p>
+
+    <h2>Keep your EU IBAN — or switch later</h2>
+    <p>
+      If you already bank elsewhere in the EU, you may not need an Italian
+      account at all: under <strong>art. 9 of Regulation (EU) 260/2012</strong>
+      a payee cannot require your account to be in a particular member state, so
+      an Italian employer or utility <strong>must accept any SEPA-reachable EU
+      IBAN</strong> for salary and direct debits. And if you do open one and
+      regret it, switching is a consumer right: the new bank must move balance,
+      standing orders and direct debits <strong>within 12 working days, free of
+      charge</strong>, or owes you €40 plus a daily surcharge.
+    </p>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Sources</h2>
+    <p class="mt-1 text-sm text-muted">
+      Primary, official sources this page is based on — each fetched and checked on 28 July 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

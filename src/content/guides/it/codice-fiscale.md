@@ -40,7 +40,7 @@ quasi nient'altro si può fare senza.
 Il codice fiscale ti verrà richiesto per:
 
 - firmare un contratto di lavoro o di lavoro autonomo;
-- aprire un conto corrente italiano;
+- [aprire un conto corrente italiano](/it/banking);
 - firmare un contratto di affitto;
 - iscriverti al Servizio Sanitario Nazionale (SSN);
 - attivare utenze, un contratto telefonico e la maggior parte degli altri servizi.

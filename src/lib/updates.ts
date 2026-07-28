@@ -4,6 +4,8 @@ import { getCity } from '../data/cities';
 import { localizePath, type Locale } from '../i18n/ui';
 import { guideSlug } from './guides';
 import historyJson from '../data/history.json';
+// @ts-expect-error — plain .mjs registry shared with the node scripts.
+import { orientationPages, orientationUrl } from '../data/orientation-pages.mjs';
 
 /**
  * The site-wide verification feed: every event where a content file's
@@ -17,6 +19,13 @@ interface HistoryEvent {
   subject: string;
 }
 const history = historyJson as Record<string, HistoryEvent[]>;
+
+interface OrientationEntry {
+  en: string;
+  it: string;
+  title: string;
+  titleIt: string;
+}
 
 export interface UpdateEvent {
   label: string;
@@ -59,6 +68,13 @@ export async function getUpdateFeed(locale: Locale): Promise<UpdateDay[]> {
         url: localizePath(`/cities/${citySlug}/residency/${guide}`, locale),
       };
     }),
+    // Orientation pages live outside the collections; their history is keyed
+    // by `pages/<path>` (see scripts/build-history.mjs).
+    ...(orientationPages as OrientationEntry[]).map((p) => ({
+      key: `pages/${p.en.replace(/^src\/pages\//, '')}`,
+      label: locale === 'it' ? p.titleIt : p.title,
+      url: localizePath(orientationUrl(p), locale),
+    })),
   ];
 
   const byDate = new Map<string, UpdateEvent[]>();

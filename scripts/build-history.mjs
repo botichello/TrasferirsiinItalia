@@ -59,6 +59,38 @@ for (const file of mdFiles(CONTENT)) {
   if (events.length > 0) history[rel] = events;
 }
 
+// Orientation pages (src/pages/*.astro, tracked via the registry): one event
+// per commit in which the page's visible <time datetime="…"> changed. Keyed
+// as `pages/<path under src/pages>` — disjoint from the content keys above.
+const { orientationPages } = await import(new URL('../src/data/orientation-pages.mjs', import.meta.url));
+for (const entry of orientationPages) {
+  const relRepo = entry.en;
+  const key = 'pages/' + relRepo.replace(/^src\/pages\//, '');
+  const log = git('log', '--reverse', '--follow', '--format=%H\t%cs\t%s', '--', relRepo)
+    .trim()
+    .split('\n')
+    .filter(Boolean)
+    .map((l) => {
+      const [sha, date, ...subject] = l.split('\t');
+      return { sha, date, subject: subject.join('\t') };
+    });
+  const events = [];
+  let prev;
+  for (const { sha, date, subject } of log) {
+    let verified;
+    try {
+      verified = git('show', `${sha}:${relRepo}`).match(/<time datetime="(\d{4}-\d{2}-\d{2})"/)?.[1];
+    } catch {
+      continue;
+    }
+    if (verified && verified !== prev) {
+      events.push({ verified, committed: date, subject });
+      prev = verified;
+    }
+  }
+  if (events.length > 0) history[key] = events;
+}
+
 writeFileSync(OUT, JSON.stringify(history, null, 1) + '\n');
 const total = Object.values(history).reduce((n, e) => n + e.length, 0);
 console.log(`✓ history.json: ${total} verification events across ${Object.keys(history).length} files`);

@@ -273,6 +273,20 @@ export const glossary: GlossaryTerm[] = [
     guide: '/driving',
   },
   {
+    slug: 'conto-di-base',
+    term: 'Conto di base',
+    en: 'The basic payment account every bank, Poste Italiane and payment institution must offer to any consumer staying legally in the EU — regardless of place of residence, and expressly including asylum seekers and people with no fixed abode (art. 126-noviesdecies TUB). One all-inclusive annual fee, no overdraft.',
+    it: 'Il conto di pagamento che ogni banca, Poste Italiane e istituto di pagamento deve offrire a qualunque consumatore che soggiorni legalmente nell’UE — a prescindere dal luogo di residenza, e includendo espressamente richiedenti asilo e persone senza fissa dimora (art. 126-noviesdecies TUB). Un canone annuo onnicomprensivo, senza fido.',
+    guide: '/banking',
+  },
+  {
+    slug: 'imposta-di-bollo',
+    term: 'Imposta di bollo (conto corrente)',
+    en: 'Stamp duty on account statements: €34.20 a year for individuals, not due when the average annual balance stays at or below €5,000 (Tariffa DPR 642/1972 art. 13, as amended by D.L. 201/2011).',
+    it: 'L’imposta sugli estratti conto: 34,20 € l’anno per le persone fisiche, non dovuta se la giacenza media annua non supera 5.000 € (Tariffa DPR 642/1972 art. 13, come modificato dal D.L. 201/2011).',
+    guide: '/banking',
+  },
+  {
     slug: 'legalizzazione-apostille',
     term: 'Legalizzazione / Apostille',
     en: 'Consular legalisation, or the Hague apostille, that makes a foreign civil-status certificate (marriage, birth) valid for Italian files — the most common cause of rejected applications when missing.',

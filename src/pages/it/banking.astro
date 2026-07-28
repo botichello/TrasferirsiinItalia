@@ -1,0 +1,155 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const sources = [
+  { title: "Normattiva — TUB (D.lgs 385/1993), art. 126-noviesdecies (diritto al conto di base)", url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1993-09-01;385~art126noviesdecies!vig=' },
+  { title: 'Normattiva — TUB, art. 126-vicies (apertura e motivi di rifiuto)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1993-09-01;385~art126vicies!vig=' },
+  { title: 'Normattiva — TUB, art. 126-viciessemel e 126-viciesbis (caratteristiche e spese)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1993-09-01;385~art126viciessemel!vig=' },
+  { title: 'Normattiva — TUB, artt. 126-quinquiesdecies e 126-septiesdecies (portabilità in 12 giorni, penale)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1993-09-01;385~art126quinquiesdecies!vig=' },
+  { title: 'Normattiva — DM MEF 3 maggio 2018, n. 70, artt. 4-5 (gratuità: ISEE 11.600 €, pensioni 18.000 €)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:ministero.economia.e.finanze:decreto:2018-05-03;70~art4!vig=' },
+  { title: 'Normattiva — DPR 605/1973, artt. 6-7 (codice fiscale nei rapporti bancari)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:presidente.repubblica:decreto:1973-09-29;605~art7!vig=' },
+  { title: 'Normattiva — D.L. 201/2011, art. 19 (imposta di bollo 34,20 €, esenzione sotto 5.000 € di giacenza media)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2011-12-06;201~art19!vig=' },
+  { title: "Banca d'Italia — Il conto di base (economiapertutti)", url: 'https://economiapertutti.bancaditalia.it/aree-tematiche/conto-corrente/il-conto-di-base/index.html' },
+  { title: "Banca d'Italia — Indagine sul costo dei conti correnti nel 2024", url: 'https://www.bancaditalia.it/pubblicazioni/indagine-costo-cc/indagine-costo-cc2025/index.html' },
+  { title: 'Regolamento (UE) 260/2012, art. 9 (accessibilità dei pagamenti — nessuna discriminazione per IBAN)', url: 'http://web.archive.org/web/20260111052929/https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX%3A32012R0260' },
+];
+const costs = [
+  ['Conto corrente bancario tradizionale', 'Media 101,10 € / anno (2024)'],
+  ['Conto online', 'Media 30,60 € / anno'],
+  ['Conto postale', 'Media 71,60 € / anno'],
+  ['Imposta di bollo', '34,20 € / anno — non dovuta se la giacenza media annua non supera 5.000 €'],
+];
+---
+
+<BaseLayout
+  title="Aprire un conto bancario in Italia"
+  description="Il conto di base è un diritto per chi soggiorna legalmente nell'UE — senza bisogno della residenza anagrafica. Documenti, gratuità, motivi di rifiuto, costi reali e perché il datore di lavoro non può pretendere un IBAN italiano."
+  alternates={{ en: '/banking', it: '/it/banking' }}
+  ogImage="/og/it/banking.png"
+>
+  <div class="prose">
+    <h1>Aprire un conto bancario in Italia</h1>
+    <p>
+      A chi arriva viene spesso raccontato un circolo vizioso: niente residenza
+      senza indirizzo, niente conto senza residenza. Per un prodotto specifico
+      quel circolo non esiste nella legge. L'Italia deve offrire un
+      <strong>conto di base</strong> a qualunque consumatore che
+      <strong>soggiorni legalmente nell'Unione europea</strong>, espressamente
+      "a prescindere dal luogo di residenza" (art. 126-noviesdecies TUB). Fatti
+      verificati il <time datetime="2026-07-28">28 luglio 2026</time>;
+      orientamento, non consulenza legale o finanziaria.
+    </p>
+
+    <h2>Un diritto: il conto di base</h2>
+    <p>
+      Ogni banca, Poste Italiane e istituto di pagamento che offre conti ai
+      consumatori <strong>deve</strong> offrire questo conto in euro. Il diritto
+      spetta a chi ha titolo a soggiornare in base al diritto dell'Unione o
+      italiano — la norma nomina esplicitamente <strong>le persone senza fissa
+      dimora e i richiedenti asilo</strong>. Prevede un unico canone annuo
+      onnicomprensivo e, per le operazioni incluse, nessun altro addebito oltre
+      le imposte.
+    </p>
+    <ul>
+      <li><strong>Incluso</strong>: bonifici in entrata e in uscita, accredito di stipendio o pensione, una carta di debito per pagamenti e prelievi, i canali online senza costi aggiuntivi.</li>
+      <li><strong>Escluso per legge</strong>: fido e sconfinamenti (vietati su questo conto), il libretto degli assegni, il deposito titoli collegato.</li>
+      <li><strong>Uno per persona</strong>: è riservato ai consumatori e non spetta se hai già un altro conto di pagamento in Italia.</li>
+    </ul>
+
+    <h2>Quando è gratuito</h2>
+    <p>
+      Due fasce non costano nulla (DM 70/2018): con <strong>ISEE inferiore a
+      11.600 €</strong> il conto è gratuito <em>ed</em> esente da imposta di
+      bollo; con una <strong>pensione fino a 18.000 € lordi l'anno</strong> il
+      conto è gratuito ma il bollo resta dovuto. Servono un'autocertificazione
+      scritta e, per l'ISEE, la ricomunicazione alla banca
+      <strong>entro il 31 maggio di ogni anno</strong> — se salta, il canone
+      torna. Le operazioni oltre il pacchetto incluso restano addebitabili in
+      entrambe le fasce.
+    </p>
+
+    <h2>Cosa portare</h2>
+    <p>
+      Un <strong>documento d'identità valido</strong> (obblighi antiriciclaggio;
+      è ammessa anche l'identificazione a distanza con SPID o CIE) e il
+      <a href="/it/eu-citizens/residency/codice-fiscale">codice fiscale</a>, che
+      le banche sono obbligate a rilevare per chiunque apra un rapporto. Se non
+      sei ancora residente e non hai un codice fiscale, la legge consente alla
+      banca di registrare i tuoi dati con il domicilio estero — ma se ti stai
+      davvero trasferendo, procurati prima il codice fiscale: te lo chiederanno
+      tutte. Nessuna fonte ufficiale consultata rende il permesso di soggiorno
+      un presupposto di legge; il criterio è il soggiorno legale. Ciò che ogni
+      banca accetta <em>come prova</em> varia, quindi informati prima di metterti
+      in coda.
+    </p>
+
+    <h2>Se la banca dice no</h2>
+    <p>
+      Per il conto di base i motivi di rifiuto sono un elenco chiuso: mancanza
+      dei requisiti di legge, un conto di pagamento già intestato in Italia, o
+      ragioni antiriciclaggio. Il rifiuto va comunicato
+      <strong>per iscritto, gratuitamente, entro 10 giorni lavorativi</strong>,
+      con le ragioni specifiche e le vie di tutela — il <em>reclamo</em>, un
+      <em>esposto</em> alla Banca d'Italia, o l'<strong>Arbitro Bancario
+      Finanziario (ABF)</strong>. L'apertura non può nemmeno essere subordinata
+      all'acquisto di altri prodotti.
+    </p>
+
+    <h2>Quanto costa davvero un conto</h2>
+  </div>
+
+  <div class="mt-4 overflow-x-auto">
+    <table class="w-full min-w-[480px] border-collapse text-sm">
+      <tbody>
+        {
+          costs.map(([item, cost]) => (
+            <tr class="border-b border-line align-top">
+              <td class="py-2.5 pr-4 font-medium">{item}</td>
+              <td class="py-2.5 text-muted">{cost}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose mt-6">
+    <p>
+      Sono i dati dell'indagine della Banca d'Italia sul 2024 (media ponderata
+      tra i tipi di conto: 85,30 €). Confronta il <em>Documento informativo sulle
+      spese</em> e l'indicatore dei costi complessivi (ICC) prima di scegliere:
+      l'autorità li pubblica proprio perché tu possa farlo.
+    </p>
+
+    <h2>Tieni il tuo IBAN europeo — o cambia dopo</h2>
+    <p>
+      Se hai già una banca in un altro paese UE, potresti non avere bisogno di un
+      conto italiano: in base all'<strong>art. 9 del Regolamento (UE)
+      260/2012</strong> il beneficiario di un pagamento non può imporre in quale
+      Stato membro sia il tuo conto, quindi un datore di lavoro o un fornitore
+      italiano <strong>deve accettare qualunque IBAN UE raggiungibile in
+      SEPA</strong> per stipendi e addebiti diretti. E se apri un conto e te ne
+      penti, il trasferimento è un diritto: la nuova banca deve spostare saldo,
+      ordini permanenti e addebiti <strong>entro 12 giorni lavorativi e a titolo
+      gratuito</strong>, altrimenti ti deve 40 € più una penale giornaliera.
+    </p>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Fonti</h2>
+    <p class="mt-1 text-sm text-muted">
+      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e verificata il 28 luglio 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

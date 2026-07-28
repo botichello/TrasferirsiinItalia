@@ -39,7 +39,7 @@ almost nothing else can be done without it.
 You will be asked for a codice fiscale to:
 
 - sign an employment or self-employment contract;
-- open an Italian bank account;
+- [open an Italian bank account](/banking);
 - sign a residential lease;
 - register with the national health service (SSN);
 - set up utilities, a mobile contract, and most other services.

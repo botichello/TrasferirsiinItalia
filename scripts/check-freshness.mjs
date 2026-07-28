@@ -93,7 +93,19 @@ const { orientationPages } = await import(
   new URL('../src/data/orientation-pages.mjs', import.meta.url)
 );
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
-const SENTINELS = ['orientation, not legal advice', 'orientamento, non consulenza legale'];
+// Orientation pages carry a disclaimer line. Match it on whitespace-normalized
+// text: in the source the phrase wraps across lines, and the tail varies
+// ("not legal advice" / "not legal or financial advice"), so a plain substring
+// test silently missed most pages — which would have let an unregistered page
+// through the completeness scan below.
+const SENTINELS = [
+  /orientation, not legal (or \w+ )?advice/,
+  /orientamento, non consulenza legale/,
+];
+const hasSentinel = (raw) => {
+  const flat = raw.replace(/\s+/g, ' ').toLowerCase();
+  return SENTINELS.some((re) => re.test(flat));
+};
 const registered = new Set();
 
 for (const entry of orientationPages) {
@@ -141,11 +153,15 @@ async function walkAstro(dir) {
 }
 for (const path of await walkAstro(join(ROOT, 'src/pages'))) {
   const raw = await readFile(path, 'utf8');
-  if (SENTINELS.some((s) => raw.toLowerCase().includes(s))) {
-    const rel = relative(ROOT, path);
+  const rel = relative(ROOT, path);
+  if (hasSentinel(raw)) {
     if (!registered.has(rel)) {
       errors.push(`${rel}: orientation page not registered in src/data/orientation-pages.mjs`);
     }
+  } else if (registered.has(rel)) {
+    // The inverse guard: a registered page that lost its disclaimer would also
+    // silently drop out of the scan above, so require it to keep one.
+    errors.push(`${rel}: registered orientation page is missing the disclaimer sentinel`);
   }
 }
 

@@ -24,7 +24,9 @@
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
-const DIST = new URL('../dist/', import.meta.url).pathname;
+// Defaults to dist/; overridable so scripts/test-gates.mjs can run this gate
+// against a deliberately broken copy of the build and assert each rule fires.
+const DIST = process.env.CHECK_SEO_DIST ?? new URL('../dist/', import.meta.url).pathname;
 const errors = [];
 const err = (page, msg) => errors.push(`  ${page}: ${msg}`);
 
@@ -63,11 +65,18 @@ for (const file of htmlFiles(DIST)) {
     continue;
   }
   const canonical = attr(canonicals[0], 'href') ?? '';
-  if (!/^https:\/\//.test(canonical)) err(urlPath, `canonical not absolute: ${canonical}`);
-  if (canonical !== 'https://' + new URL(canonical).host + '/' && canonical.endsWith('/'))
-    err(urlPath, `canonical has trailing slash: ${canonical}`);
-  site ??= new URL(canonical).origin;
-  if (!canonical.startsWith(site)) err(urlPath, `canonical off-site: ${canonical}`);
+  // The checks below parse the canonical as a URL, so a relative one has to
+  // stop here: previously `new URL('/')` threw and the gate died with a stack
+  // trace instead of reporting the problem it had just detected (test-gates).
+  const absolute = /^https:\/\//.test(canonical);
+  if (!absolute) {
+    err(urlPath, `canonical not absolute: ${canonical}`);
+  } else {
+    if (canonical !== 'https://' + new URL(canonical).host + '/' && canonical.endsWith('/'))
+      err(urlPath, `canonical has trailing slash: ${canonical}`);
+    site ??= new URL(canonical).origin;
+    if (!canonical.startsWith(site)) err(urlPath, `canonical off-site: ${canonical}`);
+  }
 
   const alternates = Object.fromEntries(
     [...html.matchAll(/<link rel="alternate" hreflang="[^"]*"[^>]*>/g)].map((m) => [
@@ -107,22 +116,37 @@ for (const file of htmlFiles(DIST)) {
 }
 
 // ---- Cross-page invariants ---------------------------------------------------
+const ALLOWED_HREFLANG = new Set(['en', 'it', 'x-default']);
+/** Canonical string form of an hreflang map, for comparing the two twins. */
+const hreflangSet = (map) =>
+  Object.entries(map)
+    .map(([lang, href]) => `${lang}=${new URL(href).pathname.replace(/\/$/, '') || '/'}`)
+    .sort()
+    .join(',');
+
 for (const page of pages.values()) {
   const langs = Object.keys(page.alternates);
   if (langs.length > 0) {
     // Alternates only belong on self-canonical pages.
     if (!page.selfCanonical) err(page.urlPath, 'declares hreflang but canonicalizes elsewhere');
     for (const [lang, href] of Object.entries(page.alternates)) {
+      // The site is bilingual EN/IT: any other code is a typo, and a typo'd
+      // code is invisible to a URL-only reciprocity test (found by test-gates).
+      if (!ALLOWED_HREFLANG.has(lang)) err(page.urlPath, `unexpected hreflang code: ${lang}`);
       if (lang === 'x-default') continue;
       const targetPath = new URL(href).pathname === '/' ? '/' : new URL(href).pathname.replace(/\/$/, '');
       const target = pages.get(targetPath);
       if (!target) {
         err(page.urlPath, `hreflang ${lang} points to missing page ${targetPath}`);
       } else if (targetPath !== page.urlPath) {
-        // Reciprocity: the twin must declare the same pair back.
-        const back = Object.values(target.alternates).map((h) => new URL(h).pathname.replace(/\/$/, '') || '/');
-        if (!back.includes(page.urlPath))
-          err(page.urlPath, `hreflang not reciprocated by ${targetPath}`);
+        // Reciprocity, by lang→URL pair rather than URL alone: both twins must
+        // advertise the identical hreflang set, which is what BaseLayout emits.
+        if (hreflangSet(target.alternates) !== hreflangSet(page.alternates))
+          err(
+            page.urlPath,
+            `hreflang set not reciprocated by ${targetPath} ` +
+              `(${hreflangSet(page.alternates)} vs ${hreflangSet(target.alternates)})`,
+          );
       }
     }
   }

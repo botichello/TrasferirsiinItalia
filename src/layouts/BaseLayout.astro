@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
-import { getLocale, ui } from '../i18n/ui';
+import { getLocale, localizePath, ui } from '../i18n/ui';
+import { findByPath, parentOf, pathOf, titleOf } from '../lib/orientation';
 import { SEARCH_INDEXING } from '../data/site';
 // Hashed URLs of the two latin font files used above the fold, for preload.
 import interLatinUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
@@ -22,6 +23,8 @@ interface Props {
   noindex?: boolean;
   /** Root-relative path of a page-specific social card (defaults to the site card). */
   ogImage?: string;
+  /** Official sources an orientation page cites, emitted as schema.org citations. */
+  citations?: { title: string; url: string }[];
 }
 const {
   title,
@@ -32,6 +35,7 @@ const {
   modified,
   noindex = false,
   ogImage: ogImagePath = '/og-default.png',
+  citations = [],
 } = Astro.props;
 const canonical = canonicalOverride ?? new URL(Astro.url.pathname, Astro.site).href;
 const siteName = 'Trasferirsi in Italia';
@@ -69,6 +73,51 @@ const websiteSchema = {
     },
     'query-input': 'required name=search_term_string',
   },
+};
+
+// Orientation pages (src/pages/*.astro outside the content collections) get an
+// Article + BreadcrumbList graph, auto-detected from the registry so the
+// structured dateModified always equals the date printed on the page. The
+// guides get their own HowTo/FAQPage graph via components/StructuredData.astro.
+const orientationEntry = findByPath(Astro.url.pathname);
+const orientationSchema = orientationEntry && {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      headline: title,
+      description,
+      url: canonical,
+      inLanguage: locale,
+      dateModified: orientationEntry.lastVerified,
+      isAccessibleForFree: true,
+      publisher: { '@type': 'Organization', name: siteName, url: Astro.site?.href },
+      isPartOf: { '@type': 'WebSite', name: siteName, url: Astro.site?.href },
+      ...(citations.length > 0 && {
+        citation: citations.map((s) => ({ '@type': 'WebPage', name: s.title, url: s.url })),
+      }),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { name: t.guide.home, path: locale === 'en' ? '/' : '/it' },
+        ...(parentOf(orientationEntry)
+          ? [
+              {
+                name: titleOf(parentOf(orientationEntry)!, locale),
+                path: localizePath(pathOf(parentOf(orientationEntry)!), locale),
+              },
+            ]
+          : []),
+        { name: titleOf(orientationEntry, locale), path: localizePath(pathOf(orientationEntry), locale) },
+      ].map((item, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: item.name,
+        item: new URL(item.path, Astro.site).href,
+      })),
+    },
+  ],
 };
 
 const homeHref = locale === 'en' ? '/' : '/it';
@@ -139,6 +188,15 @@ const homeHref = locale === 'en' ? '/' : '/it';
       set:html={JSON.stringify(websiteSchema)}
       is:inline
     />
+    {
+      orientationSchema && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(orientationSchema)}
+          is:inline
+        />
+      )
+    }
 
     <slot name="head" />
   </head>

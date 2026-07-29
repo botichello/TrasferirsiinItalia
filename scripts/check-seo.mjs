@@ -76,9 +76,11 @@ for (const file of htmlFiles(DIST)) {
     ]),
   );
 
+  const schemaNodes = [];
   for (const [, block] of html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) {
     try {
-      JSON.parse(block);
+      const parsed = JSON.parse(block);
+      schemaNodes.push(...(parsed['@graph'] ?? [parsed]));
     } catch {
       err(urlPath, 'JSON-LD does not parse');
     }
@@ -97,6 +99,7 @@ for (const file of htmlFiles(DIST)) {
     alternates,
     noindex: /<meta name="robots" content="noindex">/.test(html),
     ogImage,
+    schemaNodes,
     ids: new Set([...html.matchAll(/ id="([^"]+)"/g)].map((m) => m[1])),
     // Root-relative internal links (skip protocol/mailto/anchor-only).
     links: [...html.matchAll(/ href="(\/[^"]*)"/g)].map((m) => m[1]),
@@ -163,6 +166,38 @@ for (const page of pages.values()) {
   }
 }
 
+// ---- Orientation-page structured data ----------------------------------------
+// Every registered orientation page (both languages) must emit an Article whose
+// dateModified equals the registry's lastVerified — the same date the page
+// prints and check-freshness asserts — plus a BreadcrumbList. Without this the
+// schema could silently disappear or drift from the visible date.
+const { orientationPages, orientationUrl } = await import(
+  new URL('../src/data/orientation-pages.mjs', import.meta.url)
+);
+let orientationChecked = 0;
+for (const entry of orientationPages) {
+  const enPath = orientationUrl(entry);
+  for (const urlPath of [enPath, `/it${enPath}`]) {
+    const page = pages.get(urlPath);
+    if (!page) {
+      err(urlPath, 'registered orientation page was not built');
+      continue;
+    }
+    orientationChecked++;
+    const article = page.schemaNodes.find((n) => n['@type'] === 'Article');
+    if (!article) {
+      err(urlPath, 'orientation page missing Article JSON-LD');
+    } else if (article.dateModified !== entry.lastVerified) {
+      err(
+        urlPath,
+        `Article dateModified ${article.dateModified} != registry lastVerified ${entry.lastVerified}`,
+      );
+    }
+    if (!page.schemaNodes.some((n) => n['@type'] === 'BreadcrumbList'))
+      err(urlPath, 'orientation page missing BreadcrumbList JSON-LD');
+  }
+}
+
 // ---- Sitemap invariants ------------------------------------------------------
 const sitemapIndex = readFileSync(join(DIST, 'sitemap-index.xml'), 'utf8');
 const parts = [...sitemapIndex.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
@@ -192,6 +227,7 @@ if (errors.length > 0) {
 }
 console.log(
   `✓ check-seo: ${pages.size} pages OK — canonicals, hreflang reciprocity, ` +
-    `JSON-LD, og:image, ${sitemapUrls} sitemap URLs self-canonical` +
+    `JSON-LD, og:image, ${orientationChecked} orientation schemas, ` +
+    `${sitemapUrls} sitemap URLs self-canonical` +
     (privateMode ? ' (private mode: site-wide noindex expected)' : ''),
 );

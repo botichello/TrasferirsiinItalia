@@ -1872,7 +1872,14 @@
   {
    "verified": "2026-07-28",
    "committed": "2026-07-28",
-   "subject": "Steps 40-41: banking orientation page + orientation pages in the verification log"
+   "subject": "Steps 40-41: banking orientation page + orientation pages in the verification log (#21)"
+  }
+ ],
+ "pages/pets.astro": [
+  {
+   "verified": "2026-07-30",
+   "committed": "2026-07-30",
+   "subject": "Step 47: pets orientation page, and 90 citations that were never link-checked"
   }
  ]
 }

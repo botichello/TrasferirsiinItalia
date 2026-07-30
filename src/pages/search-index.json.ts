@@ -216,6 +216,18 @@ export const GET: APIRoute = async () => {
       text: 'conto di base corrente banca IBAN SEPA codice fiscale ISEE imposta di bollo rifiuto ABF portabilità stipendio',
     },
     {
+      title: 'Moving to Italy with a dog, cat or ferret',
+      url: '/pets',
+      type: 'Page',
+      text: 'pet dog cat ferret microchip rabies vaccination EU pet passport animal health certificate titration test SINAC anagrafe quarantine tapeworm echinococcus travellers point of entry',
+    },
+    {
+      title: 'Trasferirsi in Italia con un cane, un gatto o un furetto',
+      url: '/it/pets',
+      type: 'Pagina (IT)',
+      text: 'animali cane gatto furetto microchip vaccinazione antirabbica passaporto certificato sanitario titolazione SINAC anagrafe quarantena echinococco punto di entrata',
+    },
+    {
       title: 'The full journey checklist',
       url: '/checklist',
       type: 'Page',

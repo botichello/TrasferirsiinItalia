@@ -100,9 +100,12 @@ const { orientationPages } = await import(
 // ("not legal advice" / "not legal or financial advice"), so a plain substring
 // test silently missed most pages — which would have let an unregistered page
 // through the completeness scan below.
+// The qualifier list varies by topic ("not legal advice", "not legal or
+// financial advice", "not veterinary or legal advice"), so match the shape of
+// the sentence rather than an enumeration of variants.
 const SENTINELS = [
-  /orientation, not legal (or \w+ )?advice/,
-  /orientamento, non consulenza legale/,
+  /orientation, not [\w ,]{0,30}advice/,
+  /orientamento, non consulenza [\w ,]{0,30}legale/,
 ];
 const hasSentinel = (raw) => {
   const flat = raw.replace(/\s+/g, ' ').toLowerCase();

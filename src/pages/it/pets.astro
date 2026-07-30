@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const sources = [
+  { title: 'EUR-Lex — Regolamento delegato (UE) 2026/131 (movimenti non commerciali di animali da compagnia, si applica dal 22 aprile 2026)', url: 'https://eur-lex.europa.eu/legal-content/IT/TXT/?uri=CELEX:32026R0131' },
+  { title: 'EUR-Lex — Regolamento di esecuzione (UE) 2026/636 (elenchi di paesi terzi: allegati I e II)', url: 'https://eur-lex.europa.eu/legal-content/IT/TXT/?uri=CELEX:32026R0636' },
+  { title: 'EUR-Lex — Regolamento di esecuzione (UE) 2026/705 (modelli di passaporto, certificato sanitario, dichiarazioni)', url: 'https://eur-lex.europa.eu/legal-content/IT/TXT/?uri=CELEX:32026R0705' },
+  { title: 'EUR-Lex — Regolamento (UE) 2016/429 (normativa sanità animale), artt. 244-256 (limite di 5 animali, regola dei 5 giorni)', url: 'https://eur-lex.europa.eu/legal-content/IT/TXT/?uri=CELEX:32016R0429' },
+  { title: 'EUR-Lex — Regolamento delegato (UE) 2020/688, allegato VII (validità della vaccinazione antirabbica; trattamento echinococco)', url: 'https://eur-lex.europa.eu/legal-content/IT/TXT/?uri=CELEX:32020R0688' },
+  { title: 'EUR-Lex — Regolamento delegato (UE) 2020/692, allegato XXI (titolazione degli anticorpi antirabbici)', url: 'https://eur-lex.europa.eu/legal-content/IT/TXT/?uri=CELEX:32020R0692' },
+  { title: 'EUR-Lex — Regolamento di esecuzione (UE) 2021/620, allegato XIX (status di indenne da Echinococcus multilocularis)', url: 'https://eur-lex.europa.eu/legal-content/IT/TXT/?uri=CELEX:32021R0620' },
+  { title: 'Normattiva — D.lgs 134/2022, artt. 16 e 20 (identificazione e registrazione in SINAC; sanzioni)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2022-08-05;134~art16' },
+  { title: 'Gazzetta Ufficiale — DM 2 novembre 2023, art. 3 (SINAC: la regola dei 30 giorni per gli animali introdotti in Italia)', url: 'https://www.gazzettaufficiale.it/atto/serie_generale/caricaArticolo?art.versione=1&art.idGruppo=0&art.flagTipoArticolo=0&art.codiceRedazionale=23A06843&art.idArticolo=3&art.idSottoArticolo=1&art.idSottoArticolo1=10&art.dataPubblicazioneGazzetta=2023-12-18&art.progressivo=0' },
+  { title: 'Ministero della Salute — In viaggio verso l’Italia (nessun trattamento contro zecche ed echinococco; nessuna deroga per i cuccioli)', url: 'https://www.salute.gov.it/new/it/tema/animali-daffezione/viaggio-verso-litalia/' },
+  { title: 'Ministero della Salute — Il microchip e la registrazione del proprio animale', url: 'https://www.salute.gov.it/new/it/tema/animali-daffezione/il-microchip-e-la-registrazione-del-proprio-animale/' },
+  { title: 'Ministero della Salute — Passaporto per animali da compagnia (rilasciato dai servizi veterinari ASL)', url: 'https://www.salute.gov.it/new/it/tema/animali-daffezione/passaporto/' },
+  { title: 'Commissione europea — Punti di entrata dei viaggiatori (aeroporti e porti designati dall’Italia)', url: 'https://food.ec.europa.eu/animals/live-animal-movements/dogs-cats-and-ferrets/travellers-points-entry_en' },
+  { title: 'Commissione europea — Animali giovani (deroghe per Stato membro: Italia “No”)', url: 'https://food.ec.europa.eu/animals/live-animal-movements/dogs-cats-and-ferrets/young-animals_en' },
+];
+const order = [
+  ['1. Microchip', 'Un transponder ISO impiantato da un veterinario. Il tatuaggio vale solo se fatto prima del 3 luglio 2011.'],
+  ['2. Vaccinazione antirabbica', 'Solo dopo il microchip — e l’animale deve avere almeno 12 settimane alla prima vaccinazione.'],
+  ['3. Attendere, poi partire', 'Devono passare almeno 21 giorni dal completamento del ciclo primario. Un richiamo nei termini non riapre l’attesa.'],
+  ['4. Documento', 'Passaporto UE da un altro Stato membro, oppure certificato sanitario se si arriva da fuori UE.'],
+];
+---
+
+<BaseLayout
+  title="Trasferirsi in Italia con un cane, un gatto o un furetto"
+  description="Microchip, vaccinazione antirabbica e passaporto — in questo ordine. Cosa è cambiato il 22 aprile 2026, le regole da dentro e da fuori l'UE, l'obbligo di registrazione in SINAC e cosa l'Italia non richiede."
+  alternates={{ en: '/pets', it: '/it/pets' }}
+  ogImage="/og/it/pets.png"
+  citations={sources}
+>
+  <div class="prose">
+    <h1>Trasferirsi in Italia con un cane, un gatto o un furetto</h1>
+    <p>
+      Tre cose, in un ordine rigido: <strong>microchip, vaccinazione
+      antirabbica, documento di viaggio</strong>. Se sbagli l'ordine, la
+      vaccinazione non vale. Fatti verificati il
+      <time datetime="2026-07-30">30 luglio 2026</time>; orientamento, non
+      consulenza veterinaria o legale.
+    </p>
+
+    <div class="not-prose my-6 rounded-xl border border-brand-300 bg-brand-50/60 p-5">
+      <h2 class="font-serif text-lg">Le regole sono cambiate il 22 aprile 2026</h2>
+      <p class="mt-2 text-sm">
+        Il regolamento (UE) 576/2013 — quello citato da quasi tutte le guide sui
+        viaggi con animali — <strong>ha cessato di applicarsi il 21 aprile
+        2026</strong>. L'atto in vigore è il <strong>regolamento delegato (UE)
+        2026/131</strong>. La sostanza è in gran parte la stessa, ma i modelli dei
+        documenti e la formulazione della scadenza dell'esame del sangue no. Al
+        momento in cui scriviamo le pagine del Ministero della Salute sui viaggi
+        con animali (ultimo aggiornamento 2024–25) citano ancora il regolamento
+        abrogato: diffida di qualunque consiglio senza data.
+      </p>
+    </div>
+
+    <h2>L'ordine che conta</h2>
+  </div>
+
+  <div class="mt-4 overflow-x-auto">
+    <table class="w-full min-w-[480px] border-collapse text-sm">
+      <tbody>
+        {
+          order.map(([step, detail]) => (
+            <tr class="border-b border-line align-top">
+              <td class="py-2.5 pr-4 font-medium whitespace-nowrap">{step}</td>
+              <td class="py-2.5 text-muted">{detail}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose mt-6">
+    <p>
+      Una vaccinazione registrata <em>prima</em> del microchip non vale per il
+      viaggio e va ripetuta: la data della vaccinazione non può precedere quella
+      dell'identificazione. Nello stesso appuntamento si può fare — ma l'ordine
+      non è facoltativo.
+    </p>
+
+    <h2>Se arrivi da un altro paese UE</h2>
+    <p>
+      Il tuo <strong>passaporto UE resta valido</strong>: quelli rilasciati sul
+      vecchio modello prima del 22 aprile 2026 sono espressamente ancora
+      conformi, e non c'è alcun obbligo di sostituirlo con uno italiano. Puoi
+      spostare fino a <strong>cinque animali</strong> in un movimento non
+      commerciale — di più solo per gare o esposizioni, con prova scritta e
+      animali di età superiore a sei mesi.
+    </p>
+    <p>
+      Una cosa che l'Italia <strong>non</strong> concede: la deroga per i
+      cuccioli. Alcuni Stati membri ammettono animali sotto le 12 settimane, o
+      tra 12 e 16 settimane non ancora a 21 giorni dalla vaccinazione.
+      <strong>L'Italia no</strong> — il registro della Commissione riporta
+      "No" per l'Italia, e il Ministero lo scrive esplicitamente.
+    </p>
+
+    <h2>Se arrivi da fuori UE</h2>
+    <p>
+      Due fasce. Da un paese o territorio <strong>elencato</strong> — vi
+      figurano <strong>Stati Uniti, Regno Unito, Canada, Giappone, Australia,
+      Svizzera</strong> e altri cinquanta circa — servono microchip,
+      vaccinazione antirabbica e un <strong>certificato sanitario</strong>
+      rilasciato o vidimato <strong>non più di 10 giorni</strong> prima
+      dell'ingresso, con allegata la dichiarazione firmata di movimento non
+      commerciale. Il certificato copre poi sei mesi, o fino alla scadenza della
+      vaccinazione se anteriore.
+    </p>
+    <p>
+      Da un paese <strong>non elencato</strong> serve anche la
+      <strong>titolazione degli anticorpi antirabbici</strong>: prelievo almeno
+      <strong>30 giorni dopo</strong> la prima vaccinazione, con titolo di
+      almeno 0,5 UI/ml, effettuato <strong>almeno 90 giorni prima del rilascio
+      del certificato sanitario</strong>. Attenzione al riferimento: la vecchia
+      regola contava tre mesi dalla <em>partenza</em>, quella attuale conta 90
+      giorni dal <em>certificato</em>. Metti in conto quattro mesi o più, come
+      raccomanda lo stesso Ministero. Due paesi che erano elencati nel vecchio
+      regime — <strong>Russia e Bielorussia</strong> — non sono nel nuovo elenco.
+    </p>
+    <p>
+      Devi entrare da un <strong>punto di entrata dei viaggiatori</strong>
+      designato (l'Italia ne indica 41 aeroporti e 16 porti) e presentare
+      l'animale all'autorità presente per i controlli documentali e di identità.
+      Gli animali giovani non vaccinati non possono entrare nell'UE da fuori.
+    </p>
+
+    <h2>Dopo l'arrivo: la registrazione in SINAC</h2>
+    <p>
+      Legge italiana, non europea: un animale introdotto al seguito del
+      proprietario e <strong>destinato a restare oltre 30 giorni</strong> va
+      registrato in <strong>SINAC</strong>, la sezione nazionale degli animali
+      da compagnia della banca dati (90 giorni per uccelli, conigli e le altre
+      specie dell'allegato I Parte B). Entro quei termini la registrazione è
+      facoltativa. L'omessa registrazione è una sanzione amministrativa da
+      <strong>150 a 900 € per animale</strong>; i cambi di proprietà, gli
+      spostamenti e il decesso vanno comunicati entro 7 giorni, smarrimento e
+      ritrovamento entro 48 ore.
+    </p>
+    <p>
+      L'obbligo è nazionale ma l'attuazione è regionale, quindi procedura ed
+      eventuali costi dipendono dalla tua <a href="/it/regions">regione</a> e
+      dalla ASL — e le anagrafi regionali si sincronizzano con la banca dati
+      nazionale con tempi diversi. Il passaporto italiano lo rilasciano i
+      <strong>servizi veterinari della ASL</strong>; per i cani, solo dopo
+      l'iscrizione in anagrafe.
+    </p>
+
+    <h2>Cosa l'Italia non richiede</h2>
+    <ul>
+      <li><strong>Nessun trattamento contro echinococco o zecche.</strong> Il trattamento contro l'<em>Echinococcus multilocularis</em> riguarda solo i cani che entrano in Finlandia, Irlanda, Malta, Irlanda del Nord o Norvegia. Il Ministero scrive espressamente che per l'Italia non serve.</li>
+      <li><strong>Nessuna quarantena di routine.</strong> Per un animale conforme non è prevista. L'isolamento fino a sei mesi esiste solo come misura eccezionale, su permesso, per gli animali <em>non</em> conformi.</li>
+    </ul>
+
+    <h2>Quando non è più un "trasferimento di animale domestico"</h2>
+    <p>
+      Tre cose ti portano fuori dalle regole sugli animali da compagnia e dentro
+      l'importazione commerciale — con certificazione TRACES e controlli al posto
+      di controllo frontaliero: <strong>più di cinque animali</strong> senza la
+      deroga per le esposizioni, qualunque <strong>vendita o trasferimento di
+      proprietà</strong> (adozioni comprese), o l'animale che viaggia
+      <strong>a più di cinque giorni</strong> di distanza da te. Se lo porta
+      un'altra persona per te, serve la tua autorizzazione scritta allegata al
+      documento dell'animale.
+    </p>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Fonti</h2>
+    <p class="mt-1 text-sm text-muted">
+      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e verificata il 30 luglio 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

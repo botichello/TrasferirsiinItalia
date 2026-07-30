@@ -50,6 +50,17 @@ const c =
           { key: 'residenza-fiscale', title: 'Passo 7 · Residenza fiscale', base: 'Scatta automaticamente in base ai criteri di legge (art. 2 TUIR) — meglio orientarsi prima del trasferimento.' },
           { key: 'familiari-non-ue', title: 'Passo 8 · Familiari non UE', base: 'Se porti un coniuge o familiare non UE: carta di soggiorno di 5 anni dalla Questura.' },
         ],
+        alsoHeading: 'Oltre gli otto passi',
+        alsoHint:
+          'Pagine di orientamento sulle cose che il percorso non copre. Scegliendo la tua situazione, quelle che ti riguardano più da vicino vengono evidenziate.',
+        also: [
+          { href: '/renting', label: 'Affittare casa', note: 'Senza contratto registrato non ti iscrivi all’anagrafe: l’affitto viene prima del passo 2.', when: '' },
+          { href: '/banking', label: 'Aprire un conto bancario', note: 'Il conto di base è un diritto anche senza residenza; gratuito con pensione fino a 18.000 € l’anno.', when: 'pensioner inactive' },
+          { href: '/driving', label: 'Guidare con la patente estera', note: 'La patente UE vale fino alla scadenza; quella extra-UE un anno dall’iscrizione anagrafica.', when: '' },
+          { href: '/schools', label: 'Iscrivere i figli a scuola', note: 'Obbligo dai 6 ai 16 anni, e l’iscrizione si può chiedere in qualunque momento dell’anno.', when: 'family' },
+          { href: '/citizenship', label: 'Cittadinanza italiana', note: 'Per i cittadini UE la naturalizzazione arriva dopo 4 anni di residenza, non 10.', when: '' },
+          { href: '/non-eu', label: 'Non sei cittadino UE?', note: 'Sette vie di visto e permesso: nomadi digitali, residenza elettiva, studio, ricongiungimento, carta blu.', when: '' },
+        ],
       }
     : {
         yourSituation: 'Your situation',
@@ -81,6 +92,17 @@ const c =
           { key: 'patente-di-guida', title: 'Step 6 · Driving licence', base: 'Your EU licence stays valid until its expiry date; then you convert it at the Motorizzazione — national rules.' },
           { key: 'residenza-fiscale', title: 'Step 7 · Tax residency', base: 'Arises automatically under the legal criteria (art. 2 TUIR) — best understood before you move.' },
           { key: 'familiari-non-ue', title: 'Step 8 · Non-EU family', base: 'Bringing a non-EU spouse or relative: the 5-year carta di soggiorno from the Questura.' },
+        ],
+        alsoHeading: 'Beyond the eight steps',
+        alsoHint:
+          'Orientation pages for the things the journey itself does not cover. Pick your situation above and the ones that bear on it most are highlighted.',
+        also: [
+          { href: '/renting', label: 'Renting a home', note: 'Without a registered lease you cannot register residency — renting comes before step 2.', when: '' },
+          { href: '/banking', label: 'Opening a bank account', note: 'The conto di base is a right even without residency; free on a pension up to €18,000 a year.', when: 'pensioner inactive' },
+          { href: '/driving', label: 'Driving on a foreign licence', note: 'An EU licence lasts to its expiry; a non-EU one, one year from residence registration.', when: '' },
+          { href: '/schools', label: 'Enrolling children in school', note: 'Compulsory from 6 to 16, and you can enrol at any point in the school year.', when: 'family' },
+          { href: '/citizenship', label: 'Italian citizenship', note: 'For EU citizens naturalisation comes after 4 years of residence, not 10.', when: '' },
+          { href: '/non-eu', label: 'Not an EU citizen?', note: 'Seven visa and permit routes: digital nomad, elective residence, study, reunification, Blue Card.', when: '' },
         ],
       };
 ---
@@ -182,6 +204,24 @@ const c =
     {c.browse} <a href={`${prefix}/cities`} class="underline hover:text-ink">{c.citiesPage}</a>.
   </p>
 
+  <h2 class="mt-12 font-serif text-2xl">{c.alsoHeading}</h2>
+  <p class="mt-1 text-sm text-muted">{c.alsoHint}</p>
+  <ul class="mt-5 grid gap-3 sm:grid-cols-2">
+    {
+      c.also.map((item) => (
+        <li
+          class="status-row rounded-xl border border-line bg-white/60 p-5"
+          data-status-any={item.when}
+        >
+          <a href={`${prefix}${item.href}`} class="font-serif text-lg text-brand-700 hover:underline">
+            {item.label}
+          </a>
+          <p class="mt-1 text-sm text-muted">{item.note}</p>
+        </li>
+      ))
+    }
+  </ul>
+
   <span data-wizard-prefix={prefix} hidden></span>
 </section>
 
@@ -209,6 +249,16 @@ const c =
     const applyStatus = (status: string) => {
       btns.forEach((b) => b.classList.toggle('is-active', b.dataset.statusBtn === status && status !== ''));
       rows.forEach((r) => {
+        // "Beyond the eight steps" cards carry a space-separated list of the
+        // situations they bear on most ('' = everyone). They are highlighted
+        // but never dimmed: renting or banking stay relevant to every reader,
+        // so fading them would misinform rather than focus.
+        const any = r.dataset.statusAny;
+        if (any !== undefined) {
+          const relevant = any.split(' ').filter(Boolean).includes(status);
+          r.classList.toggle('is-you', status !== '' && relevant);
+          return;
+        }
         const match = r.dataset.status === status;
         r.classList.toggle('is-you', status !== '' && match);
         r.classList.toggle('is-dim', status !== '' && !match);

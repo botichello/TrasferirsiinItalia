@@ -73,6 +73,29 @@ const lastVerified = new Date(
     }
   </ol>
 
+  <section class="mt-10 rounded-xl border border-line bg-brand-50/50 p-6 print:border-line print:bg-transparent">
+    <h2 class="font-serif text-xl">Not on the checklist, but often needed</h2>
+    <p class="mt-1 text-sm text-muted">
+      These sit outside the eight steps, so they have no boxes to tick — but each
+      one blocks or follows the journey for many people.
+    </p>
+    <ul class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+      {
+        [
+          ['/renting', 'Renting a home', 'a registered lease comes before step 2'],
+          ['/banking', 'Opening a bank account', 'a legal right, even before residency'],
+          ['/driving', 'Driving on a foreign licence', 'one year if your licence is non-EU'],
+          ['/schools', 'Enrolling children in school', 'possible at any point in the year'],
+        ].map(([href, label, why]) => (
+          <li class="flex items-baseline gap-2">
+            <a href={href} class="text-brand-700 underline underline-offset-2">{label}</a>
+            <span class="text-muted">— {why}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
   <p class="mt-8 text-sm text-muted print:hidden">
     City-specific offices and booking systems are on your city's pages — pick yours
     from <a href="/cities" class="text-brand-700 underline underline-offset-2">Browse cities</a>.

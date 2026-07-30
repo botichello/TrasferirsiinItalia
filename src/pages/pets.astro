@@ -1,0 +1,186 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Orientation page on moving with a pet. Facts verified 2026-07-30 against the
+// fetched official sources below. Note: the legal basis changed on 22 April
+// 2026 (Reg. 2026/131 replaced Reg. 576/2013) and much of the web — including
+// the Italian health ministry's own pages, last updated 2024-25 — still cites
+// the repealed regulation. Each CELEX number below was resolved against the EU
+// Publications Office before being cited.
+const sources = [
+  { title: 'EUR-Lex — Commission Delegated Regulation (EU) 2026/131 (non-commercial movement of pet animals, applies from 22 April 2026)', url: 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32026R0131' },
+  { title: 'EUR-Lex — Implementing Regulation (EU) 2026/636 (lists of third countries: Annexes I and II)', url: 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32026R0636' },
+  { title: 'EUR-Lex — Implementing Regulation (EU) 2026/705 (model passport, health certificate, declarations)', url: 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32026R0705' },
+  { title: 'EUR-Lex — Regulation (EU) 2016/429 (Animal Health Law), artt. 244-256 (five-animal limit, five-day rule)', url: 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0429' },
+  { title: 'EUR-Lex — Delegated Regulation (EU) 2020/688, Annex VII (rabies vaccination validity; tapeworm treatment)', url: 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32020R0688' },
+  { title: 'EUR-Lex — Delegated Regulation (EU) 2020/692, Annex XXI (rabies antibody titration test)', url: 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32020R0692' },
+  { title: 'EUR-Lex — Implementing Regulation (EU) 2021/620, Annex XIX (Echinococcus multilocularis disease-free status)', url: 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32021R0620' },
+  { title: 'Normattiva — D.lgs 134/2022, artt. 16 e 20 (identification and registration in SINAC; penalties)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2022-08-05;134~art16' },
+  { title: 'Gazzetta Ufficiale — DM 2 novembre 2023, art. 3 (SINAC: the 30-day rule for animals brought into Italy)', url: 'https://www.gazzettaufficiale.it/atto/serie_generale/caricaArticolo?art.versione=1&art.idGruppo=0&art.flagTipoArticolo=0&art.codiceRedazionale=23A06843&art.idArticolo=3&art.idSottoArticolo=1&art.idSottoArticolo1=10&art.dataPubblicazioneGazzetta=2023-12-18&art.progressivo=0' },
+  { title: 'Ministero della Salute — In viaggio verso l’Italia (no tapeworm/tick treatment required; no puppy derogation)', url: 'https://www.salute.gov.it/new/it/tema/animali-daffezione/viaggio-verso-litalia/' },
+  { title: 'Ministero della Salute — Il microchip e la registrazione del proprio animale', url: 'https://www.salute.gov.it/new/it/tema/animali-daffezione/il-microchip-e-la-registrazione-del-proprio-animale/' },
+  { title: 'Ministero della Salute — Passaporto per animali da compagnia (issued by ASL veterinary services)', url: 'https://www.salute.gov.it/new/it/tema/animali-daffezione/passaporto/' },
+  { title: 'European Commission — Travellers’ points of entry (Italy’s designated airports and ports)', url: 'https://food.ec.europa.eu/animals/live-animal-movements/dogs-cats-and-ferrets/travellers-points-entry_en' },
+  { title: 'European Commission — Young animals (per-member-state derogations: Italy “No”)', url: 'https://food.ec.europa.eu/animals/live-animal-movements/dogs-cats-and-ferrets/young-animals_en' },
+];
+const order = [
+  ['1. Microchip', 'An ISO transponder implanted by a vet. A tattoo counts only if applied before 3 July 2011.'],
+  ['2. Rabies vaccination', 'Only after the chip — and the animal must be at least 12 weeks old at the primary vaccination.'],
+  ['3. Wait, then travel', 'At least 21 days must pass after the primary course is complete. An on-time booster restarts nothing.'],
+  ['4. Document', 'EU pet passport from another member state, or an animal health certificate from outside the EU.'],
+];
+---
+
+<BaseLayout
+  title="Moving to Italy with a dog, cat or ferret"
+  description="Microchip, rabies vaccination and passport — in that order. What changed on 22 April 2026, the rules from inside and outside the EU, Italy's SINAC registration duty, and what Italy does not require."
+  alternates={{ en: '/pets', it: '/it/pets' }}
+  ogImage="/og/pets.png"
+  citations={sources}
+>
+  <div class="prose">
+    <h1>Moving to Italy with a dog, cat or ferret</h1>
+    <p>
+      Three things, in a strict order: <strong>microchip, rabies vaccination,
+      travel document</strong>. Get the order wrong and the vaccination does not
+      count. Facts verified <time datetime="2026-07-30">30 July 2026</time>;
+      orientation, not veterinary or legal advice.
+    </p>
+
+    <div class="not-prose my-6 rounded-xl border border-brand-300 bg-brand-50/60 p-5">
+      <h2 class="font-serif text-lg">The rules changed on 22 April 2026</h2>
+      <p class="mt-2 text-sm">
+        Regulation (EU) 576/2013 — the rule almost every pet-travel guide cites —
+        <strong>stopped applying on 21 April 2026</strong>. The operative act is
+        now <strong>Delegated Regulation (EU) 2026/131</strong>. Most of the
+        substance carried over, but the model documents and the wording of the
+        blood-test deadline did not. At the time of writing the Italian health
+        ministry's own pet-travel pages (last updated 2024–25) still cite the
+        repealed regulation, so treat any undated advice with suspicion.
+      </p>
+    </div>
+
+    <h2>The order that matters</h2>
+  </div>
+
+  <div class="mt-4 overflow-x-auto">
+    <table class="w-full min-w-[480px] border-collapse text-sm">
+      <tbody>
+        {
+          order.map(([step, detail]) => (
+            <tr class="border-b border-line align-top">
+              <td class="py-2.5 pr-4 font-medium whitespace-nowrap">{step}</td>
+              <td class="py-2.5 text-muted">{detail}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose mt-6">
+    <p>
+      A vaccination recorded <em>before</em> the microchip is void for travel and
+      must be repeated: the vaccination date may not precede the date the animal
+      was identified. Same appointment is fine — same order is not optional.
+    </p>
+
+    <h2>Coming from another EU country</h2>
+    <p>
+      Your <strong>EU pet passport stays valid</strong>: passports issued on the
+      old model before 22 April 2026 are expressly still compliant, and there is
+      no duty to swap it for an Italian one. You may move up to
+      <strong>five animals</strong> in one non-commercial movement — more only
+      for competitions or shows, with written evidence and animals over six
+      months old.
+    </p>
+    <p>
+      One thing Italy does <strong>not</strong> allow: the puppy derogation.
+      Some member states admit animals under 12 weeks, or 12–16 weeks not yet
+      21 days past vaccination. <strong>Italy does not</strong> — the Commission's
+      register records Italy as "No", and the ministry says so in writing.
+    </p>
+
+    <h2>Coming from outside the EU</h2>
+    <p>
+      Two tiers. From a <strong>listed</strong> country or territory — which
+      includes the <strong>United States, United Kingdom, Canada, Japan,
+      Australia, Switzerland and around fifty others</strong> — you need the
+      microchip, the rabies vaccination and an <strong>animal health
+      certificate</strong> issued or endorsed <strong>no more than 10 days</strong>
+      before entry, with a signed non-commercial-movement declaration attached.
+      The certificate then covers you for six months, or until the vaccination
+      expires, whichever comes first.
+    </p>
+    <p>
+      From an <strong>unlisted</strong> country you also need a
+      <strong>rabies antibody titration test</strong>: blood taken at least
+      <strong>30 days after</strong> the primary vaccination, showing a titre of
+      at least 0.5 IU/ml, and taken <strong>at least 90 days before the health
+      certificate is issued</strong>. Note the reference point — the old rule
+      counted three months back from <em>travel</em>; the current one counts 90
+      days back from the <em>certificate</em>. Budget four months or more, as the
+      ministry itself advises. Two countries that were listed under the old
+      regime — <strong>Russia and Belarus</strong> — are not on the new list.
+    </p>
+    <p>
+      You must enter through a designated <strong>travellers' point of entry</strong>
+      (Italy names 41 airports and 16 ports) and present the animal to the
+      authority there for document and identity checks. Young unvaccinated
+      animals cannot enter the EU from outside it at all.
+    </p>
+
+    <h2>After you arrive: register in SINAC</h2>
+    <p>
+      Italian law, not EU law: an animal brought in with its owner and
+      <strong>staying more than 30 days</strong> must be registered in
+      <strong>SINAC</strong>, the national pet section of the animal database
+      (90 days for birds, rabbits and other Annex I Part B species). Under that,
+      registration is optional. Failing to register is an administrative fine of
+      <strong>€150–900 per animal</strong>; changes of ownership, address or
+      death must be notified within 7 days, loss or recovery within 48 hours.
+    </p>
+    <p>
+      The obligation is national but delivery is regional, so the procedure and
+      any fee depend on your <a href="/regions">region</a> and local ASL — and
+      regional registers sync to the national database at different speeds. An
+      Italian pet passport is issued by the <strong>ASL veterinary
+      services</strong>; for dogs, only after the animal is on the register.
+    </p>
+
+    <h2>What Italy does not require</h2>
+    <ul>
+      <li><strong>No tapeworm or tick treatment.</strong> The <em>Echinococcus multilocularis</em> treatment applies only to dogs entering Finland, Ireland, Malta, Northern Ireland or Norway. The ministry states expressly that neither is required for Italy.</li>
+      <li><strong>No routine quarantine.</strong> For a compliant animal there is none. Isolation of up to six months exists only as an exceptional, permit-based arrangement for animals that do <em>not</em> comply.</li>
+    </ul>
+
+    <h2>When it stops being a "pet move"</h2>
+    <p>
+      Three things push you out of the pet rules and into commercial import —
+      with TRACES certification and border-control-post checks instead:
+      <strong>more than five animals</strong> without the show derogation, any
+      <strong>sale or transfer of ownership</strong> (adoptions included), or the
+      animal travelling <strong>more than five days apart</strong> from you. If
+      someone else brings the animal for you, they need your written
+      authorisation attached to its document.
+    </p>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Sources</h2>
+    <p class="mt-1 text-sm text-muted">
+      Primary, official sources this page is based on — each fetched and checked on 30 July 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

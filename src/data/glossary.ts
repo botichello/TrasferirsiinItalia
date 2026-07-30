@@ -287,6 +287,20 @@ export const glossary: GlossaryTerm[] = [
     guide: '/banking',
   },
   {
+    slug: 'passaporto-per-animali',
+    term: 'Passaporto per animali da compagnia',
+    en: 'The EU pet passport: the travel document for a dog, cat or ferret moving between member states, issued by a vet in the country where the owner habitually resides. Italian ones come from the ASL veterinary services — for dogs, only after registration.',
+    it: 'Il documento di viaggio di cani, gatti e furetti che si spostano tra Stati membri, rilasciato da un veterinario nello Stato in cui il proprietario risiede abitualmente. In Italia lo rilasciano i servizi veterinari della ASL — per i cani, solo dopo l’iscrizione in anagrafe.',
+    guide: '/pets',
+  },
+  {
+    slug: 'sinac',
+    term: 'SINAC (anagrafe degli animali d’affezione)',
+    en: 'The national pet section of the animal database. An animal brought into Italy with its owner and staying more than 30 days must be registered (D.lgs 134/2022; DM 2 November 2023) — fines run €150–900 per animal. Operated regionally.',
+    it: 'La sezione nazionale degli animali da compagnia della banca dati. Un animale introdotto al seguito del proprietario e destinato a restare oltre 30 giorni va registrato (D.lgs 134/2022; DM 2 novembre 2023) — sanzioni da 150 a 900 € per animale. Gestione regionale.',
+    guide: '/pets',
+  },
+  {
     slug: 'legalizzazione-apostille',
     term: 'Legalizzazione / Apostille',
     en: 'Consular legalisation, or the Hague apostille, that makes a foreign civil-status certificate (marriage, birth) valid for Italian files — the most common cause of rejected applications when missing.',

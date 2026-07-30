@@ -74,6 +74,13 @@ const KNOWN_BOTWALL = new Set([
   'comune.potenza.it',
   'comune.siracusa.it',
   'servizidemografici.reggiocal.it',
+  // EUR-Lex answers datacenter traffic with an AWS WAF challenge (HTTP 202,
+  // empty body) for every URL, valid or not — so this checker cannot tell a
+  // good citation from a typo here. Each cited CELEX number is instead verified
+  // against the EU Publications Office (publications.europa.eu/resource/celex/
+  // <CELEX>, which 200s for a real identifier and 404s for a bogus one) and the
+  // human-readable EUR-Lex URL is built from the verified identifier.
+  'eur-lex.europa.eu',
 ]);
 
 /** Final-redirect hosts that smell like domain parking / hijack -> hard fail. */
@@ -206,8 +213,35 @@ for (const path of files) {
     urlToFiles.get(url).add(file);
   }
 }
+// The orientation pages live in src/pages/*.astro rather than the content
+// collections, so walking .md files alone silently skipped every citation they
+// carry — around 130 URLs across 13 page pairs. Their `sources` arrays use the
+// same `url:` shape, so read them straight from the registry.
+const { orientationPages } = await import(
+  new URL('../src/data/orientation-pages.mjs', import.meta.url)
+);
+const astroUrlRe = /\burl:\s*(['"])(https?:\/\/[^'"\s]+)\1/g;
+for (const entry of orientationPages) {
+  for (const rel of [entry.en, entry.it]) {
+    let raw;
+    try {
+      raw = await readFile(new URL(`../${rel}`, import.meta.url), 'utf8');
+    } catch {
+      continue; // check-freshness owns the "registered page missing" error
+    }
+    for (const m of raw.matchAll(astroUrlRe)) {
+      const url = m[2];
+      if (!urlToFiles.has(url)) urlToFiles.set(url, new Set());
+      urlToFiles.get(url).add(rel);
+    }
+  }
+}
+
 const urls = [...urlToFiles.keys()].sort();
-console.log(`Checking ${urls.length} cited source URL(s) across ${files.length} content file(s)…\n`);
+console.log(
+  `Checking ${urls.length} cited source URL(s) across ${files.length} content file(s) ` +
+    `+ ${orientationPages.length * 2} orientation pages…\n`,
+);
 
 // --- check + classify ----------------------------------------------------
 const results = await pool(urls, CONCURRENCY, async (url) => ({ url, ...classify(url, await check(url)) }));

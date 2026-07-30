@@ -114,6 +114,11 @@ const cases = [
     break: (d) => patch(d, HOME, '<meta property="og:image"', '<meta property="og:imagex"'),
   },
   {
+    name: 'page rendered without Vercel Analytics',
+    expect: 'missing Vercel Analytics element',
+    break: (d) => patch(d, GUIDE, '<vercel-analytics', '<not-analytics'),
+  },
+  {
     name: 'og:image file absent from dist',
     expect: 'og:image file missing from dist',
     break: (d) => unlinkSync(join(d, 'og/banking.png')),

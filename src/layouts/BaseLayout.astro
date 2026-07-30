@@ -2,6 +2,11 @@
 import '../styles/global.css';
 import { getLocale, localizePath, ui } from '../i18n/ui';
 import { findByPath, parentOf, pathOf, titleOf } from '../lib/orientation';
+// Vercel Web Analytics. Cookieless and first-party: the script is served from
+// /_vercel/insights/ on our own origin, so no third-party host is contacted —
+// which is why it needs no consent banner and does not weaken the site's
+// privacy posture. It is the one script the otherwise zero-JS pages carry.
+import Analytics from '@vercel/analytics/astro';
 import { SEARCH_INDEXING } from '../data/site';
 // Hashed URLs of the two latin font files used above the fold, for preload.
 import interLatinUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
@@ -248,5 +253,6 @@ const homeHref = locale === 'en' ? '/' : '/it';
         <p class="mt-2">© {new Date().getFullYear()} Trasferirsi in Italia</p>
       </div>
     </footer>
+    <Analytics />
   </body>
 </html>

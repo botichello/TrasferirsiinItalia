@@ -39,6 +39,9 @@ not broad and stale. So the citability discipline is mechanical, not aspirationa
 - [Astro](https://astro.build) (static, zero-JS by default) + content collections
 - Tailwind CSS v4 (via `@tailwindcss/vite`)
 - One vanilla-JS island: the document checklist (localStorage-persisted)
+- Vercel Web Analytics (`@vercel/analytics`, ~3 kB inlined by BaseLayout) —
+  cookieless and served first-party from `/_vercel/insights/`, so no
+  third-party host is contacted and no consent banner is required
 
 ## Develop
 

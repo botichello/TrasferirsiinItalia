@@ -100,6 +100,9 @@ for (const file of htmlFiles(DIST)) {
     err(urlPath, 'missing or empty meta description');
   const ogImage = attr(html.match(/<meta property="og:image"[^>]*>/)?.[0] ?? '', 'content');
   if (!ogImage) err(urlPath, 'missing og:image');
+  // Vercel Web Analytics is emitted by BaseLayout, so it should be on every
+  // page; a page that renders without the layout would silently go unmeasured.
+  if (!html.includes('<vercel-analytics')) err(urlPath, 'missing Vercel Analytics element');
 
   pages.set(urlPath, {
     urlPath,

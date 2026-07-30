@@ -69,17 +69,22 @@ follow the same contract; the health authority is the regional element.
 | `check:freshness`   | missing/overdue dates, missing sources                          |
 | `check:seo`         | canonical/hreflang/sitemap/JSON-LD errors, broken internal links |
 | `test:smoke`        | broken JS islands (search, wizard, checklist), a11y regressions |
-| `test:gates`        | a `check:seo` rule that has silently stopped firing              |
+| `test:gates`        | a `check:seo` or `check:freshness` rule that has stopped firing   |
 
 Run `npm run test:smoke` locally after touching any island or layout
 (`CHROMIUM_PATH` selects the browser binary if Playwright's registry is empty).
 
-`test:gates` is the gate's own test: it copies `dist/`, injects one specific
-fault per case (a duplicated canonical, a typo'd hreflang code, a drifted
-`dateModified`…) and asserts `check:seo` reports it. This exists because a
-gate that has stopped firing still reports success — one here once passed on
-24 files while genuinely checking 14. **If you add a rule to `check:seo`, add
-a case to `test-gates.mjs`**: a rule nobody has watched fail is not yet a gate.
+`test:gates` is the gates' own test: it copies the gate's input (`dist/` for
+`check:seo`, `src/` for `check:freshness`), injects one specific fault per case
+(a duplicated canonical, a typo'd hreflang code, a guide stripped of its
+`sources`, an unregistered orientation page…) and asserts the gate reports it.
+It also asserts the *unmodified* input passes, so a broken baseline cannot make
+the suite vacuous.
+
+This exists because a gate that has stopped firing still reports success — the
+completeness scan here once passed on 24 files while genuinely checking 14, and
+every build was green throughout. **If you add a rule to either gate, add a
+case to `test-gates.mjs`**: a rule nobody has watched fail is not yet a gate.
 
 ## Language
 

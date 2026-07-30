@@ -13,12 +13,15 @@
  */
 import { readdir, readFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
+// Repo root. Overridable so scripts/test-gates.mjs can run this gate against a
+// deliberately broken copy of src/ and assert each rule fires.
+const ROOT = process.env.CHECK_FRESHNESS_ROOT ?? fileURLToPath(new URL('..', import.meta.url));
 const CONTENT_DIRS = [
-  fileURLToPath(new URL('../src/content/guides/', import.meta.url)),
-  fileURLToPath(new URL('../src/content/region-notes/', import.meta.url)),
-  fileURLToPath(new URL('../src/content/comune-notes/', import.meta.url)),
+  join(ROOT, 'src/content/guides/'),
+  join(ROOT, 'src/content/region-notes/'),
+  join(ROOT, 'src/content/comune-notes/'),
 ];
 const STRICT_OVERDUE = process.env.FRESHNESS_STRICT === '1';
 
@@ -62,7 +65,7 @@ const errors = [];
 const warnings = [];
 
 for (const path of files) {
-  const file = relative(process.cwd(), path);
+  const file = relative(ROOT, path);
   const raw = await readFile(path, 'utf8');
   const fm = frontmatter(raw);
   if (!fm) {
@@ -90,9 +93,8 @@ for (const path of files) {
 // ---- Orientation pages (src/pages/*.astro outside the collections) --------
 // Same contract, tracked via the registry in src/data/orientation-pages.mjs.
 const { orientationPages } = await import(
-  new URL('../src/data/orientation-pages.mjs', import.meta.url)
+  pathToFileURL(join(ROOT, 'src/data/orientation-pages.mjs')).href
 );
-const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // Orientation pages carry a disclaimer line. Match it on whitespace-normalized
 // text: in the source the phrase wraps across lines, and the tail varies
 // ("not legal advice" / "not legal or financial advice"), so a plain substring

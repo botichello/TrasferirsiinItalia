@@ -71,6 +71,29 @@ const lastVerified = new Date(
     }
   </ol>
 
+  <section class="mt-10 rounded-xl border border-line bg-brand-50/50 p-6 print:border-line print:bg-transparent">
+    <h2 class="font-serif text-xl">Non in checklist, ma spesso necessario</h2>
+    <p class="mt-1 text-sm text-muted">
+      Stanno fuori dagli otto passi, quindi non hanno caselle da spuntare — ma per
+      molti bloccano o seguono il percorso.
+    </p>
+    <ul class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+      {
+        [
+          ['/it/renting', 'Affittare casa', 'il contratto registrato viene prima del passo 2'],
+          ['/it/banking', 'Aprire un conto bancario', 'è un diritto, anche senza residenza'],
+          ['/it/driving', 'Guidare con la patente estera', 'un anno se la patente è extra-UE'],
+          ['/it/schools', 'Iscrivere i figli a scuola', 'possibile in qualunque periodo dell’anno'],
+        ].map(([href, label, why]) => (
+          <li class="flex items-baseline gap-2">
+            <a href={href} class="text-brand-700 underline underline-offset-2">{label}</a>
+            <span class="text-muted">— {why}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
   <p class="mt-8 text-sm text-muted print:hidden">
     Uffici e prenotazioni specifici della tua città sono nelle sue pagine — scegli
     la tua da <a href="/it/cities" class="text-brand-700 underline underline-offset-2">Sfoglia città</a>.

@@ -82,6 +82,20 @@ try {
       (await page.locator('[data-status-btn="pensioner"]').count()) === 1,
       'pensioner situation present',
     );
+    // "Beyond the eight steps" cards: highlighted for the situations they bear
+    // on, never dimmed (they stay relevant to everyone).
+    await page.click('[data-status-btn="family"]');
+    assert(
+      await page.locator('[data-status-any~="family"].is-you').first().isVisible(),
+      'family situation highlights the schools card',
+    );
+    assert(
+      (await page.locator('[data-status-any].is-dim').count()) === 0,
+      'orientation cards are never dimmed',
+    );
+    const schools = await page.locator('[data-status-any~="family"] a').first().getAttribute('href');
+    assert(schools === '/schools', 'schools card links to the orientation page', `got ${schools}`);
+    await page.click('[data-status-btn="student"]');
     await page.selectOption('[data-wizard-city]', 'firenze');
     const href = await page.locator('[data-step-link]').first().getAttribute('href');
     assert(

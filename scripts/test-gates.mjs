@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * Self-test for the SEO gate: proves scripts/check-seo.mjs actually fails on
- * the breakage it claims to catch.
+ * Self-test for the build gates: proves scripts/check-seo.mjs and
+ * scripts/check-freshness.mjs actually fail on the breakage they claim to
+ * catch.
  *
  * Why this exists. In step 38 a completeness scan was added to the freshness
  * gate; it reported success on 24 files while genuinely checking 14, because
@@ -9,10 +10,11 @@
  * worthless. A passing gate is not evidence — it is only evidence once you
  * have watched it fail on purpose.
  *
- * So: copy dist/, inject one specific fault per case, run the gate against the
- * copy, and assert it reports the matching error. A rule that stops firing
- * (refactor, changed selector, typo in a regex) fails here loudly instead of
- * degrading into silent false comfort.
+ * So: copy the gate's input (dist/ for check-seo, src/ for check-freshness),
+ * inject one specific fault per case, run the gate against the copy, and assert
+ * it reports the matching error. A rule that stops firing (refactor, changed
+ * selector, typo in a regex) fails here loudly instead of degrading into silent
+ * false comfort.
  *
  * Usage: node scripts/test-gates.mjs   (needs a completed build in dist/)
  */
@@ -24,23 +26,25 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const DIST = join(ROOT, 'dist');
-const GATE = join(ROOT, 'scripts/check-seo.mjs');
+const SRC = join(ROOT, 'src');
+const SEO_GATE = join(ROOT, 'scripts/check-seo.mjs');
+const FRESHNESS_GATE = join(ROOT, 'scripts/check-freshness.mjs');
 
 if (!existsSync(DIST)) {
   console.error('test-gates: dist/ not found — run the build first.');
   process.exit(1);
 }
 
-/** Run the gate against `dir`; return {ok, output}. */
-function runGate(dir) {
+/** Run `script` against the copy in `dir` via `envVar`; return {ok, output}. */
+function runGate(script, envVar, dir) {
   try {
-    const out = execFileSync('node', [GATE], {
+    const out = execFileSync('node', [script], {
       cwd: ROOT,
       encoding: 'utf8',
       // Capture the child's output instead of letting it reach our console:
       // a failing gate is the *expected* result here, not something to report.
       stdio: ['ignore', 'pipe', 'pipe'],
-      env: { ...process.env, CHECK_SEO_DIST: dir + '/' },
+      env: { ...process.env, [envVar]: dir },
     });
     return { ok: true, output: out };
   } catch (e) {
@@ -62,7 +66,7 @@ const GUIDE = 'eu-citizens/residency/codice-fiscale/index.html';
 const ORIENT = 'banking/index.html';
 
 // Each case: inject one fault, expect the gate to report `expect`.
-const cases = [
+const seoCases = [
   {
     name: 'canonical missing',
     expect: '0 canonical tags',
@@ -179,52 +183,134 @@ const cases = [
   },
 ];
 
+// ---- Freshness gate: same idea, but its input is src/ rather than dist/ ------
+// This is the gate whose completeness scan once passed while checking nothing,
+// so it is the one that most needs proving.
+const MD = 'src/content/guides/codice-fiscale.md';
+const REGISTRY = 'src/data/orientation-pages.mjs';
+const PAGE = 'src/pages/banking.astro';
+
+const freshnessCases = [
+  {
+    name: 'guide with no frontmatter',
+    expect: 'no frontmatter found',
+    break: (d) => write(d, MD, read(d, MD).replace(/^---\n/, '')),
+  },
+  {
+    name: 'guide missing sources',
+    expect: 'missing required `sources`',
+    break: (d) => patch(d, MD, '\nsources:', '\nnotsources:'),
+  },
+  {
+    name: 'guide missing lastVerified',
+    expect: 'missing `lastVerified`',
+    break: (d) => patch(d, MD, 'lastVerified:', 'notLastVerified:'),
+  },
+  {
+    name: 'reviewBy not after lastVerified',
+    expect: '`reviewBy` must be after `lastVerified`',
+    break: (d) => write(d, MD, read(d, MD).replace(/^reviewBy: .*$/m, 'reviewBy: 2000-01-01')),
+  },
+  {
+    name: 'registered orientation page deleted',
+    expect: 'does not exist',
+    break: (d) => unlinkSync(join(d, PAGE)),
+  },
+  {
+    name: 'on-page verified date drifts from the registry',
+    expect: '!= registry lastVerified',
+    break: (d) => patch(d, PAGE, '<time datetime="2026-07-28"', '<time datetime="2019-05-05"'),
+  },
+  {
+    name: 'orientation page not registered',
+    expect: 'not registered in src/data/orientation-pages.mjs',
+    break: (d) =>
+      write(d, REGISTRY, read(d, REGISTRY).replace(/\n *\{ en: 'src\/pages\/banking\.astro'[\s\S]*?\},/, '')),
+  },
+  {
+    name: 'registered page loses its disclaimer',
+    expect: 'missing the disclaimer sentinel',
+    break: (d) => patch(d, PAGE, 'orientation, not\n      legal or financial advice', 'no disclaimer here'),
+  },
+];
+
+const suites = [
+  {
+    label: 'check-seo',
+    input: DIST,
+    // check-seo resolves paths under DIST, and its own default ends in a slash.
+    envVar: 'CHECK_SEO_DIST',
+    arg: (dir) => dir + '/',
+    script: SEO_GATE,
+    cases: seoCases,
+  },
+  {
+    label: 'check-freshness',
+    input: SRC,
+    // Copied as <tmp>/src, so the gate's ROOT is the tmp dir itself.
+    envVar: 'CHECK_FRESHNESS_ROOT',
+    arg: (dir) => dir,
+    script: FRESHNESS_GATE,
+    into: 'src',
+    cases: freshnessCases,
+  },
+];
+
 let failures = 0;
+let total = 0;
 
-// Sanity: the pristine copy must pass, or every case below is meaningless.
-const clean = mkdtempSync(join(tmpdir(), 'gate-clean-'));
-cpSync(DIST, clean, { recursive: true });
-const baseline = runGate(clean);
-rmSync(clean, { recursive: true, force: true });
-if (!baseline.ok) {
-  console.error('✗ baseline: the gate fails on an unmodified build — fix that first:\n');
-  console.error(baseline.output.split('\n').slice(0, 12).join('\n'));
-  process.exit(1);
-}
-console.log(`✓ baseline: unmodified build passes the gate`);
+for (const suite of suites) {
+  const stage = (dir) => cpSync(suite.input, suite.into ? join(dir, suite.into) : dir, { recursive: true });
+  const run = (dir) => runGate(suite.script, suite.envVar, suite.arg(dir));
 
-for (const c of cases) {
-  const dir = mkdtempSync(join(tmpdir(), 'gate-case-'));
-  try {
-    cpSync(DIST, dir, { recursive: true });
-    c.break(dir);
-    const { ok, output } = runGate(dir);
-    if (ok) {
-      console.error(`✗ ${c.name}: gate PASSED but should have failed (expected "${c.expect}")`);
+  // Sanity: the pristine copy must pass, or every case below is meaningless.
+  const clean = mkdtempSync(join(tmpdir(), 'gate-clean-'));
+  stage(clean);
+  const baseline = run(clean);
+  rmSync(clean, { recursive: true, force: true });
+  if (!baseline.ok) {
+    console.error(`✗ ${suite.label} baseline: fails on unmodified input — fix that first:\n`);
+    console.error(baseline.output.split('\n').slice(0, 12).join('\n'));
+    process.exit(1);
+  }
+  console.log(`\n✓ ${suite.label}: unmodified input passes`);
+
+  for (const c of suite.cases) {
+    total++;
+    const dir = mkdtempSync(join(tmpdir(), 'gate-case-'));
+    try {
+      stage(dir);
+      // Case paths are relative to the staged root (freshness cases include the
+      // leading 'src/'), so every case works from `dir`.
+      c.break(dir);
+      const { ok, output } = run(dir);
+      if (ok) {
+        console.error(`✗ ${c.name}: gate PASSED but should have failed (expected "${c.expect}")`);
+        failures++;
+      } else if (!output.includes(c.expect)) {
+        console.error(`✗ ${c.name}: gate failed, but not with "${c.expect}". Got:`);
+        console.error(
+          output
+            .split('\n')
+            .filter((l) => l.trim().startsWith('/') || l.trim().startsWith('- ') || l.includes('problem'))
+            .slice(0, 4)
+            .join('\n'),
+        );
+        failures++;
+      } else {
+        console.log(`  ✓ ${c.name}`);
+      }
+    } catch (e) {
+      console.error(`✗ ${c.name}: could not inject the fault — ${e.message}`);
       failures++;
-    } else if (!output.includes(c.expect)) {
-      console.error(`✗ ${c.name}: gate failed, but not with "${c.expect}". Got:`);
-      console.error(
-        output
-          .split('\n')
-          .filter((l) => l.trim().startsWith('/') || l.includes('problem'))
-          .slice(0, 4)
-          .join('\n'),
-      );
-      failures++;
-    } else {
-      console.log(`  ✓ ${c.name}`);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
     }
-  } catch (e) {
-    console.error(`✗ ${c.name}: could not inject the fault — ${e.message}`);
-    failures++;
-  } finally {
-    rmSync(dir, { recursive: true, force: true });
   }
 }
 
 if (failures > 0) {
-  console.error(`\n✗ test-gates: ${failures} of ${cases.length} rule(s) did not fire as expected.`);
+  console.error(`\n✗ test-gates: ${failures} of ${total} rule(s) did not fire as expected.`);
   process.exit(1);
 }
-console.log(`\n✓ test-gates: all ${cases.length} check-seo rules proven to fire.`);
+console.log(`\n✓ test-gates: all ${total} gate rules proven to fire (check-seo + check-freshness).`);

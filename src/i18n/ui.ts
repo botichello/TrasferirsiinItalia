@@ -50,6 +50,7 @@ interface Strings {
     prevStep: string;
     nextStep: string;
     termsHeading: string;
+    glossaryAll: string;
   };
 }
 
@@ -112,6 +113,7 @@ export const ui: Record<Locale, Strings> = {
       prevStep: 'Previous step',
       nextStep: 'Next step',
       termsHeading: 'Terms on this page',
+      glossaryAll: 'Browse the full glossary →',
     },
   },
   it: {
@@ -173,6 +175,7 @@ export const ui: Record<Locale, Strings> = {
       prevStep: 'Passo precedente',
       nextStep: 'Passo successivo',
       termsHeading: 'Termini in questa pagina',
+      glossaryAll: 'Sfoglia il glossario completo →',
     },
   },
 };

@@ -63,9 +63,32 @@ const itemListSchema = {
     </div>
     <p class="mx-auto mt-4 max-w-xl text-sm text-muted">
       Percorso nazionale, decine di città e tutte le 20 regioni — interamente in italiano.
-      Non sei cittadino UE?
-      <a href="/it/non-eu" class="text-brand-700 underline underline-offset-2">Parti dall'orientamento non UE →</a>
     </p>
+
+    {/* Prima l'origine, poi la destinazione: "chi sono" è la domanda che
+        decide quali regole valgono. */}
+    <div class="mx-auto mt-10 max-w-3xl text-left">
+      <h2 class="text-center font-serif text-xl">Da dove parti?</h2>
+      <ul class="mt-4 grid gap-3 sm:grid-cols-3">
+        {
+          [
+            ['/it/eu-citizens/residency/codice-fiscale', 'Da un paese UE o SEE', 'Il percorso di residenza in otto passi vale direttamente per te.'],
+            ['/it/non-eu', 'Da qualunque altro paese', "Le regole d'ingresso cambiano: sette vie di visto e permesso, in dettaglio."],
+            ['/it/from/united-states', 'Dagli Stati Uniti', 'Più ciò che cambia per gli americani: tasse, patente, documenti.'],
+          ].map(([href, label, blurb]) => (
+            <li>
+              <a
+                href={href}
+                class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-4 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md hover:shadow-brand-700/5"
+              >
+                <span class="font-medium text-brand-700">{label} →</span>
+                <span class="mt-1 text-sm text-muted">{blurb}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </section>
 
   <section class="mt-12">

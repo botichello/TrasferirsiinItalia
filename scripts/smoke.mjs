@@ -66,6 +66,29 @@ try {
     await page.close();
   }
 
+  // ---- discoverability: origin routes reachable from the homepage -------------
+  // The US hub was once reachable only from the footer, among 16 other links.
+  // These assert the homepage itself offers the origin axis, in both locales.
+  {
+    console.log('homepage origin routes');
+    const page = await (await browser.newContext()).newPage();
+    for (const [home, hub, label] of [
+      ['/', '/from/united-states', 'Where are you starting from?'],
+      ['/it', '/it/from/united-states', 'Da dove parti?'],
+    ]) {
+      await page.goto(`${BASE}${home}`, { waitUntil: 'domcontentloaded' });
+      assert(
+        (await page.locator(`main a[href="${hub}"]`).count()) > 0,
+        `${home} links to ${hub} in the page body (not just the footer)`,
+      );
+      assert(
+        await page.getByText(label, { exact: false }).first().isVisible(),
+        `${home} shows the "${label}" chooser`,
+      );
+    }
+    await page.close();
+  }
+
   // ---- start wizard island ---------------------------------------------------
   {
     console.log('start wizard');

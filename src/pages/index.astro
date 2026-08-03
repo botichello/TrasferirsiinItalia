@@ -64,17 +64,39 @@ const itemListSchema = {
       </a>
     </div>
 
-    <p class="mx-auto mt-4 max-w-xl text-sm text-muted">
-      Not an EU/EEA citizen?
-      <a href="/non-eu" class="text-brand-700 underline underline-offset-2">Start with our non-EU orientation →</a>
-    </p>
+    {/* Origin before destination: "who am I" is the reader's first question,
+        and it decides which rules apply. The city picker below answers the
+        second one. */}
+    <div class="mx-auto mt-10 max-w-3xl text-left">
+      <h2 class="text-center font-serif text-xl">Where are you starting from?</h2>
+      <ul class="mt-4 grid gap-3 sm:grid-cols-3">
+        {
+          [
+            ['/eu-citizens/residency/codice-fiscale', 'An EU or EEA country', 'The eight-step residency journey applies to you directly.'],
+            ['/non-eu', 'Anywhere else', 'Entry rules differ — seven visa and permit routes, in detail.'],
+            ['/from/united-states', 'The United States', 'Plus what differs for Americans: taxes, licence, documents.'],
+          ].map(([href, label, blurb]) => (
+            <li>
+              <a
+                href={href}
+                class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-4 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md hover:shadow-brand-700/5"
+              >
+                <span class="font-medium text-brand-700">{label} →</span>
+                <span class="mt-1 text-sm text-muted">{blurb}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
 
     <div class="mx-auto mt-8 max-w-xl">
       <CitySelector />
       <p class="mt-2 text-sm text-muted">
-        Pick your city (grouped by region) to see local specifics — your comune's
-        anagrafe office for residency, and your region's health authority for the
-        SSN — layered on top of the national steps.
+        And where are you going? Pick your city (grouped by region) to see local
+        specifics — your comune's anagrafe office for residency, and your
+        region's health authority for the SSN — layered on top of the national
+        steps.
       </p>
     </div>
   </section>

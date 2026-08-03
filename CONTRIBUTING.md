@@ -69,10 +69,20 @@ follow the same contract; the health authority is the regional element.
 | `check:freshness`   | missing/overdue dates, missing sources                          |
 | `check:seo`         | canonical/hreflang/sitemap/JSON-LD errors, broken internal links |
 | `test:smoke`        | broken JS islands (search, wizard, checklist), a11y regressions |
+| `check:journeys`    | orphan pages, locale asymmetries, dead ends — can a human get there? |
 | `test:gates`        | a `check:seo` or `check:freshness` rule that has stopped firing   |
 
 Run `npm run test:smoke` locally after touching any island or layout
 (`CHROMIUM_PATH` selects the browser binary if Playwright's registry is empty).
+
+`check:journeys` walks the site the way a reader does — links inside `<main>`
+only, ignoring the header and footer chrome that would make everything
+trivially reachable — and asserts every page is reachable from **its own
+locale's** homepage and offers at least one onward link. It exists because
+`/from/united-states` once shipped reachable only from the footer: correct
+canonicals, valid schema, in the sitemap and in `llms.txt`, link-checked, and
+invisible to a person. Machine discoverability was instrumented; human
+discoverability was not. Nav-only pages are allowed by name, with a reason.
 
 `test:gates` is the gates' own test: it copies the gate's input (`dist/` for
 `check:seo`, `src/` for `check:freshness`), injects one specific fault per case

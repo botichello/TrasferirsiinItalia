@@ -18,7 +18,7 @@
  *
  * Usage: node scripts/test-gates.mjs   (needs a completed build in dist/)
  */
-import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync, unlinkSync } from 'node:fs';
+import { cpSync, existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync, unlinkSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -28,6 +28,7 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const DIST = join(ROOT, 'dist');
 const SRC = join(ROOT, 'src');
 const SEO_GATE = join(ROOT, 'scripts/check-seo.mjs');
+const JOURNEY_GATE = join(ROOT, 'scripts/check-journeys.mjs');
 const FRESHNESS_GATE = join(ROOT, 'scripts/check-freshness.mjs');
 
 if (!existsSync(DIST)) {
@@ -59,6 +60,25 @@ const patch = (dir, rel, find, replace) => {
   const s = read(dir, rel);
   if (!s.includes(find)) throw new Error(`fixture drift: ${rel} does not contain ${find}`);
   write(dir, rel, s.replace(find, replace));
+};
+
+/** Rewrite every `href="<target>"` in the built tree to `replacement`. */
+const stripLinks = (dir, target, replacement = '/nowhere-at-all', under = '') => {
+  let touched = 0;
+  const walk = (d) => {
+    for (const name of readdirSync(d)) {
+      const p = join(d, name);
+      if (statSync(p).isDirectory()) walk(p);
+      else if (name.endsWith('.html')) {
+        const s = readFileSync(p, 'utf8');
+        if (!s.includes(`href="${target}"`)) continue;
+        writeFileSync(p, s.replaceAll(`href="${target}"`, `href="${replacement}"`));
+        touched++;
+      }
+    }
+  };
+  walk(under ? join(dir, under) : dir);
+  if (touched === 0) throw new Error(`fixture drift: nothing under ${under || '/'} links to ${target}`);
 };
 
 const HOME = 'index.html';
@@ -266,6 +286,38 @@ const freshnessCases = [
   },
 ];
 
+
+// ---- Journey gate: reachability and dead ends, over dist/ ---------------------
+const journeyCases = [
+  {
+    name: 'a page becomes an orphan (nothing links to it)',
+    expect: 'not reachable from / by following links',
+    // Rewrite every inbound body link across the tree rather than naming the
+    // pages: an enumerated list silently under-injects the moment a new page
+    // links the target, and the case then passes for the wrong reason.
+    break: (d) => stripLinks(d, '/pets'),
+  },
+  {
+    name: 'an Italian page is reachable only from the English tree',
+    expect: 'a locale asymmetry',
+    // Remove the Italian tree's own inbound links, then link the page from an
+    // English one, so its only remaining route crosses locales.
+    break: (d) => {
+      stripLinks(d, '/it/pets', '/pets', 'it');
+      const home = read(d, HOME);
+      write(d, HOME, home.replace('</main>', '<a href="/it/pets">cross-locale only</a></main>'));
+    },
+  },
+  {
+    name: 'a page becomes a dead end (no onward links)',
+    expect: 'dead end — no onward links',
+    break: (d) => {
+      const s = read(d, 'pets/index.html');
+      write(d, 'pets/index.html', s.split('<main')[0] + '<main id="main"><h1>Stranded</h1></main>' + s.split('</main>')[1]);
+    },
+  },
+];
+
 const suites = [
   {
     label: 'check-seo',
@@ -275,6 +327,14 @@ const suites = [
     arg: (dir) => dir + '/',
     script: SEO_GATE,
     cases: seoCases,
+  },
+  {
+    label: 'check-journeys',
+    input: DIST,
+    envVar: 'CHECK_JOURNEYS_DIST',
+    arg: (dir) => dir + '/',
+    script: JOURNEY_GATE,
+    cases: journeyCases,
   },
   {
     label: 'check-freshness',

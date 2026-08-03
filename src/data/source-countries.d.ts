@@ -27,4 +27,5 @@ export interface SourceCountry {
 export const sourceCountries: SourceCountry[];
 export function getSourceCountry(slug: string): SourceCountry | undefined;
 export function notesForModule(module: string): { country: SourceCountry; note: SourceNote }[];
+export function moduleUrl(module: string, locale?: 'en' | 'it'): string;
 export function latestVerified(country: SourceCountry): string;

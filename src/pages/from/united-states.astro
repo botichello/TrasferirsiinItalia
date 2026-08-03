@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getSourceCountry } from '../../data/source-countries';
+import { getSourceCountry, moduleUrl } from '../../data/source-countries';
 
 // Per-source-country hub. The body is assembled from the notes registered in
 // src/data/source-countries.ts, so adding a verified note to a module also
@@ -13,6 +13,10 @@ const sources = [...new Map(notes.flatMap((n) => n.sources).map((s) => [s.url, s
 const moduleTitle: Record<string, string> = {
   '/driving': 'Driving',
   '/pets': 'Pets',
+  '/non-eu': 'Non-EU orientation',
+  'residenza-fiscale': 'Tax residency',
+  'servizio-sanitario': 'Health service',
+  'codice-fiscale': 'Codice fiscale',
 };
 ---
 
@@ -60,12 +64,26 @@ const moduleTitle: Record<string, string> = {
             </span>
           </div>
           <p class="mt-2 text-sm">{note.en}</p>
-          <a href={note.module} class="mt-3 inline-block text-sm text-brand-600 underline underline-offset-2">
+          <a href={moduleUrl(note.module)} class="mt-3 inline-block text-sm text-brand-600 underline underline-offset-2">
             Full page on {(moduleTitle[note.module] ?? note.module).toLowerCase()} →
           </a>
         </li>
       ))
     }
+  </ul>
+
+  <div class="prose mt-10">
+    <h2>Two topics with enough substance for their own page</h2>
+  </div>
+  <ul class="mt-5 grid gap-3 sm:grid-cols-2">
+    <li class="rounded-xl border border-line bg-white/60 p-5">
+      <a href="/from/united-states/arriving" class="font-serif text-lg text-brand-700 hover:underline">Arriving from the United States</a>
+      <p class="mt-1 text-sm text-muted">Why 90 days visa-free is not a relocation route, which consulate has your state, the apostille chain, and the one-year driving clock.</p>
+    </li>
+    <li class="rounded-xl border border-line bg-white/60 p-5">
+      <a href="/from/united-states/taxes" class="font-serif text-lg text-brand-700 hover:underline">US taxes and social security</a>
+      <p class="mt-1 text-sm text-muted">Worldwide filing, the exclusion versus the credit, FBAR and Form 8938, the treaty's saving clause, and why Medicare stops at the border.</p>
+    </li>
   </ul>
 
   <div class="prose mt-10">

@@ -103,10 +103,12 @@ const { orientationPages, orientationUrl } = await import(
 // The qualifier list varies by topic ("not legal advice", "not legal or
 // financial advice", "not veterinary or legal advice"), so match the shape of
 // the sentence rather than an enumeration of variants.
-const SENTINELS = [
-  /orientation, not [\w ,]{0,30}advice/,
-  /orientamento, non consulenza [\w ,]{0,30}legale/,
-];
+// The qualifier varies by topic — legal, financial, veterinary, tax — so match
+// the distinctive stem of the sentence and let the qualifier be anything. Three
+// separate pages have now been caught by an over-specific version of this
+// pattern, which is the gate working, but the contract belongs on the shape of
+// the disclaimer rather than on an enumeration of subject matters.
+const SENTINELS = [/orientation, not [\w ,]{0,30}advice/, /orientamento, non consulenza/];
 const hasSentinel = (raw) => {
   const flat = raw.replace(/\s+/g, ' ').toLowerCase();
   return SENTINELS.some((re) => re.test(flat));

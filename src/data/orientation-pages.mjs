@@ -28,6 +28,8 @@ export const orientationPages = [
   { en: 'src/pages/banking.astro', it: 'src/pages/it/banking.astro', lastVerified: '2026-07-28', reviewBy: '2027-01-28', title: 'Opening a bank account in Italy', titleIt: 'Aprire un conto bancario in Italia' },
   { en: 'src/pages/pets.astro', it: 'src/pages/it/pets.astro', lastVerified: '2026-07-30', reviewBy: '2027-01-30', title: 'Moving to Italy with a dog, cat or ferret', titleIt: 'Trasferirsi in Italia con un cane, un gatto o un furetto' },
   { en: 'src/pages/from/united-states.astro', it: 'src/pages/it/from/united-states.astro', lastVerified: '2026-07-30', reviewBy: '2027-01-30', title: 'Moving to Italy from the United States', titleIt: 'Trasferirsi in Italia dagli Stati Uniti' },
+  { en: 'src/pages/from/united-states/arriving.astro', it: 'src/pages/it/from/united-states/arriving.astro', lastVerified: '2026-07-30', reviewBy: '2027-01-30', title: 'Arriving in Italy from the United States', titleIt: 'Arrivare in Italia dagli Stati Uniti' },
+  { en: 'src/pages/from/united-states/taxes.astro', it: 'src/pages/it/from/united-states/taxes.astro', lastVerified: '2026-08-03', reviewBy: '2027-02-03', title: 'US taxes and social security for Americans in Italy', titleIt: 'Tasse e previdenza USA per gli americani in Italia' },
 ];
 
 /** Page URL for an entry, derived from its EN file path. */

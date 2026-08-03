@@ -1,0 +1,279 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+
+const sources = [
+  { title: 'IRS — Publication 54, Tax Guide for U.S. Citizens and Resident Aliens Abroad (rev. dic. 2025)', url: 'https://www.irs.gov/pub/irs-pdf/p54.pdf' },
+  { title: 'IRS — U.S. citizens and resident aliens abroad (obbligo di dichiarazione, proroghe)', url: 'https://www.irs.gov/individuals/international-taxpayers/us-citizens-and-resident-aliens-abroad' },
+  { title: 'IRS — Revenue Procedure 2025-32, §3.39 (esclusione redditi da lavoro estero 2026: 132.900 $)', url: 'https://www.irs.gov/pub/irs-drop/rp-25-32.pdf' },
+  { title: 'IRS — Istruzioni al Form 2555 (bona fide residence, presenza fisica 330 giorni, alloggio)', url: 'https://www.irs.gov/pub/irs-pdf/i2555.pdf' },
+  { title: 'IRS — Istruzioni al Form 1116 (credito per imposte estere, limite, riporto)', url: 'https://www.irs.gov/pub/irs-pdf/i1116.pdf' },
+  { title: 'FinCEN — Report Foreign Bank and Financial Accounts (FBAR, soglia aggregata 10.000 $)', url: 'https://www.fincen.gov/report-foreign-bank-and-financial-accounts' },
+  { title: 'IRS — Report of Foreign Bank and Financial Accounts (FBAR): scadenze e canale di invio', url: 'https://www.irs.gov/businesses/small-businesses-self-employed/report-of-foreign-bank-and-financial-accounts-fbar' },
+  { title: 'IRS — Confronto tra Form 8938 e FBAR', url: 'https://www.irs.gov/businesses/comparison-of-form-8938-and-fbar-requirements' },
+  { title: 'IRS — Istruzioni al Form 8938 (soglie per chi risiede all’estero)', url: 'https://www.irs.gov/pub/irs-pdf/i8938.pdf' },
+  { title: 'US Treasury — Convenzione USA-Italia contro le doppie imposizioni e Protocollo (firmata il 25 agosto 1999)', url: 'https://home.treasury.gov/system/files/131/Treaty-Italy-8-24-1999.pdf' },
+  { title: 'US Treasury — Technical Explanation della Convenzione USA-Italia', url: 'https://home.treasury.gov/system/files/131/Treaty-Italy-TE-10-22-1999.pdf' },
+  { title: 'MEF / Dipartimento delle Finanze — convenzioni in vigore (USA: in vigore dal 16.12.2009)', url: 'https://www.finanze.gov.it/it/Fiscalita-dellUnione-europea-e-internazionale/convenzioni-e-accordi/convenzioni-per-evitare-le-doppie-imposizioni/' },
+  { title: 'SSA — Accordi internazionali di sicurezza sociale (l’accordo con l’Italia non ha la regola del lavoratore distaccato)', url: 'https://www.ssa.gov/international/agreements_overview.html' },
+  { title: 'SSA — Totalization Agreement with Italy (copertura basata sulla nazionalità, certificato di copertura)', url: 'https://www.ssa.gov/international/Agreement_Pamphlets/italy.html' },
+  { title: 'SSA — Publication 05-10137, Your Payments While You Are Outside the United States', url: 'https://www.ssa.gov/pubs/EN-05-10137.pdf' },
+  { title: 'Medicare.gov — Travel outside the U.S.', url: 'https://www.medicare.gov/coverage/travel-outside-the-u.s.' },
+  { title: 'Normattiva — TUIR (DPR 917/1986), artt. 2 e 3 (residenza; tassazione mondiale dei residenti)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1986-12-22;917~art2!vig=' },
+  { title: 'Normattiva — TUIR art. 24-bis (neo-residenti: imposta sostitutiva di 300.000 €, in vigore dal 1-1-2026)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1986-12-22;917~art24bis!vig=' },
+  { title: 'Normattiva — D.lgs 19 giugno 2026, n. 117 (nuovo testo unico delle imposte sui redditi, si applica dal 1-1-2027)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-06-19;117' },
+];
+const reports = [
+  ['FBAR — FinCEN Form 114', 'Somma di tutti i conti esteri oltre 10.000 $, in qualunque momento dell’anno', 'A FinCEN, non all’IRS — tramite il BSA E-Filing System, mai con la dichiarazione', '15 aprile, proroga automatica al 15 ottobre (senza richiesta)'],
+  ['FATCA — Form 8938', 'Residenti all’estero: oltre 200.000 $ a fine anno o 300.000 $ in qualunque momento (single); 400.000 $ / 600.000 $ per dichiarazione congiunta', 'Allegato alla dichiarazione dei redditi', 'Scadenza della dichiarazione, proroghe incluse'],
+];
+---
+
+<BaseLayout
+  title="Tasse e previdenza USA per gli americani in Italia"
+  description="Gli Stati Uniti tassano i cittadini sul reddito mondiale dovunque vivano. L'esclusione dei redditi da lavoro estero, il credito d'imposta, FBAR e Form 8938, la saving clause del trattato, la regola insolita di totalizzazione USA-Italia e perché Medicare si ferma alla frontiera."
+  alternates={{ en: '/from/united-states/taxes', it: '/it/from/united-states/taxes' }}
+  ogImage="/og/it/from-us-taxes.png"
+  citations={sources}
+>
+  <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
+    <a href="/it" class="hover:text-ink">Home</a>
+    <span class="px-1">/</span>
+    <a href="/it/from/united-states" class="hover:text-ink">Dagli Stati Uniti</a>
+    <span class="px-1">/</span>
+    <span class="text-ink">Tasse</span>
+  </nav>
+
+  <div class="prose">
+    <h1>Tasse e previdenza USA per gli americani in Italia</h1>
+    <p>
+      Trasferirsi all'estero non chiude il rapporto con l'IRS. Fatti verificati il
+      <time datetime="2026-08-03">3 agosto 2026</time>; orientamento, non
+      consulenza fiscale — la fiscalità trans-frontaliera è uno dei casi in cui
+      pagare un professionista si ripaga, e questa pagina serve a renderti un
+      cliente migliore, non a sostituirlo.
+    </p>
+
+    <h2>La regola che non si piega</h2>
+    <p>
+      "Se sei cittadino statunitense o resident alien, il tuo
+      <strong>reddito mondiale è generalmente soggetto all'imposta USA, a
+      prescindere da dove vivi</strong>", con gli stessi obblighi dichiarativi di
+      chi non è mai partito. Vale anche per i <strong>titolari di green
+      card</strong>. Un reddito da lavoro autonomo di <strong>400 $</strong> o più
+      obbliga già alla dichiarazione.
+    </p>
+    <p>
+      Il tranello nella soglia: per stabilire se devi dichiarare, il reddito lordo
+      <strong>comprende i redditi che intendi escludere</strong>. Quindi
+      "l'esclusione azzera l'imposta, dunque non dichiaro" è sbagliato due volte:
+      l'esclusione esiste solo se la chiedi in dichiarazione, e la soglia si misura
+      prima di applicarla.
+    </p>
+
+    <h2>Il calendario americano, dall'Italia</h2>
+    <ul>
+      <li><strong>15 aprile</strong> — la scadenza ordinaria. Gli interessi decorrono da qui, qualunque proroga usi.</li>
+      <li><strong>15 giugno</strong> — proroga automatica di due mesi se vivi fuori dagli USA e la tua attività principale è all'estero. Caso raro: proroga sia per <strong>dichiarare sia per pagare</strong>; si ottiene allegando una dichiarazione. Le sanzioni per ritardato pagamento decorrono da questa data.</li>
+      <li><strong>15 ottobre</strong> — Form 4868 presentato <em>prima</em> del 15 giugno, barrando la casella "out of the country". Solo per dichiarare, non per pagare.</li>
+      <li><strong>15 dicembre</strong> — ulteriori due mesi discrezionali, richiesti per lettera. Ti rispondono solo se rifiutano.</li>
+    </ul>
+    <p>
+      Il <strong>Form 2350</strong> risolve un problema diverso: non il tempo per
+      preparare la dichiarazione, ma quello per <em>maturare</em> i test di
+      residenza qui sotto.
+    </p>
+
+    <h2>Due modi per non pagare due volte — e non si cumulano sullo stesso reddito</h2>
+    <p>
+      L'<strong>esclusione dei redditi da lavoro estero</strong> (Form 2555) è di
+      <strong>132.900 $ per il 2026</strong>, indicizzata ogni anno. Riguarda solo
+      i redditi <em>da lavoro</em>: stipendi e lavoro autonomo per prestazioni.
+      Pensioni, previdenza sociale, dividendi, interessi, affitti e plusvalenze ne
+      restano fuori. Servono un domicilio fiscale estero più la
+      <strong>bona fide residence</strong> per un periodo ininterrotto che copra un
+      intero anno civile, oppure la <strong>presenza fisica per 330 giorni
+      pieni</strong> in dodici mesi consecutivi.
+    </p>
+    <p>
+      Il <strong>credito per imposte estere</strong> (Form 1116) accredita invece
+      l'imposta italiana effettivamente pagata, nel limite dell'imposta USA su quel
+      reddito estero, con riporto <strong>indietro di un anno e avanti di
+      dieci</strong>. Non puoi chiedere il credito sulle imposte relative a redditi
+      che hai scelto di escludere — e farlo comunque può valere come
+      <strong>revoca</strong> dell'opzione, dopo la quale rioptare entro cinque
+      anni richiede un ruling dell'IRS. L'esclusione fa perdere anche
+      l'additional child tax credit e l'earned income credit per quell'anno.
+    </p>
+
+    <h2>Due comunicazioni che non dipendono da quanto devi</h2>
+  </div>
+
+  <div class="mt-4 overflow-x-auto">
+    <table class="w-full min-w-[640px] border-collapse text-sm">
+      <thead>
+        <tr class="border-b border-line text-left">
+          <th class="py-2 pr-4 font-medium">Adempimento</th>
+          <th class="py-2 pr-4 font-medium">Soglia</th>
+          <th class="py-2 pr-4 font-medium">A chi</th>
+          <th class="py-2 font-medium">Quando</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          reports.map(([name, threshold, where, due]) => (
+            <tr class="border-b border-line align-top">
+              <td class="py-2.5 pr-4 font-medium">{name}</td>
+              <td class="py-2.5 pr-4 text-muted">{threshold}</td>
+              <td class="py-2.5 pr-4 text-muted">{where}</td>
+              <td class="py-2.5 text-muted">{due}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose mt-6">
+    <p>
+      Sono due moduli diversi, verso enti diversi, e molti americani in Italia
+      devono <strong>entrambi</strong>. Due dettagli traggono in inganno: la soglia
+      FBAR è il <strong>massimo aggregato in qualunque momento</strong> dell'anno,
+      non il saldo al 31 dicembre — un conto arrivato a 12.000 € in luglio e
+      svuotato a dicembre va comunque dichiarato. E se il conto abbia prodotto
+      redditi è irrilevante.
+    </p>
+
+    <h2>Cosa fa il trattato — e cosa non fa</h2>
+    <p>
+      La convenzione USA-Italia è stata firmata a Washington il
+      <strong>25 agosto 1999</strong> ed è <strong>in vigore dal 16 dicembre
+      2009</strong>. Non impedisce agli Stati Uniti di tassarti: l'art. 1(2) è una
+      <strong>saving clause</strong> per cui ciascuno Stato può tassare "i propri
+      cittadini in ragione della cittadinanza — <em>come se la convenzione non
+      esistesse</em>". L'art. 4 contiene una regola di prevalenza sulla residenza
+      (abitazione permanente → centro degli interessi vitali → dimora abituale →
+      nazionalità), ma un cittadino USA non può usarla per sottrarsi alla saving
+      clause.
+    </p>
+    <p>
+      Ciò che il trattato dà davvero è un <strong>ordine dei crediti</strong>:
+      per l'art. 23(4) l'Italia accredita fino all'imposta che sarebbe dovuta agli
+      USA se non fossi cittadino americano, gli USA accreditano poi l'imposta
+      italiana pagata, e il reddito viene ri-localizzato in Italia quanto serve per
+      eliminare la sovrapposizione.
+    </p>
+    <p>
+      Sulla <strong>previdenza sociale americana</strong> l'art. 18(2) dice che
+      può tassarla solo lo Stato di residenza — ma la deroga alla saving clause è
+      scritta per i residenti in Italia che sono <strong>cittadini
+      italiani</strong>. La Technical Explanation descrive il risultato pulito
+      "tassa solo l'Italia" per un <strong>doppio cittadino USA/italiano</strong>.
+      Per un pensionato solo statunitense residente in Italia non abbiamo trovato
+      alcuna fonte ufficiale che indichi l'esito, e questa pagina non lo afferma:
+      il meccanismo è l'art. 23(4), e la risposta va a un consulente
+      trans-frontaliero, non a una pagina web.
+    </p>
+
+    <h2>Contributi: l'Italia è l'eccezione</h2>
+    <p>
+      Quasi tutti gli accordi di totalizzazione americani usano la regola del
+      lavoratore distaccato. Quello italiano, in vigore dal 1978,
+      <strong>non ce l'ha</strong>. La copertura dipende dalla
+      <strong>nazionalità</strong>: un cittadino USA che lavora o è autonomo in
+      Italia e che sarebbe coperto dalla previdenza americana in assenza
+      dell'accordo <strong>resta nel sistema statunitense ed è esente dai
+      contributi italiani</strong>. Il famoso limite di "cinque anni" per il
+      distacco appartiene ad altri accordi, non a questo.
+    </p>
+    <p>
+      L'esenzione non è automatica: serve un <strong>certificato di
+      copertura</strong> (dalla SSA sul lato americano; in Italia il modello
+      <strong>IT/USA 4</strong> dalla sede provinciale INPS). Chi è autonomo deve
+      allegare copia del certificato estero alla dichiarazione USA
+      <strong>ogni anno</strong>. Né il lavoratore né il datore possono scegliere
+      il sistema: la SSA lo definisce un fraintendimento diffuso.
+    </p>
+
+    <h2>La pensione americana, e la copertura sanitaria che non viaggia</h2>
+    <p>
+      Le prestazioni di previdenza sociale continuano a essere pagate ai
+      <strong>cittadini statunitensi</strong> residenti in Italia. Per i non
+      cittadini si interrompono in genere dopo sei mesi civili all'estero, ma
+      l'Italia è nell'elenco SSA dei paesi in cui il pagamento prosegue; chi non è
+      cittadino e si assenta per 30 giorni o più presenta il modulo SSA-21. Fino
+      all'<strong>85%</strong> della prestazione resta tassabile per cittadini e
+      titolari di green card.
+    </p>
+    <p>
+      <strong>Medicare, però, si ferma alla frontiera.</strong> Non paga
+      "assistenza sanitaria o forniture ottenute fuori dagli Stati Uniti" salvo tre
+      situazioni molto ristrette, che presuppongono tutte che tu sia negli USA o vi
+      risieda, e non copre mai i farmaci acquistati all'estero. Gli americani non
+      hanno nemmeno il <strong>modello S1</strong>, la via con cui un pensionato UE
+      esporta la copertura del proprio paese verso il
+      <a href="/it/eu-citizens/residency/servizio-sanitario">SSN</a>. Metti in
+      conto l'iscrizione volontaria al SSN o un'assicurazione privata, e decidilo
+      prima di partire.
+    </p>
+
+    <h2>E poi ti tassa anche l'Italia</h2>
+    <p>
+      Una volta residente fiscalmente in Italia, l'Italia tassa
+      <strong>tutti i redditi posseduti</strong>, dovunque prodotti. La residenza
+      non sono i "183 giorni" che ripete internet: la norma dice
+      <strong>la maggior parte del periodo d'imposta</strong>, contando
+      espressamente le frazioni di giorno dal 2024, e si integra con la residenza
+      civilistica, col <em>domicilio</em> (il luogo in cui si sviluppano in via
+      principale le relazioni personali e familiari) o con la semplice presenza.
+      L'iscrizione all'<a href="/it/eu-citizens/residency/iscrizione-anagrafica">anagrafe</a>
+      crea una <strong>presunzione relativa</strong>, non un test autonomo — e
+      cancellarsi non fa cessare da sé la residenza.
+    </p>
+    <p>
+      L'Italia offre regimi opzionali che un cittadino USA deve valutare con
+      attenzione: i <strong>neo-residenti</strong> con imposta sostitutiva di
+      <strong>300.000 €</strong> l'anno sui redditi esteri (più 50.000 € per
+      familiare, previo interpello), gli <strong>impatriati</strong> con
+      tassazione del 50% del reddito di lavoro prodotto in Italia fino a
+      600.000 €, e il <strong>regime al 7%</strong> per le pensioni estere in
+      alcuni comuni del Mezzogiorno. Due avvertenze: le pagine inglesi
+      dell'Agenzia delle Entrate riportano ancora 100.000 € per i neo-residenti —
+      <strong>dato superato</strong>, la norma in vigore dice 300.000 €. E se le
+      imposte sostitutive italiane siano accreditabili negli USA è esattamente il
+      tipo di domanda su cui questa pagina non tira a indovinare.
+    </p>
+
+    <div class="not-prose my-6 rounded-xl border border-brand-300 bg-brand-50/60 p-5">
+      <h2 class="font-serif text-lg">Dal 1° gennaio 2027 l'Italia rinumera il suo codice fiscale</h2>
+      <p class="mt-2 text-sm">
+        Il <strong>D.lgs 19 giugno 2026, n. 117</strong> approva un nuovo testo
+        unico delle imposte sui redditi e abroga gli
+        <strong>articoli da 1 a 191 del TUIR</strong> dal 1° gennaio 2027. Il
+        testo su residenza e tassazione mondiale è ripreso identico, ma i numeri di
+        articolo citati dalle guide si spostano: l'art. 2 resta l'art. 2, mentre il
+        regime dei neo-residenti passa dall'art. 24-bis all'art. 246. Da gennaio
+        aspettati un'ondata di citazioni superate in rete; segnaliamo anche che la
+        consolidazione sembra non aver recepito una modifica del 2026 al regime dei
+        pensionati, la cui soglia di popolazione oggi differisce tra i due testi.
+      </p>
+    </div>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Fonti</h2>
+    <p class="mt-1 text-sm text-muted">
+      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e verificata il 3 agosto 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

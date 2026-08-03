@@ -1,0 +1,237 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+// Arriving-from-the-US practicalities. Facts verified 2026-07-30 against the
+// fetched official sources below. ETIAS status is the most volatile fact here
+// and is dated on the page for that reason.
+const sources = [
+  { title: 'Normattiva — D.lgs 286/1998 (TU immigrazione), artt. 4, 4-ter, 5 (visa issued in the state of residence; permit issued for the visa’s purpose)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286' },
+  { title: 'MAECI — Il visto per l’Italia (type D national long-stay visa, 91–365 days)', url: 'https://vistoperitalia.esteri.it/' },
+  { title: 'Consulate General of Italy, Chicago — American citizens (over 90 days requires a visa obtained before entering Italy)', url: 'https://conschicago.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/visti/american-citizens/' },
+  { title: 'Consulate General of Italy, Chicago — Who can apply (consular jurisdiction by US state)', url: 'https://conschicago.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/visti/who-can-apply-2/' },
+  { title: 'Consulate General of Italy, New York — Visas (jurisdiction split by New Jersey county; Prenot@mi)', url: 'https://consnewyork.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/visti/' },
+  { title: 'Consulate General of Italy, Chicago — Translation and legalization of documents (apostille from the state Secretary of State; consular authentication of translations)', url: 'https://conschicago.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/traduzione-e-legalizzazione-dei-documenti/' },
+  { title: 'Consulate General of Italy, Chicago — Codice fiscale (consular route and its limits; D.M. 281/2001)', url: 'https://conschicago.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/codice-fiscale/' },
+  { title: 'Agenzia delle Entrate — Tax identification number for foreign citizens', url: 'https://www.agenziaentrate.gov.it/portale/web/english/nse/individuals/tax-identification-number-for-foreign-citizens' },
+  { title: 'HCCH — Apostille Convention status table (US in force 15 October 1981; Italy 11 February 1978)', url: 'https://www.hcch.net/en/instruments/conventions/status-table/?cid=41' },
+  { title: 'US Embassy in Italy — Obtaining vital records (apostille required; embassy cannot translate)', url: 'https://it.usembassy.gov/obtaining-vital-records/' },
+  { title: 'US Embassy in Italy — Transportation and driving (no reciprocal licence recognition; one year from anagrafe registration)', url: 'https://it.usembassy.gov/transportation-and-driving-in-italy/' },
+  { title: 'MIT — Conversione patente estera (USA convertible only for diplomatic staff and family)', url: 'https://www.mit.gov.it/conversione-patente-estera' },
+  { title: 'European Commission — ETIAS (not in operation; fee set at €20 when live)', url: 'https://home-affairs.ec.europa.eu/policies/schengen/smart-borders/european-travel-information-authorisation-system_en' },
+  { title: 'European Commission — Entry/Exit System (replaced passport stamping from 10 April 2026)', url: 'https://home-affairs.ec.europa.eu/policies/schengen/smart-borders/entry-exit-system_en' },
+  { title: 'EUR-Lex — Council Regulation (EC) 1186/2009, artt. 2-9 (duty relief on transfer of residence)', url: 'https://eur-lex.europa.eu/eli/reg/2009/1186/oj/eng' },
+  { title: 'EUR-Lex — Council Directive 2009/132/EC (import VAT exemption on personal property)', url: 'https://eur-lex.europa.eu/eli/dir/2009/132/oj/eng' },
+  { title: 'US Embassy in Italy — U.S. citizen services (STEP, FPCA absentee voting, Federal Benefits Unit)', url: 'https://it.usembassy.gov/services/' },
+  { title: 'Selective Service System — Who needs to register (US citizens abroad included)', url: 'https://www.sss.gov/register/who-needs-to-register/' },
+];
+const documents = [
+  ['1. Certified copy', 'From the issuing US state’s vital-records office. A photocopy is not a certified copy.'],
+  ['2. Apostille', 'From the Secretary of State of the state that issued the document — not the US Department of State, and not a notary.'],
+  ['3. Italian translation', 'Authenticated by an Italian consular officer (bring or mail the original plus the translation), or a traduzione giurata sworn before a court once you are in Italy.'],
+];
+---
+
+<BaseLayout
+  title="Arriving in Italy from the United States"
+  description="Why 90 days visa-free is not a relocation route, which consulate has your state, the apostille chain for US documents, when you get a codice fiscale, the one-year driving clock, and shipping your household."
+  alternates={{ en: '/from/united-states/arriving', it: '/it/from/united-states/arriving' }}
+  ogImage="/og/from-us-arriving.png"
+  citations={sources}
+>
+  <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
+    <a href="/" class="hover:text-ink">Home</a>
+    <span class="px-1">/</span>
+    <a href="/from/united-states" class="hover:text-ink">From the United States</a>
+    <span class="px-1">/</span>
+    <span class="text-ink">Arriving</span>
+  </nav>
+
+  <div class="prose">
+    <h1>Arriving in Italy from the United States</h1>
+    <p>
+      The single most expensive American misconception about moving to Italy is
+      that the 90-day visa waiver is a way in. It is not, and the reason is
+      structural rather than bureaucratic. Facts verified
+      <time datetime="2026-07-30">30 July 2026</time>; orientation, not legal or
+      immigration advice.
+    </p>
+
+    <h2>Ninety days visa-free is not a relocation route</h2>
+    <p>
+      A US passport gets you into the Schengen area for up to 90 days in any 180
+      without a visa. For anything longer you need a <strong>type D national
+      long-stay visa</strong> (91–365 days), and Italian law places its issuance
+      with the consular mission <strong>in your state of origin or stable
+      residence</strong> — that is, in the United States, before you travel.
+    </p>
+    <p>
+      You cannot convert a tourist entry into residence once you are here, and
+      this is not discretion but mechanics: the <em>permesso di soggiorno</em> is
+      issued "<strong>for the activities provided for by the entry visa</strong>",
+      and residence is permitted only to those who entered regularly holding such
+      a permit. A visa-free tourist arrival carries no visa, so there is nothing
+      for the Questura to issue a permit against. The only in-country flexibility
+      extends a <em>short</em> stay; it is not a path to residence. Overstaying is
+      a ground for administrative expulsion.
+    </p>
+    <p>
+      Once you do arrive on a type D visa, the clock is short: apply for the
+      permesso di soggiorno at the Questura <strong>within eight working days</strong>.
+      Start from our <a href="/non-eu">non-EU orientation</a> for the visa
+      categories themselves.
+    </p>
+
+    <h2>ETIAS and EES: what is actually true today</h2>
+    <p>
+      <strong>ETIAS is not in operation.</strong> As of this page's verification
+      date both the official EU ETIAS site and the European Commission state that
+      the system is not running and <em>no applications are being collected</em>.
+      Anyone selling you an ETIAS today is running a scam. When it does launch it
+      will cost <strong>€20</strong> — and it will be a <em>short-stay</em>
+      authorisation from which holders of a long-stay visa or residence permit are
+      <strong>exempt</strong>. It was never the relocation document.
+    </p>
+    <p>
+      What <em>has</em> changed is the <strong>Entry/Exit System</strong>: since
+      <strong>10 April 2026</strong> it has replaced passport stamping,
+      registering biometrics and every entry and exit. The practical consequence
+      is that the 90/180 count is now automatic rather than a border officer's
+      arithmetic, so an overstay that once passed unnoticed is now detected by
+      default.
+    </p>
+
+    <h2>Which consulate has you</h2>
+    <p>
+      Jurisdiction is by <strong>US state — and sometimes by county</strong>. New
+      York covers New York, Connecticut, Bermuda and a named list of New Jersey
+      counties; Chicago covers eleven midwestern and mountain states. You must
+      apply to the one that has your address, prove it with a driver's licence or
+      state ID, appear <strong>in person by appointment</strong> for biometrics,
+      and sign the form in front of the visa officer. Appointments run through the
+      foreign ministry's <strong>Prenot@mi</strong> portal, and New York requires
+      you to confirm the booking 3 to 10 days beforehand.
+    </p>
+    <p>
+      We verified New York and Chicago directly; the other consulates publish
+      their own jurisdictions, so check yours rather than assuming.
+    </p>
+
+    <h2>Your US documents need a three-step chain</h2>
+  </div>
+
+  <div class="mt-4 overflow-x-auto">
+    <table class="w-full min-w-[480px] border-collapse text-sm">
+      <tbody>
+        {
+          documents.map(([step, detail]) => (
+            <tr class="border-b border-line align-top">
+              <td class="py-2.5 pr-4 font-medium whitespace-nowrap">{step}</td>
+              <td class="py-2.5 text-muted">{detail}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose mt-6">
+    <p>
+      A US <strong>notarisation is not a substitute</strong> at any step: a notary
+      attests a signature, not a translation's accuracy, and has no standing
+      before Italian authorities. The apostille replaces consular
+      <em>legalisation</em>; it does not replace the <em>translation</em>. Both
+      the US and Italy have been party to the Hague Apostille Convention for
+      decades, which is why the apostille route exists at all.
+    </p>
+    <p>
+      Do this <strong>before</strong> the visa appointment, not after: family
+      applications already require an apostilled, translated marriage certificate
+      and children's birth certificates at the visa stage. The same documents
+      reappear later for
+      <a href="/eu-citizens/residency/iscrizione-anagrafica">anagrafe registration</a>,
+      <a href="/citizenship">citizenship</a> applications and
+      <a href="/schools">school enrolment</a>, so order several certified copies
+      while you are in the country that issues them.
+    </p>
+
+    <h2>Codice fiscale: plan for on arrival, not before</h2>
+    <p>
+      The Revenue Agency does say non-residents may apply through Italian consular
+      authorities abroad, and that is true — but the Chicago consulate limits it to
+      cases where the code is needed for an online procedure or where you are
+      objectively unable to appoint a representative in Italy, explicitly
+      excluding study, property purchase, "stay in Italy" and litigation. The
+      mainstream routes are a <strong>delegated representative</strong> filing at
+      an Agenzia delle Entrate office, or — for most people actually relocating —
+      assignment <strong>in Italy</strong> by the Sportello Unico or the Questura
+      when your permit is issued. See the
+      <a href="/eu-citizens/residency/codice-fiscale">codice fiscale guide</a>.
+    </p>
+
+    <h2>Your licence has a one-year shelf life</h2>
+    <p>
+      There is <strong>no reciprocity agreement</strong> between the US and Italy:
+      on the transport ministry's list the United States appears only among states
+      whose licences convert for <strong>diplomatic staff and their families</strong>.
+      Everyone else must pass the Italian theory and practical exams plus a medical.
+      For the first <strong>year from acquiring residence</strong> you may drive on
+      your valid US licence provided you also carry an
+      <strong>International Driving Permit</strong> (issued in the US by AAA) or an
+      official Italian translation of it.
+    </p>
+    <p>
+      The detail that costs people a year: the US Embassy dates that clock from
+      your <strong>registration with the anagrafe</strong>. The year you spend
+      settling in is the year you should already be in a driving school. Full
+      detail on <a href="/driving">driving on a foreign licence</a>.
+    </p>
+
+    <h2>Shipping your household</h2>
+    <p>
+      EU law admits personal property free of import duty and VAT when you
+      transfer your normal residence from outside the EU — and "personal property"
+      expressly includes private motor vehicles. The relief is conditional:
+      you must have <strong>owned and used</strong> the goods for at least
+      <strong>6 months</strong> before leaving, have lived outside the EU for at
+      least <strong>12 continuous months</strong>, clear the goods within
+      <strong>12 months</strong> of establishing residence, and not sell, lend or
+      pledge them for <strong>12 months</strong> afterwards without telling
+      customs. Alcohol, tobacco, commercial vehicles and trade equipment get no
+      relief.
+    </p>
+    <p>
+      One distinction worth keeping separate: duty and VAT relief on
+      <em>importing</em> a car is not permission to <em>register</em> it.
+      Homologation and registration are a different regime, and we have not
+      verified that a US-specification vehicle can be plated in Italy — treat
+      those as two questions, and get the second answered before shipping a car.
+    </p>
+
+    <h2>Staying American from Italy</h2>
+    <ul>
+      <li><strong>Voting</strong>: file a Federal Post Card Application to get absentee ballots — and refile <strong>every January</strong> or whenever you move. Electronic delivery gets you a blank ballot 45 days before general elections.</li>
+      <li><strong>Selective Service</strong>: men aged 18 through 25 must register, including dual citizens and citizens living abroad.</li>
+      <li><strong>STEP</strong>: enrol with the embassy for security alerts.</li>
+      <li><strong>Federal Benefits Unit</strong> in Rome handles Social Security, VA, Medicare and Railroad Retirement matters. Money questions are on our <a href="/from/united-states/taxes">US taxes page</a>.</li>
+      <li><strong>Babies born in Italy</strong> to a US-citizen parent may acquire citizenship at birth — apply for a Consular Report of Birth Abroad.</li>
+    </ul>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Sources</h2>
+    <p class="mt-1 text-sm text-muted">
+      Primary, official sources this page is based on — each fetched and checked on 30 July 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

@@ -1,0 +1,239 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+
+const sources = [
+  { title: 'Normattiva — D.lgs 286/1998 (TU immigrazione), artt. 4, 4-ter, 5 (visto rilasciato nello Stato di residenza; permesso rilasciato per le attività previste dal visto)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286' },
+  { title: 'MAECI — Il visto per l’Italia (visto nazionale tipo D, 91-365 giorni)', url: 'https://vistoperitalia.esteri.it/' },
+  { title: 'Consolato Generale d’Italia a Chicago — American citizens (oltre 90 giorni serve un visto ottenuto prima di entrare in Italia)', url: 'https://conschicago.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/visti/american-citizens/' },
+  { title: 'Consolato Generale d’Italia a Chicago — Who can apply (giurisdizione consolare per Stato)', url: 'https://conschicago.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/visti/who-can-apply-2/' },
+  { title: 'Consolato Generale d’Italia a New York — Visti (giurisdizione divisa per contea del New Jersey; Prenot@mi)', url: 'https://consnewyork.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/visti/' },
+  { title: 'Consolato Generale d’Italia a Chicago — Traduzione e legalizzazione dei documenti (apostille dal Secretary of State dello Stato; autentica consolare delle traduzioni)', url: 'https://conschicago.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/traduzione-e-legalizzazione-dei-documenti/' },
+  { title: 'Consolato Generale d’Italia a Chicago — Codice fiscale (via consolare e suoi limiti; D.M. 281/2001)', url: 'https://conschicago.esteri.it/en/servizi-consolari-e-visti/servizi-per-il-cittadino-straniero/codice-fiscale/' },
+  { title: 'Agenzia delle Entrate — Codice fiscale per i cittadini stranieri', url: 'https://www.agenziaentrate.gov.it/portale/web/english/nse/individuals/tax-identification-number-for-foreign-citizens' },
+  { title: 'HCCH — Tabella degli Stati della Convenzione dell’Aia sull’apostille (USA in vigore dal 15 ottobre 1981; Italia dall’11 febbraio 1978)', url: 'https://www.hcch.net/en/instruments/conventions/status-table/?cid=41' },
+  { title: 'Ambasciata USA in Italia — Obtaining vital records (apostille necessaria; l’ambasciata non traduce)', url: 'https://it.usembassy.gov/obtaining-vital-records/' },
+  { title: 'Ambasciata USA in Italia — Transportation and driving (nessun riconoscimento reciproco delle patenti; un anno dall’iscrizione anagrafica)', url: 'https://it.usembassy.gov/transportation-and-driving-in-italy/' },
+  { title: 'MIT — Conversione patente estera (USA convertibile solo per il personale diplomatico e i familiari)', url: 'https://www.mit.gov.it/conversione-patente-estera' },
+  { title: 'Commissione europea — ETIAS (non operativo; tariffa fissata a 20 € da quando entrerà in funzione)', url: 'https://home-affairs.ec.europa.eu/policies/schengen/smart-borders/european-travel-information-authorisation-system_en' },
+  { title: 'Commissione europea — Entry/Exit System (ha sostituito la timbratura dei passaporti dal 10 aprile 2026)', url: 'https://home-affairs.ec.europa.eu/policies/schengen/smart-borders/entry-exit-system_en' },
+  { title: 'EUR-Lex — Regolamento (CE) 1186/2009, artt. 2-9 (franchigia doganale per trasferimento di residenza)', url: 'https://eur-lex.europa.eu/eli/reg/2009/1186/oj/eng' },
+  { title: 'EUR-Lex — Direttiva 2009/132/CE (esenzione IVA all’importazione di beni personali)', url: 'https://eur-lex.europa.eu/eli/dir/2009/132/oj/eng' },
+  { title: 'Ambasciata USA in Italia — Servizi ai cittadini (STEP, voto per corrispondenza FPCA, Federal Benefits Unit)', url: 'https://it.usembassy.gov/services/' },
+  { title: 'Selective Service System — Who needs to register (inclusi i cittadini USA all’estero)', url: 'https://www.sss.gov/register/who-needs-to-register/' },
+];
+const documents = [
+  ['1. Copia certificata', 'Dall’ufficio di stato civile dello Stato USA che l’ha emessa. Una fotocopia non è una copia certificata.'],
+  ['2. Apostille', 'Dal Secretary of State dello Stato che ha emesso il documento — non dal Dipartimento di Stato federale, e non da un notaio.'],
+  ['3. Traduzione in italiano', 'Autenticata da un funzionario consolare italiano (portando o spedendo originale e traduzione), oppure traduzione giurata davanti al tribunale una volta in Italia.'],
+];
+---
+
+<BaseLayout
+  title="Arrivare in Italia dagli Stati Uniti"
+  description="Perché i 90 giorni senza visto non sono una via per trasferirsi, quale consolato ha giurisdizione sul tuo Stato, la catena dell'apostille per i documenti americani, quando arriva il codice fiscale, l'anno di validità della patente e la spedizione dei beni."
+  alternates={{ en: '/from/united-states/arriving', it: '/it/from/united-states/arriving' }}
+  ogImage="/og/it/from-us-arriving.png"
+  citations={sources}
+>
+  <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
+    <a href="/it" class="hover:text-ink">Home</a>
+    <span class="px-1">/</span>
+    <a href="/it/from/united-states" class="hover:text-ink">Dagli Stati Uniti</a>
+    <span class="px-1">/</span>
+    <span class="text-ink">Arrivare</span>
+  </nav>
+
+  <div class="prose">
+    <h1>Arrivare in Italia dagli Stati Uniti</h1>
+    <p>
+      L'equivoco americano più costoso sul trasferimento in Italia è che i 90
+      giorni senza visto siano una via d'ingresso. Non lo sono, e la ragione è
+      strutturale, non burocratica. Fatti verificati il
+      <time datetime="2026-07-30">30 luglio 2026</time>; orientamento, non
+      consulenza legale o in materia di immigrazione.
+    </p>
+
+    <h2>Novanta giorni senza visto non sono una via per trasferirsi</h2>
+    <p>
+      Un passaporto statunitense consente di entrare nello spazio Schengen fino a
+      90 giorni ogni 180 senza visto. Per periodi più lunghi serve un
+      <strong>visto nazionale di lungo soggiorno, tipo D</strong> (91-365 giorni),
+      e la legge italiana ne affida il rilascio alla rappresentanza consolare
+      <strong>nello Stato di origine o di stabile residenza</strong> — cioè negli
+      Stati Uniti, prima di partire.
+    </p>
+    <p>
+      Non si può convertire un ingresso turistico in residenza una volta qui, e
+      non è discrezionalità ma meccanica: il <em>permesso di soggiorno</em> è
+      rilasciato "<strong>per le attività previste dal visto d'ingresso</strong>",
+      e il soggiorno è consentito solo a chi è entrato regolarmente con quel
+      titolo. Un ingresso turistico senza visto non porta alcun visto, quindi la
+      Questura non ha nulla su cui rilasciare un permesso. L'unica flessibilità
+      interna proroga un soggiorno <em>breve</em>; non è una via alla residenza.
+      Restare oltre il termine è motivo di espulsione amministrativa.
+    </p>
+    <p>
+      Quando poi arrivi con un visto tipo D, i tempi sono stretti: il permesso di
+      soggiorno va chiesto in Questura <strong>entro otto giorni
+      lavorativi</strong>. Parti dal nostro
+      <a href="/it/non-eu">orientamento per i non UE</a> per le categorie di visto.
+    </p>
+
+    <h2>ETIAS ed EES: cosa è vero oggi</h2>
+    <p>
+      <strong>ETIAS non è operativo.</strong> Alla data di verifica di questa
+      pagina il sito ufficiale ETIAS dell'UE e la Commissione europea dichiarano
+      che il sistema non è in funzione e che <em>non si raccolgono domande</em>.
+      Chi oggi ti vende un ETIAS ti sta truffando. Quando entrerà in funzione
+      costerà <strong>20 €</strong> e sarà un'autorizzazione per
+      <em>soggiorni brevi</em>, dalla quale i titolari di visto di lungo soggiorno
+      o di permesso sono <strong>esentati</strong>. Non è mai stato il documento
+      per trasferirsi.
+    </p>
+    <p>
+      Ciò che <em>è</em> cambiato è l'<strong>Entry/Exit System</strong>: dal
+      <strong>10 aprile 2026</strong> ha sostituito la timbratura dei passaporti,
+      registrando dati biometrici e ogni ingresso e uscita. In pratica il conteggio
+      90/180 è ora automatico e non più affidato all'aritmetica di un agente, quindi
+      un soggiorno oltre i termini che prima passava inosservato oggi viene
+      rilevato per default.
+    </p>
+
+    <h2>Quale consolato ti spetta</h2>
+    <p>
+      La giurisdizione va per <strong>Stato — e a volte per contea</strong>. New
+      York copre New York, Connecticut, le Bermuda e un elenco di contee del New
+      Jersey; Chicago copre undici Stati del Midwest e delle Montagne Rocciose.
+      Devi rivolgerti a quello che ha il tuo indirizzo, provarlo con patente o
+      state ID, presentarti <strong>di persona su appuntamento</strong> per i dati
+      biometrici e firmare il modulo davanti al funzionario. Gli appuntamenti
+      passano dal portale <strong>Prenot@mi</strong> del ministero degli Esteri, e
+      New York chiede di confermare la prenotazione da 3 a 10 giorni prima.
+    </p>
+    <p>
+      Abbiamo verificato direttamente New York e Chicago; gli altri consolati
+      pubblicano la propria giurisdizione, quindi controlla il tuo invece di
+      dedurlo.
+    </p>
+
+    <h2>I documenti americani richiedono una catena in tre passi</h2>
+  </div>
+
+  <div class="mt-4 overflow-x-auto">
+    <table class="w-full min-w-[480px] border-collapse text-sm">
+      <tbody>
+        {
+          documents.map(([step, detail]) => (
+            <tr class="border-b border-line align-top">
+              <td class="py-2.5 pr-4 font-medium whitespace-nowrap">{step}</td>
+              <td class="py-2.5 text-muted">{detail}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose mt-6">
+    <p>
+      Un'<strong>autentica notarile americana non sostituisce</strong> nessuno dei
+      passaggi: il notaio attesta una firma, non la fedeltà di una traduzione, e
+      non ha valore per le autorità italiane. L'apostille sostituisce la
+      <em>legalizzazione</em> consolare, non la <em>traduzione</em>. Stati Uniti e
+      Italia sono parti della Convenzione dell'Aia sull'apostille da decenni: è
+      per questo che la via dell'apostille esiste.
+    </p>
+    <p>
+      Fallo <strong>prima</strong> dell'appuntamento per il visto, non dopo: le
+      domande per motivi familiari richiedono già in quella sede il certificato di
+      matrimonio e quelli di nascita dei figli, apostillati e tradotti. Gli stessi
+      documenti riemergono più tardi per l'<a href="/it/eu-citizens/residency/iscrizione-anagrafica">iscrizione
+      anagrafica</a>, per la <a href="/it/citizenship">cittadinanza</a> e per
+      l'<a href="/it/schools">iscrizione a scuola</a>: ordina più copie certificate
+      mentre sei nel paese che le emette.
+    </p>
+
+    <h2>Codice fiscale: preventivalo all'arrivo, non prima</h2>
+    <p>
+      L'Agenzia delle Entrate afferma che i non residenti possono richiederlo alle
+      autorità consolari italiane all'estero, ed è vero — ma il consolato di
+      Chicago lo limita ai casi in cui serve per una procedura online o in cui sei
+      oggettivamente impossibilitato a nominare un rappresentante in Italia,
+      escludendo espressamente studio, acquisto di immobili, "soggiorno in Italia"
+      e contenzioso. Le vie ordinarie sono un
+      <strong>rappresentante delegato</strong> che lo chiede a un ufficio
+      dell'Agenzia, oppure — per chi si trasferisce davvero — l'attribuzione
+      <strong>in Italia</strong> da parte dello Sportello Unico o della Questura al
+      rilascio del permesso. Vedi la
+      <a href="/it/eu-citizens/residency/codice-fiscale">guida al codice fiscale</a>.
+    </p>
+
+    <h2>La patente vale un anno</h2>
+    <p>
+      Tra Stati Uniti e Italia <strong>non c'è alcun accordo di
+      reciprocità</strong>: nell'elenco del ministero dei Trasporti gli Stati Uniti
+      figurano solo tra gli Stati le cui patenti si convertono per il
+      <strong>personale diplomatico e i familiari</strong>. Tutti gli altri devono
+      superare gli esami italiani di teoria e pratica più la visita medica. Per il
+      primo <strong>anno dall'acquisizione della residenza</strong> puoi guidare con
+      la patente statunitense valida purché porti con te anche il
+      <strong>permesso internazionale di guida</strong> (negli USA lo rilascia AAA)
+      o una traduzione ufficiale in italiano.
+    </p>
+    <p>
+      Il dettaglio che costa un anno: l'ambasciata americana fa decorrere quel
+      termine dall'<strong>iscrizione all'anagrafe</strong>. L'anno che passi ad
+      ambientarti è l'anno in cui dovresti già essere in autoscuola. Tutti i
+      dettagli su <a href="/it/driving">guidare con la patente estera</a>.
+    </p>
+
+    <h2>Spedire la casa</h2>
+    <p>
+      Il diritto UE ammette i beni personali in franchigia da dazi e IVA quando
+      trasferisci la residenza normale da fuori dall'Unione — e tra i "beni
+      personali" rientrano espressamente le automobili private. La franchigia è
+      condizionata: devi aver <strong>posseduto e usato</strong> i beni per almeno
+      <strong>6 mesi</strong> prima di partire, aver risieduto fuori dall'UE per
+      almeno <strong>12 mesi continuativi</strong>, immettere i beni in libera
+      pratica entro <strong>12 mesi</strong> dallo stabilimento della residenza e
+      non venderli, prestarli o darli in garanzia per i <strong>12 mesi</strong>
+      successivi senza avvisare la dogana. Alcolici, tabacchi, mezzi di trasporto
+      commerciali e attrezzature professionali non hanno franchigia.
+    </p>
+    <p>
+      Una distinzione da tenere ferma: la franchigia da dazi e IVA
+      sull'<em>importazione</em> di un'auto non è il permesso di
+      <em>immatricolarla</em>. Omologazione e immatricolazione sono un regime
+      diverso, e non abbiamo verificato che un veicolo di specifica statunitense
+      possa essere targato in Italia — trattale come due domande, e fatti
+      rispondere alla seconda prima di spedire un'auto.
+    </p>
+
+    <h2>Restare americano dall'Italia</h2>
+    <ul>
+      <li><strong>Voto</strong>: presenta la Federal Post Card Application per ricevere le schede — e ripresentala <strong>ogni gennaio</strong> o a ogni trasloco. Con la consegna elettronica ricevi la scheda 45 giorni prima delle elezioni generali.</li>
+      <li><strong>Selective Service</strong>: gli uomini dai 18 ai 25 anni devono registrarsi, compresi i doppi cittadini e i cittadini residenti all'estero.</li>
+      <li><strong>STEP</strong>: iscriviti presso l'ambasciata per gli avvisi di sicurezza.</li>
+      <li>La <strong>Federal Benefits Unit</strong> di Roma segue previdenza sociale, VA, Medicare e Railroad Retirement. Le questioni di soldi sono nella nostra <a href="/it/from/united-states/taxes">pagina su tasse e previdenza</a>.</li>
+      <li><strong>Figli nati in Italia</strong> da un genitore cittadino USA possono acquisire la cittadinanza alla nascita: si chiede il Consular Report of Birth Abroad.</li>
+    </ul>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Fonti</h2>
+    <p class="mt-1 text-sm text-muted">
+      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e verificata il 30 luglio 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

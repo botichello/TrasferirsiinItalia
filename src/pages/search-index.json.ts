@@ -240,6 +240,30 @@ export const GET: APIRoute = async () => {
       text: 'Stati Uniti USA americani trasferirsi dagli USA patente non convertibile apostille FATCA consolato visto tipo D',
     },
     {
+      title: 'Arriving in Italy from the United States',
+      url: '/from/united-states/arriving',
+      type: 'Page',
+      text: 'American 90 days visa free not relocation type D visa consulate jurisdiction apostille Secretary of State translation codice fiscale IDP AAA ETIAS EES household goods shipping FPCA',
+    },
+    {
+      title: 'Arrivare in Italia dagli Stati Uniti',
+      url: '/it/from/united-states/arriving',
+      type: 'Pagina (IT)',
+      text: 'americani 90 giorni senza visto visto tipo D consolato giurisdizione apostille traduzione codice fiscale permesso internazionale ETIAS EES masserizie',
+    },
+    {
+      title: 'US taxes and social security for Americans in Italy',
+      url: '/from/united-states/taxes',
+      type: 'Page',
+      text: 'IRS FEIE Form 2555 foreign earned income exclusion 132900 foreign tax credit 1116 FBAR FinCEN 114 FATCA 8938 treaty saving clause totalization certificate of coverage Medicare abroad neo-residenti impatriati',
+    },
+    {
+      title: 'Tasse e previdenza USA per gli americani in Italia',
+      url: '/it/from/united-states/taxes',
+      type: 'Pagina (IT)',
+      text: 'IRS esclusione redditi lavoro estero credito imposte estere FBAR FATCA 8938 trattato saving clause totalizzazione certificato copertura Medicare neo-residenti impatriati',
+    },
+    {
       title: 'The full journey checklist',
       url: '/checklist',
       type: 'Page',

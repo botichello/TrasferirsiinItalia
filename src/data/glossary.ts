@@ -226,8 +226,8 @@ export const glossary: GlossaryTerm[] = [
   {
     slug: 'irpef',
     term: 'IRPEF',
-    en: 'Imposta sul Reddito delle Persone Fisiche — the progressive personal income tax (23%, 35%, 43% by bracket), withheld at source for employees.',
-    it: 'Imposta sul Reddito delle Persone Fisiche — l’imposta progressiva sui redditi (23%, 35%, 43% per scaglioni), trattenuta alla fonte per i dipendenti.',
+    en: 'Imposta sul Reddito delle Persone Fisiche — the progressive personal income tax (2026 bands: 23%, 33%, 43%), withheld at source for employees.',
+    it: 'Imposta sul Reddito delle Persone Fisiche — l’imposta progressiva sui redditi (scaglioni 2026: 23%, 33%, 43%), trattenuta alla fonte per i dipendenti.',
     guide: '/eu-citizens/residency/residenza-fiscale',
   },
   {

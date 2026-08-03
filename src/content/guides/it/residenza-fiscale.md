@@ -4,8 +4,8 @@ description: Quando chi si trasferisce diventa fiscalmente residente in Italia �
 step: 7
 journey: eu-residency
 lang: it
-lastVerified: 2026-07-10
-reviewBy: 2027-01-10
+lastVerified: 2026-08-03
+reviewBy: 2026-12-01
 regionScope: national
 documents:
   - Documenti che fissano la data di arrivo (inizio del contratto di affitto, contratto di lavoro, documenti di viaggio)
@@ -15,19 +15,31 @@ documents:
 sources:
   - title: 'Agenzia delle Entrate — Residence for tax purposes'
     url: 'https://www.agenziaentrate.gov.it/portale/web/english/residence-for-tax-purposes'
-    accessed: 2026-07-10
+    accessed: 2026-08-03
   - title: 'Normattiva — D.P.R. 917/1986 (TUIR), art. 2 (testo vigente)'
     url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1986-12-22;917~art2!vig='
-    accessed: 2026-07-10
+    accessed: 2026-08-03
+  - title: 'Normattiva — TUIR art. 3, comma 1 (base imponibile: residenti e non residenti)'
+    url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1986-12-22;917~art3!vig='
+    accessed: 2026-08-03
+  - title: 'Normattiva — TUIR art. 11, comma 1 (aliquote IRPEF per scaglioni)'
+    url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1986-12-22;917~art11!vig='
+    accessed: 2026-08-03
+  - title: 'Normattiva — L. 30 dicembre 2025, n. 199, art. 1 (bilancio 2026; il comma 3 porta il secondo scaglione al 33%)'
+    url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2025-12-30;199~art1'
+    accessed: 2026-08-03
+  - title: 'Normattiva — D.lgs 19 giugno 2026, n. 117 (nuovo testo unico delle imposte sui redditi, in applicazione dal 1-1-2027)'
+    url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-06-19;117'
+    accessed: 2026-08-03
   - title: 'Agenzia delle Entrate — How and when to file a tax return'
     url: 'https://www.agenziaentrate.gov.it/portale/web/english/how-and-when-to-file-a-tax-return'
-    accessed: 2026-07-10
+    accessed: 2026-08-03
   - title: 'Your Europe — Income taxes abroad'
     url: 'https://europa.eu/youreurope/citizens/work/taxes/income-taxes-abroad/index_en.htm'
     accessed: 2026-07-10
 faq:
   - q: Divento fiscalmente residente in Italia dal giorno in cui arrivo?
-    a: No — lo status si valuta sull'anno solare. Sei fiscalmente residente per un anno solo se residenza, domicilio, presenza fisica o iscrizione anagrafica copre più di 183 giorni (184 negli anni bisestili).
+    a: No — lo status si valuta sull'anno solare. Sei fiscalmente residente per un anno solo se residenza, domicilio, presenza fisica o iscrizione anagrafica copre la maggior parte del periodo d'imposta — almeno 183 giorni, 184 negli anni bisestili.
   - q: Mi sono iscritto all'anagrafe — sono automaticamente residente fiscale?
     a: L'iscrizione per la maggior parte dell'anno crea una presunzione di residenza fiscale, ma dalla riforma del 2024 è una presunzione relativa — puoi dimostrare di aver vissuto effettivamente altrove.
   - q: L'Italia tasserà i redditi che continuo a percepire dal mio Paese d'origine?
@@ -47,18 +59,29 @@ regole che seguono sono la base nazionale.
 La residenza fiscale è **automatica — non la richiedi mai**. In base all'art. 2
 del TUIR (come riformato dal 1° gennaio 2024 dal D.Lgs. 209/2023), sei
 fiscalmente residente in Italia per un anno solare se, per **la maggior parte
-dell'anno — più di 183 giorni (184 negli anni bisestili), contando anche le
-frazioni di giorno** — vale almeno una di queste condizioni:
+del periodo d'imposta, considerando anche le frazioni di giorno**, vale almeno
+una di queste condizioni:
 
 - la tua **residenza** (dimora abituale, ai sensi del codice civile) è in Italia;
 - il tuo **domicilio** è in Italia — ora definito come il luogo in cui si
   sviluppano in via principale le tue **relazioni personali e familiari**;
 - sei **fisicamente presente** in Italia.
 
+«La maggior parte del periodo d'imposta» è la formula della legge: non è un
+test dei 183 giorni aggiunto dopo, ma l'aritmetica che ne deriva — **almeno 183
+giorni** su un anno di 365, **184** negli anni bisestili. Anche l'Agenzia delle
+Entrate lo spiega così.
+
 Essere **iscritto all'anagrafe** per la maggior parte dell'anno ti rende
 residente *per presunzione* — dalla riforma del 2024 questa presunzione è
 relativa e può essere superata dimostrando di aver vissuto effettivamente
 altrove (prima del 2024 era assoluta).
+
+Un'asimmetria da conoscere se hai anche la cittadinanza italiana: l'art. 2,
+comma 2-bis presume residenti, salvo prova contraria, i cittadini italiani
+**cancellati** dall'anagrafe e trasferiti in un Paese non incluso nella white
+list ministeriale. Dimostrare di essere partito può essere più difficile che
+dimostrare di essere arrivato.
 
 ## Niente split year
 
@@ -75,10 +98,19 @@ Svizzera e Germania prevedono il frazionamento in corso d'anno). In pratica:
 
 ## Cosa comporta la residenza fiscale
 
-I residenti pagano l'**IRPEF** (imposta sul reddito delle persone fisiche) sui
-redditi ovunque prodotti — attualmente 23% fino a 28.000 €, 35% fino a
-50.000 €, 43% oltre — al netto di deduzioni e detrazioni. I non residenti sono
-tassati solo sui redditi di fonte italiana.
+L'art. 3, comma 1 traccia il confine: per i residenti la base imponibile è
+formata da **tutti i redditi posseduti**, per i non residenti **soltanto da
+quelli prodotti nel territorio dello Stato**. È questa frase che rende la
+questione della residenza così importante.
+
+I residenti pagano l'**IRPEF** (imposta sul reddito delle persone fisiche) su
+quella base mondiale. Gli scaglioni in vigore per il 2026 sono **23%** fino a
+28.000 €, **33%** da 28.000 a 50.000 €, **43%** oltre — al netto di deduzioni e
+detrazioni. Il secondo scaglione era al **35% fino al 2025**: la legge di
+bilancio 2026 (L. 199/2025, art. 1, comma 3) lo ha portato al 33% con effetto
+dal periodo d'imposta 2026, quindi si vedrà per la prima volta nelle
+dichiarazioni presentate nel 2027. Molte guide e i calcolatori più vecchi
+riportano ancora il 35%.
 
 La doppia imposizione è gestita dalla rete italiana di **circa cento
 convenzioni fiscali** (tutti gli Stati UE inclusi): stabiliscono quale Paese
@@ -114,6 +146,21 @@ fonte durante l'anno, quindi per molti dipendenti il primo 730 è una formalità
   ovunque prodotti, salvi i rimedi convenzionali.
 - **Mancare la prima scadenza di presentazione** perché nessuna autorità ti ha
   contattato.
+
+## I numeri degli articoli cambiano dal 1° gennaio 2027
+
+Tutto quanto sopra cita il **TUIR** (D.P.R. 917/1986). Normattiva mostra ormai
+gli artt. 2, 3, 11 e 24-bis come vigenti **solo fino al 31 dicembre 2026**: il
+D.lgs 19 giugno 2026, n. 117 — pubblicato in *Gazzetta Ufficiale* n. 152 del
+3 luglio 2026 ed entrato in vigore il 4 luglio 2026 — riscrive le imposte sui
+redditi in un nuovo *testo unico* che si applica dal **1° gennaio 2027**,
+abrogando gli artt. da 1 a 191 del TUIR.
+
+La sostanza della residenza fiscale resta. La **numerazione no**: l'art. 2
+rimane l'art. 2, ma il regime dei neo-residenti passa dall'art. 24-bis
+all'art. 246. Da gennaio, chi cita «art. 24-bis TUIR» sta citando un testo
+abrogato — ed è per questo che questa pagina è da riverificare **prima** del
+passaggio, non sei mesi dopo.
 
 ## Passo successivo
 

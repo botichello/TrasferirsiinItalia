@@ -30,6 +30,7 @@ const SRC = join(ROOT, 'src');
 const SEO_GATE = join(ROOT, 'scripts/check-seo.mjs');
 const JOURNEY_GATE = join(ROOT, 'scripts/check-journeys.mjs');
 const FRESHNESS_GATE = join(ROOT, 'scripts/check-freshness.mjs');
+const FIGURES_GATE = join(ROOT, 'scripts/check-figures.mjs');
 
 if (!existsSync(DIST)) {
   console.error('test-gates: dist/ not found — run the build first.');
@@ -79,6 +80,25 @@ const stripLinks = (dir, target, replacement = '/nowhere-at-all', under = '') =>
   };
   walk(under ? join(dir, under) : dir);
   if (touched === 0) throw new Error(`fixture drift: nothing under ${under || '/'} links to ${target}`);
+};
+
+/** Replace every occurrence of a literal across the staged source tree. */
+const stripLiteral = (dir, literal, replacement) => {
+  let touched = 0;
+  const walk = (d) => {
+    for (const name of readdirSync(d)) {
+      const p = join(d, name);
+      if (statSync(p).isDirectory()) walk(p);
+      else if (/\.(md|astro|ts|mjs)$/.test(name) && p !== join(dir, 'src/data/figures.mjs')) {
+        const s = readFileSync(p, 'utf8');
+        if (!s.includes(literal)) continue;
+        writeFileSync(p, s.replaceAll(literal, replacement));
+        touched++;
+      }
+    }
+  };
+  walk(join(dir, 'src'));
+  if (touched === 0) throw new Error(`fixture drift: nothing states ${literal}`);
 };
 
 const HOME = 'index.html';
@@ -318,6 +338,33 @@ const journeyCases = [
   },
 ];
 
+// ---- Figures gate: numbers that stopped being true, over src/ ----------------
+const figureCases = [
+  {
+    name: 'prose reverts to a superseded figure',
+    expect: 'states a superseded figure for irpef-middle-bracket',
+    // The exact shape of the bug this gate was written for: the old IRPEF rate
+    // back in a sentence about the bands, in a file that discusses IRPEF.
+    break: (d) => patch(d, 'src/content/guides/residenza-fiscale.md', '**33%** from €28,000', '**35%** from €28,000'),
+  },
+  {
+    name: 'an exemption outlives the sentence that earned it',
+    expect: 'no longer contains the permitted phrase',
+    // Deleting the historical mention must invalidate its exemption, so the
+    // allowance cannot drift over to cover a genuine mistake later.
+    break: (d) => patch(d, 'src/content/guides/residenza-fiscale.md', 'still say 35%', 'still say the old rate'),
+  },
+  {
+    name: 'the current value stops being stated anywhere',
+    expect: 'appears nowhere on the site',
+    // A blocklist guarding a figure the site no longer mentions is not a gate,
+    // it is a leftover. Removing the figure must be a deliberate registry edit.
+    // Rewritten everywhere rather than file by file: naming the pages that
+    // state it passes for the wrong reason the moment another page does too.
+    break: (d) => stripLiteral(d, '33%', 'thirty-three per cent'),
+  },
+];
+
 const suites = [
   {
     label: 'check-seo',
@@ -345,6 +392,15 @@ const suites = [
     script: FRESHNESS_GATE,
     into: 'src',
     cases: freshnessCases,
+  },
+  {
+    label: 'check-figures',
+    input: SRC,
+    envVar: 'CHECK_FIGURES_ROOT',
+    arg: (dir) => dir,
+    script: FIGURES_GATE,
+    into: 'src',
+    cases: figureCases,
   },
 ];
 
@@ -405,4 +461,7 @@ if (failures > 0) {
   console.error(`\n✗ test-gates: ${failures} of ${total} rule(s) did not fire as expected.`);
   process.exit(1);
 }
-console.log(`\n✓ test-gates: all ${total} gate rules proven to fire (check-seo + check-freshness).`);
+console.log(
+  `\n✓ test-gates: all ${total} gate rules proven to fire ` +
+    `(check-seo + check-journeys + check-freshness + check-figures).`,
+);

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SourceNote from '../components/SourceNote.astro';
 
 // Orientation page on driving with a foreign licence. Facts verified
 // 2026-07-24 against the fetched official sources below. The MIT reciprocity
@@ -40,6 +41,11 @@ const penalties = [
       advice.
     </p>
 
+  </div>
+
+  <SourceNote module="/driving" />
+
+  <div class="prose">
     <h2>EU/EEA licences: nothing to do — until expiry</h2>
     <p>
       Your licence is <em>equiparata</em> to an Italian one: same rules, same

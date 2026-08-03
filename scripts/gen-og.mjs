@@ -102,6 +102,7 @@ const HUBS = [
   ['driving', 'Driving on a foreign licence', 'Guidare con la patente estera'],
   ['banking', 'Opening a bank account', 'Aprire un conto bancario'],
   ['pets', 'Moving with a dog or cat', 'Trasferirsi con cane o gatto'],
+  ['from-united-states', 'Moving from the United States', 'Trasferirsi dagli Stati Uniti'],
 ];
 for (const [name, en, it] of HUBS) {
   for (const [lang, title] of [['en', en], ['it', it]]) {

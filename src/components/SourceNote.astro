@@ -1,0 +1,46 @@
+---
+/**
+ * Renders the source-country notes attached to a module (see
+ * src/data/source-countries.ts) as a callout: "Moving from the United States?"
+ *
+ * A module opts in with <SourceNote module="/driving" /> and renders nothing
+ * when no note exists for it, so pages need no conditional logic and adding a
+ * country later is a data change rather than a template change.
+ */
+import { getLocale } from '../i18n/ui';
+import { notesForModule } from '../data/source-countries';
+
+interface Props {
+  /** Orientation path ('/driving') or journey guide slug ('residenza-fiscale'). */
+  module: string;
+}
+const { module } = Astro.props;
+const locale = getLocale(Astro.url);
+const notes = notesForModule(module);
+const hubHref = (slug: string) => (locale === 'it' ? `/it/from/${slug}` : `/from/${slug}`);
+const t =
+  locale === 'it'
+    ? { more: 'Tutto per chi arriva dagli Stati Uniti', verified: 'verificato il' }
+    : { more: 'Everything for movers from the United States', verified: 'verified' };
+---
+
+{
+  notes.length > 0 && (
+    <aside class="not-prose my-8 rounded-xl border border-brand-300 bg-brand-50/60 p-5">
+      {notes.map(({ country, note }) => (
+        <div class="[&+div]:mt-4 [&+div]:border-t [&+div]:border-line [&+div]:pt-4">
+          <h2 class="font-serif text-lg">
+            {locale === 'it' ? `${note.headingIt} — ${country.nameIt}` : `${note.headingEn} — ${country.nameEn}`}
+          </h2>
+          <p class="mt-2 text-sm">{locale === 'it' ? note.it : note.en}</p>
+          <p class="mt-2 text-xs text-muted">
+            {t.verified} <time datetime={note.lastVerified}>{note.lastVerified}</time> ·{' '}
+            <a href={hubHref(country.slug)} class="text-brand-700 underline underline-offset-2">
+              {t.more} →
+            </a>
+          </p>
+        </div>
+      ))}
+    </aside>
+  )
+}

@@ -189,6 +189,7 @@ const seoCases = [
 const MD = 'src/content/guides/codice-fiscale.md';
 const REGISTRY = 'src/data/orientation-pages.mjs';
 const PAGE = 'src/pages/banking.astro';
+const COUNTRIES = 'src/data/source-countries.mjs';
 
 const freshnessCases = [
   {
@@ -231,6 +232,37 @@ const freshnessCases = [
     name: 'registered page loses its disclaimer',
     expect: 'missing the disclaimer sentinel',
     break: (d) => patch(d, PAGE, 'orientation, not\n      legal or financial advice', 'no disclaimer here'),
+  },
+  {
+    name: 'source-country note points at a module that does not exist',
+    expect: 'note attached to a module that does not exist',
+    break: (d) => patch(d, COUNTRIES, "module: '/driving'", "module: '/no-such-module'"),
+  },
+  {
+    name: 'source-country note loses its sources',
+    expect: 'note has no sources',
+    break: (d) =>
+      write(
+        d,
+        COUNTRIES,
+        read(d, COUNTRIES).replace(
+          /sources: \[\n( *\{ title: 'MIT[\s\S]*?)\n *\],/,
+          'sources: [],',
+        ),
+      ),
+  },
+  {
+    name: 'source-country note has a future verification date',
+    expect: '`lastVerified` is in the future',
+    break: (d) => patch(d, COUNTRIES, "lastVerified: '2026-07-24'", "lastVerified: '2099-01-01'"),
+  },
+  {
+    name: 'source-country note loses its Italian text',
+    expect: 'note is missing `it`',
+    break: (d) => {
+      const s = read(d, COUNTRIES);
+      write(d, COUNTRIES, s.replace(/\n *it: "L'Italia non ha un accordo[\s\S]*?",/, '\n        it: "",'));
+    },
   },
 ];
 

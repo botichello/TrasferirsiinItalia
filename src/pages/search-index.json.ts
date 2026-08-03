@@ -228,6 +228,18 @@ export const GET: APIRoute = async () => {
       text: 'animali cane gatto furetto microchip vaccinazione antirabbica passaporto certificato sanitario titolazione SINAC anagrafe quarantena echinococco punto di entrata',
     },
     {
+      title: 'Moving to Italy from the United States',
+      url: '/from/united-states',
+      type: 'Page',
+      text: 'United States USA American moving from US source country licence not convertible apostille FATCA IRS expat citizenship-based taxation consulate type D visa',
+    },
+    {
+      title: 'Trasferirsi in Italia dagli Stati Uniti',
+      url: '/it/from/united-states',
+      type: 'Pagina (IT)',
+      text: 'Stati Uniti USA americani trasferirsi dagli USA patente non convertibile apostille FATCA consolato visto tipo D',
+    },
+    {
       title: 'The full journey checklist',
       url: '/checklist',
       type: 'Page',

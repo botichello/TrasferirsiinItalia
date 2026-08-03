@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import SourceNote from '../../components/SourceNote.astro';
 
 const sources = [
   { title: 'EUR-Lex — Regolamento delegato (UE) 2026/131 (movimenti non commerciali di animali da compagnia, si applica dal 22 aprile 2026)', url: 'https://eur-lex.europa.eu/legal-content/IT/TXT/?uri=CELEX:32026R0131' },
@@ -56,6 +57,11 @@ const order = [
       </p>
     </div>
 
+  </div>
+
+  <SourceNote module="/pets" />
+
+  <div class="prose">
     <h2>L'ordine che conta</h2>
   </div>
 

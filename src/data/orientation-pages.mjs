@@ -27,6 +27,7 @@ export const orientationPages = [
   { en: 'src/pages/driving.astro', it: 'src/pages/it/driving.astro', lastVerified: '2026-07-24', reviewBy: '2027-01-24', title: 'Driving in Italy on a foreign licence', titleIt: 'Guidare in Italia con la patente estera' },
   { en: 'src/pages/banking.astro', it: 'src/pages/it/banking.astro', lastVerified: '2026-07-28', reviewBy: '2027-01-28', title: 'Opening a bank account in Italy', titleIt: 'Aprire un conto bancario in Italia' },
   { en: 'src/pages/pets.astro', it: 'src/pages/it/pets.astro', lastVerified: '2026-07-30', reviewBy: '2027-01-30', title: 'Moving to Italy with a dog, cat or ferret', titleIt: 'Trasferirsi in Italia con un cane, un gatto o un furetto' },
+  { en: 'src/pages/from/united-states.astro', it: 'src/pages/it/from/united-states.astro', lastVerified: '2026-07-30', reviewBy: '2027-01-30', title: 'Moving to Italy from the United States', titleIt: 'Trasferirsi in Italia dagli Stati Uniti' },
 ];
 
 /** Page URL for an entry, derived from its EN file path. */

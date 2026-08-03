@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getSourceCountry } from '../../data/source-countries';
+
+// Per-source-country hub. The body is assembled from the notes registered in
+// src/data/source-countries.ts, so adding a verified note to a module also
+// enriches this page — there is no second copy of the facts to drift.
+const country = getSourceCountry('united-states')!;
+const notes = country.notes;
+// Deduplicated union of every note's sources, so the page cites exactly what it
+// rests on and nothing more.
+const sources = [...new Map(notes.flatMap((n) => n.sources).map((s) => [s.url, s])).values()];
+const moduleTitle: Record<string, string> = {
+  '/driving': 'Driving',
+  '/pets': 'Pets',
+};
+---
+
+<BaseLayout
+  title="Moving to Italy from the United States"
+  description="What differs for Americans: the licence that cannot be converted, the documents that need a state apostille, and the obligations that follow a US passport across the Atlantic."
+  alternates={{ en: '/from/united-states', it: '/it/from/united-states' }}
+  ogImage="/og/from-united-states.png"
+  citations={sources}
+>
+  <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
+    <a href="/" class="hover:text-ink">Home</a>
+    <span class="px-1">/</span>
+    <span class="text-ink">From the United States</span>
+  </nav>
+
+  <div class="prose">
+    <h1>Moving to Italy from the United States</h1>
+    <p>
+      Most of this site is organised by <em>destination</em> — the national
+      procedure, then your region, then your comune. This page collects what
+      differs because of where you are coming <em>from</em>. Facts verified on
+      the dates shown against each item; orientation, not legal, tax or
+      immigration advice.
+    </p>
+    <p>
+      Start with the <a href="/non-eu">non-EU orientation</a>, which covers the
+      visa routes themselves — a US passport lets you <strong>visit</strong>
+      Schengen without a visa, which is not the same as being allowed to
+      <strong>move</strong> there.
+    </p>
+
+    <h2>What is different for Americans</h2>
+  </div>
+
+  <ul class="mt-5 grid gap-3">
+    {
+      notes.map((note) => (
+        <li class="rounded-xl border border-line bg-white/60 p-5">
+          <div class="flex flex-wrap items-baseline justify-between gap-x-4">
+            <h3 class="font-serif text-lg text-brand-700">{note.headingEn}</h3>
+            <span class="text-xs text-muted">
+              {moduleTitle[note.module] ?? note.module} · verified{' '}
+              <time datetime={note.lastVerified}>{note.lastVerified}</time>
+            </span>
+          </div>
+          <p class="mt-2 text-sm">{note.en}</p>
+          <a href={note.module} class="mt-3 inline-block text-sm text-brand-600 underline underline-offset-2">
+            Full page on {(moduleTitle[note.module] ?? note.module).toLowerCase()} →
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="prose mt-10">
+    <h2>What is the same</h2>
+    <p>
+      Plenty. The <a href="/eu-citizens/residency/codice-fiscale">codice
+      fiscale</a> is free and identical for everyone. The
+      <a href="/renting">rental rules</a> — contract types, the 30-day
+      registration duty, the three-month deposit cap — do not vary by
+      nationality. <a href="/schools">School enrolment</a> is a right for every
+      minor in Italy regardless of the family's status or paperwork, and can be
+      requested at any point in the year. Where a page carries no note above,
+      that is the reason: there is nothing US-specific to say, and inventing a
+      difference would be worse than silence.
+    </p>
+
+    <h2>How this page is maintained</h2>
+    <p>
+      Each item above is a separately dated entry with its own primary sources,
+      re-verified on its own schedule rather than as one undated blob — the same
+      contract as the rest of the site. Every re-check is logged on the
+      <a href="/updates">updates page</a>.
+    </p>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Sources</h2>
+    <p class="mt-1 text-sm text-muted">
+      Primary, official sources the items above rest on — each fetched and checked on the date shown against its item.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

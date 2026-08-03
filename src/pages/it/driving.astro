@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import SourceNote from '../../components/SourceNote.astro';
 
 const sources = [
   { title: 'Normattiva — CdS (D.lgs 285/1992), art. 135 (patenti extra-UE e sanzioni)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art135!vig=' },
@@ -37,6 +38,11 @@ const penalties = [
       orientamento, non consulenza legale.
     </p>
 
+  </div>
+
+  <SourceNote module="/driving" />
+
+  <div class="prose">
     <h2>Patenti UE/SEE: niente da fare — fino alla scadenza</h2>
     <p>
       La tua patente è <em>equiparata</em> a quella italiana: stesse regole,

@@ -237,10 +237,26 @@ for (const entry of orientationPages) {
   }
 }
 
+// Source-country notes carry their own sources (src/data/source-countries.mjs);
+// they are data rather than page text, so include them explicitly.
+const { sourceCountries } = await import(
+  new URL('../src/data/source-countries.mjs', import.meta.url)
+);
+let noteSourceCount = 0;
+for (const country of sourceCountries) {
+  for (const note of country.notes) {
+    for (const src of note.sources ?? []) {
+      noteSourceCount++;
+      if (!urlToFiles.has(src.url)) urlToFiles.set(src.url, new Set());
+      urlToFiles.get(src.url).add(`source-countries: ${country.slug} → ${note.module}`);
+    }
+  }
+}
+
 const urls = [...urlToFiles.keys()].sort();
 console.log(
   `Checking ${urls.length} cited source URL(s) across ${files.length} content file(s) ` +
-    `+ ${orientationPages.length * 2} orientation pages…\n`,
+    `+ ${orientationPages.length * 2} orientation pages + ${noteSourceCount} source-country note citations…\n`,
 );
 
 // --- check + classify ----------------------------------------------------

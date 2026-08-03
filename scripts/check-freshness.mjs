@@ -92,7 +92,7 @@ for (const path of files) {
 
 // ---- Orientation pages (src/pages/*.astro outside the collections) --------
 // Same contract, tracked via the registry in src/data/orientation-pages.mjs.
-const { orientationPages } = await import(
+const { orientationPages, orientationUrl } = await import(
   pathToFileURL(join(ROOT, 'src/data/orientation-pages.mjs')).href
 );
 // Orientation pages carry a disclaimer line. Match it on whitespace-normalized
@@ -170,6 +170,38 @@ for (const path of await walkAstro(join(ROOT, 'src/pages'))) {
   }
 }
 
+// ---- Source-country notes (src/data/source-countries.mjs) ------------------
+// Per-note citability: a note attached to a module that no longer exists would
+// render nowhere and silently disappear, so the module reference is validated
+// against the orientation registry and the guide slugs.
+const { sourceCountries } = await import(
+  pathToFileURL(join(ROOT, 'src/data/source-countries.mjs')).href
+);
+const guideSlugs = new Set(
+  (await walk(join(ROOT, 'src/content/guides/')))
+    .map((p) => relative(join(ROOT, 'src/content/guides'), p).replace(/\.md$/, ''))
+    .filter((s) => !s.startsWith('it/')),
+);
+const orientationPaths = new Set(orientationPages.map((e) => orientationUrl(e)));
+let noteCount = 0;
+for (const country of sourceCountries) {
+  if (country.notes.length === 0)
+    errors.push(`source-countries: ${country.slug} has no notes — remove it or give it one`);
+  for (const note of country.notes) {
+    noteCount++;
+    const where = `source-countries: ${country.slug} → ${note.module}`;
+    if (!orientationPaths.has(note.module) && !guideSlugs.has(note.module))
+      errors.push(`${where}: note attached to a module that does not exist`);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(note.lastVerified ?? ''))
+      errors.push(`${where}: missing or malformed \`lastVerified\``);
+    else if (new Date(note.lastVerified) > new Date())
+      errors.push(`${where}: \`lastVerified\` is in the future`);
+    if (!note.sources?.length) errors.push(`${where}: note has no sources`);
+    for (const field of ['en', 'it', 'headingEn', 'headingIt'])
+      if (!note[field]?.trim()) errors.push(`${where}: note is missing \`${field}\``);
+  }
+}
+
 for (const w of warnings) console.warn(`⚠️  ${w}`);
 
 if (errors.length) {
@@ -180,6 +212,7 @@ if (errors.length) {
 
 console.log(
   `✓ Freshness check passed (${files.length} content files + ${orientationPages.length} orientation pages` +
+    ` + ${noteCount} source-country notes` +
     (warnings.length ? `, ${warnings.length} overdue warning(s)` : '') +
     ').',
 );

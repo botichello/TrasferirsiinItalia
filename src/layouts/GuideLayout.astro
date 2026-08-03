@@ -6,6 +6,7 @@ import JourneyNav from '../components/JourneyNav.astro';
 import CitySelector from '../components/CitySelector.astro';
 import ReportIssue from '../components/ReportIssue.astro';
 import SourceList from '../components/SourceList.astro';
+import SourceNote from '../components/SourceNote.astro';
 import SsnCostEstimator from '../components/SsnCostEstimator.astro';
 import StepIcon from '../components/StepIcon.astro';
 import StructuredData from '../components/StructuredData.astro';
@@ -240,6 +241,8 @@ const breadcrumbSchema = {
       <article class="prose">
         <slot />
       </article>
+
+      <SourceNote module={slug} />
 
       {slug === 'servizio-sanitario' && <SsnCostEstimator />}
 

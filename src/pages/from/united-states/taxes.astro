@@ -1,0 +1,277 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+// US tax and social-security obligations for Americans in Italy. Facts verified
+// 2026-08-03 against the fetched official sources below. This is the highest-risk
+// page on the site: where the research could not confirm an outcome, the page
+// states the mechanism and stops rather than modelling a result.
+const sources = [
+  { title: 'IRS — Publication 54, Tax Guide for U.S. Citizens and Resident Aliens Abroad (rev. Dec 2025)', url: 'https://www.irs.gov/pub/irs-pdf/p54.pdf' },
+  { title: 'IRS — U.S. citizens and resident aliens abroad (filing duty, extensions)', url: 'https://www.irs.gov/individuals/international-taxpayers/us-citizens-and-resident-aliens-abroad' },
+  { title: 'IRS — Revenue Procedure 2025-32, §3.39 (2026 foreign earned income exclusion: $132,900)', url: 'https://www.irs.gov/pub/irs-drop/rp-25-32.pdf' },
+  { title: 'IRS — Instructions for Form 2555 (bona fide residence, 330-day physical presence, housing)', url: 'https://www.irs.gov/pub/irs-pdf/i2555.pdf' },
+  { title: 'IRS — Instructions for Form 1116 (foreign tax credit, limitation, carryover)', url: 'https://www.irs.gov/pub/irs-pdf/i1116.pdf' },
+  { title: 'FinCEN — Report Foreign Bank and Financial Accounts (FBAR, $10,000 aggregate)', url: 'https://www.fincen.gov/report-foreign-bank-and-financial-accounts' },
+  { title: 'IRS — Report of Foreign Bank and Financial Accounts (FBAR) deadlines and filing channel', url: 'https://www.irs.gov/businesses/small-businesses-self-employed/report-of-foreign-bank-and-financial-accounts-fbar' },
+  { title: 'IRS — Comparison of Form 8938 and FBAR requirements', url: 'https://www.irs.gov/businesses/comparison-of-form-8938-and-fbar-requirements' },
+  { title: 'IRS — Instructions for Form 8938 (thresholds for taxpayers living abroad)', url: 'https://www.irs.gov/pub/irs-pdf/i8938.pdf' },
+  { title: 'US Treasury — US–Italy income tax Convention and Protocol (signed 25 August 1999)', url: 'https://home.treasury.gov/system/files/131/Treaty-Italy-8-24-1999.pdf' },
+  { title: 'US Treasury — Technical Explanation of the US–Italy Convention', url: 'https://home.treasury.gov/system/files/131/Treaty-Italy-TE-10-22-1999.pdf' },
+  { title: 'MEF / Dipartimento delle Finanze — conventions in force (US: in vigore dal 16.12.2009)', url: 'https://www.finanze.gov.it/it/Fiscalita-dellUnione-europea-e-internazionale/convenzioni-e-accordi/convenzioni-per-evitare-le-doppie-imposizioni/' },
+  { title: 'SSA — U.S. International Social Security Agreements (Italy has no detached-worker rule)', url: 'https://www.ssa.gov/international/agreements_overview.html' },
+  { title: 'SSA — Totalization Agreement with Italy (nationality-based coverage, certificate of coverage)', url: 'https://www.ssa.gov/international/Agreement_Pamphlets/italy.html' },
+  { title: 'SSA — Publication 05-10137, Your Payments While You Are Outside the United States', url: 'https://www.ssa.gov/pubs/EN-05-10137.pdf' },
+  { title: 'Medicare.gov — Travel outside the U.S.', url: 'https://www.medicare.gov/coverage/travel-outside-the-u.s.' },
+  { title: 'Normattiva — TUIR (DPR 917/1986), artt. 2 e 3 (residence; worldwide taxation of residents)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1986-12-22;917~art2!vig=' },
+  { title: 'Normattiva — TUIR art. 24-bis (neo-residenti: €300,000 substitute tax, in force from 1-1-2026)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1986-12-22;917~art24bis!vig=' },
+  { title: 'Normattiva — D.lgs 19 giugno 2026, n. 117 (new consolidated income tax code, applies from 1-1-2027)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-06-19;117' },
+];
+const reports = [
+  ['FBAR — FinCEN Form 114', '$10,000 aggregate across all foreign accounts, at any moment in the year', 'FinCEN, not the IRS — filed through the BSA E-Filing System, never with your return', '15 April, automatic extension to 15 October (no request needed)'],
+  ['FATCA — Form 8938', 'Living abroad: over $200,000 at year end or $300,000 at any time (single); $400,000 / $600,000 filing jointly', 'Attached to your income tax return', 'Return due date, including extensions'],
+];
+---
+
+<BaseLayout
+  title="US taxes and social security for Americans in Italy"
+  description="The US taxes citizens on worldwide income wherever they live. The FEIE, the foreign tax credit, FBAR and Form 8938, the treaty's saving clause, the unusual US–Italy totalization rule, and why Medicare stops at the border."
+  alternates={{ en: '/from/united-states/taxes', it: '/it/from/united-states/taxes' }}
+  ogImage="/og/from-us-taxes.png"
+  citations={sources}
+>
+  <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
+    <a href="/" class="hover:text-ink">Home</a>
+    <span class="px-1">/</span>
+    <a href="/from/united-states" class="hover:text-ink">From the United States</a>
+    <span class="px-1">/</span>
+    <span class="text-ink">Taxes</span>
+  </nav>
+
+  <div class="prose">
+    <h1>US taxes and social security for Americans in Italy</h1>
+    <p>
+      Moving abroad does not end your relationship with the IRS. Facts verified
+      <time datetime="2026-08-03">3 August 2026</time>; orientation, not tax
+      advice — cross-border tax is genuinely one of the places where paying a
+      professional pays for itself, and this page is written to make you a better
+      client, not to replace one.
+    </p>
+
+    <h2>The rule that does not bend</h2>
+    <p>
+      "If you are a U.S. citizen or resident alien, your <strong>worldwide income
+      is generally subject to U.S. income tax, regardless of where you are
+      living</strong>" — and the same filing requirements apply as if you had
+      never left. This covers <strong>green-card holders</strong> too, via the
+      green card test. Self-employment of <strong>$400</strong> or more requires
+      a return by itself.
+    </p>
+    <p>
+      The trap in the filing threshold: for deciding whether you must file,
+      <strong>gross income includes the income you intend to exclude</strong>.
+      So "the exclusion wipes out my tax, therefore I need not file" is wrong
+      twice over — the exclusion only exists if you claim it on a return, and the
+      threshold is measured before it.
+    </p>
+
+    <h2>Your American calendar, from Italy</h2>
+    <ul>
+      <li><strong>15 April</strong> — the ordinary deadline. Interest runs from here no matter which extension you use.</li>
+      <li><strong>15 June</strong> — automatic two-month extension if you live outside the US and your main place of business is outside the US. Unusually, this extends the time to <strong>file <em>and</em> pay</strong>; claim it by attaching a statement. Late-payment penalties run from this date rather than April.</li>
+      <li><strong>15 October</strong> — file Form 4868 <em>before</em> 15 June, ticking the "out of the country" box. Time to file only, not to pay.</li>
+      <li><strong>15 December</strong> — a discretionary further two months, requested by letter. You hear back only if refused.</li>
+    </ul>
+    <p>
+      A separate form, <strong>2350</strong>, exists for a different problem: you
+      need more time not to prepare the return but to <em>qualify</em> for the
+      residence tests below.
+    </p>
+
+    <h2>Two ways not to pay twice — and you cannot use both on the same income</h2>
+    <p>
+      The <strong>foreign earned income exclusion</strong> (Form 2555) is
+      <strong>$132,900 for 2026</strong>, indexed annually. It reaches
+      <em>earned</em> income only: wages and self-employment for services.
+      Pensions, Social Security, dividends, interest, rent and capital gains are
+      all outside it. Qualifying needs a foreign tax home plus either
+      <strong>bona fide residence</strong> for an uninterrupted period covering a
+      whole calendar year, or <strong>physical presence for 330 full days</strong>
+      in any twelve consecutive months.
+    </p>
+    <p>
+      The <strong>foreign tax credit</strong> (Form 1116) instead credits the
+      Italian tax you actually paid, limited to the US tax on that foreign
+      income, with unused credit carried <strong>back one year and forward
+      ten</strong>. You may not claim the credit for foreign tax on income you
+      chose to exclude — and doing it anyway can be treated as
+      <strong>revoking</strong> the exclusion election, after which re-electing
+      within five years needs an IRS ruling. Claiming the exclusion also
+      disqualifies you from the additional child tax credit and the earned income
+      credit for that year.
+    </p>
+
+    <h2>Two reports that have nothing to do with how much you owe</h2>
+  </div>
+
+  <div class="mt-4 overflow-x-auto">
+    <table class="w-full min-w-[640px] border-collapse text-sm">
+      <thead>
+        <tr class="border-b border-line text-left">
+          <th class="py-2 pr-4 font-medium">Report</th>
+          <th class="py-2 pr-4 font-medium">Threshold</th>
+          <th class="py-2 pr-4 font-medium">Filed where</th>
+          <th class="py-2 font-medium">Due</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          reports.map(([name, threshold, where, due]) => (
+            <tr class="border-b border-line align-top">
+              <td class="py-2.5 pr-4 font-medium">{name}</td>
+              <td class="py-2.5 pr-4 text-muted">{threshold}</td>
+              <td class="py-2.5 pr-4 text-muted">{where}</td>
+              <td class="py-2.5 text-muted">{due}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose mt-6">
+    <p>
+      They are different forms, filed with different agencies, and many Americans
+      in Italy owe <strong>both</strong>. Two details catch people: the FBAR test
+      is the <strong>aggregate maximum at any moment</strong> in the year, not the
+      year-end balance — an account that peaked at €12,000 in July and emptied by
+      December still counts. And whether the account earned anything is
+      irrelevant.
+    </p>
+
+    <h2>What the treaty does — and what it does not</h2>
+    <p>
+      The US–Italy convention was signed in Washington on
+      <strong>25 August 1999</strong> and entered into force
+      <strong>16 December 2009</strong>. It does not stop the US taxing you.
+      Article 1(2) is a <strong>saving clause</strong>: each state may tax
+      "its citizens by reason of citizenship — <em>as if there were no
+      convention</em>." Article 4 has a residence tie-breaker (permanent home →
+      centre of vital interests → habitual abode → nationality), but a US citizen
+      cannot use it to escape the saving clause.
+    </p>
+    <p>
+      What the treaty actually provides is <strong>credit ordering</strong>:
+      under Article 23(4) Italy credits up to the tax that would be due to the US
+      if you were not a US citizen, the US then credits the Italian tax paid, and
+      the income is re-sourced to Italy as far as needed to relieve the overlap.
+    </p>
+    <p>
+      On <strong>US Social Security</strong>, Article 18(2) says only the state of
+      residence may tax it — but the saving clause's carve-out is written for
+      residents of Italy who are <strong>Italian nationals</strong>. The
+      Technical Explanation spells out the clean "only Italy taxes it" result for
+      a <strong>dual US/Italian national</strong>. For a US-citizen-only retiree
+      in Italy we found no official source stating the end result, so this page
+      does not assert one: the mechanism is Article 23(4), and the answer is a
+      question for a cross-border adviser rather than a web page.
+    </p>
+
+    <h2>Social security contributions: Italy is the odd one out</h2>
+    <p>
+      Most US totalization agreements use a detached-worker rule. The Italian
+      one, in force since 1978, <strong>has none</strong>. Coverage turns instead
+      on <strong>nationality</strong>: a US citizen working or self-employed in
+      Italy who would be covered by US Social Security absent the agreement
+      <strong>stays in the US system and is exempt from Italian
+      contributions</strong>. The widely repeated "five-year detached worker"
+      limit belongs to other countries' agreements, not this one.
+    </p>
+    <p>
+      Exemption is not automatic — you must hold a <strong>certificate of
+      coverage</strong> (from SSA on the US side; in Italy, form
+      <strong>IT/USA 4</strong> from the provincial INPS office). The
+      self-employed must attach a copy of the foreign certificate to the US
+      return <strong>every year</strong>. Neither you nor an employer may simply
+      choose a system; SSA calls that a general misconception.
+    </p>
+
+    <h2>Your benefit cheque, and the health cover that does not travel</h2>
+    <p>
+      Social Security benefits continue to be paid to <strong>US citizens</strong>
+      living in Italy. Non-citizens generally stop after six calendar months
+      abroad, but Italy is on SSA's continuation list; a non-citizen leaving for
+      30 days or more files form SSA-21. Up to <strong>85%</strong> of the benefit
+      remains taxable for citizens and green-card holders.
+    </p>
+    <p>
+      <strong>Medicare, however, essentially stops at the border.</strong> It
+      "won't pay for health care or supplies you get outside the U.S." except in
+      three narrow situations, all of which assume you are in or living in the US,
+      and it never covers prescriptions bought abroad. Americans also have
+      <strong>no S1 form</strong> — the route by which an EU pensioner exports
+      their home country's cover to the Italian
+      <a href="/eu-citizens/residency/servizio-sanitario">SSN</a>. Budget for
+      voluntary SSN enrolment or private insurance, and treat this as a
+      pre-departure decision rather than an afterthought.
+    </p>
+
+    <h2>And then Italy taxes you too</h2>
+    <p>
+      Once you are Italian tax-resident, Italy taxes <strong>all income
+      possessed</strong> wherever produced. Residence is not the "183 days" the
+      internet repeats: the statute says the <strong>greater part of the tax
+      period</strong>, expressly counting part-days since 2024, and is met by
+      civil-law residence, by <em>domicilio</em> (defined as where your personal
+      and family relations principally develop), or by mere presence.
+      Registration at the <a href="/eu-citizens/residency/iscrizione-anagrafica">anagrafe</a>
+      creates a <strong>rebuttable presumption</strong>, not an independent test —
+      and deregistering does not by itself end residence.
+    </p>
+    <p>
+      Italy offers elective regimes that a US citizen should price carefully: the
+      <strong>neo-residenti</strong> flat substitute tax of
+      <strong>€300,000</strong> a year on foreign income (plus €50,000 per family
+      member, requiring an advance ruling), the <strong>impatriati</strong>
+      regime taxing 50% of Italian employment income up to €600,000, and a
+      <strong>7% regime</strong> for foreign pensions in southern comuni. Two
+      warnings. The Revenue Agency's own English pages still show the
+      neo-residenti figure as €100,000 — <strong>stale</strong>; the statute in
+      force says €300,000. And whether Italy's flat substitute taxes are
+      creditable against US tax is exactly the kind of question this page will
+      not guess at.
+    </p>
+
+    <div class="not-prose my-6 rounded-xl border border-brand-300 bg-brand-50/60 p-5">
+      <h2 class="font-serif text-lg">Coming on 1 January 2027: Italy renumbers its tax code</h2>
+      <p class="mt-2 text-sm">
+        <strong>D.lgs 19 giugno 2026, n. 117</strong> approves a new consolidated
+        income tax code and repeals <strong>articles 1 to 191 of the TUIR</strong>
+        from 1 January 2027. The residence and worldwide-taxation wording carries
+        over unchanged, but every article number a guide cites will move — art. 2
+        stays art. 2, while the new-residents regime moves from art. 24-bis to
+        art. 246. Expect a wave of stale citations across the web from January,
+        and note that the consolidation appears not to have absorbed a 2026
+        amendment to the pensioners' regime, whose population threshold currently
+        differs between the two texts.
+      </p>
+    </div>
+  </div>
+
+  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+    <h2 class="font-serif text-xl">Sources</h2>
+    <p class="mt-1 text-sm text-muted">
+      Primary, official sources this page is based on — each fetched and checked on 3 August 2026.
+    </p>
+    <ul class="mt-3 space-y-1 text-sm">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url} class="text-brand-700 underline underline-offset-2">
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

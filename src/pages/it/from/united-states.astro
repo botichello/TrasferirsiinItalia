@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { getSourceCountry } from '../../../data/source-countries';
+import { getSourceCountry, moduleUrl } from '../../../data/source-countries';
 
 const country = getSourceCountry('united-states')!;
 const notes = country.notes;
@@ -8,6 +8,10 @@ const sources = [...new Map(notes.flatMap((n) => n.sources).map((s) => [s.url, s
 const moduleTitle: Record<string, string> = {
   '/driving': 'Patente',
   '/pets': 'Animali',
+  '/non-eu': 'Orientamento non UE',
+  'residenza-fiscale': 'Residenza fiscale',
+  'servizio-sanitario': 'Servizio sanitario',
+  'codice-fiscale': 'Codice fiscale',
 };
 ---
 
@@ -55,12 +59,26 @@ const moduleTitle: Record<string, string> = {
             </span>
           </div>
           <p class="mt-2 text-sm">{note.it}</p>
-          <a href={`/it${note.module}`} class="mt-3 inline-block text-sm text-brand-600 underline underline-offset-2">
+          <a href={moduleUrl(note.module, 'it')} class="mt-3 inline-block text-sm text-brand-600 underline underline-offset-2">
             Pagina completa: {(moduleTitle[note.module] ?? note.module).toLowerCase()} →
           </a>
         </li>
       ))
     }
+  </ul>
+
+  <div class="prose mt-10">
+    <h2>Due temi con abbastanza sostanza per una pagina propria</h2>
+  </div>
+  <ul class="mt-5 grid gap-3 sm:grid-cols-2">
+    <li class="rounded-xl border border-line bg-white/60 p-5">
+      <a href="/it/from/united-states/arriving" class="font-serif text-lg text-brand-700 hover:underline">Arrivare dagli Stati Uniti</a>
+      <p class="mt-1 text-sm text-muted">Perché i 90 giorni senza visto non sono una via per trasferirsi, quale consolato ti spetta, la catena dell'apostille e l'anno di validità della patente.</p>
+    </li>
+    <li class="rounded-xl border border-line bg-white/60 p-5">
+      <a href="/it/from/united-states/taxes" class="font-serif text-lg text-brand-700 hover:underline">Tasse e previdenza USA</a>
+      <p class="mt-1 text-sm text-muted">Dichiarazione mondiale, esclusione o credito, FBAR e Form 8938, la saving clause del trattato e perché Medicare si ferma alla frontiera.</p>
+    </li>
   </ul>
 
   <div class="prose mt-10">

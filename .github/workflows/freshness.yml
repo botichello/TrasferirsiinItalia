@@ -25,3 +25,7 @@ jobs:
         env:
           FRESHNESS_STRICT: ${{ github.event_name == 'schedule' && '1' || '0' }}
         run: node scripts/check-freshness.mjs
+      # Same reason, different axis: a page can be in date and still state an
+      # amount the statute changed. Cheap enough to run on every content PR.
+      - name: Check figures
+        run: node scripts/check-figures.mjs

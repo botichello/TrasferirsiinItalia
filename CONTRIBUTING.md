@@ -26,12 +26,14 @@ page.** If a claim can't be sourced, cut it or mark the page's scope honestly.
    some comune/ASL portals are bot-walled — see `KNOWN_BOTWALL` in
    `scripts/check-links.mjs`; use the archived copy for reading).
 2. Re-read the page against the sources; fix drift.
-3. Bump `lastVerified` (+ each source's `accessed`) and `reviewBy`.
-4. `npm run check:links` — dead/hijacked citations fail; new bot-walls get
+3. If a stated amount or rate moved, retire the old value in
+   `src/data/figures.mjs` — the build then finds every other copy of it.
+4. Bump `lastVerified` (+ each source's `accessed`) and `reviewBy`.
+5. `npm run check:links` — dead/hijacked citations fail; new bot-walls get
    added to the known list *only after* confirming the URL works in a browser
    or the Wayback Machine.
-5. `npm run fetch:archives` — refresh Wayback snapshots (merges; never drops).
-6. `npm run build:history` — regenerate the verification log that powers
+6. `npm run fetch:archives` — refresh Wayback snapshots (merges; never drops).
+7. `npm run build:history` — regenerate the verification log that powers
    `/updates` and the per-page "Verified N times" line.
 
 ## Adding a city (comune overlay)
@@ -67,10 +69,11 @@ follow the same contract; the health authority is the regional element.
 | gate                | catches                                                        |
 | ------------------- | -------------------------------------------------------------- |
 | `check:freshness`   | missing/overdue dates, missing sources                          |
+| `check:figures`     | a statutory amount or rate that stopped being true              |
 | `check:seo`         | canonical/hreflang/sitemap/JSON-LD errors, broken internal links |
 | `test:smoke`        | broken JS islands (search, wizard, checklist), a11y regressions |
 | `check:journeys`    | orphan pages, locale asymmetries, dead ends — can a human get there? |
-| `test:gates`        | a `check:seo` or `check:freshness` rule that has stopped firing   |
+| `test:gates`        | any gate rule that has stopped firing                            |
 
 Run `npm run test:smoke` locally after touching any island or layout
 (`CHROMIUM_PATH` selects the browser binary if Playwright's registry is empty).
@@ -84,8 +87,20 @@ canonicals, valid schema, in the sitemap and in `llms.txt`, link-checked, and
 invisible to a person. Machine discoverability was instrumented; human
 discoverability was not. Nav-only pages are allowed by name, with a reason.
 
+`check:figures` is the one gate that reads *numbers* rather than structure.
+`src/data/figures.mjs` records, per tracked figure, the literals that are no
+longer true, and the build refuses to contain them. It exists because the
+tax-residency guide was re-verified in July 2026 still saying the middle IRPEF
+band was 35%, when it had been 33% since 1 January 2026 — and the figure was
+stated in four files, so fixing the one you happened to read would have left
+three. **Correcting an amount means retiring the old value here**, which is what
+makes the other copies fail loudly. Prose that names an old figure on purpose
+("was 35% through 2025") is exempted by exact phrase, and the phrase must still
+exist, so an exemption cannot outlive the sentence that earned it.
+
 `test:gates` is the gates' own test: it copies the gate's input (`dist/` for
-`check:seo`, `src/` for `check:freshness`), injects one specific fault per case
+`check:seo` and `check:journeys`, `src/` for `check:freshness` and
+`check:figures`), injects one specific fault per case
 (a duplicated canonical, a typo'd hreflang code, a guide stripped of its
 `sources`, an unregistered orientation page…) and asserts the gate reports it.
 It also asserts the *unmodified* input passes, so a broken baseline cannot make
@@ -93,7 +108,7 @@ the suite vacuous.
 
 This exists because a gate that has stopped firing still reports success — the
 completeness scan here once passed on 24 files while genuinely checking 14, and
-every build was green throughout. **If you add a rule to either gate, add a
+every build was green throughout. **If you add a rule to any gate, add a
 case to `test-gates.mjs`**: a rule nobody has watched fail is not yet a gate.
 
 ## Language

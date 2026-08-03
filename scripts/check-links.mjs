@@ -253,10 +253,20 @@ for (const country of sourceCountries) {
   }
 }
 
+// Tracked figures cite the primary text their value was read in
+// (src/data/figures.mjs). If that citation rots, the next re-verification has
+// nothing to check the number against — so it belongs in this sweep too.
+const { figures } = await import(new URL('../src/data/figures.mjs', import.meta.url));
+for (const fig of figures) {
+  if (!urlToFiles.has(fig.source.url)) urlToFiles.set(fig.source.url, new Set());
+  urlToFiles.get(fig.source.url).add(`figures: ${fig.id}`);
+}
+
 const urls = [...urlToFiles.keys()].sort();
 console.log(
   `Checking ${urls.length} cited source URL(s) across ${files.length} content file(s) ` +
-    `+ ${orientationPages.length * 2} orientation pages + ${noteSourceCount} source-country note citations…\n`,
+    `+ ${orientationPages.length * 2} orientation pages + ${noteSourceCount} source-country note citations ` +
+    `+ ${figures.length} tracked figures…\n`,
 );
 
 // --- check + classify ----------------------------------------------------

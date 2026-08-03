@@ -1261,6 +1261,11 @@
    "verified": "2026-07-10",
    "committed": "2026-07-10",
    "subject": "Items 1–4: link sweep, four new bilingual guides (steps 5–8), SEO gate, verification log (#3)"
+  },
+  {
+   "verified": "2026-08-03",
+   "committed": "2026-08-03",
+   "subject": "Step 52: the IRPEF rate was wrong, and nothing could have caught it"
   }
  ],
  "guides/it/servizio-sanitario.md": [
@@ -1292,6 +1297,11 @@
    "verified": "2026-07-10",
    "committed": "2026-07-10",
    "subject": "Items 1–4: link sweep, four new bilingual guides (steps 5–8), SEO gate, verification log (#3)"
+  },
+  {
+   "verified": "2026-08-03",
+   "committed": "2026-08-03",
+   "subject": "Step 52: the IRPEF rate was wrong, and nothing could have caught it"
   }
  ],
  "guides/servizio-sanitario.md": [
@@ -1880,6 +1890,20 @@
    "verified": "2026-07-30",
    "committed": "2026-07-30",
    "subject": "Step 47: pets orientation page, and 90 citations that were never link-checked (#28)"
+  }
+ ],
+ "pages/from/united-states/arriving.astro": [
+  {
+   "verified": "2026-07-30",
+   "committed": "2026-08-03",
+   "subject": "Step 49: populate the US source-country layer, and a warning about 2027 (#30)"
+  }
+ ],
+ "pages/from/united-states/taxes.astro": [
+  {
+   "verified": "2026-08-03",
+   "committed": "2026-08-03",
+   "subject": "Step 49: populate the US source-country layer, and a warning about 2027 (#30)"
   }
  ]
 }

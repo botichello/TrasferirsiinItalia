@@ -72,7 +72,7 @@ follow the same contract; the health authority is the regional element.
 | `check:figures`     | a statutory amount or rate that stopped being true              |
 | `check:theme`       | a literal colour with no dark-mode override                      |
 | `check:seo`         | canonical/hreflang/sitemap/JSON-LD errors, broken internal links |
-| `test:smoke`        | broken JS islands, a11y + contrast regressions in both themes    |
+| `test:smoke`        | broken JS islands, a11y + contrast in both themes, layout overflow at phone widths |
 | `check:journeys`    | orphan pages, locale asymmetries, dead ends — can a human get there? |
 | `test:gates`        | any gate rule that has stopped firing                            |
 
@@ -122,6 +122,17 @@ template in both themes, with the start wizard's active state exercised so the
 highlighted and dimmed rows are measured too. The original dark-mode test
 asserted the body background colour and nothing else, so 13 distinct contrast
 defects across 386 nodes were invisible to it.
+
+`test:smoke` also asserts **no page is wider than the viewport** at 320/360/390.
+That check exists because `/start` overflowed by 23px at 390px and 93px at 320px,
+which reached us as "looks great in mobile Chrome, overflows in mobile Brave" —
+the page was broken in both, and only one browser made it visible. Two structural
+causes: an unwrapped flex row whose minimum width was a fixed `min-w-40` label
+column plus a `shrink-0` badge plus the description's min-content width, and PEC
+addresses in the comune notes that no engine will break mid-token. The assertion
+is at document level (`scrollWidth` vs `clientWidth`), so content inside a
+deliberate `overflow-x-auto` container — the journey nav's step pills — is not a
+false positive.
 
 `test:gates` is the gates' own test: it copies the gate's input (`dist/` for
 `check:seo` and `check:journeys`, `src/` for `check:freshness`,

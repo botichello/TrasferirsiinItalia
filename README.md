@@ -56,6 +56,7 @@ npm run check:seo         # the SEO gate on its own (canonicals, hreflang, sitem
 npm run check:journeys    # orphan pages, locale asymmetries, dead ends
 npm run check:links       # fetch every cited URL; flag dead/hijacked citations (needs network)
 npm run test:gates        # prove each gate rule still fires (fault injection)
+npm run test:smoke        # islands, a11y/contrast (both themes), layout overflow (needs Chromium)
 npm run fetch:archives    # refresh Wayback snapshots for cited sources (needs network)
 npm run build:history     # regenerate src/data/history.json (verification log) from git
 npm run submit:indexnow   # ping IndexNow with the live sitemap (after deploy, when public)

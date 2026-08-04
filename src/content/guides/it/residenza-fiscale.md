@@ -150,11 +150,12 @@ fonte durante l'anno, quindi per molti dipendenti il primo 730 è una formalità
 ## I numeri degli articoli cambiano dal 1° gennaio 2027
 
 Tutto quanto sopra cita il **TUIR** (D.P.R. 917/1986). Normattiva mostra ormai
-gli artt. 2, 3, 11 e 24-bis come vigenti **solo fino al 31 dicembre 2026**: il
-D.lgs 19 giugno 2026, n. 117 — pubblicato in *Gazzetta Ufficiale* n. 152 del
-3 luglio 2026 ed entrato in vigore il 4 luglio 2026 — riscrive le imposte sui
-redditi in un nuovo *testo unico* che si applica dal **1° gennaio 2027**,
-abrogando gli artt. da 1 a 191 del TUIR.
+gli artt. 2, 3, 11 e 24-bis come vigenti **solo fino al 31 dicembre 2026**.
+
+Il motivo è il D.lgs 19 giugno 2026, n. 117, pubblicato in *Gazzetta Ufficiale*
+n. 152 del 3 luglio 2026 ed entrato in vigore il 4 luglio 2026. Riscrive le
+imposte sui redditi in un nuovo *testo unico* che si applica dal **1° gennaio
+2027** e abroga gli artt. da 1 a 191 del TUIR.
 
 La sostanza della residenza fiscale resta. La **numerazione no**: l'art. 2
 rimane l'art. 2, ma il regime dei neo-residenti passa dall'art. 24-bis

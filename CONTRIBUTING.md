@@ -72,6 +72,7 @@ follow the same contract; the health authority is the regional element.
 | `check:figures`     | a statutory amount or rate that stopped being true              |
 | `check:theme`       | a literal colour with no dark-mode override                      |
 | `check:seo`         | canonical/hreflang/sitemap/JSON-LD errors, broken internal links |
+| `check:prose`       | walls of text — a paragraph or sentence past the readable limit  |
 | `test:smoke`        | broken JS islands, a11y + contrast in both themes, layout overflow at phone widths |
 | `check:journeys`    | orphan pages, locale asymmetries, dead ends — can a human get there? |
 | `test:gates`        | any gate rule that has stopped firing                            |
@@ -134,8 +135,21 @@ is at document level (`scrollWidth` vs `clientWidth`), so content inside a
 deliberate `overflow-x-auto` container — the journey nav's step pills — is not a
 false positive.
 
+`check:prose` is the only gate that reads the writing. Limits: **100 words per
+paragraph**, **55 per sentence**, both taken from the site's own distribution
+rather than from taste — measured across 34,000 paragraphs and 58,000 sentences,
+the median paragraph is 28 words and the median sentence 15, so the limits sit
+above the p99 and catch only the tail. That tail was real: a 148-word paragraph
+and an 86-word sentence on the citizenship page, which is where a reader sits
+while working out whether they qualify for anything at all.
+
+Every outlier turned out to be the same defect — **a list flattened into prose** —
+and every fix was to unflatten it. If a long sentence enumerates conditions or
+options, it wants to be a `<ul>`; if a paragraph covers two things, it wants to be
+two paragraphs. Do not pad the limits to fit new copy.
+
 `test:gates` is the gates' own test: it copies the gate's input (`dist/` for
-`check:seo` and `check:journeys`, `src/` for `check:freshness`,
+`check:seo`, `check:journeys` and `check:prose`, `src/` for `check:freshness`,
 `check:figures` and `check:theme`), injects one specific fault per case
 (a duplicated canonical, a typo'd hreflang code, a guide stripped of its
 `sources`, an unregistered orientation page…) and asserts the gate reports it.

@@ -3,9 +3,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 // Orientation page on the EU long-term residence permit (art. 9 TU) — the
 // destination of the "5-year path" the visa pages reference. Facts verified
-// 2026-07-22 against the fetched official sources below.
+// 2026-08-04 against the fetched official sources below.
 const sources = [
   { title: 'Normattiva — D.Lgs. 286/1998, art. 9 (testo vigente)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art9!vig=' },
+  { title: 'INPS — Assegno sociale: importo 2026 (546,24 € × 13 = 7.101,12 €)', url: 'https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.assegno-sociale-50184.assegno-sociale.html' },
   { title: 'Polizia di Stato — Permesso di soggiorno UE per soggiornanti di lungo periodo', url: 'https://www.poliziadistato.it/articolo/permesso-di-soggiorno-ue-per-soggiornanti-di-lungo-periodo.--carta-di-soggiorno-per-cittadini-stranieri' },
   { title: 'INPS — Circolare n. 153/2025, Allegato 2 (importi 2026)', url: 'https://www.inps.it/content/dam/inps-site/it/scorporati/circolari-e-messaggi/2025/12/Circolare_15109/Allegati/16486_Circolare-numero-153-del-19-12-2025_Allegato-n-2.pdf' },
   { title: "Ministero dell'Interno — Test di conoscenza della lingua italiana", url: 'https://www.interno.gov.it/it/temi/immigrazione-e-asilo/modalita-dingresso/test-conoscenza-lingua-italiana' },
@@ -34,13 +35,13 @@ const sources = [
       Five years of legal residence unlock the <strong>permesso di soggiorno UE
       per soggiornanti di lungo periodo</strong> (art. 9 TU) — the permanent
       status every temporary permit builds toward. Facts verified
-      <time datetime="2026-07-22">22 July 2026</time>; orientation, not legal advice.
+      <time datetime="2026-08-04">4 August 2026</time>; orientation, not legal advice.
     </p>
 
     <h2>Who qualifies</h2>
     <ul>
       <li>A valid permit held for <strong>at least 5 years</strong>. Short-stay and diplomatic periods never count, and you cannot apply while residing on a study/vocational permit, temporary protection, or the "special cases" permits. (A "study years count half" rule circulates online — <strong>it is not in art. 9</strong>; Italy did not transpose that directive option.)</li>
-      <li>Income of at least the annual assegno sociale — <strong>€7,101.12 for 2026</strong> (provisional INPS revaluation; re-indexed every January). Family applications use the family-reunification income scale plus suitable housing.</li>
+      <li>Income of at least the annual assegno sociale — <strong>€7,101.12 for 2026</strong> (€546.24 × 13; INPS circolare 153/2025, re-indexed every January — the February 2026 rectification touched only the invalidity tables, not this one). Family applications use the family-reunification income scale plus suitable housing.</li>
       <li>The <strong>A2 Italian test</strong> (pass mark 80%), booked online via the prefettura portal — with broad exemptions: under-14s, A2+ certificates from the four certifying bodies, Italian diplomas or university attendance, research-permit and international-protection holders, certified learning impairments.</li>
       <li>No public-order or state-security concerns.</li>
     </ul>
@@ -83,7 +84,7 @@ const sources = [
   <section class="mt-10 rounded-lg border border-line bg-surface/60 p-6">
     <h2 class="font-serif text-xl">Sources</h2>
     <p class="mt-1 text-sm text-muted">
-      Primary, official sources this page is based on — each fetched and checked on 22 July 2026.
+      Primary, official sources this page is based on — each fetched and checked on 4 August 2026.
     </p>
     <ul class="mt-3 space-y-1 text-sm">
       {

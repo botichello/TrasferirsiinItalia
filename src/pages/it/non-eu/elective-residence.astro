@@ -9,8 +9,9 @@ const sources = [
   { title: 'Normattiva — D.Lgs. 286/1998, art. 34 (SSN) e art. 9 (lungo periodo)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-07-25;286~art34!vig=' },
 ];
 const checklist = [
-  'Redditi passivi stabili di almeno ≈ 31.000 €/anno (3× la Tabella A del Ministero dell’Interno) — pensioni, rendite, redditi immobiliari o da investimenti; i redditi da lavoro, di qualsiasi tipo, non contano',
-  'Per la famiglia: circa +20% per il coniuge e +5% per figlio (alcuni consolati chiedono invece ≈ 31.000 € a persona)',
+  'Redditi stabili di almeno ≈ 31.000 €/anno. Il decreto li fissa come risorse “non inferiori al triplo dell’importo annuo previsto dalla tabella A” della direttiva del Ministro dell’interno del 1° marzo 2000 — una formula, non una cifra stampata: per questo le pagine consolari la indicano come approssimazione',
+  'Conta la fonte più dell’etichetta: il decreto ammette “cospicue rendite (pensioni, vitalizi)”, il possesso di proprietà immobiliari e la titolarità di stabili attività economico-commerciali — l’esclusione che scrive è il reddito “da fonti diverse dal lavoro subordinato”. Diversi consolati leggono la regola in modo più restrittivo (vedi sotto)',
+  'Per la famiglia: il decreto concede lo stesso visto al coniuge convivente, ai figli minori e ai figli maggiorenni conviventi e a carico “a condizione che le suddette capacità finanziarie siano giudicate adeguate anche per questi ultimi” — non contiene alcuna formula percentuale. Il Consolato di New York pubblica ≈ 31.000 € a persona',
   'Alloggio in Italia a tuo nome — atto di proprietà o contratto registrato all’Agenzia delle Entrate (niente prenotazioni alberghiere o lettere di ospitalità)',
   'Prove documentate: lettere di banca e dell’ente pensionistico, due anni di dichiarazioni dei redditi (alcuni consolati chiedono 12 mesi di estratti conto)',
   'Assicurazione sanitaria per il soggiorno — la prassi consolare varia; aspettati che serva',
@@ -40,7 +41,7 @@ const checklist = [
       UE — tipicamente pensionati — che possono vivere in Italia con
       <strong>redditi passivi stabili, senza lavorare</strong>. Lo definisce il DM
       850/2011: devi poterti mantenere "senza esercitare alcuna attività
-      lavorativa". Fatti verificati il <time datetime="2026-07-22">22 luglio 2026</time>
+      lavorativa". Fatti verificati il <time datetime="2026-08-04">4 agosto 2026</time>
       sulle fonti ufficiali in fondo; orientamento, non consulenza legale.
     </p>
 
@@ -58,15 +59,30 @@ const checklist = [
       {checklist.map((item) => <li>{item}</li>)}
     </ul>
     <p>
-      Due avvertenze oneste, entrambe verificabili sulle pagine consolari. Primo:
-      <strong>i 31.000 € sono una soglia minima, non una promessa</strong> — i
-      consolati la descrivono come "un punto di partenza" ed esercitano ampia
-      discrezionalità; un fascicolo completo può comunque essere respinto.
-      Secondo: <strong>la prassi varia da consolato a consolato</strong> (soglia a
-      persona vs. formula +20%/+5%; assicurazione richiesta o no) — controlla
-      sempre la pagina del consolato competente per la tua residenza. La cifra
-      fissa di "38.000 € per le coppie" che circola sui blog non compare su alcuna
-      pagina ufficiale.
+      Tre avvertenze oneste. Primo: <strong>i 31.000 € sono una soglia minima, non
+      una promessa</strong> — i consolati la descrivono come un punto di partenza
+      ed esercitano ampia discrezionalità; un fascicolo completo può comunque
+      essere respinto.
+    </p>
+    <p>
+      Secondo: <strong>decreto e consolati non dicono la stessa cosa sui redditi
+      da lavoro</strong>, e vale la pena tenerne conto. Il D.M. 850/2011 esclude i
+      redditi <em>«da fonti diverse dal lavoro subordinato»</em> e cita fra le
+      fonti ammesse la titolarità di stabili attività economico-commerciali. Il
+      Consolato Generale di New York scrive invece che <em>non</em> si può
+      finanziare la residenza in Italia <em>«attraverso alcun tipo di lavoro»</em>
+      e che i mezzi <em>«non possono derivare da ALCUNA FORMA DI IMPIEGO»</em>.
+      Dove le due letture divergono decide il consolato che istruisce la pratica:
+      conviene assumere quella più restrittiva e documentare fonti passive.
+    </p>
+    <p>
+      Terzo: <strong>l'aritmetica per la famiglia è prassi consolare, non
+      legge</strong>. Il decreto chiede solo che la capacità sia giudicata
+      adeguata anche per i familiari. New York pubblica ≈ 31.000 € a persona; una
+      formula "+20% per il coniuge, +5% per figlio" circola e compare su alcune
+      pagine consolari, mentre la cifra fissa di "38.000 € per le coppie" che
+      circola sui blog non compare su nessuna. Controlla la pagina del consolato
+      competente per la tua residenza.
     </p>
 
     <h2>Come funziona</h2>
@@ -92,7 +108,7 @@ const checklist = [
   <section class="mt-10 rounded-lg border border-line bg-surface/60 p-6">
     <h2 class="font-serif text-xl">Fonti</h2>
     <p class="mt-1 text-sm text-muted">
-      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e verificata il 22 luglio 2026.
+      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e verificata il 4 agosto 2026.
     </p>
     <ul class="mt-3 space-y-1 text-sm">
       {

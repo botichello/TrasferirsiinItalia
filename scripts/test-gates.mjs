@@ -372,8 +372,16 @@ const themeCases = [
     name: 'a literal colour ships with no dark-mode override',
     expect: 'has no dark-mode override',
     // The exact bug: bg-white/90 matched none of the overridden alpha steps, so
-    // the wizard's sticky panel stayed white while its text stayed near-white.
-    break: (d) => patch(d, 'src/components/StartWizard.astro', 'bg-surface/90', 'bg-white/90'),
+    // the wizard's controls panel stayed white while its text stayed near-white.
+    // Anchored on the full class string so the fixture fails loudly rather than
+    // silently patching some other card if the panel's markup changes.
+    break: (d) =>
+      patch(
+        d,
+        'src/components/StartWizard.astro',
+        'not-prose rounded-xl border border-line bg-surface/60',
+        'not-prose rounded-xl border border-line bg-white/90',
+      ),
   },
   {
     name: 'a dark-mode override outlives the class it covered',

@@ -61,7 +61,7 @@
  * Surfaces go through --color-surface rather than literal bg-white/NN
  * utilities. The literals used to need one override per alpha step, so a new
  * `bg-white/90` silently escaped the list and shipped the start wizard's
- * sticky controls as a white panel with white text. Tailwind derives every
+ * controls as a white panel with white text. Tailwind derives every
  * `bg-surface/NN` from the token, so there is nothing left to enumerate.
  * `check-theme` enforces that: any literal colour utility must be allowlisted
  * with a reason.

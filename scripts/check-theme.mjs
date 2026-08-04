@@ -9,10 +9,10 @@
  * light-mode colour on a near-black page.
  *
  * That is exactly how the start wizard shipped broken. The dark block
- * overrode `.bg-white/60`, `.bg-white/70` and `.bg-white`; the wizard's sticky
- * controls used `bg-white/90`, which matched none of them, so the panel stayed
- * 90% white while its text stayed near-white ink — 1.01:1, a white panel with
- * white text, on the page whose whole job is to orient a new reader.
+ * overrode `.bg-white/60`, `.bg-white/70` and `.bg-white`; the wizard's controls
+ * panel used `bg-white/90`, which matched none of them, so the panel stayed 90%
+ * white while its text stayed near-white ink — 1.01:1, a white panel with white
+ * text, on the page whose whole job is to orient a new reader.
  *
  * So: every literal colour utility in the source must either be overridden in
  * the dark block, or allowlisted here with a reason. Preferring a semantic

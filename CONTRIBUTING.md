@@ -106,9 +106,9 @@ under `prefers-color-scheme` automatically; a *literal* like `bg-white/90` or
 `global.css`. The gate fails on any literal that has neither an override nor an
 allowlist entry — and on any override whose class no longer appears in the
 source. It exists because the dark block enumerated `bg-white/60`, `/70` and
-`bg-white`, the start wizard's sticky controls used `bg-white/90`, and the panel
-shipped 90% white with near-white text: **1.01:1**, invisible buttons, on the
-page whose whole job is to orient a new reader.
+`bg-white`, the start wizard's controls panel used `bg-white/90`, and it shipped
+90% white with near-white text: **1.01:1**, invisible buttons, on the page whose
+whole job is to orient a new reader.
 
 The fix in that case was structural rather than one more override. Surfaces now
 go through `--color-surface`, and the brand scale was split by role, because one

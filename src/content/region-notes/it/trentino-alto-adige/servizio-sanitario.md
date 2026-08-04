@@ -37,7 +37,8 @@ localmente.
 
 **Economicamente non attivo (senza lavoro qui)?** Entrambe le province applicano la
 regola nazionale del **2024** per l'iscrizione *volontaria*: un **minimo di 2.000 €
-l'anno** (proporzionale al reddito, ma mai sotto i 2.000 €; studenti 700 €), per
-l'**anno solare** — pagato per intero qualunque sia la data di iscrizione e con
-**scadenza al 31 dicembre** (iscriversi a Trento in estate, per esempio, costa
-comunque l'intero importo di 2.000 €). Si rinnova ogni gennaio.
+l'anno** — proporzionale al reddito, ma mai sotto i 2.000 €; gli studenti pagano 700 €.
+
+Vale per l'**anno solare**, si paga per intero qualunque sia la data di iscrizione e
+**scade il 31 dicembre**. Iscriversi a Trento in estate, per esempio, costa comunque
+l'intero importo di 2.000 €. Si rinnova ogni gennaio.

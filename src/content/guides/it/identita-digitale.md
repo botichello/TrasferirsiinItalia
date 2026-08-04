@@ -75,11 +75,12 @@ di cellulare italiano**.
 > e la CIE è già di per sé un'identità digitale utilizzabile direttamente, quindi
 > potresti non aver bisogno di SPID.
 
-**Come e dove:** registrati online sul sito di un gestore (l'elenco ufficiale dei
-gestori è su spid.gov.it), poi verifica la tua identità con uno dei vari metodi —
-gratuiti (per esempio con la tua CIE/CNS o una sessione video registrata gratuita) o a
-pagamento (operatore via webcam, di solito pochi euro), oppure di persona presso uno
-sportello convenzionato come l'ufficio postale.
+**Come e dove:** registrati online sul sito di un gestore — l'elenco ufficiale dei
+gestori è su spid.gov.it. Poi verifica la tua identità con uno dei vari metodi.
+
+Alcuni sono gratuiti: con la tua CIE o CNS, o una sessione video registrata gratuita.
+Altri sono a pagamento — operatore via webcam, di solito pochi euro. Oppure di
+persona, presso uno sportello convenzionato come l'ufficio postale.
 
 **Livelli di sicurezza:** Livello 1 (password), **Livello 2** (password + codice usa e
 getta — quello richiesto dalla maggior parte dei servizi) e Livello 3 (dispositivo
@@ -91,15 +92,19 @@ La **CIE** (*Carta d'Identità Elettronica*) è la carta d'identità elettronica
 È al tempo stesso il tuo documento fisico **e** un'identità digitale integrata — l'accesso
 "**Entra con CIE**" — al livello di sicurezza più alto.
 
-**Dove e come:** prenoti all'**Ufficio Anagrafe del tuo Comune**, e *come* si prenota
-lo decide il Comune: con il suo modulo online, per telefono o di persona. Alcuni Comuni
-usano il portale nazionale *Agenda CIE* (`prenotazionicie.interno.gov.it`), ma l'area
-cittadini consente solo l'**accesso con un'identità digitale che hai già
-(SPID/CIE/CNS)** — non c'è una registrazione semplice, un circolo vizioso per la
-**prima** carta d'identità italiana. Quindi, se non hai ancora SPID o una CIE,
-**prenota tramite il canale del tuo Comune** (controlla il suo sito, oppure chiama o
-recati all'Ufficio Anagrafe). Porta una foto tessera recente, il codice fiscale/tessera
-sanitaria e il documento precedente (in caso di rinnovo).
+**Dove e come:** prenoti all'**Ufficio Anagrafe del tuo Comune**. *Come* si prenota
+lo decide il Comune: con il suo modulo online, per telefono o di persona.
+
+Alcuni Comuni usano il portale nazionale *Agenda CIE*
+(`prenotazionicie.interno.gov.it`). L'area cittadini consente però solo
+l'**accesso con un'identità digitale che hai già** (SPID, CIE o CNS): non esiste
+una registrazione semplice, e per la **prima** carta d'identità italiana è un
+circolo vizioso.
+
+Quindi, se non hai ancora né SPID né una CIE, **prenota tramite il canale del tuo
+Comune** — controlla il suo sito, oppure chiama o recati all'Ufficio Anagrafe.
+Porta una foto tessera recente, il codice fiscale o la tessera sanitaria e il
+documento precedente, se è un rinnovo.
 
 **Costo e tempi:** circa **16,79 €** più i diritti fissi (in tutto circa **22 €**, con
 piccole variazioni per Comune). La carta è prodotta dal Poligrafico dello Stato e

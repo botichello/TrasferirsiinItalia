@@ -72,11 +72,13 @@ passport — plus your **codice fiscale / tessera sanitaria**, an email address,
 > (CIE)** at the comune first (Option B): that's the document SPID will accept — and the
 > CIE is itself a digital identity you can use directly, so you may not even need SPID.
 
-**How and where:** register online on any Identity Provider's site (the official
-list of providers is on spid.gov.it), then verify your identity by one of several
-methods — free ones (for example with your CIE/CNS, or a free recorded video
-session) or paid ones (a live webcam operator, usually a few euros), or in person at
-a partner counter such as a post office.
+**How and where:** register online on any Identity Provider's site — the official
+list of providers is on spid.gov.it. Then verify your identity by one of several
+methods.
+
+Some are free: with your CIE or CNS, or a free recorded video session. Some are paid
+— a live webcam operator, usually a few euros. Or do it in person, at a partner
+counter such as a post office.
 
 **Security levels:** Level 1 (password), **Level 2** (password + a one-time code —
 what most services ask for), and Level 3 (a physical device). Getting SPID is free;
@@ -88,15 +90,18 @@ The **CIE** (*Carta d'Identità Elettronica*) is the Italian electronic identity
 It is both your physical ID **and** a built-in digital identity — the
 "**Entra con CIE**" login — at the highest assurance level.
 
-**Where and how:** you book at your **comune's Ufficio Anagrafe**, and *how* you book
-is set by the comune — its own online form, by phone, or in person. Some comuni use
-the Ministry's national *Agenda CIE* portal (`prenotazionicie.interno.gov.it`), but
-its citizen area only lets you **log in with a digital identity you already have
-(SPID/CIE/CNS)** — there's no plain sign-up, which is a catch-22 for your **first**
-Italian ID. So if you don't yet have SPID or a CIE, **book through your comune's own
-channel** (check its website, or call/visit the Ufficio Anagrafe). Bring a recent
-passport-style photo, your codice fiscale/tessera sanitaria, and your previous ID (for
-a renewal).
+**Where and how:** you book at your **comune's Ufficio Anagrafe**. *How* you book is
+the comune's decision — its own online form, by phone, or in person.
+
+Some comuni use the Ministry's national *Agenda CIE* portal
+(`prenotazionicie.interno.gov.it`). Its citizen area only lets you **log in with a
+digital identity you already have** (SPID, CIE or CNS). There is no plain sign-up,
+which makes it a catch-22 for your **first** Italian ID.
+
+So if you have neither SPID nor a CIE yet, **book through your comune's own
+channel** — check its website, or call or visit the Ufficio Anagrafe. Bring a
+recent passport-style photo, your codice fiscale or tessera sanitaria, and your
+previous ID if this is a renewal.
 
 **Cost and timing:** about **€16.79** plus fixed fees (roughly **€22** in total,
 varying slightly by comune). The card is produced by the State Mint and **mailed

@@ -37,10 +37,13 @@ faq:
 
 > **Cost note for the economically inactive.** Workers and their families enrol
 > **free**. If you have **no work in Italy** and enrol *voluntarily*, since 2024 a
-> national rule sets the contribution at a **minimum of €2,000 per year** (students
-> pay a flat €700) — and it covers the **calendar year, not pro-rated**: you pay the
-> full amount whenever you enrol and it **expires on 31 December**. See the cost
-> section below.
+> national rule sets the contribution at a **minimum of €2,000 per year**;
+> students pay a flat €700.
+>
+> The timing matters as much as the amount. The contribution covers the
+> **calendar year and is not pro-rated**: you pay the full sum whenever you
+> enrol, and it **expires on 31 December**. Enrol in November and you pay a
+> year's contribution for two months of cover. See the cost section below.
 
 Once you are a registered resident (Step 2), you can enrol in the **Servizio
 Sanitario Nazionale (SSN)** — Italy's national health service — at your local

@@ -37,7 +37,9 @@ provincial authority for the area where you are registered. **Choose a doctor:**
 a *medico di base* / *Hausarzt* from those available locally.
 
 **Economically inactive (no work here)?** Both provinces apply the national **2024**
-rule for *voluntary* enrolment: a **minimum of €2,000 per year** (income-scaled, but
-never below €2,000; students €700), for the **calendar year** — paid in full whatever
-the enrolment date and **expiring on 31 December** (so enrolling in Trento in the
-summer still costs the full €2,000). Renew each January.
+rule for *voluntary* enrolment: a **minimum of €2,000 per year** — income-scaled, but
+never below €2,000; students pay €700.
+
+It covers the **calendar year**, paid in full whatever the enrolment date, and
+**expires on 31 December**. Enrolling in Trento in the summer still costs the full
+€2,000. Renew each January.

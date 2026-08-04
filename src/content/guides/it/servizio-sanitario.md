@@ -39,9 +39,12 @@ faq:
 > **Quanto costa per chi è economicamente non attivo.** I lavoratori e i loro
 > familiari si iscrivono **gratis**. Se **non lavori in Italia** e ti iscrivi in modo
 > *volontario*, dal 2024 una regola nazionale fissa il contributo a un **minimo di
-> 2.000 € l'anno** (gli studenti pagano 700 € forfettari) — e vale per l'**anno
-> solare, non frazionabile**: paghi l'intero importo qualunque sia la data di
-> iscrizione e **scade il 31 dicembre**. Vedi la sezione sui costi qui sotto.
+> 2.000 € l'anno**; gli studenti pagano 700 € forfettari.
+>
+> Il momento conta quanto l'importo. Il contributo vale per l'**anno solare e non
+> è frazionabile**: paghi l'intero importo qualunque sia la data di iscrizione, e
+> **scade il 31 dicembre**. Iscriversi a novembre significa pagare un anno di
+> contributo per due mesi di copertura. Vedi la sezione sui costi qui sotto.
 
 Una volta registrato come residente (passo 2), puoi iscriverti al **Servizio
 Sanitario Nazionale (SSN)** presso la tua **ASL** (Azienda Sanitaria Locale).

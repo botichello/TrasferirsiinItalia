@@ -32,6 +32,7 @@ const JOURNEY_GATE = join(ROOT, 'scripts/check-journeys.mjs');
 const FRESHNESS_GATE = join(ROOT, 'scripts/check-freshness.mjs');
 const FIGURES_GATE = join(ROOT, 'scripts/check-figures.mjs');
 const THEME_GATE = join(ROOT, 'scripts/check-theme.mjs');
+const PROSE_GATE = join(ROOT, 'scripts/check-prose.mjs');
 
 if (!existsSync(DIST)) {
   console.error('test-gates: dist/ not found — run the build first.');
@@ -101,6 +102,16 @@ const stripLiteral = (dir, literal, replacement) => {
   walk(join(dir, 'src'));
   if (touched === 0) throw new Error(`fixture drift: nothing states ${literal}`);
 };
+
+/**
+ * The verified date of the page these two date-drift fixtures use. Read from the
+ * registry rather than pinned: a hard-coded date turns every re-verification
+ * round into a false fixture failure, and the registry is what both gates
+ * compare the page against in the first place.
+ */
+const BANKING_VERIFIED = readFileSync(join(SRC, 'data/orientation-pages.mjs'), 'utf8')
+  .match(/'src\/pages\/banking\.astro'[^}]*lastVerified: '([0-9-]+)'/)?.[1];
+if (!BANKING_VERIFIED) throw new Error('fixture drift: no lastVerified for banking in the registry');
 
 const HOME = 'index.html';
 const GUIDE = 'eu-citizens/residency/codice-fiscale/index.html';
@@ -209,7 +220,7 @@ const seoCases = [
   {
     name: 'orientation dateModified drifts from the registry',
     expect: '!= registry lastVerified',
-    break: (d) => patch(d, ORIENT, '"dateModified":"2026-07-28"', '"dateModified":"2020-01-01"'),
+    break: (d) => patch(d, ORIENT, `"dateModified":"${BANKING_VERIFIED}"`, '"dateModified":"2020-01-01"'),
   },
   {
     name: 'guide loses its HowTo schema (JSON-LD still parses)',
@@ -261,7 +272,7 @@ const freshnessCases = [
   {
     name: 'on-page verified date drifts from the registry',
     expect: '!= registry lastVerified',
-    break: (d) => patch(d, PAGE, '<time datetime="2026-07-28"', '<time datetime="2019-05-05"'),
+    break: (d) => patch(d, PAGE, `<time datetime="${BANKING_VERIFIED}"`, '<time datetime="2019-05-05"'),
   },
   {
     name: 'orientation page not registered',
@@ -404,6 +415,32 @@ const themeCases = [
   },
 ];
 
+// ---- Prose gate: walls of text, over dist/ -----------------------------------
+const proseCases = [
+  {
+    name: 'a sentence grows past the limit',
+    expect: 'sentence of',
+    // The shape of the bug: a list of conditions flattened back into one
+    // sentence. 60 words of filler is shorter than the 86-word original was.
+    break: (d) =>
+      patch(
+        d,
+        GUIDE,
+        '<p>',
+        '<p>' + 'The codice fiscale is issued free of charge and it is the key to everything else, '.repeat(4) + 'so get it first. ',
+      ),
+  },
+  {
+    name: 'a paragraph grows past the limit',
+    expect: 'paragraph of',
+    break: (d) => {
+      const s = read(d, ORIENT);
+      const filler = Array.from({ length: 40 }, (_, i) => `word${i} and more text here.`).join(' ');
+      write(d, ORIENT, s.replace('</main>', `<p>${filler}</p></main>`));
+    },
+  },
+];
+
 const suites = [
   {
     label: 'check-seo',
@@ -449,6 +486,14 @@ const suites = [
     script: THEME_GATE,
     into: 'src',
     cases: themeCases,
+  },
+  {
+    label: 'check-prose',
+    input: DIST,
+    envVar: 'CHECK_PROSE_DIST',
+    arg: (dir) => dir + '/',
+    script: PROSE_GATE,
+    cases: proseCases,
   },
 ];
 
@@ -511,5 +556,5 @@ if (failures > 0) {
 }
 console.log(
   `\n✓ test-gates: all ${total} gate rules proven to fire ` +
-    `(check-seo + check-journeys + check-freshness + check-figures + check-theme).`,
+    `(check-seo + check-journeys + check-prose + check-freshness + check-figures + check-theme).`,
 );

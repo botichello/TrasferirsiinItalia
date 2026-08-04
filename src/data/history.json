@@ -1265,7 +1265,7 @@
   {
    "verified": "2026-08-03",
    "committed": "2026-08-03",
-   "subject": "Step 52: the IRPEF rate was wrong, and nothing could have caught it"
+   "subject": "Step 52: the IRPEF rate was wrong, and nothing could have caught it (#33)"
   }
  ],
  "guides/it/servizio-sanitario.md": [
@@ -1301,7 +1301,7 @@
   {
    "verified": "2026-08-03",
    "committed": "2026-08-03",
-   "subject": "Step 52: the IRPEF rate was wrong, and nothing could have caught it"
+   "subject": "Step 52: the IRPEF rate was wrong, and nothing could have caught it (#33)"
   }
  ],
  "guides/servizio-sanitario.md": [
@@ -1820,6 +1820,11 @@
    "verified": "2026-07-22",
    "committed": "2026-07-22",
    "subject": "Round 23-27: elective-residence visa pages, 4 city overlays, search gap, S1 FAQ, smoke coverage (#11)"
+  },
+  {
+   "verified": "2026-08-04",
+   "committed": "2026-08-04",
+   "subject": "Step 53: re-read four visa pages against the statute, not the summary"
   }
  ],
  "pages/non-eu/study-visa.astro": [
@@ -1834,6 +1839,11 @@
    "verified": "2026-07-22",
    "committed": "2026-07-22",
    "subject": "Round 28-32: study/family/long-term permit pages, non-EU hub, 4 city overlays, non-EU OG cards (#12)"
+  },
+  {
+   "verified": "2026-08-04",
+   "committed": "2026-08-04",
+   "subject": "Step 53: re-read four visa pages against the statute, not the summary"
   }
  ],
  "pages/non-eu/long-term-residence.astro": [
@@ -1841,6 +1851,11 @@
    "verified": "2026-07-22",
    "committed": "2026-07-22",
    "subject": "Round 28-32: study/family/long-term permit pages, non-EU hub, 4 city overlays, non-EU OG cards (#12)"
+  },
+  {
+   "verified": "2026-08-04",
+   "committed": "2026-08-04",
+   "subject": "Step 53: re-read four visa pages against the statute, not the summary"
   }
  ],
  "pages/non-eu/blue-card.astro": [

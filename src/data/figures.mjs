@@ -76,6 +76,29 @@ export const figures = [
     },
   },
   {
+    id: 'assegno-sociale',
+    what: 'annual assegno sociale, which sets the income floor for family reunification and the EU long-term permit',
+    current: ['€7,101.12', '7.101,12 €'],
+    retired: [
+      { value: '€7,002.97', supersededBy: 'INPS circolare 153/2025 — €546.24 × 13 = €7,101.12 for 2026' },
+      { value: '7.002,97 €', supersededBy: 'circolare INPS 153/2025 — 546,24 € × 13 = 7.101,12 € per il 2026' },
+      // The derived reunification thresholds drift with it, and did: these two
+      // were still on the page seven months into 2026, on a page whose sibling
+      // already carried the new base amount.
+      { value: '€10,504.26', supersededBy: 'the 2026 base gives €10,651.68 for one family member (assegno sociale × 1.5)' },
+      { value: '10.504,26 €', supersededBy: 'con la base 2026 diventa 10.651,68 € per un familiare' },
+      { value: '€14,005.68', supersededBy: 'the 2026 base gives €14,202.24 for two family members (assegno sociale × 2)' },
+      { value: '14.005,68 €', supersededBy: 'con la base 2026 diventa 14.202,24 € per due familiari' },
+    ],
+    near: /assegno sociale|ricongiungimento|reunification|long-term residence|lungo periodo/i,
+    quoted: [],
+    source: {
+      title: 'INPS — Assegno sociale (importo 2026)',
+      url: 'https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.assegno-sociale-50184.assegno-sociale.html',
+      accessed: '2026-08-04',
+    },
+  },
+  {
     id: 'neo-residenti-flat-tax',
     what: 'annual flat substitute tax on foreign income, new-residents regime (TUIR art. 24-bis, comma 2)',
     current: ['€300,000', '300.000 €'],

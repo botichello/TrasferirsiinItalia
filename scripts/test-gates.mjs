@@ -31,6 +31,7 @@ const SEO_GATE = join(ROOT, 'scripts/check-seo.mjs');
 const JOURNEY_GATE = join(ROOT, 'scripts/check-journeys.mjs');
 const FRESHNESS_GATE = join(ROOT, 'scripts/check-freshness.mjs');
 const FIGURES_GATE = join(ROOT, 'scripts/check-figures.mjs');
+const THEME_GATE = join(ROOT, 'scripts/check-theme.mjs');
 
 if (!existsSync(DIST)) {
   console.error('test-gates: dist/ not found — run the build first.');
@@ -365,6 +366,36 @@ const figureCases = [
   },
 ];
 
+// ---- Theme gate: literal colours that cannot follow dark mode, over src/ -----
+const themeCases = [
+  {
+    name: 'a literal colour ships with no dark-mode override',
+    expect: 'has no dark-mode override',
+    // The exact bug: bg-white/90 matched none of the overridden alpha steps, so
+    // the wizard's sticky panel stayed white while its text stayed near-white.
+    break: (d) => patch(d, 'src/components/StartWizard.astro', 'bg-surface/90', 'bg-white/90'),
+  },
+  {
+    name: 'a dark-mode override outlives the class it covered',
+    expect: 'no longer appears in the source',
+    // A rule for a class nobody uses reads as coverage while covering nothing.
+    break: (d) =>
+      patch(
+        d,
+        'src/styles/global.css',
+        '  .bg-amber-50 {',
+        '  .bg-slate-900 {\n    background-color: #000;\n  }\n  .bg-amber-50 {',
+      ),
+  },
+  {
+    name: 'a utility names a shade the theme never defined',
+    expect: 'is not defined in @theme',
+    // border-brand-300 was used 30 times with no --color-brand-300: Tailwind
+    // emitted no rule, so every one of those hover borders silently did nothing.
+    break: (d) => patch(d, 'src/pages/index.astro', 'hover:border-brand-300', 'hover:border-brand-350'),
+  },
+];
+
 const suites = [
   {
     label: 'check-seo',
@@ -401,6 +432,15 @@ const suites = [
     script: FIGURES_GATE,
     into: 'src',
     cases: figureCases,
+  },
+  {
+    label: 'check-theme',
+    input: SRC,
+    envVar: 'CHECK_THEME_ROOT',
+    arg: (dir) => dir,
+    script: THEME_GATE,
+    into: 'src',
+    cases: themeCases,
   },
 ];
 
@@ -463,5 +503,5 @@ if (failures > 0) {
 }
 console.log(
   `\n✓ test-gates: all ${total} gate rules proven to fire ` +
-    `(check-seo + check-journeys + check-freshness + check-figures).`,
+    `(check-seo + check-journeys + check-freshness + check-figures + check-theme).`,
 );

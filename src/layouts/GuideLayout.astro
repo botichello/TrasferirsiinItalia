@@ -207,7 +207,7 @@ const breadcrumbSchema = {
   </nav>
 
   <div class="mb-6">
-    <p class="flex items-center gap-2 text-sm font-medium uppercase tracking-wide text-brand-600">
+    <p class="flex items-center gap-2 text-sm font-medium uppercase tracking-wide text-link">
       <StepIcon slug={slug} class="h-5 w-5 text-brand-500" />
       {t.stepLabel(data.step)}{place ? ` · ${placeLabel}` : ''}
     </p>
@@ -276,7 +276,7 @@ const breadcrumbSchema = {
         data.faq.length > 0 && (
           <section id="faq" class="mt-10">
             <h2 class="font-serif text-2xl">{t.faqHeading}</h2>
-            <div class="mt-4 divide-y divide-line rounded-lg border border-line bg-white/60">
+            <div class="mt-4 divide-y divide-line rounded-lg border border-line bg-surface/60">
               {data.faq.map((item) => (
                 <details class="group px-5 py-4">
                   <summary class="flex cursor-pointer list-none items-baseline justify-between gap-4 font-medium marker:hidden [&::-webkit-details-marker]:hidden">
@@ -305,7 +305,7 @@ const breadcrumbSchema = {
                 <li>
                   <a
                     href={`${glossaryHref}#${term.slug}`}
-                    class="inline-block rounded-full border border-line bg-white/60 px-3 py-1 text-sm text-brand-700 transition hover:border-brand-300"
+                    class="inline-block rounded-full border border-line bg-surface/60 px-3 py-1 text-sm text-brand-700 transition hover:border-brand-300"
                   >
                     {term.term}
                   </a>
@@ -329,7 +329,7 @@ const breadcrumbSchema = {
             {pager.prev ? (
               <a
                 href={`${journeyBase}/${guideSlug(pager.prev)}`}
-                class="group rounded-lg border border-line bg-white/60 p-4 transition hover:border-brand-300"
+                class="group rounded-lg border border-line bg-surface/60 p-4 transition hover:border-brand-300"
               >
                 <span class="text-xs font-medium uppercase tracking-wide text-muted">
                   ← {t.prevStep} · {pager.prev.data.step}
@@ -344,7 +344,7 @@ const breadcrumbSchema = {
             {pager.next && (
               <a
                 href={`${journeyBase}/${guideSlug(pager.next)}`}
-                class="group rounded-lg border border-line bg-white/60 p-4 text-right transition hover:border-brand-300"
+                class="group rounded-lg border border-line bg-surface/60 p-4 text-right transition hover:border-brand-300"
               >
                 <span class="text-xs font-medium uppercase tracking-wide text-muted">
                   {t.nextStep} · {pager.next.data.step} →

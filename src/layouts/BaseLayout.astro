@@ -214,14 +214,14 @@ const homeHref = locale === 'en' ? '/' : '/it';
     </div>
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded focus:bg-brand-600 focus:px-3 focus:py-2 focus:text-white"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded focus:bg-fill focus:px-3 focus:py-2 focus:text-onfill"
     >
       {t.skip}
     </a>
     <header class="border-b border-line">
       <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-5 py-4">
         <a href={homeHref} class="font-serif text-lg font-semibold text-ink">
-          Trasferirsi <span class="text-brand-600">in Italia</span>
+          Trasferirsi <span class="text-link">in Italia</span>
         </a>
         <nav class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm print:hidden" aria-label="Primary">
           {t.nav.map((item) => (

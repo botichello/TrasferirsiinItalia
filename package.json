@@ -5,10 +5,11 @@
   "description": "Authoritative, dated, primary-source-cited reference for relocating to Italy. v1: the EU-citizen national residency journey.",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run check:freshness && npm run check:figures && astro build && npm run check:seo && npm run check:journeys",
+    "build": "npm run check:freshness && npm run check:figures && npm run check:theme && astro build && npm run check:seo && npm run check:journeys",
     "preview": "astro preview",
     "check:freshness": "node scripts/check-freshness.mjs",
     "check:figures": "node scripts/check-figures.mjs",
+    "check:theme": "node scripts/check-theme.mjs",
     "check:links": "node scripts/check-links.mjs",
     "fetch:archives": "node scripts/fetch-archives.mjs",
     "astro": "astro",

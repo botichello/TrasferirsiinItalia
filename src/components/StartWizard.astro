@@ -114,7 +114,7 @@ const c =
   <div
     data-wizard-controls
     hidden
-    class="not-prose sticky top-0 z-10 rounded-xl border border-line bg-white/90 p-5 backdrop-blur"
+    class="not-prose sticky top-0 z-10 rounded-xl border border-line bg-surface/90 p-5 backdrop-blur"
   >
     <div class="flex flex-wrap items-center gap-2">
       <span class="mr-1 text-sm font-medium">{c.yourSituation}:</span>
@@ -138,7 +138,7 @@ const c =
       <select
         id="wizard-city"
         data-wizard-city
-        class="min-w-52 rounded-md border border-line bg-white px-3 py-1.5 text-sm focus:border-brand-500 focus:outline-none"
+        class="min-w-52 rounded-md border border-line bg-surface px-3 py-1.5 text-sm focus:border-brand-500 focus:outline-none"
       >
         <option value="">{c.cityChoose}</option>
         {
@@ -163,7 +163,7 @@ const c =
   <ol class="mt-6 grid gap-4">
     {
       c.steps.map((step) => (
-        <li class="rounded-xl border border-line bg-white/60 p-5">
+        <li class="rounded-xl border border-line bg-surface/60 p-5">
           <a
             href={`${prefix}/eu-citizens/residency/${step.key}`}
             data-step-link
@@ -182,7 +182,7 @@ const c =
                   <li class="status-row flex items-baseline gap-2 rounded-md border border-transparent px-3 py-2 text-sm" data-status={s.key}>
                     <span class="min-w-40 shrink-0 font-medium">{s.label}</span>
                     <span>{step.field === 'anagrafe' ? s.anagrafe : s.ssn}</span>
-                    <span class="you-badge ml-auto shrink-0 rounded-full bg-brand-500 px-2 py-0.5 text-xs font-medium text-white">
+                    <span class="you-badge ml-auto shrink-0 rounded-full bg-fill px-2 py-0.5 text-xs font-medium text-onfill">
                       {c.youBadge}
                     </span>
                   </li>
@@ -194,7 +194,7 @@ const c =
               {step.base} <span class="text-muted">· {c.everyone}</span>
             </p>
           )}
-          <a href={`${prefix}/eu-citizens/residency/${step.key}`} data-step-link data-step-key={step.key} class="mt-3 inline-block text-sm text-brand-600 underline">
+          <a href={`${prefix}/eu-citizens/residency/${step.key}`} data-step-link data-step-key={step.key} class="mt-3 inline-block text-sm text-link underline">
             {c.open} →
           </a>
         </li>
@@ -212,7 +212,7 @@ const c =
     {
       c.also.map((item) => (
         <li
-          class="status-row rounded-xl border border-line bg-white/60 p-5"
+          class="status-row rounded-xl border border-line bg-surface/60 p-5"
           data-status-any={item.when}
         >
           <a href={`${prefix}${item.href}`} class="font-serif text-lg text-brand-700 hover:underline">
@@ -228,12 +228,17 @@ const c =
 </section>
 
 <style>
-  .status-row { transition: opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease; }
+  .status-row { transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease; }
   .status-row.is-you { border-color: var(--color-brand-500); background: var(--color-brand-50); }
-  .status-row.is-dim { opacity: 0.4; }
+  /* De-emphasis by colour, not by opacity. `opacity: 0.4` composited the row's
+   * text down to 2.5:1 against the card — the rows that do not apply to you
+   * are still content, and a reader who changes their mind has to be able to
+   * read them. Muted is a deliberate step down that stays above 4.5:1 in both
+   * themes. */
+  .status-row.is-dim { color: var(--color-muted); }
   .you-badge { display: none; }
   .status-row.is-you .you-badge { display: inline-block; }
-  .status-btn.is-active { background: var(--color-brand-500); border-color: var(--color-brand-500); color: #fff; }
+  .status-btn.is-active { background: var(--color-fill); border-color: var(--color-fill); color: var(--color-onfill); }
 </style>
 
 <script>

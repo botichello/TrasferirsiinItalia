@@ -38,7 +38,7 @@ const itemListSchema = {
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(itemListSchema)} is:inline />
   <section class="py-8 text-center">
-    <p class="text-sm font-medium uppercase tracking-wide text-brand-600">
+    <p class="text-sm font-medium uppercase tracking-wide text-link">
       For EU & EEA citizens
     </p>
     <h1 class="mx-auto mt-3 max-w-3xl text-5xl font-semibold leading-tight">
@@ -52,7 +52,7 @@ const itemListSchema = {
     <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
       <a
         href="/start"
-        class="inline-flex items-center rounded-full bg-brand-500 px-6 py-3 text-white transition hover:bg-brand-600"
+        class="inline-flex items-center rounded-full bg-fill px-6 py-3 text-onfill transition hover:bg-fill-hover"
       >
         Start here →
       </a>
@@ -79,7 +79,7 @@ const itemListSchema = {
             <li>
               <a
                 href={href}
-                class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-4 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md hover:shadow-brand-700/5"
+                class="flex h-full flex-col rounded-xl border border-line bg-surface/60 p-4 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md hover:shadow-brand-700/5"
               >
                 <span class="font-medium text-brand-700">{label} →</span>
                 <span class="mt-1 text-sm text-muted">{blurb}</span>
@@ -109,10 +109,10 @@ const itemListSchema = {
           <li>
             <a
               href={s.href}
-              class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-6 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md hover:shadow-brand-700/5"
+              class="flex h-full flex-col rounded-xl border border-line bg-surface/60 p-6 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md hover:shadow-brand-700/5"
             >
               <span class="flex items-start justify-between">
-                <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-600 font-serif font-semibold text-white">
+                <span class="flex h-9 w-9 items-center justify-center rounded-full bg-fill font-serif font-semibold text-onfill">
                   {s.step}
                 </span>
                 <StepIcon slug={s.slug} class="h-6 w-6 text-brand-500/70" />
@@ -143,7 +143,7 @@ const itemListSchema = {
           <li>
             <a
               href={href}
-              class="flex h-full flex-col rounded-xl border border-line bg-white/60 p-5 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md hover:shadow-brand-700/5"
+              class="flex h-full flex-col rounded-xl border border-line bg-surface/60 p-5 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md hover:shadow-brand-700/5"
             >
               <span class="font-serif text-lg text-brand-700">{title}</span>
               <span class="mt-1 text-sm text-muted">{blurb}</span>
@@ -159,7 +159,7 @@ const itemListSchema = {
     <div class="mt-6 grid gap-6 sm:grid-cols-3 text-sm">
       <div>
         <h3 class="flex items-center gap-2 font-serif text-lg">
-          <span class="flex h-5 w-5 items-center justify-center rounded-full bg-brand-600 text-xs text-white" aria-hidden="true">✓</span>
+          <span class="flex h-5 w-5 items-center justify-center rounded-full bg-fill text-xs text-onfill" aria-hidden="true">✓</span>
           Dated
         </h3>
         <p class="mt-1 text-muted">
@@ -169,7 +169,7 @@ const itemListSchema = {
       </div>
       <div>
         <h3 class="flex items-center gap-2 font-serif text-lg">
-          <span class="flex h-5 w-5 items-center justify-center rounded-full bg-brand-600 text-xs text-white" aria-hidden="true">✓</span>
+          <span class="flex h-5 w-5 items-center justify-center rounded-full bg-fill text-xs text-onfill" aria-hidden="true">✓</span>
           Sourced
         </h3>
         <p class="mt-1 text-muted">
@@ -179,7 +179,7 @@ const itemListSchema = {
       </div>
       <div>
         <h3 class="flex items-center gap-2 font-serif text-lg">
-          <span class="flex h-5 w-5 items-center justify-center rounded-full bg-brand-600 text-xs text-white" aria-hidden="true">✓</span>
+          <span class="flex h-5 w-5 items-center justify-center rounded-full bg-fill text-xs text-onfill" aria-hidden="true">✓</span>
           Narrow on purpose
         </h3>
         <p class="mt-1 text-muted">

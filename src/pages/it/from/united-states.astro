@@ -50,7 +50,7 @@ const moduleTitle: Record<string, string> = {
   <ul class="mt-5 grid gap-3">
     {
       notes.map((note) => (
-        <li class="rounded-xl border border-line bg-white/60 p-5">
+        <li class="rounded-xl border border-line bg-surface/60 p-5">
           <div class="flex flex-wrap items-baseline justify-between gap-x-4">
             <h3 class="font-serif text-lg text-brand-700">{note.headingIt}</h3>
             <span class="text-xs text-muted">
@@ -59,7 +59,7 @@ const moduleTitle: Record<string, string> = {
             </span>
           </div>
           <p class="mt-2 text-sm">{note.it}</p>
-          <a href={moduleUrl(note.module, 'it')} class="mt-3 inline-block text-sm text-brand-600 underline underline-offset-2">
+          <a href={moduleUrl(note.module, 'it')} class="mt-3 inline-block text-sm text-link underline underline-offset-2">
             Pagina completa: {(moduleTitle[note.module] ?? note.module).toLowerCase()} →
           </a>
         </li>
@@ -71,11 +71,11 @@ const moduleTitle: Record<string, string> = {
     <h2>Due temi con abbastanza sostanza per una pagina propria</h2>
   </div>
   <ul class="mt-5 grid gap-3 sm:grid-cols-2">
-    <li class="rounded-xl border border-line bg-white/60 p-5">
+    <li class="rounded-xl border border-line bg-surface/60 p-5">
       <a href="/it/from/united-states/arriving" class="font-serif text-lg text-brand-700 hover:underline">Arrivare dagli Stati Uniti</a>
       <p class="mt-1 text-sm text-muted">Perché i 90 giorni senza visto non sono una via per trasferirsi, quale consolato ti spetta, la catena dell'apostille e l'anno di validità della patente.</p>
     </li>
-    <li class="rounded-xl border border-line bg-white/60 p-5">
+    <li class="rounded-xl border border-line bg-surface/60 p-5">
       <a href="/it/from/united-states/taxes" class="font-serif text-lg text-brand-700 hover:underline">Tasse e previdenza USA</a>
       <p class="mt-1 text-sm text-muted">Dichiarazione mondiale, esclusione o credito, FBAR e Form 8938, la saving clause del trattato e perché Medicare si ferma alla frontiera.</p>
     </li>
@@ -106,7 +106,7 @@ const moduleTitle: Record<string, string> = {
     </p>
   </div>
 
-  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+  <section class="mt-10 rounded-lg border border-line bg-surface/60 p-6">
     <h2 class="font-serif text-xl">Fonti</h2>
     <p class="mt-1 text-sm text-muted">
       Le fonti primarie e ufficiali su cui si basano le voci qui sopra — ciascuna consultata nella data indicata accanto alla sua voce.

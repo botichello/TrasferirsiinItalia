@@ -39,7 +39,7 @@ const itGuide = (g?: string) => (g ? `/it${g}` : undefined);
   <dl class="mt-8 space-y-6">
     {
       glossary.map((t) => (
-        <div id={t.slug} class="rounded-xl border border-line bg-white/60 p-5 scroll-mt-20">
+        <div id={t.slug} class="rounded-xl border border-line bg-surface/60 p-5 scroll-mt-20">
           <dt class="flex flex-wrap items-baseline gap-3">
             <a href={`#${t.slug}`} class="font-serif text-lg text-ink hover:text-brand-700">
               {t.term}
@@ -50,7 +50,7 @@ const itGuide = (g?: string) => (g ? `/it${g}` : undefined);
             {t.guide && (
               <>
                 {' '}
-                <a href={itGuide(t.guide)} class="whitespace-nowrap text-brand-600 underline">
+                <a href={itGuide(t.guide)} class="whitespace-nowrap text-link underline">
                   Leggi la guida →
                 </a>
               </>

@@ -48,9 +48,10 @@ not broad and stale. So the citability discipline is mechanical, not aspirationa
 ```bash
 npm install
 npm run dev          # local dev server
-npm run build        # freshness + figures gates → astro build → SEO + journey gates
+npm run build        # freshness + figures + theme gates → astro build → SEO + journey gates
 npm run check:freshness   # the freshness gate on its own
 npm run check:figures     # statutory amounts/rates that stopped being true
+npm run check:theme       # literal colours with no dark-mode override
 npm run check:seo         # the SEO gate on its own (canonicals, hreflang, sitemap, JSON-LD)
 npm run check:journeys    # orphan pages, locale asymmetries, dead ends
 npm run check:links       # fetch every cited URL; flag dead/hijacked citations (needs network)

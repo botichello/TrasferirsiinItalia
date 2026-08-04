@@ -175,24 +175,25 @@ try {
   }
 
   // ---- axe accessibility scan -----------------------------------------------------
+  const axeSource = readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
+  const AXE_PAGES = [
+    '/',
+    '/eu-citizens/residency/codice-fiscale',
+    '/cities/firenze/residency/iscrizione-anagrafica',
+    '/regions/toscana/residency/servizio-sanitario',
+    '/non-eu',
+    '/non-eu/digital-nomad',
+    '/glossary',
+    '/checklist',
+    '/updates',
+    '/it',
+    '/it/checklist',
+    '/start',
+  ];
   {
     console.log('axe (WCAG 2.1 A/AA)');
-    const axeSource = readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
     const page = await (await browser.newContext()).newPage();
-    for (const path of [
-      '/',
-      '/eu-citizens/residency/codice-fiscale',
-      '/cities/firenze/residency/iscrizione-anagrafica',
-      '/regions/toscana/residency/servizio-sanitario',
-      '/non-eu',
-      '/non-eu/digital-nomad',
-      '/glossary',
-      '/checklist',
-      '/updates',
-      '/it',
-      '/it/checklist',
-      '/start',
-    ]) {
+    for (const path of AXE_PAGES) {
       await page.goto(BASE + path, { waitUntil: 'networkidle' });
       await page.addScriptTag({ content: axeSource });
       const violations = await page.evaluate(async () =>
@@ -205,6 +206,69 @@ try {
       );
     }
     await page.close();
+  }
+
+  // ---- contrast, both themes, every template --------------------------------------
+  // The scan above runs in the browser default: light, desktop. Dark mode had a
+  // single assertion (the body background) and its *contrast* was never measured,
+  // which is how the start wizard's sticky controls shipped as a white panel with
+  // white text — 1.01:1 — alongside 386 nodes of unreadable link text.
+  //
+  // One width is enough: no colour utility in the source is breakpoint-qualified
+  // (no `sm:text-*` / `md:bg-*`), so a narrow viewport is used because that is
+  // where a reader met the bug, not because colour varies with it. Coverage goes
+  // wide across templates instead — one URL per page template, both locales.
+  {
+    console.log('contrast (dark + light, every template)');
+    const CONTRAST_PAGES = [
+      '/', '/start', '/checklist', '/glossary', '/updates', '/sources', '/cities', '/regions',
+      '/how-we-verify', '/about', '/search?q=Florence', '/definitely-not-a-page',
+      '/eu-citizens/residency/codice-fiscale', '/eu-citizens/residency/servizio-sanitario',
+      '/cities/firenze/residency/iscrizione-anagrafica',
+      '/regions/toscana/residency/servizio-sanitario',
+      '/non-eu', '/non-eu/blue-card', '/non-eu/digital-nomad', '/non-eu/elective-residence',
+      '/non-eu/family-reunification', '/non-eu/long-term-residence', '/non-eu/study-visa',
+      '/from/united-states', '/from/united-states/arriving', '/from/united-states/taxes',
+      '/banking', '/citizenship', '/driving', '/pets', '/renting', '/schools',
+      '/it', '/it/start', '/it/checklist', '/it/glossary', '/it/updates', '/it/sources',
+      '/it/cities', '/it/regions', '/it/how-we-verify', '/it/about', '/it/search?q=Firenze',
+      '/it/eu-citizens/residency/codice-fiscale',
+      '/it/cities/firenze/residency/iscrizione-anagrafica',
+      '/it/regions/toscana/residency/servizio-sanitario',
+      '/it/non-eu', '/it/non-eu/digital-nomad', '/it/from/united-states',
+      '/it/from/united-states/taxes', '/it/banking', '/it/citizenship', '/it/driving',
+      '/it/pets', '/it/renting', '/it/schools',
+    ];
+    for (const scheme of ['dark', 'light']) {
+      const ctx = await browser.newContext({ colorScheme: scheme, viewport: { width: 390, height: 844 } });
+      const page = await ctx.newPage();
+      const bad = [];
+      for (const path of CONTRAST_PAGES) {
+        await page.goto(BASE + path, { waitUntil: 'networkidle' });
+        // Exercise the wizard so the highlighted and dimmed rows are measured too:
+        // `.is-dim` used to composite its text down to 2.5:1 and no scan saw it.
+        if (path.endsWith('/start')) {
+          await page.click('[data-status-btn="student"]').catch(() => {});
+          await page.waitForTimeout(100);
+        }
+        await page.addScriptTag({ content: axeSource });
+        const violations = await page.evaluate(async () =>
+          (await axe.run(document, { runOnly: ['color-contrast'] })).violations,
+        );
+        for (const v of violations)
+          for (const n of v.nodes) {
+            const d = n.any?.[0]?.data ?? {};
+            bad.push(`${path} ${d.contrastRatio}:1 ${d.fgColor} on ${d.bgColor}`);
+          }
+      }
+      assert(
+        bad.length === 0,
+        `${scheme}: ${CONTRAST_PAGES.length} templates pass colour contrast`,
+        `${bad.length} node(s) — ${[...new Set(bad)].slice(0, 4).join(' | ')}`,
+      );
+      await page.close();
+      await ctx.close();
+    }
   }
 } finally {
   await browser.close();

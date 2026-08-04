@@ -27,7 +27,7 @@ const txt =
 ---
 
 <form
-  class="not-prose flex flex-wrap items-center gap-3 rounded-lg border border-line bg-white/70 px-4 py-3"
+  class="not-prose flex flex-wrap items-center gap-3 rounded-lg border border-line bg-surface/70 px-4 py-3"
   data-city-selector
   data-prefix={prefix}
   data-current-guide={currentGuide}
@@ -36,7 +36,7 @@ const txt =
   <select
     id="city-select"
     data-city-select
-    class="min-w-56 rounded-md border border-line bg-white px-3 py-1.5 text-sm focus:border-brand-500 focus:outline-none"
+    class="min-w-56 rounded-md border border-line bg-surface px-3 py-1.5 text-sm focus:border-brand-500 focus:outline-none"
   >
     <option value="">{txt.choose}</option>
     {
@@ -53,7 +53,7 @@ const txt =
   </select>
   <button
     type="submit"
-    class="rounded-md bg-brand-500 px-4 py-1.5 text-sm text-white transition hover:bg-brand-600"
+    class="rounded-md bg-fill px-4 py-1.5 text-sm text-onfill transition hover:bg-fill-hover"
   >
     {txt.go}
   </button>

@@ -14,7 +14,7 @@ const { id, items } = Astro.props;
 const t = ui[getLocale(Astro.url)].guide;
 ---
 
-<div class="not-prose rounded-lg border border-line bg-white/70 p-6" data-checklist={id}>
+<div class="not-prose rounded-lg border border-line bg-surface/70 p-6" data-checklist={id}>
   <div class="flex items-baseline justify-between gap-4">
     <h3 class="font-serif text-lg">{t.documents}</h3>
     <button

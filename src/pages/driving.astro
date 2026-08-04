@@ -3,10 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SourceNote from '../components/SourceNote.astro';
 
 // Orientation page on driving with a foreign licence. Facts verified
-// 2026-07-24 against the fetched official sources below. The MIT reciprocity
+// 2026-08-04 against the fetched official sources below. The MIT reciprocity
 // list changes often — the page names the stable rules and links the list.
 const sources = [
   { title: 'Normattiva — CdS (D.lgs 285/1992), art. 135 (patenti extra-UE e sanzioni)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art135!vig=' },
+  { title: 'Normattiva — CdS, art. 126, c. 11 (sanzione 158–638 € richiamata da artt. 135 e 136-bis)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art126!vig=' },
+  { title: 'Normattiva — CdS, art. 195, c. 3 (aggiornamento biennale ISTAT delle sanzioni)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art195!vig=' },
   { title: 'Normattiva — CdS, art. 136 (conversione delle patenti estere)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art136!vig=' },
   { title: 'Normattiva — CdS, art. 136-bis (patenti UE/SEE equiparate)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art136bis!vig=' },
   { title: 'Normattiva — CdS, art. 118-bis (residenza normale: 185 giorni)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art118bis!vig=' },
@@ -16,9 +18,9 @@ const sources = [
 ];
 const penalties = [
   ['Non-EU licence, no IDP/translation carried', '€408–1,634 fine (art. 135, c. 8)'],
-  ['Resident >1 year, valid non-EU licence', '€158–638; licence seized and sent for conversion — or back home if not convertible (art. 135, c. 14)'],
+  ['Resident >1 year, valid non-EU licence', '€158–638; licence seized and sent for conversion — or back home if not convertible (art. 135, c. 14, which sets the amount by reference to art. 126, c. 11)'],
   ['Resident >1 year, expired non-EU licence', 'Treated as driving unlicensed: €5,000+ and a 3-month vehicle fermo (art. 135, c. 11 → art. 116)'],
-  ['EU licence expired, or no-expiry licence past the 2-year swap', '€158–638 and the document is withdrawn (art. 136-bis, c. 8)'],
+  ['EU licence expired, or no-expiry licence past the 2-year swap', '€158–638 and the document is withdrawn (art. 136-bis, c. 8, again by reference to art. 126, c. 11)'],
 ];
 ---
 
@@ -37,7 +39,7 @@ const penalties = [
       for one year</strong> counted from the day you register residence — not
       from the day you arrive (art. 135). "Normal residence" is where you live
       at least <strong>185 days a year</strong> (art. 118-bis). Facts verified
-      <time datetime="2026-07-24">24 July 2026</time>; orientation, not legal
+      <time datetime="2026-08-04">4 August 2026</time>; orientation, not legal
       advice.
     </p>
 
@@ -131,12 +133,21 @@ const penalties = [
         }
       </tbody>
     </table>
+    <p class="mt-3 text-sm text-muted">
+      Treat those euro ranges as this-biennium figures. Under <strong>art. 195,
+      c. 3</strong> of the Codice della Strada every fine in the code is
+      re-indexed <strong>every two years</strong> by the full ISTAT consumer-price
+      variation: a decree by 1 December of each biennium sets the new limits, which
+      apply from 1 January. Two of these rows also take their amount by reference
+      rather than stating it — art. 135, c. 14 and art. 136-bis, c. 8 both point at
+      art. 126, c. 11 — so that is the article to re-read when checking a figure.
+    </p>
   </div>
 
   <section class="mt-10 rounded-lg border border-line bg-surface/60 p-6">
     <h2 class="font-serif text-xl">Sources</h2>
     <p class="mt-1 text-sm text-muted">
-      Primary, official sources this page is based on — each fetched and checked on 24 July 2026.
+      Primary, official sources this page is based on — each fetched and checked on 4 August 2026.
     </p>
     <ul class="mt-3 space-y-1 text-sm">
       {

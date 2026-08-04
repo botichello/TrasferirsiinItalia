@@ -141,6 +141,16 @@ h3 {
 .prose {
   line-height: 1.7;
   max-width: 68ch;
+  /* Comune notes cite PEC addresses and portal URLs, and an unbreakable
+   * 36-character token has no width limit: `iscrizioni.anagrafe@pec.comune.fi.it`
+   * measured 287px and pushed every Florence page 39px past a 320px viewport.
+   * `anywhere` on links and code lets those break mid-token; normal prose only
+   * breaks a word that genuinely cannot fit. */
+  overflow-wrap: break-word;
+}
+.prose a,
+.prose code {
+  overflow-wrap: anywhere;
 }
 .prose h2 {
   font-size: 1.6rem;

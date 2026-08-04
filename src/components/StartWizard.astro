@@ -177,11 +177,17 @@ const c =
               <p class="text-sm text-muted">
                 {step.lead} <span class="font-medium text-ink">{c.bySituation.toLowerCase()}</span>:
               </p>
+              {/* Rows wrap on a phone. Unwrapped, each row's floor was
+                  min-w-40 (160px) + the description's min-content width + a
+                  shrink-0 badge, which pushed the whole page 23px past a 390px
+                  viewport — a horizontal scroll in any browser that does not
+                  quietly widen the layout viewport. The fixed label column is
+                  what aligns the situations, so it applies from sm: up only. */}
               <ul class="mt-2 space-y-1.5">
                 {c.situations.map((s) => (
-                  <li class="status-row flex items-baseline gap-2 rounded-md border border-transparent px-3 py-2 text-sm" data-status={s.key}>
-                    <span class="min-w-40 shrink-0 font-medium">{s.label}</span>
-                    <span>{step.field === 'anagrafe' ? s.anagrafe : s.ssn}</span>
+                  <li class="status-row flex flex-wrap items-baseline gap-x-2 gap-y-1 rounded-md border border-transparent px-3 py-2 text-sm" data-status={s.key}>
+                    <span class="font-medium sm:min-w-40 sm:shrink-0">{s.label}</span>
+                    <span class="w-full min-w-0 sm:w-auto sm:flex-1">{step.field === 'anagrafe' ? s.anagrafe : s.ssn}</span>
                     <span class="you-badge ml-auto shrink-0 rounded-full bg-fill px-2 py-0.5 text-xs font-medium text-onfill">
                       {c.youBadge}
                     </span>

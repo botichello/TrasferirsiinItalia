@@ -208,6 +208,65 @@ try {
     await page.close();
   }
 
+  // One URL per page template, both locales — the widest coverage the browser
+  // checks below can afford. Machine checks (canonicals, links, schema) run over
+  // all 1607 pages in the build gates; these run over every distinct layout.
+  const TEMPLATE_PAGES = [
+    '/', '/start', '/checklist', '/glossary', '/updates', '/sources', '/cities', '/regions',
+    '/how-we-verify', '/about', '/search?q=Florence', '/definitely-not-a-page',
+    '/eu-citizens/residency/codice-fiscale', '/eu-citizens/residency/servizio-sanitario',
+    '/cities/firenze/residency/iscrizione-anagrafica',
+    '/regions/toscana/residency/servizio-sanitario',
+    '/non-eu', '/non-eu/blue-card', '/non-eu/digital-nomad', '/non-eu/elective-residence',
+    '/non-eu/family-reunification', '/non-eu/long-term-residence', '/non-eu/study-visa',
+    '/from/united-states', '/from/united-states/arriving', '/from/united-states/taxes',
+    '/banking', '/citizenship', '/driving', '/pets', '/renting', '/schools',
+    '/it', '/it/start', '/it/checklist', '/it/glossary', '/it/updates', '/it/sources',
+    '/it/cities', '/it/regions', '/it/how-we-verify', '/it/about', '/it/search?q=Firenze',
+    '/it/eu-citizens/residency/codice-fiscale',
+    '/it/cities/firenze/residency/iscrizione-anagrafica',
+    '/it/regions/toscana/residency/servizio-sanitario',
+    '/it/non-eu', '/it/non-eu/digital-nomad', '/it/from/united-states',
+    '/it/from/united-states/taxes', '/it/banking', '/it/citizenship', '/it/driving',
+    '/it/pets', '/it/renting', '/it/schools',
+  ];
+
+  // ---- no horizontal overflow at phone widths -------------------------------------
+  // A page wider than the viewport is a bug the reporter's browser decides
+  // whether to show: /start overflowed by 23px at 390px and by 93px at 320px,
+  // which read as "fine in Chrome, broken in Brave". Two causes, both structural
+  // — an unwrapped flex row whose floor was a fixed label column plus a
+  // shrink-0 badge, and unbreakable PEC addresses in the comune notes.
+  //
+  // Asserted at the document level, which is what a reader perceives: content
+  // inside a deliberate overflow-x container (the journey nav's step pills) does
+  // not widen documentElement.scrollWidth, so it is not a false positive.
+  {
+    console.log('layout (no horizontal overflow, phone widths)');
+    for (const width of [320, 360, 390]) {
+      const ctx = await browser.newContext({ viewport: { width, height: 800 } });
+      const page = await ctx.newPage();
+      const bad = [];
+      for (const path of TEMPLATE_PAGES) {
+        await page.goto(BASE + path, { waitUntil: 'networkidle' });
+        if (path.endsWith('/start')) {
+          // The "your situation" badge only exists once a situation is picked,
+          // and it was part of what made the row overflow.
+          await page.click('[data-status-btn="student"]').catch(() => {});
+          await page.waitForTimeout(80);
+        }
+        const over = await page.evaluate(() => {
+          const d = document.documentElement;
+          return d.scrollWidth - d.clientWidth;
+        });
+        if (over > 1) bad.push(`${path} +${over}px`);
+      }
+      assert(bad.length === 0, `${width}px: no page wider than the viewport`, bad.slice(0, 5).join(', '));
+      await page.close();
+      await ctx.close();
+    }
+  }
+
   // ---- contrast, both themes, every template --------------------------------------
   // The scan above runs in the browser default: light, desktop. Dark mode had a
   // single assertion (the body background) and its *contrast* was never measured,
@@ -220,30 +279,11 @@ try {
   // wide across templates instead — one URL per page template, both locales.
   {
     console.log('contrast (dark + light, every template)');
-    const CONTRAST_PAGES = [
-      '/', '/start', '/checklist', '/glossary', '/updates', '/sources', '/cities', '/regions',
-      '/how-we-verify', '/about', '/search?q=Florence', '/definitely-not-a-page',
-      '/eu-citizens/residency/codice-fiscale', '/eu-citizens/residency/servizio-sanitario',
-      '/cities/firenze/residency/iscrizione-anagrafica',
-      '/regions/toscana/residency/servizio-sanitario',
-      '/non-eu', '/non-eu/blue-card', '/non-eu/digital-nomad', '/non-eu/elective-residence',
-      '/non-eu/family-reunification', '/non-eu/long-term-residence', '/non-eu/study-visa',
-      '/from/united-states', '/from/united-states/arriving', '/from/united-states/taxes',
-      '/banking', '/citizenship', '/driving', '/pets', '/renting', '/schools',
-      '/it', '/it/start', '/it/checklist', '/it/glossary', '/it/updates', '/it/sources',
-      '/it/cities', '/it/regions', '/it/how-we-verify', '/it/about', '/it/search?q=Firenze',
-      '/it/eu-citizens/residency/codice-fiscale',
-      '/it/cities/firenze/residency/iscrizione-anagrafica',
-      '/it/regions/toscana/residency/servizio-sanitario',
-      '/it/non-eu', '/it/non-eu/digital-nomad', '/it/from/united-states',
-      '/it/from/united-states/taxes', '/it/banking', '/it/citizenship', '/it/driving',
-      '/it/pets', '/it/renting', '/it/schools',
-    ];
     for (const scheme of ['dark', 'light']) {
       const ctx = await browser.newContext({ colorScheme: scheme, viewport: { width: 390, height: 844 } });
       const page = await ctx.newPage();
       const bad = [];
-      for (const path of CONTRAST_PAGES) {
+      for (const path of TEMPLATE_PAGES) {
         await page.goto(BASE + path, { waitUntil: 'networkidle' });
         // Exercise the wizard so the highlighted and dimmed rows are measured too:
         // `.is-dim` used to composite its text down to 2.5:1 and no scan saw it.
@@ -263,7 +303,7 @@ try {
       }
       assert(
         bad.length === 0,
-        `${scheme}: ${CONTRAST_PAGES.length} templates pass colour contrast`,
+        `${scheme}: ${TEMPLATE_PAGES.length} templates pass colour contrast`,
         `${bad.length} node(s) — ${[...new Set(bad)].slice(0, 4).join(' | ')}`,
       );
       await page.close();

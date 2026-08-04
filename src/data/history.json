@@ -1813,6 +1813,11 @@
    "verified": "2026-07-21",
    "committed": "2026-07-21",
    "subject": "Iterations 18-22: digital-nomad visa pages, 4 city overlays, web manifest, glossary chips, pensioner wizard (#10)"
+  },
+  {
+   "verified": "2026-08-04",
+   "committed": "2026-08-04",
+   "subject": "Step 54: three more pages re-read, and a deadline that costs a year (#39)"
   }
  ],
  "pages/non-eu/elective-residence.astro": [
@@ -1824,7 +1829,7 @@
   {
    "verified": "2026-08-04",
    "committed": "2026-08-04",
-   "subject": "Step 53: re-read four visa pages against the statute, not the summary"
+   "subject": "Step 53: re-read four visa pages against the statute, not the summary (#38)"
   }
  ],
  "pages/non-eu/study-visa.astro": [
@@ -1843,7 +1848,7 @@
   {
    "verified": "2026-08-04",
    "committed": "2026-08-04",
-   "subject": "Step 53: re-read four visa pages against the statute, not the summary"
+   "subject": "Step 53: re-read four visa pages against the statute, not the summary (#38)"
   }
  ],
  "pages/non-eu/long-term-residence.astro": [
@@ -1855,7 +1860,7 @@
   {
    "verified": "2026-08-04",
    "committed": "2026-08-04",
-   "subject": "Step 53: re-read four visa pages against the statute, not the summary"
+   "subject": "Step 53: re-read four visa pages against the statute, not the summary (#38)"
   }
  ],
  "pages/non-eu/blue-card.astro": [
@@ -1863,6 +1868,11 @@
    "verified": "2026-07-22",
    "committed": "2026-07-22",
    "subject": "Steps 33-34: EU Blue Card pages + Italian citizenship orientation (#13)"
+  },
+  {
+   "verified": "2026-08-04",
+   "committed": "2026-08-04",
+   "subject": "Step 54: three more pages re-read, and a deadline that costs a year (#39)"
   }
  ],
  "pages/citizenship.astro": [
@@ -1891,6 +1901,11 @@
    "verified": "2026-07-24",
    "committed": "2026-07-24",
    "subject": "Step 39: driving-licence orientation page (/driving + /it/driving) (#16)"
+  },
+  {
+   "verified": "2026-08-04",
+   "committed": "2026-08-04",
+   "subject": "Step 56: the driving fines were right, and cited to the wrong article"
   }
  ],
  "pages/banking.astro": [
@@ -1898,6 +1913,11 @@
    "verified": "2026-07-28",
    "committed": "2026-07-28",
    "subject": "Steps 40-41: banking orientation page + orientation pages in the verification log (#21)"
+  },
+  {
+   "verified": "2026-08-04",
+   "committed": "2026-08-04",
+   "subject": "Step 54: three more pages re-read, and a deadline that costs a year (#39)"
   }
  ],
  "pages/pets.astro": [

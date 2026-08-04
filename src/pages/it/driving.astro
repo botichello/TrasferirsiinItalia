@@ -4,6 +4,8 @@ import SourceNote from '../../components/SourceNote.astro';
 
 const sources = [
   { title: 'Normattiva — CdS (D.lgs 285/1992), art. 135 (patenti extra-UE e sanzioni)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art135!vig=' },
+  { title: 'Normattiva — CdS, art. 126, c. 11 (sanzione 158–638 € richiamata da artt. 135 e 136-bis)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art126!vig=' },
+  { title: 'Normattiva — CdS, art. 195, c. 3 (aggiornamento biennale ISTAT delle sanzioni)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art195!vig=' },
   { title: 'Normattiva — CdS, art. 136 (conversione delle patenti estere)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art136!vig=' },
   { title: 'Normattiva — CdS, art. 136-bis (patenti UE/SEE equiparate)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art136bis!vig=' },
   { title: 'Normattiva — CdS, art. 118-bis (residenza normale: 185 giorni)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art118bis!vig=' },
@@ -13,9 +15,9 @@ const sources = [
 ];
 const penalties = [
   ['Patente extra-UE senza permesso internazionale/traduzione', 'Sanzione 408–1.634 € (art. 135, c. 8)'],
-  ['Residente da >1 anno, patente extra-UE ancora valida', '158–638 €; patente ritirata e inviata per la conversione — o restituita allo Stato se non convertibile (art. 135, c. 14)'],
+  ['Residente da >1 anno, patente extra-UE ancora valida', '158–638 €; patente ritirata e inviata per la conversione — o restituita allo Stato se non convertibile (art. 135, c. 14, che rinvia per l\u2019importo all\u2019art. 126, c. 11)'],
   ['Residente da >1 anno, patente extra-UE scaduta', 'Equiparato a guida senza patente: 5.000 €+ e fermo del veicolo 3 mesi (art. 135, c. 11 → art. 116)'],
-  ['Patente UE scaduta, o senza scadenza oltre i 2 anni dalla residenza', '158–638 € e ritiro del documento (art. 136-bis, c. 8)'],
+  ['Patente UE scaduta, o senza scadenza oltre i 2 anni dalla residenza', '158–638 € e ritiro del documento (art. 136-bis, c. 8, anch\u2019esso per rinvio all\u2019art. 126, c. 11)'],
 ];
 ---
 
@@ -34,7 +36,7 @@ const penalties = [
       <strong>extra-UE vale un anno</strong> contato dal giorno dell'iscrizione
       anagrafica — non dall'arrivo (art. 135). La "residenza normale" è dove
       vivi <strong>almeno 185 giorni l'anno</strong> (art. 118-bis). Fatti
-      verificati il <time datetime="2026-07-24">24 luglio 2026</time>;
+      verificati il <time datetime="2026-08-04">4 agosto 2026</time>;
       orientamento, non consulenza legale.
     </p>
 
@@ -132,12 +134,22 @@ const penalties = [
         }
       </tbody>
     </table>
+    <p class="mt-3 text-sm text-muted">
+      Considera quegli importi come cifre del biennio in corso. In base all'<strong>art.
+      195, c. 3</strong> del Codice della Strada tutte le sanzioni pecuniarie del
+      codice sono aggiornate <strong>ogni due anni</strong> per l'intera variazione
+      ISTAT dei prezzi al consumo: un decreto entro il 1° dicembre di ogni biennio
+      fissa i nuovi limiti, che si applicano dal 1° gennaio. Due di queste righe,
+      inoltre, non contengono l'importo ma lo richiamano — l'art. 135, c. 14 e
+      l'art. 136-bis, c. 8 rinviano entrambi all'art. 126, c. 11 — che è quindi
+      l'articolo da rileggere per verificare una cifra.
+    </p>
   </div>
 
   <section class="mt-10 rounded-lg border border-line bg-surface/60 p-6">
     <h2 class="font-serif text-xl">Fonti</h2>
     <p class="mt-1 text-sm text-muted">
-      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e verificata il 24 luglio 2026.
+      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e verificata il 4 agosto 2026.
     </p>
     <ul class="mt-3 space-y-1 text-sm">
       {

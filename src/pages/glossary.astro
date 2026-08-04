@@ -38,7 +38,7 @@ const schema = {
   <dl class="mt-8 space-y-6">
     {
       glossary.map((t) => (
-        <div id={t.slug} class="rounded-xl border border-line bg-white/60 p-5 scroll-mt-20">
+        <div id={t.slug} class="rounded-xl border border-line bg-surface/60 p-5 scroll-mt-20">
           <dt class="flex flex-wrap items-baseline gap-3">
             <a href={`#${t.slug}`} class="font-serif text-lg text-ink hover:text-brand-700">
               {t.term}
@@ -49,7 +49,7 @@ const schema = {
             {t.guide && (
               <>
                 {' '}
-                <a href={t.guide} class="whitespace-nowrap text-brand-600 underline">
+                <a href={t.guide} class="whitespace-nowrap text-link underline">
                   Read the guide →
                 </a>
               </>

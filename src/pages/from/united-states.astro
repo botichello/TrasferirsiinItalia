@@ -55,7 +55,7 @@ const moduleTitle: Record<string, string> = {
   <ul class="mt-5 grid gap-3">
     {
       notes.map((note) => (
-        <li class="rounded-xl border border-line bg-white/60 p-5">
+        <li class="rounded-xl border border-line bg-surface/60 p-5">
           <div class="flex flex-wrap items-baseline justify-between gap-x-4">
             <h3 class="font-serif text-lg text-brand-700">{note.headingEn}</h3>
             <span class="text-xs text-muted">
@@ -64,7 +64,7 @@ const moduleTitle: Record<string, string> = {
             </span>
           </div>
           <p class="mt-2 text-sm">{note.en}</p>
-          <a href={moduleUrl(note.module)} class="mt-3 inline-block text-sm text-brand-600 underline underline-offset-2">
+          <a href={moduleUrl(note.module)} class="mt-3 inline-block text-sm text-link underline underline-offset-2">
             Full page on {(moduleTitle[note.module] ?? note.module).toLowerCase()} →
           </a>
         </li>
@@ -76,11 +76,11 @@ const moduleTitle: Record<string, string> = {
     <h2>Two topics with enough substance for their own page</h2>
   </div>
   <ul class="mt-5 grid gap-3 sm:grid-cols-2">
-    <li class="rounded-xl border border-line bg-white/60 p-5">
+    <li class="rounded-xl border border-line bg-surface/60 p-5">
       <a href="/from/united-states/arriving" class="font-serif text-lg text-brand-700 hover:underline">Arriving from the United States</a>
       <p class="mt-1 text-sm text-muted">Why 90 days visa-free is not a relocation route, which consulate has your state, the apostille chain, and the one-year driving clock.</p>
     </li>
-    <li class="rounded-xl border border-line bg-white/60 p-5">
+    <li class="rounded-xl border border-line bg-surface/60 p-5">
       <a href="/from/united-states/taxes" class="font-serif text-lg text-brand-700 hover:underline">US taxes and social security</a>
       <p class="mt-1 text-sm text-muted">Worldwide filing, the exclusion versus the credit, FBAR and Form 8938, the treaty's saving clause, and why Medicare stops at the border.</p>
     </li>
@@ -109,7 +109,7 @@ const moduleTitle: Record<string, string> = {
     </p>
   </div>
 
-  <section class="mt-10 rounded-lg border border-line bg-white/60 p-6">
+  <section class="mt-10 rounded-lg border border-line bg-surface/60 p-6">
     <h2 class="font-serif text-xl">Sources</h2>
     <p class="mt-1 text-sm text-muted">
       Primary, official sources the items above rest on — each fetched and checked on the date shown against its item.

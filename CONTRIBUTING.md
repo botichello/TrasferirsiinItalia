@@ -70,8 +70,9 @@ follow the same contract; the health authority is the regional element.
 | ------------------- | -------------------------------------------------------------- |
 | `check:freshness`   | missing/overdue dates, missing sources                          |
 | `check:figures`     | a statutory amount or rate that stopped being true              |
+| `check:theme`       | a literal colour with no dark-mode override                      |
 | `check:seo`         | canonical/hreflang/sitemap/JSON-LD errors, broken internal links |
-| `test:smoke`        | broken JS islands (search, wizard, checklist), a11y regressions |
+| `test:smoke`        | broken JS islands, a11y + contrast regressions in both themes    |
 | `check:journeys`    | orphan pages, locale asymmetries, dead ends — can a human get there? |
 | `test:gates`        | any gate rule that has stopped firing                            |
 
@@ -98,9 +99,33 @@ makes the other copies fail loudly. Prose that names an old figure on purpose
 ("was 35% through 2025") is exempted by exact phrase, and the phrase must still
 exist, so an exemption cannot outlive the sentence that earned it.
 
+`check:theme` guards the one thing a colour token cannot do for itself.
+`text-muted` and `bg-surface/60` resolve through custom properties, so they flip
+under `prefers-color-scheme` automatically; a *literal* like `bg-white/90` or
+`text-amber-800` does not, and needs an explicit override in the dark block of
+`global.css`. The gate fails on any literal that has neither an override nor an
+allowlist entry — and on any override whose class no longer appears in the
+source. It exists because the dark block enumerated `bg-white/60`, `/70` and
+`bg-white`, the start wizard's sticky controls used `bg-white/90`, and the panel
+shipped 90% white with near-white text: **1.01:1**, invisible buttons, on the
+page whose whole job is to orient a new reader.
+
+The fix in that case was structural rather than one more override. Surfaces now
+go through `--color-surface`, and the brand scale was split by role, because one
+value cannot serve both: `--color-link` brightens in dark mode so link text
+reads on near-black, while `--color-fill` stays dark so `--color-onfill` white
+still reads on it. Reach for `bg-surface`, `text-link`, `bg-fill`/`text-onfill`,
+`text-muted` before reaching for a literal.
+
+`test:smoke` measures the result: axe's `color-contrast` rule over every page
+template in both themes, with the start wizard's active state exercised so the
+highlighted and dimmed rows are measured too. The original dark-mode test
+asserted the body background colour and nothing else, so 13 distinct contrast
+defects across 386 nodes were invisible to it.
+
 `test:gates` is the gates' own test: it copies the gate's input (`dist/` for
-`check:seo` and `check:journeys`, `src/` for `check:freshness` and
-`check:figures`), injects one specific fault per case
+`check:seo` and `check:journeys`, `src/` for `check:freshness`,
+`check:figures` and `check:theme`), injects one specific fault per case
 (a duplicated canonical, a typo'd hreflang code, a guide stripped of its
 `sources`, an unregistered orientation page…) and asserts the gate reports it.
 It also asserts the *unmodified* input passes, so a broken baseline cannot make

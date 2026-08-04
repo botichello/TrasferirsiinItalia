@@ -39,9 +39,9 @@ const lastVerified = new Date(
   <ol class="mt-10 space-y-8">
     {
       steps.map((s) => (
-        <li class="rounded-xl border border-line bg-white/60 p-6">
+        <li class="rounded-xl border border-line bg-surface/60 p-6">
           <div class="flex items-center gap-3">
-            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-600 font-serif font-semibold text-white">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-fill font-serif font-semibold text-onfill">
               {s.data.step}
             </span>
             <StepIcon slug={guideSlug(s)} class="h-5 w-5 text-brand-500" />

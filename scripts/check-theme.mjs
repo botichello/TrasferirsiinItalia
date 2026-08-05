@@ -91,6 +91,11 @@ const overridden = new Set(
 
 // ---- 2. Every literal in the source must be overridden or allowlisted --------
 const files = textFiles(SRC).map((p) => relative(ROOT, p).split('\\').join('/'));
+// Floor: src/ carries ~260 scannable files. Near-zero means a wrong root.
+if (files.length < 100) {
+  console.error(`✗ check-theme: only ${files.length} file(s) found under ${SRC} — wrong root.`);
+  process.exit(1);
+}
 let literals = 0;
 for (const rel of files) {
   if (rel === 'src/styles/global.css') continue;

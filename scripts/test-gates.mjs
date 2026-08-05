@@ -113,12 +113,26 @@ const BANKING_VERIFIED = readFileSync(join(SRC, 'data/orientation-pages.mjs'), '
   .match(/'src\/pages\/banking\.astro'[^}]*lastVerified: '([0-9-]+)'/)?.[1];
 if (!BANKING_VERIFIED) throw new Error('fixture drift: no lastVerified for banking in the registry');
 
+// ---- Input floors: a gate fed a near-empty tree must fail, not pass ----------
+// One representative case per input type; every gate carries the same guard.
+const emptyDist = (d) => {
+  for (const name of readdirSync(d)) {
+    const p = join(d, name);
+    if (statSync(p).isDirectory() && name !== 'eu-citizens') rmSync(p, { recursive: true, force: true });
+  }
+};
+
 const HOME = 'index.html';
 const GUIDE = 'eu-citizens/residency/codice-fiscale/index.html';
 const ORIENT = 'banking/index.html';
 
 // Each case: inject one fault, expect the gate to report `expect`.
 const seoCases = [
+  {
+    name: 'dist nearly empty (input floor)',
+    expect: 'dist/ is empty or wrong',
+    break: emptyDist,
+  },
   {
     name: 'canonical missing',
     expect: '0 canonical tags',
@@ -244,6 +258,11 @@ const PAGE = 'src/pages/banking.astro';
 const COUNTRIES = 'src/data/source-countries.mjs';
 
 const freshnessCases = [
+  {
+    name: 'content tree emptied (input floor)',
+    expect: 'wrong or empty root',
+    break: (d) => rmSync(join(d, 'src/content'), { recursive: true, force: true }),
+  },
   {
     name: 'guide with no frontmatter',
     expect: 'no frontmatter found',

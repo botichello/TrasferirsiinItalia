@@ -28,7 +28,7 @@ jobs:
           ref: claude/modest-darwin-f6f80c
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Fetch Wayback snapshots
         run: node scripts/fetch-archives.mjs

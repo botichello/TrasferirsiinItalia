@@ -93,6 +93,13 @@ for (const file of htmlFiles(DIST)) {
   pages.set(urlOf(file), { links, bare });
 }
 
+// Same floor logic as the other gates: a walk over a near-empty tree proves
+// nothing. Real size is ~1,600 pages.
+if (pages.size < 500) {
+  console.error(`✗ check-journeys: only ${pages.size} page(s) found under ${DIST} — dist/ is empty or wrong.`);
+  process.exit(1);
+}
+
 const localeOf = (url) => (url === '/it' || url.startsWith('/it/') ? 'it' : 'en');
 
 /**

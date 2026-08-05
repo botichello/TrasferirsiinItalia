@@ -52,6 +52,12 @@ const files = textFiles(SRC)
   .filter((rel) => !SKIP.has(rel))
   .sort();
 
+// Floor: src/ carries ~260 scannable files. Near-zero means a wrong root.
+if (files.length < 100) {
+  console.error(`✗ check-figures: only ${files.length} file(s) found under ${SRC} — wrong root.`);
+  process.exit(1);
+}
+
 const contents = new Map(files.map((rel) => [rel, readFileSync(join(ROOT, rel), 'utf8')]));
 
 for (const fig of figures) {

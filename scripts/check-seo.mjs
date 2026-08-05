@@ -118,6 +118,15 @@ for (const file of htmlFiles(DIST)) {
   });
 }
 
+// A gate that scanned almost nothing must fail, not pass: an empty or
+// half-written dist/, a wrong env override, or a moved output directory would
+// otherwise turn every rule below into silent false comfort. The floor sits far
+// under the real size (~1,600 pages), so it only fires on broken input.
+if (pages.size < 500) {
+  console.error(`✗ check-seo: only ${pages.size} page(s) found under ${DIST} — dist/ is empty or wrong.`);
+  process.exit(1);
+}
+
 // ---- Cross-page invariants ---------------------------------------------------
 const ALLOWED_HREFLANG = new Set(['en', 'it', 'x-default']);
 /** Canonical string form of an hreflang map, for comparing the two twins. */

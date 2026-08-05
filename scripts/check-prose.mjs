@@ -102,6 +102,13 @@ for (const file of htmlFiles(DIST)) {
   }
 }
 
+// Floor: the site has ~34,000 paragraphs. Scanning a few hundred means the
+// input is not the built site, and a pass would be meaningless.
+if (paraCount < 5000) {
+  console.error(`✗ check-prose: only ${paraCount} paragraph(s) found under ${DIST} — dist/ is empty or wrong.`);
+  process.exit(1);
+}
+
 const report = (label, map, limit) =>
   [...map.values()]
     .sort((a, b) => b.words - a.words)

@@ -61,6 +61,14 @@ function frontmatter(raw) {
 }
 
 const files = (await Promise.all(CONTENT_DIRS.map(walk))).flat();
+
+// Floor: the content tree carries ~166 markdown files. Near-zero means the
+// root is wrong or empty, and a pass over nothing is false comfort.
+if (files.length < 50) {
+  console.error(`✗ check-freshness: only ${files.length} content file(s) found — wrong or empty root.`);
+  process.exit(1);
+}
+
 const errors = [];
 const warnings = [];
 

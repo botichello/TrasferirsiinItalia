@@ -9,6 +9,10 @@ on:
     branches: ['claude/focused-newton-1wfqgd']
   workflow_dispatch:
 
+# The default GITHUB_TOKEN is repo-writable unless narrowed; these jobs only read.
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest

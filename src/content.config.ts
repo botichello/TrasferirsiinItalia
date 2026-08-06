@@ -46,6 +46,10 @@ const guides = defineCollection({
         .array(z.object({ q: z.string().min(1), a: z.string().min(1) }))
         .default([]),
     })
+    // A misspelled optional key must fail, not vanish. Without strict(), a
+    // guide with `documnets:` builds green and silently ships an empty document
+    // checklist — the exact silent-degradation this repo keeps hunting.
+    .strict()
     .refine((data) => data.reviewBy > data.lastVerified, {
       message: 'reviewBy must be after lastVerified.',
       path: ['reviewBy'],
@@ -76,6 +80,10 @@ const regionNotes = defineCollection({
         .array(source)
         .min(1, 'Every region note must cite at least one primary source.'),
     })
+    // A misspelled optional key must fail, not vanish. Without strict(), a
+    // guide with `documnets:` builds green and silently ships an empty document
+    // checklist — the exact silent-degradation this repo keeps hunting.
+    .strict()
     .refine((data) => data.reviewBy > data.lastVerified, {
       message: 'reviewBy must be after lastVerified.',
       path: ['reviewBy'],
@@ -103,6 +111,10 @@ const comuneNotes = defineCollection({
         .array(source)
         .min(1, 'Every comune note must cite at least one primary source.'),
     })
+    // A misspelled optional key must fail, not vanish. Without strict(), a
+    // guide with `documnets:` builds green and silently ships an empty document
+    // checklist — the exact silent-degradation this repo keeps hunting.
+    .strict()
     .refine((data) => data.reviewBy > data.lastVerified, {
       message: 'reviewBy must be after lastVerified.',
       path: ['reviewBy'],

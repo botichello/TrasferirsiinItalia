@@ -55,10 +55,19 @@ const t = ui[getLocale(Astro.url)].guide;
       saved = {};
     }
 
+    // Writes are guarded like the reads. localStorage.setItem throws outright
+    // when storage is blocked (privacy modes, "block all cookies", quota), and
+    // an unguarded write here would surface as an uncaught exception on every
+    // single checkbox toggle. The checklist itself still works without
+    // persistence, so failing to save must stay silent.
     const persist = () => {
       const state: Record<string, boolean> = {};
       boxes.forEach((b) => (state[b.dataset.checklistItem!] = b.checked));
-      localStorage.setItem(key, JSON.stringify(state));
+      try {
+        localStorage.setItem(key, JSON.stringify(state));
+      } catch {
+        /* storage unavailable — ticking still works, it just will not persist */
+      }
     };
 
     boxes.forEach((b) => {
@@ -70,7 +79,11 @@ const t = ui[getLocale(Astro.url)].guide;
       .querySelector<HTMLButtonElement>('[data-checklist-reset]')
       ?.addEventListener('click', () => {
         boxes.forEach((b) => (b.checked = false));
-        localStorage.removeItem(key);
+        try {
+          localStorage.removeItem(key);
+        } catch {
+          /* as above */
+        }
       });
   });
 </script>

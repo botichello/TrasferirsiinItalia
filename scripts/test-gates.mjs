@@ -212,6 +212,19 @@ const seoCases = [
       patch(d, ORIENT, 'hreflang="it" href="https://www.trasferirsiinitalia.com/it/banking"', 'hreflang="it" href="https://www.trasferirsiinitalia.com/it/nope"'),
   },
   {
+    name: 'two elements share an id',
+    expect: 'duplicate id(s)',
+    // Two glossary entries once shared a slug, so /glossary#conto-di-base was
+    // ambiguous and the chips deep-linking to it could not say which definition
+    // they meant. axe retired its duplicate-id rule for non-ARIA ids, so nothing
+    // was looking.
+    break: (d) => {
+      const s = read(d, ORIENT);
+      const m = s.match(/ id="([^"]+)"/);
+      write(d, ORIENT, s.replace('</main>', `<span id="${m[1]}"></span></main>`));
+    },
+  },
+  {
     name: 'internal link to nothing',
     expect: 'internal link to nothing',
     break: (d) => patch(d, ORIENT, '<a href="/glossary"', '<a href="/does-not-exist"'),
@@ -384,6 +397,35 @@ const figureCases = [
     // Deleting the historical mention must invalidate its exemption, so the
     // allowance cannot drift over to cover a genuine mistake later.
     break: (d) => patch(d, 'src/content/guides/residenza-fiscale.md', 'still say 35%', 'still say the old rate'),
+  },
+  {
+    name: 'the staged registry is the one that is read',
+    expect: 'states a superseded figure for staging-probe',
+    // Proves the gate loads figures.mjs from its ROOT, not from a path relative
+    // to the script. It did the latter until this case was written: content came
+    // from the staged copy while the registry came from the real repo, so any
+    // future case editing the registry would have passed for the wrong reason.
+    break: (d) => {
+      const rel = 'src/data/figures.mjs';
+      const s = read(d, rel);
+      write(
+        d,
+        rel,
+        s.replace(
+          'export const figures = [',
+          `export const figures = [
+  {
+    id: 'staging-probe',
+    what: 'a value the staged registry retires and the real one does not',
+    current: ['codice fiscale'],
+    retired: [{ value: 'anagrafe', supersededBy: 'fixture-only entry' }],
+    near: /anagrafe/i,
+    quoted: [],
+    source: { title: 'fixture', url: 'https://example.invalid/', accessed: '2026-01-01' },
+  },`,
+        ),
+      );
+    },
   },
   {
     name: 'the current value stops being stated anywhere',

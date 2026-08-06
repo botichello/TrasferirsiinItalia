@@ -20,6 +20,11 @@ Enforced by `src/content.config.ts` (schema) and `scripts/check-freshness.mjs`
 **Rule of thumb: never state a fact you did not read on a fetched official
 page.** If a claim can't be sourced, cut it or mark the page's scope honestly.
 
+Frontmatter schemas are `.strict()`: an unrecognised key is an error, not a
+shrug. Without it, a guide with `documnets:` built green and shipped an empty
+document checklist — a misspelling that degrades silently is worse than one that
+fails.
+
 ## Verifying / re-verifying a page
 
 1. Fetch every cited source (a plain `curl -A "Mozilla/5.0 …"` works on most;

@@ -112,6 +112,11 @@ try {
       await page.locator('[data-status-any~="family"].is-you').first().isVisible(),
       'family situation highlights the schools card',
     );
+    // Anchored on the population, not just the absence: `count() === 0` alone
+    // would also pass if [data-status-any] stopped existing, which is the
+    // vacuous shape this suite exists to avoid.
+    const anyCards = await page.locator('[data-status-any]').count();
+    assert(anyCards >= 5, 'orientation cards present to be judged', `got ${anyCards}`);
     assert(
       (await page.locator('[data-status-any].is-dim').count()) === 0,
       'orientation cards are never dimmed',

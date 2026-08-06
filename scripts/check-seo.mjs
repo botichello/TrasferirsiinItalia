@@ -112,6 +112,9 @@ for (const file of htmlFiles(DIST)) {
     noindex: /<meta name="robots" content="noindex">/.test(html),
     ogImage,
     schemaNodes,
+    // Kept as a list as well as a set: the set answers "does #anchor exist",
+    // the list is the only place a *duplicate* id is still visible.
+    idList: [...html.matchAll(/ id="([^"]+)"/g)].map((m) => m[1]),
     ids: new Set([...html.matchAll(/ id="([^"]+)"/g)].map((m) => m[1])),
     // Root-relative internal links (skip protocol/mailto/anchor-only).
     links: [...html.matchAll(/ href="(\/[^"]*)"/g)].map((m) => m[1]),
@@ -173,6 +176,20 @@ for (const page of pages.values()) {
       break; // same default image everywhere — one report is enough
     }
   }
+}
+
+// ---- Duplicate ids ------------------------------------------------------
+// An id must be unique per document. Two entries sharing one made
+// /glossary#conto-di-base ambiguous: the browser jumps to whichever came first,
+// and the guide term-chips deep-linking to it could not say which definition
+// they meant. axe does not flag this (the duplicate-id rule was retired for
+// non-ARIA ids), and nothing else looked.
+for (const [urlPath, p] of pages) {
+  const seen = new Set();
+  const dupes = new Set();
+  for (const id of p.idList) (seen.has(id) ? dupes : seen).add(id);
+  if (dupes.size > 0)
+    errors.push(`${urlPath}: duplicate id(s) — ${[...dupes].sort().join(', ')}`);
 }
 
 // ---- Internal links ------------------------------------------------------

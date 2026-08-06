@@ -28,14 +28,23 @@
  */
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { figures } from '../src/data/figures.mjs';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = process.env.CHECK_FIGURES_ROOT ?? fileURLToPath(new URL('..', import.meta.url));
 const SRC = join(ROOT, 'src');
 const SCANNED = /\.(md|astro|ts|mjs)$/;
 /** The registry states the retired values by definition; scanning it is circular. */
 const SKIP = new Set(['src/data/figures.mjs']);
+
+/**
+ * Loaded from ROOT, not from a path relative to this script. A static
+ * `import '../src/data/figures.mjs'` resolves against the script's own
+ * location, so under CHECK_FIGURES_ROOT the gate would read the real registry
+ * while scanning a staged copy of the content — and a self-test case that
+ * edited the staged registry would pass for the wrong reason. That is the exact
+ * failure mode test-gates exists to prevent, so the registry follows the root.
+ */
+const { figures } = await import(pathToFileURL(join(ROOT, 'src/data/figures.mjs')).href);
 
 const errors = [];
 

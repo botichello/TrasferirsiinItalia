@@ -168,24 +168,10 @@ export const glossary: GlossaryTerm[] = [
     it: 'La questura (polizia provinciale) e la prefettura (ufficio territoriale dello Stato). Centrali nelle procedure per non UE; i cittadini UE raramente ne hanno bisogno per la residenza.',
   },
   {
-    slug: 'conto-di-base',
-    term: 'Conto di base',
-    en: 'The statutory basic payment account every consumer legally residing in the EU is entitled to — capped annual fee, debit card included, no overdraft. Free with an ISEE up to €11,600.',
-    it: 'Il conto di pagamento di base a cui ha diritto ogni consumatore che soggiorna legalmente nell’UE — canone annuo forfettario, carta di debito inclusa, niente fido. Gratuito con ISEE fino a 11.600 €.',
-    guide: '/eu-citizens/residency/conto-corrente',
-  },
-  {
     slug: 'iban',
     term: 'IBAN',
     en: 'Your account’s international number, used for all transfers. Salary, rent and utility direct debits in Italy revolve around an Italian IBAN.',
     it: 'Il numero internazionale del conto, usato per tutti i bonifici. Stipendio, affitto e addebiti delle utenze in Italia ruotano attorno a un IBAN italiano.',
-    guide: '/eu-citizens/residency/conto-corrente',
-  },
-  {
-    slug: 'imposta-di-bollo',
-    term: 'Imposta di bollo (conto corrente)',
-    en: 'The €34.20/year government stamp duty on an individual’s bank account — due only when the average balance at that bank exceeds €5,000.',
-    it: 'L’imposta di bollo statale di 34,20 €/anno sul conto corrente delle persone fisiche — dovuta solo quando la giacenza media presso quella banca supera i 5.000 €.',
     guide: '/eu-citizens/residency/conto-corrente',
   },
   {
@@ -275,8 +261,8 @@ export const glossary: GlossaryTerm[] = [
   {
     slug: 'conto-di-base',
     term: 'Conto di base',
-    en: 'The basic payment account every bank, Poste Italiane and payment institution must offer to any consumer staying legally in the EU — regardless of place of residence, and expressly including asylum seekers and people with no fixed abode (art. 126-noviesdecies TUB). One all-inclusive annual fee, no overdraft.',
-    it: 'Il conto di pagamento che ogni banca, Poste Italiane e istituto di pagamento deve offrire a qualunque consumatore che soggiorni legalmente nell’UE — a prescindere dal luogo di residenza, e includendo espressamente richiedenti asilo e persone senza fissa dimora (art. 126-noviesdecies TUB). Un canone annuo onnicomprensivo, senza fido.',
+    en: 'The basic payment account every bank, Poste Italiane and payment institution must offer to any consumer staying legally in the EU — regardless of place of residence, and expressly including asylum seekers and people with no fixed abode (art. 126-noviesdecies TUB). One all-inclusive annual fee, no overdraft — and free outright with an ISEE below €11,600, or on a pension up to €18,000 (DM 70/2018).',
+    it: 'Il conto di pagamento che ogni banca, Poste Italiane e istituto di pagamento deve offrire a qualunque consumatore che soggiorni legalmente nell’UE — a prescindere dal luogo di residenza, e includendo espressamente richiedenti asilo e persone senza fissa dimora (art. 126-noviesdecies TUB). Un canone annuo onnicomprensivo, senza fido — e gratuito con ISEE inferiore a 11.600 €, o con pensione fino a 18.000 € (DM 70/2018).',
     guide: '/banking',
   },
   {

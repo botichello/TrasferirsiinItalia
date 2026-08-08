@@ -17,8 +17,8 @@ const steps = (await getCollection('guides', ({ data }) => data.lang === 'en'))
 // The journey as an ItemList, so search engines and AI agents see the steps
 // as an ordered whole, not just eight unrelated links.
 const itemListSchema = {
-  '@context': 'https://schema.org',
   '@type': 'ItemList',
+  '@id': new URL(Astro.url.pathname, Astro.site).href + '#journey',
   name: 'EU residency journey in Italy',
   itemListOrder: 'https://schema.org/ItemListOrderAscending',
   numberOfItems: steps.length,
@@ -35,8 +35,8 @@ const itemListSchema = {
   title="Moving to Italy as an EU citizen"
   description="A clear, dated, source-cited guide to establishing residency in Italy as an EU/EEA citizen: codice fiscale, anagrafe registration, and the national health service."
   alternates={{ en: '/', it: '/it' }}
+  schema={[itemListSchema]}
 >
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(itemListSchema)} is:inline />
   <section class="py-8 text-center">
     <p class="text-sm font-medium uppercase tracking-wide text-link">
       For EU & EEA citizens

@@ -15,8 +15,8 @@ const steps = (await getCollection('guides', ({ data }) => data.lang === 'it'))
   }));
 
 const itemListSchema = {
-  '@context': 'https://schema.org',
   '@type': 'ItemList',
+  '@id': new URL(Astro.url.pathname, Astro.site).href + '#journey',
   name: 'Percorso di residenza UE in Italia',
   itemListOrder: 'https://schema.org/ItemListOrderAscending',
   numberOfItems: steps.length,
@@ -33,8 +33,8 @@ const itemListSchema = {
   title="Trasferirsi in Italia come cittadino UE"
   description="Una guida chiara, datata e con fonti ufficiali per stabilire la residenza in Italia come cittadino UE/SEE: codice fiscale, iscrizione anagrafica e Servizio Sanitario Nazionale."
   alternates={{ en: '/', it: '/it' }}
+  schema={[itemListSchema]}
 >
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(itemListSchema)} is:inline />
   <section class="py-8 text-center">
     <p class="text-sm font-medium uppercase tracking-wide text-link">
       Per cittadini UE e SEE

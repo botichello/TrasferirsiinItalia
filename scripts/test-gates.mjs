@@ -174,6 +174,30 @@ const seoCases = [
     break: (d) => patch(d, HOME, '<title>', '<title></title><s>'),
   },
   {
+    name: 'title longer than a result snippet',
+    // 61 characters — one past the limit, so the boundary itself is asserted.
+    expect: 'title is 61 chars (max 60)',
+    break: (d) =>
+      write(
+        d,
+        ORIENT,
+        read(d, ORIENT).replace(
+          /<title>[\s\S]*?<\/title>/,
+          '<title>Everything you ever wanted to know about Italian retail banks</title>',
+        ),
+      ),
+  },
+  {
+    name: 'two indexable pages share a title',
+    expect: 'indexable pages share the title',
+    // Give the guide the orientation page's title, so the pair collides while
+    // both stay self-canonical and indexable.
+    break: (d) => {
+      const title = read(d, ORIENT).match(/<title>([\s\S]*?)<\/title>/)[1];
+      write(d, GUIDE, read(d, GUIDE).replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`));
+    },
+  },
+  {
     name: 'meta description empty',
     expect: 'missing or empty meta description',
     break: (d) => patch(d, HOME, '<meta name="description" content="', '<meta name="description" content2="'),
@@ -255,10 +279,106 @@ const seoCases = [
     break: (d) => patch(d, GUIDE, '"@graph"', '"@graph"broken'),
   },
   {
+    name: 'indexable page loses the EU snippet opt-in',
+    expect: 'robots meta missing max-snippet:-1',
+    break: (d) => patch(d, ORIENT, ', max-snippet:-1', ''),
+  },
+  {
+    name: 'indexable page loses the large-image opt-in',
+    expect: 'robots meta missing max-image-preview:large',
+    break: (d) => patch(d, GUIDE, 'max-image-preview:large, ', ''),
+  },
+  {
+    name: 'noindex page stops saying follow',
+    expect: 'noindex page does not say follow',
+    break: (d) => patch(d, 'search/index.html', 'content="noindex, follow"', 'content="noindex"'),
+  },
+  {
+    name: 'JSON-LD split back into two blocks',
+    expect: 'JSON-LD blocks (want 1 holding a single @graph)',
+    break: (d) => {
+      const s = read(d, GUIDE);
+      const tag = s.match(/<script type="application\/ld\+json">[\s\S]*?<\/script>/)[0];
+      write(d, GUIDE, s.replace(tag, tag + tag));
+    },
+  },
+  {
+    name: 'a graph node ships with no @id',
+    expect: 'has no @id',
+    break: (d) => patch(d, GUIDE, '"@type":"HowTo","@id":', '"@type":"HowTo","@notid":'),
+  },
+  {
+    name: 'an @id pointer resolves to no node',
+    expect: '@id reference resolves to no node',
+    break: (d) => patch(d, GUIDE, '#howto"', '#nowhere"'),
+  },
+  {
+    name: 'two graph nodes claim the same @id',
+    expect: 'duplicate JSON-LD @id',
+    // Point the FAQPage at the HowTo's id, so the collision is real rather than
+    // just a different string.
+    break: (d) => patch(d, GUIDE, '#faq"', '#howto"'),
+  },
+  {
     name: 'sitemap advertises a page that was not built',
     expect: 'in sitemap but no page built',
     break: (d) =>
       patch(d, 'sitemap-0.xml', '<url><loc>https://www.trasferirsiinitalia.com/banking</loc>', '<url><loc>https://www.trasferirsiinitalia.com/ghost-page</loc>'),
+  },
+  {
+    name: 'sitemap <lastmod> drifts from the date the page states',
+    expect: '!= the date the page states',
+    break: (d) =>
+      patch(
+        d,
+        'sitemap-0.xml',
+        '<url><loc>https://www.trasferirsiinitalia.com/eu-citizens/residency/codice-fiscale</loc><lastmod>',
+        '<url><loc>https://www.trasferirsiinitalia.com/eu-citizens/residency/codice-fiscale</loc><lastmod>2019-05-05T00:00:00.000Z</lastmod><ignored>',
+      ),
+  },
+  {
+    name: 'a dated page goes into the sitemap with no <lastmod>',
+    expect: 'the sitemap gives it no <lastmod>',
+    break: (d) => {
+      const s = read(d, 'sitemap-0.xml');
+      const loc = '<url><loc>https://www.trasferirsiinitalia.com/eu-citizens/residency/codice-fiscale</loc>';
+      const entry = s.slice(s.indexOf(loc)).match(/^[\s\S]*?<\/url>/)[0];
+      write(d, 'sitemap-0.xml', s.replace(entry, entry.replace(/<lastmod>[^<]*<\/lastmod>/, '')));
+    },
+  },
+  {
+    name: 'llms.txt points at a page that does not exist',
+    expect: '/llms.txt: links to nothing',
+    break: (d) => patch(d, 'llms.txt', '/eu-citizens/residency/codice-fiscale)', '/eu-citizens/residency/ghost)'),
+  },
+  {
+    name: 'llms.txt drops an orientation page',
+    expect: '/llms.txt: does not list /banking',
+    break: (d) =>
+      write(
+        d,
+        'llms.txt',
+        read(d, 'llms.txt')
+          .split('\n')
+          .filter((l) => !l.includes('/banking)'))
+          .join('\n'),
+      ),
+  },
+  {
+    name: 'the RSS feed stops stating its own address',
+    expect: 'no <atom:link rel="self">',
+    break: (d) => patch(d, 'updates.xml', 'rel="self"', 'rel="alternate"'),
+  },
+  {
+    name: 'an undated hub page claims a <lastmod>',
+    expect: 'but the page states no verification date',
+    break: (d) =>
+      patch(
+        d,
+        'sitemap-0.xml',
+        '<url><loc>https://www.trasferirsiinitalia.com/glossary</loc>',
+        '<url><loc>https://www.trasferirsiinitalia.com/glossary</loc><lastmod>2026-01-01T00:00:00.000Z</lastmod>',
+      ),
   },
 ];
 

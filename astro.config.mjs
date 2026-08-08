@@ -3,6 +3,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { orientationPages, orientationUrl } from './src/data/orientation-pages.mjs';
 
 // Canonical site URL — pinned to the primary custom domain (www; the bare
 // domain and *.vercel.app 308-redirect to it). Deliberately NOT derived from
@@ -47,10 +48,12 @@ export default defineConfig({
  *   stays in sync with the content, per locale.
  */
 /**
- * Stamp each content-backed sitemap URL with its `lastVerified` date as
- * <lastmod>, so crawlers prioritize what actually changed. Hub pages carry
- * no lastmod. The map is built once by scanning frontmatter on disk (the
- * content collections aren't available inside astro.config).
+ * Stamp each dated sitemap URL with its `lastVerified` date as <lastmod>, so
+ * crawlers prioritize what actually changed. Only the hub pages — which state
+ * no verification date of their own — go out without one, and `check:seo`
+ * holds every other URL to the date its page displays. The map is built once by
+ * scanning frontmatter on disk (the content collections aren't available inside
+ * astro.config) plus the orientation registry.
  */
 const lastmodByPath = (() => {
   const root = fileURLToPath(new URL('src/content/', import.meta.url));
@@ -60,21 +63,55 @@ const lastmodByPath = (() => {
       const p = `${dir}/${name}`;
       return statSync(p).isDirectory() ? walk(p) : p.endsWith('.md') ? [p] : [];
     });
-  for (const file of walk(root.replace(/\/$/, ''))) {
-    const date = readFileSync(file, 'utf8').match(/^lastVerified:\s*(\S+)/m)?.[1];
+
+  // Pass 1: the national guides, keyed by locale + slug, because a place page's
+  // date depends on the guide it overlays as well as on the overlay itself.
+  const files = walk(root.replace(/\/$/, ''));
+  const dateOf = (file) => readFileSync(file, 'utf8').match(/^lastVerified:\s*(\S+)/m)?.[1];
+  const guideDate = new Map();
+  for (const file of files) {
+    const rel = file.slice(root.length, -3);
+    if (!rel.startsWith('guides/')) continue;
+    const date = dateOf(file);
+    if (date) guideDate.set(rel.slice('guides/'.length), date); // `it/codice-fiscale`
+  }
+
+  // Pass 2: every content-backed URL. A place page renders the national guide
+  // *and* the overlay, so its lastmod is the older of the two — the same date
+  // its freshness badge shows. Claiming the overlay's later date would tell a
+  // crawler the whole page is fresher than the national text on it is.
+  for (const file of files) {
+    const date = dateOf(file);
     if (!date) continue;
     const rel = file.slice(root.length, -3); // e.g. guides/it/codice-fiscale
     const it = /(^|\/)it\//.test(rel) ? '/it' : '';
     const clean = rel.replace(/(^|\/)it\//, '$1');
-    let path;
+    const overlay = (kind, prefix) => {
+      const [place, slug] = clean.slice(`${kind}/`.length).split('/');
+      const national = guideDate.get(`${it ? 'it/' : ''}${slug}`);
+      return [
+        `${it}${prefix}/${place}/residency/${slug}`,
+        national && national < date ? national : date,
+      ];
+    };
+    let entry;
     if (clean.startsWith('guides/')) {
-      path = `${it}/eu-citizens/residency/${clean.slice('guides/'.length)}`;
+      entry = [`${it}/eu-citizens/residency/${clean.slice('guides/'.length)}`, date];
     } else if (clean.startsWith('region-notes/')) {
-      path = `${it}/regions/${clean.slice('region-notes/'.length).replace('/', '/residency/')}`;
+      entry = overlay('region-notes', '/regions');
     } else if (clean.startsWith('comune-notes/')) {
-      path = `${it}/cities/${clean.slice('comune-notes/'.length).replace('/', '/residency/')}`;
+      entry = overlay('comune-notes', '/cities');
     }
-    if (path) map.set(path, date);
+    if (entry) map.set(entry[0], entry[1]);
+  }
+
+  // Pass 3: the orientation pages, whose dates live in the registry rather than
+  // in frontmatter. Without this, 36 of the sitemap's 218 URLs — every visa,
+  // country and life-admin page — went out with no freshness signal at all.
+  for (const entry of orientationPages) {
+    const path = orientationUrl(entry);
+    map.set(path, entry.lastVerified);
+    map.set(`/it${path}`, entry.lastVerified);
   }
   return map;
 })();
@@ -82,6 +119,14 @@ const lastmodByPath = (() => {
 function withLastmod(item) {
   const path = new URL(item.url).pathname.replace(/\/$/, '') || '/';
   const lastmod = lastmodByPath.get(path);
+  // Note on the homepage entry: <loc> comes out as `https://host` while its own
+  // xhtml:link says `https://host/`, because the integration strips the
+  // trailing slash from <loc> by string replacement after the XML is built and
+  // the sitemap library re-normalizes any bare origin back to `/`. The two
+  // spellings are the same URL — RFC 3986 makes an empty path equivalent to "/"
+  // — so this is left alone rather than post-processed; the machinery to fight
+  // it would be more fragile than the thing it fixed.
+  //
   // The integration's item schema types lastmod as a Date, not a string.
   return lastmod ? { ...item, lastmod: new Date(lastmod) } : item;
 }

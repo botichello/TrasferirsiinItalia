@@ -9,13 +9,22 @@
  *   - hreflang pairs that don't reciprocate (A declares B but B doesn't
  *     declare A), or alternates declared on a page that canonicalizes
  *     elsewhere (those must stay silent);
- *   - sitemap URLs whose page is missing, not self-canonical, or noindex;
+ *   - sitemap URLs whose page is missing, not self-canonical, or noindex, or
+ *     whose <lastmod> disagrees with the verification date the page states;
  *   - JSON-LD that doesn't parse;
  *   - a missing/empty <title> or meta description, or a missing og:image
  *     (and the image file itself must exist in dist/);
+ *   - on indexable pages, a <title> past the length a result snippet shows, or
+ *     a title shared with another indexable page;
  *   - internal links that resolve to nothing: a root-relative href with no
  *     built page or asset behind it, or a #fragment that matches no id on
- *     the target page.
+ *     the target page;
+ *   - an indexable page missing the crawler directives that opt an EU
+ *     publisher out of shortened snippets and thumbnail previews;
+ *   - JSON-LD split across blocks, a node with no @id, a duplicate @id, or an
+ *     @id pointer that resolves to no node in the same graph;
+ *   - llms.txt / llms-full.txt / updates.xml pointing at a URL that does not
+ *     exist, or omitting a guide or orientation page that does.
  *
  * "Private mode" (the SEARCH_INDEXING switch) is detected from dist/robots.txt:
  * when the site is a blanket Disallow, every page is intentionally noindex and
@@ -49,6 +58,15 @@ function htmlFiles(dir) {
 }
 
 const attr = (tag, name) => tag.match(new RegExp(`${name}="([^"]*)"`))?.[1];
+
+/** Length limits are about what a person sees, so measure decoded text: the
+ *  serialized `Italy&#39;s` is 11 characters of HTML and 8 of title. */
+const decodeEntities = (s) =>
+  s
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&(amp|lt|gt|quot|apos|nbsp);/g, (_, e) =>
+      ({ amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' })[e],
+    );
 
 // ---- Parse every page once -------------------------------------------------
 const pages = new Map(); // canonical-path key ("/about") -> page record
@@ -86,7 +104,12 @@ for (const file of htmlFiles(DIST)) {
   );
 
   const schemaNodes = [];
-  for (const [, block] of html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) {
+  const schemaBlocks = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)];
+  // One script, one @graph. Split across several blocks, the nodes cannot
+  // reference each other by @id and a consumer has to guess how they relate.
+  if (schemaBlocks.length > 1)
+    err(urlPath, `${schemaBlocks.length} JSON-LD blocks (want 1 holding a single @graph)`);
+  for (const [, block] of schemaBlocks) {
     try {
       const parsed = JSON.parse(block);
       schemaNodes.push(...(parsed['@graph'] ?? [parsed]));
@@ -106,10 +129,16 @@ for (const file of htmlFiles(DIST)) {
 
   pages.set(urlPath, {
     urlPath,
+    title: decodeEntities(html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? ''),
     canonical,
     selfCanonical: canonical === site + (urlPath === '/' ? '/' : urlPath),
     alternates,
-    noindex: /<meta name="robots" content="noindex">/.test(html),
+    robots: attr(html.match(/<meta name="robots"[^>]*>/)?.[0] ?? '', 'content') ?? '',
+    noindex: /<meta name="robots" content="noindex[^"]*">/.test(html),
+    // The date the page itself claims to have been verified (FreshnessBadge).
+    // Pages print other dates too — a source's `accessed`, the verification
+    // history — so this is the marked one, not merely the first.
+    verified: html.match(/data-verified="(\d{4}-\d{2}-\d{2})"/)?.[1] ?? null,
     ogImage,
     schemaNodes,
     // Kept as a list as well as a set: the set answers "does #anchor exist",
@@ -178,6 +207,97 @@ for (const page of pages.values()) {
   }
 }
 
+// ---- Titles --------------------------------------------------------------
+// Only pages that can actually appear in a result list are held to this: a page
+// that canonicalizes elsewhere never shows its own title, and a noindex page
+// never shows at all. On the ones that do appear, the title must fit the
+// snippet and must not be shared with another page.
+//
+// It exists because the title read `Registering your residency (anagrafe) —
+// Bolzano · Trentino-Alto Adige · Trasferirsi in Italia` — 93 characters, of
+// which the first 37 were identical across every city, so the part a searcher
+// was looking for sat exactly where the snippet stops.
+const MAX_TITLE = 60;
+const indexable = [...pages.values()].filter((p) => p.selfCanonical && !p.noindex);
+const titleOwners = new Map();
+for (const page of indexable) {
+  if (page.title.length > MAX_TITLE)
+    err(page.urlPath, `title is ${page.title.length} chars (max ${MAX_TITLE}): ${page.title}`);
+  titleOwners.set(page.title, [...(titleOwners.get(page.title) ?? []), page.urlPath]);
+}
+for (const [title, owners] of titleOwners) {
+  if (owners.length > 1)
+    errors.push(`  ${owners.slice(0, 3).join(', ')}${owners.length > 3 ? ', …' : ''}: ${owners.length} indexable pages share the title "${title}"`);
+}
+
+// ---- Structured-data graph integrity --------------------------------------
+// Every top-level node must be addressable, ids must be unique within a page,
+// and every `{"@id": …}` pointer must land on a node that is actually in the
+// same graph. A pointer into nothing is the failure mode that matters: the
+// JSON still parses, every validator that only checks syntax still passes, and
+// the consumer silently loses the link between the page and its publisher.
+for (const page of pages.values()) {
+  const declared = new Set();
+  for (const node of page.schemaNodes) {
+    const id = node['@id'];
+    if (!id) {
+      err(page.urlPath, `JSON-LD node of type ${node['@type']} has no @id`);
+      continue;
+    }
+    if (declared.has(id)) err(page.urlPath, `duplicate JSON-LD @id: ${id}`);
+    declared.add(id);
+  }
+  // A reference is an object whose only key is @id; anything else is a node.
+  const dangling = new Set();
+  const walk = (value) => {
+    if (Array.isArray(value)) return value.forEach(walk);
+    if (!value || typeof value !== 'object') return;
+    const keys = Object.keys(value);
+    if (keys.length === 1 && keys[0] === '@id') {
+      if (!declared.has(value['@id'])) dangling.add(value['@id']);
+      return;
+    }
+    Object.values(value).forEach(walk);
+  };
+  walk(page.schemaNodes);
+  for (const id of dangling) err(page.urlPath, `JSON-LD @id reference resolves to no node: ${id}`);
+
+  // The structured date and the printed date are the same claim in two formats.
+  // A reader sees one, a crawler reads the other, and only a gate ever sees
+  // both — so this is the only place the two can be held together.
+  if (page.verified) {
+    for (const node of page.schemaNodes) {
+      if (node.dateModified && node.dateModified !== page.verified)
+        err(
+          page.urlPath,
+          `${node['@type']} dateModified ${node.dateModified} != the date the page prints (${page.verified})`,
+        );
+    }
+  }
+}
+
+// ---- Crawler directives ---------------------------------------------------
+// Google's defaults are not neutral for an EU publisher: without an explicit
+// opt-in it shows a shortened snippet and a thumbnail preview. Both are wrong
+// for pages whose value is one specific dated fact, so the opt-in is asserted
+// rather than assumed. A `noindex` page must still say `follow`, or the crawler
+// eventually stops following links out of a page that exists to lead onward.
+const REQUIRED_DIRECTIVES = ['max-image-preview:large', 'max-snippet:-1'];
+if (!privateMode) {
+  for (const page of pages.values()) {
+    if (page.noindex) {
+      if (!/\bfollow\b/.test(page.robots))
+        err(page.urlPath, `noindex page does not say follow: robots="${page.robots}"`);
+      continue;
+    }
+    if (!page.selfCanonical) continue;
+    for (const directive of REQUIRED_DIRECTIVES) {
+      if (!page.robots.includes(directive))
+        err(page.urlPath, `robots meta missing ${directive}: robots="${page.robots}"`);
+    }
+  }
+}
+
 // ---- Duplicate ids ------------------------------------------------------
 // An id must be unique per document. Two entries sharing one made
 // /glossary#conto-di-base ambiguous: the browser jumps to whichever came first,
@@ -237,14 +357,17 @@ for (const entry of orientationPages) {
       continue;
     }
     orientationChecked++;
-    const article = page.schemaNodes.find((n) => n['@type'] === 'Article');
-    if (!article) {
+    if (!page.schemaNodes.some((n) => n['@type'] === 'Article'))
       err(urlPath, 'orientation page missing Article JSON-LD');
-    } else if (article.dateModified !== entry.lastVerified) {
-      err(
-        urlPath,
-        `Article dateModified ${article.dateModified} != registry lastVerified ${entry.lastVerified}`,
-      );
+    // Every dated node, not just the Article: the graph now carries the date on
+    // the WebPage as well, and a rule that checks one node while another drifts
+    // is the kind of half-cover this suite exists to prevent.
+    for (const node of page.schemaNodes) {
+      if (node.dateModified && node.dateModified !== entry.lastVerified)
+        err(
+          urlPath,
+          `${node['@type']} dateModified ${node.dateModified} != registry lastVerified ${entry.lastVerified}`,
+        );
     }
     if (!page.schemaNodes.some((n) => n['@type'] === 'BreadcrumbList'))
       err(urlPath, 'orientation page missing BreadcrumbList JSON-LD');
@@ -254,10 +377,25 @@ for (const entry of orientationPages) {
 // ---- Sitemap invariants ------------------------------------------------------
 const sitemapIndex = readFileSync(join(DIST, 'sitemap-index.xml'), 'utf8');
 const parts = [...sitemapIndex.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+// A crawler schedules its next visit from <lastmod>, and Google only honours it
+// while it stays consistent with the page. So every URL that can be dated must
+// carry one, it must equal the date the page states, and a URL the site cannot
+// date must not invent one. Dates come from two places: content pages mark
+// theirs in the HTML (`data-verified`), orientation pages keep theirs in the
+// registry. This is what caught the sitemap going out with a freshness signal
+// on 166 of its 218 URLs and nothing on the other 52.
+const orientationLastVerified = new Map();
+for (const entry of orientationPages) {
+  const p = orientationUrl(entry);
+  orientationLastVerified.set(p, entry.lastVerified);
+  orientationLastVerified.set(`/it${p}`, entry.lastVerified);
+}
+
 let sitemapUrls = 0;
+let datedUrls = 0;
 for (const part of parts) {
   const xml = readFileSync(join(DIST, new URL(part).pathname), 'utf8');
-  for (const [, loc] of xml.matchAll(/<url><loc>([^<]+)<\/loc>/g)) {
+  for (const [, loc, body] of xml.matchAll(/<url><loc>([^<]+)<\/loc>([\s\S]*?)<\/url>/g)) {
     sitemapUrls++;
     const p = new URL(loc).pathname === '/' ? '/' : new URL(loc).pathname.replace(/\/$/, '');
     const page = pages.get(p);
@@ -268,8 +406,62 @@ for (const part of parts) {
       // noindexed page must not be advertised in the sitemap.
       if (!privateMode && page.noindex) err(p, 'in sitemap but noindex');
     }
+    const lastmod = body.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1]?.slice(0, 10) ?? null;
+    const expected = page?.verified ?? orientationLastVerified.get(p) ?? null;
+    if (expected) {
+      datedUrls++;
+      if (!lastmod) err(p, `page is verified ${expected} but the sitemap gives it no <lastmod>`);
+      else if (lastmod !== expected)
+        err(p, `sitemap <lastmod> ${lastmod} != the date the page states (${expected})`);
+    } else if (lastmod) {
+      err(p, `sitemap <lastmod> ${lastmod} but the page states no verification date`);
+    }
   }
 }
+
+// ---- Machine-readable surfaces ---------------------------------------------
+// llms.txt, llms-full.txt and the RSS feed are the site's other front doors,
+// and unlike the sitemap they are hand-composed prose: a new orientation page
+// enters the sitemap automatically and llms.txt not at all. So both directions
+// are asserted — nothing listed may 404, and nothing indexable may be missing
+// from the list an assistant reads instead of crawling.
+const surfaces = ['llms.txt', 'llms-full.txt', 'updates.xml'];
+let surfaceUrls = 0;
+const llms = existsSync(join(DIST, 'llms.txt')) ? readFileSync(join(DIST, 'llms.txt'), 'utf8') : '';
+
+for (const name of surfaces) {
+  const file = join(DIST, name);
+  if (!existsSync(file)) {
+    errors.push(`  /${name}: not built`);
+    continue;
+  }
+  const text = readFileSync(file, 'utf8');
+  const seen = new Set();
+  for (const [, href] of text.matchAll(new RegExp(`${site}([^\\s)<>"]*)`, 'g'))) {
+    const p = href.replace(/[.,;]+$/, '').replace(/\/$/, '') || '/';
+    if (seen.has(p)) continue;
+    seen.add(p);
+    surfaceUrls++;
+    if (!pages.has(p) && !existsSync(join(DIST, p)))
+      errors.push(`  /${name}: links to nothing: ${site}${p}`);
+  }
+}
+
+// Everything a reader can reach as a journey step or an orientation page has to
+// be in llms.txt. The city and region variants are described there by pattern
+// rather than enumerated, which is deliberate — 1,386 URLs would drown it.
+const mustBeListed = [
+  ...orientationLastVerified.keys(),
+  ...[...pages.keys()].filter((p) => /^(\/it)?\/eu-citizens\/residency\/[^/]+$/.test(p)),
+].filter((p) => !p.startsWith('/it/') || pages.has(p));
+for (const p of mustBeListed) {
+  if (!llms.includes(`${site}${p})`) && !llms.includes(`${site}${p} `) && !llms.includes(`${site}${p}\n`))
+    errors.push(`  /llms.txt: does not list ${p}`);
+}
+
+const rss = existsSync(join(DIST, 'updates.xml')) ? readFileSync(join(DIST, 'updates.xml'), 'utf8') : '';
+if (rss && !rss.includes('rel="self"'))
+  errors.push('  /updates.xml: no <atom:link rel="self"> — the feed does not state its own address');
 
 // ---- Report ------------------------------------------------------------------
 if (errors.length > 0) {
@@ -280,7 +472,9 @@ if (errors.length > 0) {
 }
 console.log(
   `✓ check-seo: ${pages.size} pages OK — canonicals, hreflang reciprocity, ` +
-    `JSON-LD, og:image, ${orientationChecked} orientation schemas, ` +
-    `${sitemapUrls} sitemap URLs self-canonical` +
+    `JSON-LD, og:image, ${indexable.length} indexable titles unique and ≤ ${MAX_TITLE} chars, ` +
+    `${orientationChecked} orientation schemas, ` +
+    `${sitemapUrls} sitemap URLs self-canonical (${datedUrls} with a <lastmod> matching the page), ` +
+    `${surfaceUrls} links across llms.txt/llms-full.txt/updates.xml` +
     (privateMode ? ' (private mode: site-wide noindex expected)' : ''),
 );

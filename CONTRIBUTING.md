@@ -76,7 +76,7 @@ follow the same contract; the health authority is the regional element.
 | `check:freshness`   | missing/overdue dates, missing sources                          |
 | `check:figures`     | a statutory amount or rate that stopped being true              |
 | `check:theme`       | a literal colour with no dark-mode override                      |
-| `check:seo`         | canonical/hreflang/sitemap/JSON-LD errors, broken internal links |
+| `check:seo`         | canonical/hreflang/sitemap/JSON-LD errors, broken internal links, overlong or duplicate titles, drifted `<lastmod>`, a page missing from `llms.txt` |
 | `check:prose`       | walls of text — a paragraph or sentence past the readable limit  |
 | `test:smoke`        | broken JS islands, a11y + contrast in both themes, layout overflow at phone widths |
 | `check:journeys`    | orphan pages, locale asymmetries, dead ends — can a human get there? |
@@ -93,6 +93,43 @@ locale's** homepage and offers at least one onward link. It exists because
 canonicals, valid schema, in the sitemap and in `llms.txt`, link-checked, and
 invisible to a person. Machine discoverability was instrumented; human
 discoverability was not. Nav-only pages are allowed by name, with a reason.
+
+## Findability plumbing
+
+Four conventions that `check:seo` enforces, so you do not have to remember them:
+
+**Titles fit a result snippet.** The `<title>` is `title · Trasferirsi in Italia`
+only when that fits in 60 characters; past it the brand suffix is dropped rather
+than the words that distinguish the page. Place pages read `<Place> — <title>`,
+place first, region omitted. If a guide's title is long enough that the longest
+city name overruns anyway, give it a `shortTitle` in frontmatter — never shown on
+the page, used only for the city and region copies. This exists because every
+city page once read `Registering your residency (anagrafe) — Bolzano ·
+Trentino-Alto Adige · Trasferirsi in Italia`: 93 characters whose first 37 were
+identical across all 75 cities, so the city sat exactly where the snippet stops.
+
+**The sitemap's `<lastmod>` is the date the page prints.** A page states its
+verification date in a `<time data-verified>` (guides, via `FreshnessBadge`) or
+in the orientation registry; `astro.config.mjs` builds `<lastmod>` from the same
+source, and the gate holds the two together in both directions — a dated page
+with no `lastmod`, and an undated hub that grew one, both fail. A place page's
+date is the **older** of its overlay and the national guide it overlays: the page
+renders both, so it can only claim the date both have met.
+
+**One `<script type="application/ld+json">` per page, one `@graph`, every node
+with an `@id`.** Builders live in `src/lib/schema.ts`; page-specific nodes reach
+`BaseLayout` through the `schema` prop, and the `WebPage` node discovers its own
+`breadcrumb` and `mainEntity` from what it was handed, so adding a node never
+requires a second edit elsewhere. The gate rejects a node with no `@id`, two
+nodes sharing one, and any `{"@id": …}` pointer that resolves to no node in the
+same graph — the failure that still parses, still validates, and silently drops
+the link between a page and its publisher.
+
+**`llms.txt` has to keep up.** New pages enter the sitemap automatically and
+`llms.txt` not at all, because its prose is hand-composed. The gate checks both
+directions: nothing listed may 404, and no guide or orientation page may be
+missing. City and region variants are described there by pattern on purpose —
+enumerating 1,386 URLs would drown the file.
 
 `check:figures` is the one gate that reads *numbers* rather than structure.
 `src/data/figures.mjs` records, per tracked figure, the literals that are no

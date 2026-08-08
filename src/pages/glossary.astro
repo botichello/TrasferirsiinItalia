@@ -4,9 +4,8 @@ import { glossary } from '../data/glossary';
 
 const url = new URL('/glossary', Astro.site).href;
 const schema = {
-  '@context': 'https://schema.org',
   '@type': 'DefinedTermSet',
-  '@id': url,
+  '@id': `${url}#glossary`,
   name: 'Trasferirsi in Italia — Glossary',
   description: 'Definitions of the Italian bureaucratic terms newcomers meet when relocating to Italy.',
   hasDefinedTerm: glossary.map((t) => ({
@@ -14,7 +13,7 @@ const schema = {
     '@id': `${url}#${t.slug}`,
     name: t.term,
     description: t.en,
-    inDefinedTermSet: url,
+    inDefinedTermSet: { '@id': `${url}#glossary` },
   })),
 };
 ---
@@ -24,8 +23,8 @@ const schema = {
   description="The Italian bureaucratic terms you'll meet when relocating — codice fiscale, anagrafe, SSN, SPID, PEC and more — defined in plain English, with links to the full guides."
   alternates={{ en: '/glossary', it: '/it/glossary' }}
   ogImage="/og/glossary.png"
+  schema={[schema]}
 >
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} is:inline />
 
   <div class="prose">
     <h1>Glossary</h1>

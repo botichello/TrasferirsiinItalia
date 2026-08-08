@@ -34,13 +34,21 @@ export const GET: APIRoute = async ({ site }) => {
     });
   });
 
+  // `atom:link rel="self"` is what tells a reader (and a crawler that found the
+  // feed through the <link rel="alternate"> in the page head) the feed's own
+  // canonical address, so the same feed reached by two routes is recognised as
+  // one. It is the single most common thing feed validators report missing.
+  // `lastBuildDate` comes from the newest item rather than from build time, so
+  // a rebuild that changed nothing does not announce itself as an update.
   const xml = [
     '<?xml version="1.0" encoding="UTF-8"?>',
-    '<rss version="2.0"><channel>',
+    '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>',
     '<title>Trasferirsi in Italia — verification updates</title>',
     `<link>${base}/updates</link>`,
+    `<atom:link href="${base}/updates.xml" rel="self" type="application/rss+xml"/>`,
     '<description>Every occasion a page of this reference was re-verified against its primary sources.</description>',
     '<language>en</language>',
+    ...(feed[0] ? [`<lastBuildDate>${new Date(`${feed[0].date}T12:00:00Z`).toUTCString()}</lastBuildDate>`] : []),
     ...items,
     '</channel></rss>',
   ].join('');

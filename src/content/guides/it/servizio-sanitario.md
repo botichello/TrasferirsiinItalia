@@ -1,5 +1,6 @@
 ---
 title: Iscriversi al servizio sanitario (SSN)
+shortTitle: Servizio sanitario (SSN)
 description: Come i residenti UE/SEE si iscrivono al Servizio Sanitario Nazionale italiano, ottengono la tessera sanitaria e scelgono un medico di base.
 step: 3
 journey: eu-residency

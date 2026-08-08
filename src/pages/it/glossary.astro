@@ -4,9 +4,8 @@ import { glossary } from '../../data/glossary';
 
 const url = new URL('/it/glossary', Astro.site).href;
 const schema = {
-  '@context': 'https://schema.org',
   '@type': 'DefinedTermSet',
-  '@id': url,
+  '@id': `${url}#glossary`,
   name: 'Trasferirsi in Italia — Glossario',
   description: 'Definizioni dei termini burocratici italiani che si incontrano trasferendosi in Italia.',
   hasDefinedTerm: glossary.map((t) => ({
@@ -14,7 +13,7 @@ const schema = {
     '@id': `${url}#${t.slug}`,
     name: t.term,
     description: t.it,
-    inDefinedTermSet: url,
+    inDefinedTermSet: { '@id': `${url}#glossary` },
   })),
 };
 const itGuide = (g?: string) => (g ? `/it${g}` : undefined);
@@ -25,8 +24,8 @@ const itGuide = (g?: string) => (g ? `/it${g}` : undefined);
   description="I termini burocratici italiani che incontrerai trasferendoti — codice fiscale, anagrafe, SSN, SPID, PEC e altri — spiegati in modo semplice, con i link alle guide complete."
   alternates={{ en: '/glossary', it: '/it/glossary' }}
   ogImage="/og/it/glossary.png"
+  schema={[schema]}
 >
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} is:inline />
 
   <div class="prose">
     <h1>Glossario</h1>

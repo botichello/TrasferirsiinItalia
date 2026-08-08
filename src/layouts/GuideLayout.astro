@@ -9,11 +9,11 @@ import SourceList from '../components/SourceList.astro';
 import SourceNote from '../components/SourceNote.astro';
 import SsnCostEstimator from '../components/SsnCostEstimator.astro';
 import StepIcon from '../components/StepIcon.astro';
-import StructuredData from '../components/StructuredData.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { getLocale, ui } from '../i18n/ui';
 import { guideSlug } from '../lib/guides';
-import { getFileHistory } from '../lib/updates';
+import { getFileHistory, getFirstPublished } from '../lib/updates';
+import { breadcrumbNode, guideNodes } from '../lib/schema';
 import { glossary } from '../data/glossary';
 
 /** A place context (a region or a city) that scopes the guide. */
@@ -76,16 +76,30 @@ const placeLabel = place
     : place.name
   : '';
 
-const title = place ? `${data.title} — ${placeLabel}` : data.title;
+// Head/OG title only — the visible <h1> stays `data.title`, and the place is
+// shown in the eyebrow and breadcrumb. Place-led rather than place-suffixed:
+// the city is the one word that distinguishes this page from the 20 other
+// copies of the same guide, and a suffixed title put it past the point where a
+// SERP snippet stops. The region is dropped for the same reason — it added up
+// to 18 characters ("Trentino-Alto Adige") and disambiguates nothing, since
+// city slugs are unique site-wide.
+const title = place ? `${place.name} — ${data.shortTitle ?? data.title}` : data.title;
 const description = place
   ? `${data.description} Local guidance for ${placeLabel}.`
   : data.description;
 
 const sources = localNote ? [...data.sources, ...localNote.data.sources] : data.sources;
+// A place page shows the national guide *and* the local overlay, so the date it
+// can honestly claim is the older of the two — the same rule `reviewBy` below
+// already used. The previous expression compared the two and then returned the
+// overlay's date either way, so 110 city and region pages advertised the
+// overlay's later date while still rendering national text verified weeks
+// earlier. On a site whose whole contract is "dated and sourced", a date that
+// rounds in our favour is the one defect that must never ship.
 const lastVerified =
   localNote && localNote.data.lastVerified < data.lastVerified
     ? localNote.data.lastVerified
-    : (localNote?.data.lastVerified ?? data.lastVerified);
+    : data.lastVerified;
 const reviewBy =
   localNote && localNote.data.reviewBy < data.reviewBy
     ? localNote.data.reviewBy
@@ -150,16 +164,25 @@ const termsOnPage = glossary
   .slice(0, 8);
 const glossaryHref = locale === 'it' ? '/it/glossary' : '/glossary';
 
-const breadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: crumbs.map((c, i) => ({
-    '@type': 'ListItem',
-    position: i + 1,
-    name: c.name,
-    item: c.url,
-  })),
-};
+// Structured data hangs off the canonical URL, not this page's own: a city page
+// that consolidates into the national guide must not describe itself as a
+// separate thing at a separate id, or the graph asserts what the canonical
+// denies.
+const canonicalUrl = canonical ?? url;
+const schemaNodes = [
+  ...guideNodes({
+    canonical: canonicalUrl,
+    site: Astro.site!.href,
+    title,
+    description,
+    dateModified: lastVerified.toISOString().slice(0, 10),
+    datePublished: getFirstPublished(historyKey),
+    inLanguage: locale,
+    steps: sections.map((s) => s.name),
+    faq: data.faq,
+  }),
+  breadcrumbNode(canonicalUrl, crumbs),
+];
 ---
 
 <BaseLayout
@@ -170,24 +193,9 @@ const breadcrumbSchema = {
   ogType="article"
   modified={lastVerified}
   ogImage={`/og/${locale === 'it' ? 'it/' : ''}${slug}.png`}
+  schema={schemaNodes}
+  datePublished={getFirstPublished(historyKey)}
 >
-  <StructuredData
-    slot="head"
-    title={title}
-    description={description}
-    url={url}
-    lastVerified={lastVerified}
-    faq={data.faq}
-    steps={sections.map((s) => s.name)}
-    inLanguage={locale}
-  />
-  <script
-    slot="head"
-    type="application/ld+json"
-    set:html={JSON.stringify(breadcrumbSchema)}
-    is:inline
-  />
-
   <nav class="mb-6 text-sm text-muted" aria-label="Breadcrumb">
     <a href={homeHref} class="hover:text-ink">{t.home}</a>
     <span class="px-1">/</span>

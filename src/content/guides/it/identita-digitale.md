@@ -1,6 +1,7 @@
 ---
 title: Ottenere un'identità digitale (SPID e CIE)
 description: Come i residenti UE/SEE ottengono un'identità digitale italiana — SPID o la carta d'identità elettronica (CIE) — per accedere a INPS, ai portali fiscali e sanitari e ai servizi del Comune.
+metaDescription: "Come ottenere SPID o CIE, l'identità digitale che serve per INPS, i portali fiscali e sanitari e i servizi del Comune."
 step: 4
 journey: eu-residency
 lang: it

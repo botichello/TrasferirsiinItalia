@@ -1,6 +1,7 @@
 ---
 title: Registering your residency (anagrafe)
 description: How EU/EEA citizens register as residents at their Italian comune (iscrizione anagrafica) — required for stays over three months, and the gateway to the health service.
+metaDescription: "How EU/EEA citizens register as residents at their comune: when it is required, what to bring, and what it unlocks."
 step: 2
 journey: eu-residency
 lastVerified: 2026-06-12

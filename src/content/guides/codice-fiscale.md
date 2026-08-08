@@ -1,6 +1,7 @@
 ---
 title: Getting your codice fiscale
 description: How EU/EEA citizens obtain an Italian tax code (codice fiscale) — the free, foundational ID needed for almost every step of settling in Italy.
+metaDescription: "How EU/EEA citizens get an Italian codice fiscale: what it is, where to get it free, and what to bring with you."
 step: 1
 journey: eu-residency
 lastVerified: 2026-06-12

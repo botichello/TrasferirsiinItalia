@@ -2,6 +2,7 @@
 title: Enrolling in the health service (SSN)
 shortTitle: Health service (SSN)
 description: How EU/EEA residents enrol in Italy's national health service (Servizio Sanitario Nazionale), get a tessera sanitaria, and choose a family doctor.
+metaDescription: "How EU/EEA residents enrol in Italy's health service (SSN), get a tessera sanitaria, and choose a family doctor."
 step: 3
 journey: eu-residency
 lastVerified: 2026-07-02

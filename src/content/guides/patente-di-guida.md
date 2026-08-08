@@ -1,6 +1,7 @@
 ---
 title: Your driving licence in Italy
 description: What happens to an EU/EEA driving licence when you become an Italian resident — how long it stays valid, when conversion is required, and how conversion works.
+metaDescription: "What happens to an EU/EEA driving licence when you become an Italian resident: how long it lasts, and when to convert."
 step: 6
 journey: eu-residency
 lastVerified: 2026-07-10

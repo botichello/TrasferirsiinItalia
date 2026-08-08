@@ -1,6 +1,7 @@
 ---
 title: Bringing non-EU family members
 description: How a non-EU spouse or relative of an EU citizen settles in Italy — entry, the 5-year carta di soggiorno from the Questura, and their registration rights.
+metaDescription: "How a non-EU spouse or relative of an EU citizen settles in Italy: entry, the 5-year carta di soggiorno, and their rights."
 step: 8
 journey: eu-residency
 lastVerified: 2026-07-10

@@ -59,8 +59,10 @@ follow the same contract; the health authority is the regional element.
 ## Adding a journey step (guide)
 
 1. `src/content/guides/<slug>.md` (+ `it/<slug>.md` with `lang: it`): pick the
-   next `step` number; description ≤ 200 chars; add `documents` (drives the
-   checklist + /checklist page) and `faq` (rendered on-page + FAQPage JSON-LD).
+   next `step` number; `description` ≤ 200 chars (the visible lede) and
+   `metaDescription` ≤ 135 (the search snippet — see *Findability plumbing*);
+   add `documents` (drives the checklist + /checklist page) and `faq` (rendered
+   on-page + FAQPage JSON-LD).
 2. Add a compact label in `src/components/JourneyNav.astro` (`short` map) and
    an icon in `src/components/StepIcon.astro`.
 3. Add city-page fallback texts in both
@@ -107,6 +109,17 @@ the page, used only for the city and region copies. This exists because every
 city page once read `Registering your residency (anagrafe) — Bolzano ·
 Trentino-Alto Adige · Trasferirsi in Italia`: 93 characters whose first 37 were
 identical across all 75 cities, so the city sat exactly where the snippet stops.
+
+**Descriptions fit a snippet, and the three copies agree.** A guide carries two
+strings: `description` is the lede printed under the `<h1>`, written for someone
+already reading; `metaDescription` (≤ 135 chars) is the `<meta name="description">`,
+written for someone deciding whether to click. Orientation pages have only the
+meta one, so theirs is capped directly. City and region copies prefix the place
+name, which is why the frontmatter budget stops at 135 rather than 160 — it
+leaves room for `Friuli-Venezia Giulia — `. The gate holds the composed result to
+70–160 characters and requires `og:description` and `twitter:description` to
+match it exactly. Before this, 187 of 218 indexable pages sent 160–278 characters,
+so the last clause was written for nobody.
 
 **The sitemap's `<lastmod>` is the date the page prints.** A page states its
 verification date in a `<time data-verified>` (guides, via `FreshnessBadge`) or

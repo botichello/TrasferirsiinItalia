@@ -14,8 +14,9 @@
  *   - JSON-LD that doesn't parse;
  *   - a missing/empty <title> or meta description, or a missing og:image
  *     (and the image file itself must exist in dist/);
- *   - on indexable pages, a <title> past the length a result snippet shows, or
- *     a title shared with another indexable page;
+ *   - on indexable pages, a <title> past the length a result snippet shows, a
+ *     title shared with another indexable page, or a meta description outside
+ *     the length a snippet shows / disagreeing with og: and twitter:;
  *   - internal links that resolve to nothing: a root-relative href with no
  *     built page or asset behind it, or a #fragment that matches no id on
  *     the target page;
@@ -121,6 +122,9 @@ for (const file of htmlFiles(DIST)) {
   if (!/<title>[^<]+<\/title>/.test(html)) err(urlPath, 'missing or empty <title>');
   if (!attr(html.match(/<meta name="description"[^>]*>/)?.[0] ?? '', 'content'))
     err(urlPath, 'missing or empty meta description');
+  const metaDescription = attr(html.match(/<meta name="description"[^>]*>/)?.[0] ?? '', 'content') ?? '';
+  const ogDescription = attr(html.match(/<meta property="og:description"[^>]*>/)?.[0] ?? '', 'content') ?? '';
+  const twitterDescription = attr(html.match(/<meta name="twitter:description"[^>]*>/)?.[0] ?? '', 'content') ?? '';
   const ogImage = attr(html.match(/<meta property="og:image"[^>]*>/)?.[0] ?? '', 'content');
   if (!ogImage) err(urlPath, 'missing og:image');
   // Vercel Web Analytics is emitted by BaseLayout, so it should be on every
@@ -133,6 +137,9 @@ for (const file of htmlFiles(DIST)) {
     canonical,
     selfCanonical: canonical === site + (urlPath === '/' ? '/' : urlPath),
     alternates,
+    description: decodeEntities(metaDescription),
+    ogDescription: decodeEntities(ogDescription),
+    twitterDescription: decodeEntities(twitterDescription),
     robots: attr(html.match(/<meta name="robots"[^>]*>/)?.[0] ?? '', 'content') ?? '',
     noindex: /<meta name="robots" content="noindex[^"]*">/.test(html),
     // The date the page itself claims to have been verified (FreshnessBadge).
@@ -296,6 +303,29 @@ if (!privateMode) {
         err(page.urlPath, `robots meta missing ${directive}: robots="${page.robots}"`);
     }
   }
+}
+
+// ---- Meta descriptions -----------------------------------------------------
+// A snippet Google decides not to rewrite is shown to about 155-160 characters;
+// past that the tail is dropped, which is why the last clause of 187 of these
+// pages used to be written for nobody. The floor is here for the opposite
+// failure — a description too thin to say what the page is — and the three
+// copies must agree, because a page that says one thing in search results and
+// another when shared is describing itself twice.
+//
+// Guides keep a separate `metaDescription` in frontmatter: the visible lede is
+// written for a reader who has already arrived, and squeezing both jobs into
+// one string makes one of them worse.
+const MIN_DESCRIPTION = 70;
+const MAX_DESCRIPTION = 160;
+for (const page of indexable) {
+  const len = page.description.length;
+  if (len < MIN_DESCRIPTION || len > MAX_DESCRIPTION)
+    err(page.urlPath, `meta description is ${len} chars (want ${MIN_DESCRIPTION}-${MAX_DESCRIPTION}): ${page.description}`);
+  if (page.ogDescription !== page.description)
+    err(page.urlPath, 'og:description differs from meta description');
+  if (page.twitterDescription !== page.description)
+    err(page.urlPath, 'twitter:description differs from meta description');
 }
 
 // ---- Duplicate ids ------------------------------------------------------
@@ -473,6 +503,7 @@ if (errors.length > 0) {
 console.log(
   `✓ check-seo: ${pages.size} pages OK — canonicals, hreflang reciprocity, ` +
     `JSON-LD, og:image, ${indexable.length} indexable titles unique and ≤ ${MAX_TITLE} chars, ` +
+    `descriptions ${MIN_DESCRIPTION}-${MAX_DESCRIPTION} chars and identical across og/twitter, ` +
     `${orientationChecked} orientation schemas, ` +
     `${sitemapUrls} sitemap URLs self-canonical (${datedUrls} with a <lastmod> matching the page), ` +
     `${surfaceUrls} links across llms.txt/llms-full.txt/updates.xml` +

@@ -1,6 +1,7 @@
 ---
 title: Opening a bank account
 description: How EU/EEA citizens open an Italian bank account — your EU right to a basic account (conto di base), what banks require, and the stamp-duty rules.
+metaDescription: "How EU/EEA citizens open an Italian bank account: the EU right to a conto di base, what banks ask for, and the stamp duty."
 step: 5
 journey: eu-residency
 lastVerified: 2026-07-10

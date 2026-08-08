@@ -84,9 +84,22 @@ const placeLabel = place
 // to 18 characters ("Trentino-Alto Adige") and disambiguates nothing, since
 // city slugs are unique site-wide.
 const title = place ? `${place.name} — ${data.shortTitle ?? data.title}` : data.title;
-const description = place
-  ? `${data.description} Local guidance for ${placeLabel}.`
-  : data.description;
+// Two different jobs, so two different strings. `data.description` is the lede
+// under the <h1>, written for someone already reading; `metaDescription` is the
+// snippet, written for someone deciding whether to click and capped at what
+// Google shows. Where a guide has not been given one the lede stands in, which
+// is what the whole site did before — 187 of 218 indexable pages sent a
+// description longer than the ~160 characters a snippet displays, so the last
+// clause was always thrown away.
+//
+// Place copies lead with the place rather than appending "Local guidance for
+// X.", for the same reason the titles do: a suffix is the part that gets cut,
+// and the city is the word that makes this page worth the click over the
+// national one.
+const metaBase = data.metaDescription ?? data.description;
+// An em dash rather than a colon, so the sentence that follows keeps its own
+// capital: "Bergamo: How EU/EEA citizens…" reads like a typo.
+const description = place ? `${place.name} — ${metaBase}` : metaBase;
 
 const sources = localNote ? [...data.sources, ...localNote.data.sources] : data.sources;
 // A place page shows the national guide *and* the local overlay, so the date it

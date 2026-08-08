@@ -1,6 +1,7 @@
 ---
 title: Registrare la residenza (anagrafe)
 description: Come i cittadini UE/SEE si iscrivono come residenti presso il Comune (iscrizione anagrafica) — obbligatorio per soggiorni superiori a tre mesi e porta d'accesso al servizio sanitario.
+metaDescription: "Come i cittadini UE/SEE si iscrivono all'anagrafe del Comune: quando è obbligatorio, cosa serve e cosa si ottiene."
 step: 2
 journey: eu-residency
 lang: it

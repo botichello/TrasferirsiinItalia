@@ -31,8 +31,11 @@ not broad and stale. So the citability discipline is mechanical, not aspirationa
   primary source the site cites, grouped by authority, each with the date it was
   last checked and the pages that rely on it.
 - Every page renders a visible **"Last verified"** badge and a **Sources** list.
-- `llms.txt`, `robots.txt` (AI crawlers welcomed), `sitemap.xml`, and schema.org
-  JSON-LD (`HowTo` + `FAQPage`) make the content easy and unambiguous to cite.
+- `llms.txt`, `robots.txt` (AI crawlers welcomed), a sitemap whose `<lastmod>`
+  is the same date the page prints, and one schema.org `@graph` per page —
+  `Organization`, `WebSite`, `WebPage`, `BreadcrumbList` and the page's own
+  `HowTo`/`Article`/`FAQPage`, every node addressable by `@id` — make the
+  content easy and unambiguous to cite.
 
 ## Tech
 
@@ -52,7 +55,7 @@ npm run build        # freshness/figures/theme → astro build → SEO/journey/p
 npm run check:freshness   # the freshness gate on its own
 npm run check:figures     # statutory amounts/rates that stopped being true
 npm run check:theme       # literal colours with no dark-mode override
-npm run check:seo         # the SEO gate on its own (canonicals, hreflang, sitemap, JSON-LD)
+npm run check:seo         # the SEO gate on its own (canonicals, hreflang, sitemap, titles, JSON-LD graph, llms.txt)
 npm run check:journeys    # orphan pages, locale asymmetries, dead ends
 npm run check:prose       # paragraphs/sentences past the readable limit
 npm run check:links       # fetch every cited URL; flag dead/hijacked citations (needs network)

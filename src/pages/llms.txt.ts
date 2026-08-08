@@ -75,6 +75,7 @@ export const GET: APIRoute = async ({ site }) => {
     `- [Non sei cittadino UE?](${base}/it/non-eu) · [Nomadi digitali](${base}/it/non-eu/digital-nomad) · [Residenza elettiva](${base}/it/non-eu/elective-residence) · [Visto studio](${base}/it/non-eu/study-visa)`,
     `- [Ricongiungimento familiare](${base}/it/non-eu/family-reunification) · [Lungo periodo](${base}/it/non-eu/long-term-residence) · [Carta blu UE](${base}/it/non-eu/blue-card)`,
     `- [Cittadinanza](${base}/it/citizenship) · [Affittare casa](${base}/it/renting) · [Scuola](${base}/it/schools) · [Patente](${base}/it/driving) · [Conto bancario](${base}/it/banking) · [Animali](${base}/it/pets)`,
+    `- [Dagli Stati Uniti](${base}/it/from/united-states) · [Arrivare dagli USA](${base}/it/from/united-states/arriving) · [Tasse e previdenza USA](${base}/it/from/united-states/taxes)`,
     '',
     '## About & methodology',
     `- [About](${base}/about): what this reference is and who it's for.`,

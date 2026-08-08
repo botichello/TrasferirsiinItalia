@@ -43,6 +43,14 @@ const overdue = new Date() > reviewBy;
   </span>
   <span>
     {overdue ? t.reviewDue : t.lastVerified}:
-    <time datetime={lastVerified.toISOString().slice(0, 10)}>{fmt(lastVerified)}</time>
+    {/* `data-verified` marks *this* date as the page's own verification date.
+        Pages also print dates that belong to something else (a source's
+        `accessed`, an entry in the verification history), so a gate reading the
+        built HTML cannot just take the first <time> it finds. check:seo uses it
+        to hold the sitemap's <lastmod> to what the page actually claims. */}
+    <time
+      datetime={lastVerified.toISOString().slice(0, 10)}
+      data-verified={lastVerified.toISOString().slice(0, 10)}>{fmt(lastVerified)}</time
+    >
   </span>
 </div>

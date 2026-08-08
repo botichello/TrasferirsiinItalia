@@ -40,6 +40,16 @@
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
       ]
+    },
+    {
+      "source": "/(robots.txt|sitemap-index.xml|sitemap-0.xml|llms.txt|llms-full.txt|updates.xml)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=600, stale-while-revalidate=86400" }
+      ]
+    },
+    {
+      "source": "/search-index.json",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
     }
   ]
 }

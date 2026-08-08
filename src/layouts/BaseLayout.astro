@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import { getLocale, localizePath, ui } from '../i18n/ui';
 import { findByPath, parentOf, pathOf, titleOf } from '../lib/orientation';
+import { getFirstPublished } from '../lib/updates';
+import { breadcrumbNode, ids, ref, type SchemaNode } from '../lib/schema';
 // Vercel Web Analytics. Cookieless and first-party: the script is served from
 // /_vercel/insights/ on our own origin, so no third-party host is contacted —
 // which is why it needs no consent banner and does not weaken the site's
@@ -30,6 +32,10 @@ interface Props {
   ogImage?: string;
   /** Official sources an orientation page cites, emitted as schema.org citations. */
   citations?: { title: string; url: string }[];
+  /** Page-specific JSON-LD nodes, merged into this page's single @graph. */
+  schema?: SchemaNode[];
+  /** ISO date the page first shipped (see getFirstPublished). */
+  datePublished?: string;
 }
 const {
   title,
@@ -41,9 +47,39 @@ const {
   noindex = false,
   ogImage: ogImagePath = '/og-default.png',
   citations = [],
+  schema = [],
+  datePublished: datePublishedProp,
 } = Astro.props;
 const canonical = canonicalOverride ?? new URL(Astro.url.pathname, Astro.site).href;
 const siteName = 'Trasferirsi in Italia';
+
+// Crawler directives.
+//
+// `noindex, follow` rather than a bare `noindex`: the page stays out of the
+// index but its links keep being crawled, which is what /search and /404 need —
+// they are reachable pages that lead somewhere.
+//
+// The indexable form spells out the three preview limits because the defaults
+// are not neutral in Europe. Under the EU copyright directive Google shows
+// publishers in member states a shortened snippet and a thumbnail-sized image
+// unless the page opts in, and a truncated snippet is a bad outcome for a page
+// whose value is a specific, dated fact. `max-snippet:-1` and
+// `max-image-preview:large` opt in; the video limit is stated for completeness
+// on a site that has no video, so a future embed does not silently inherit a
+// restriction nobody chose.
+const robots =
+  noindex || !SEARCH_INDEXING
+    ? 'noindex, follow'
+    : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+
+// SERP/tab title. Google renders roughly 600px of title text, which is about 60
+// characters at the widths this site's words fall in; past that the tail is
+// replaced with an ellipsis or the whole title is rewritten. The brand suffix
+// costs 24 characters, so it is appended only when the page title leaves room —
+// otherwise the suffix would push the words that distinguish this page from
+// every other one off the end of the snippet. `check:seo` holds the ceiling.
+const brandSuffix = ` · ${siteName}`;
+const headTitle = (title + brandSuffix).length <= 60 ? title + brandSuffix : title;
 
 const locale = getLocale(Astro.url);
 const t = ui[locale];
@@ -52,24 +88,33 @@ const ogImage = new URL(ogImagePath, Astro.site).href;
 const ogLocale = locale === 'it' ? 'it_IT' : 'en_US';
 const ogLocaleAlternate = locale === 'it' ? 'en_US' : 'it_IT';
 
-const orgSchema = {
-  '@context': 'https://schema.org',
+// ---- Structured data -------------------------------------------------------
+// One script, one @graph, every node addressable by @id. See src/lib/schema.ts
+// for why the ids exist at all.
+const siteHref = Astro.site!.href;
+const orgId = ids.organization(siteHref);
+const siteId = ids.website(siteHref);
+const webPageId = ids.webPage(canonical);
+
+const organization: SchemaNode = {
   '@type': 'Organization',
+  '@id': orgId,
   name: siteName,
-  url: Astro.site?.href,
+  url: siteHref,
   logo: new URL('/apple-touch-icon.png', Astro.site).href,
   description:
     'A free, source-cited reference for relocating to Italy, covering the EU/EEA residency journey at national, regional, and comune level.',
 };
 
-// WebSite schema with a SearchAction: tells search engines and AI agents that
-// the site is searchable at /search?q=… (the search page reads ?q on load).
-const websiteSchema = {
-  '@context': 'https://schema.org',
+// WebSite with a SearchAction: tells search engines and AI agents that the site
+// is searchable at /search?q=… (the search page reads ?q on load).
+const website: SchemaNode = {
   '@type': 'WebSite',
+  '@id': siteId,
   name: siteName,
-  url: Astro.site?.href,
+  url: siteHref,
   inLanguage: ['en', 'it'],
+  publisher: ref(orgId),
   potentialAction: {
     '@type': 'SearchAction',
     target: {
@@ -81,30 +126,37 @@ const websiteSchema = {
 };
 
 // Orientation pages (src/pages/*.astro outside the content collections) get an
-// Article + BreadcrumbList graph, auto-detected from the registry so the
-// structured dateModified always equals the date printed on the page. The
-// guides get their own HowTo/FAQPage graph via components/StructuredData.astro.
+// Article + BreadcrumbList, auto-detected from the registry so the structured
+// dateModified always equals the date printed on the page. Guides pass their
+// own nodes in via `schema`.
 const orientationEntry = findByPath(Astro.url.pathname);
-const orientationSchema = orientationEntry && {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'Article',
-      headline: title,
-      description,
-      url: canonical,
-      inLanguage: locale,
-      dateModified: orientationEntry.lastVerified,
-      isAccessibleForFree: true,
-      publisher: { '@type': 'Organization', name: siteName, url: Astro.site?.href },
-      isPartOf: { '@type': 'WebSite', name: siteName, url: Astro.site?.href },
-      ...(citations.length > 0 && {
-        citation: citations.map((s) => ({ '@type': 'WebPage', name: s.title, url: s.url })),
-      }),
-    },
-    {
-      '@type': 'BreadcrumbList',
-      itemListElement: [
+// Guides pass their own; an orientation page's is looked up here from the same
+// git-derived history that powers /updates. The registry keys only the English
+// file, so the Italian twin simply goes without rather than borrowing a date
+// that was never measured for it.
+const datePublished =
+  datePublishedProp ??
+  (orientationEntry ? getFirstPublished(orientationEntry.en.replace(/^src\//, '')) : undefined);
+const orientationNodes: SchemaNode[] = orientationEntry
+  ? [
+      {
+        '@type': 'Article',
+        '@id': ids.article(canonical),
+        headline: title,
+        description,
+        url: canonical,
+        inLanguage: locale,
+        dateModified: orientationEntry.lastVerified,
+        ...(datePublished && { datePublished }),
+        isAccessibleForFree: true,
+        mainEntityOfPage: ref(webPageId),
+        publisher: ref(orgId),
+        isPartOf: ref(siteId),
+        ...(citations.length > 0 && {
+          citation: citations.map((s) => ({ '@type': 'WebPage', name: s.title, url: s.url })),
+        }),
+      },
+      breadcrumbNode(canonical, [
         { name: t.guide.home, path: locale === 'en' ? '/' : '/it' },
         ...(parentOf(orientationEntry)
           ? [
@@ -115,14 +167,39 @@ const orientationSchema = orientationEntry && {
             ]
           : []),
         { name: titleOf(orientationEntry, locale), path: localizePath(pathOf(orientationEntry), locale) },
-      ].map((item, i) => ({
-        '@type': 'ListItem',
-        position: i + 1,
-        name: item.name,
-        item: new URL(item.path, Astro.site).href,
-      })),
-    },
-  ],
+      ].map((item) => ({ name: item.name, url: new URL(item.path, Astro.site).href }))),
+    ]
+  : [];
+
+const extraNodes = [...orientationNodes, ...schema];
+
+// The page node itself, wired to whatever the page turned out to contain. The
+// two pointers are derived rather than passed: a caller that adds a breadcrumb
+// or a HowTo should not also have to remember to announce it here, because the
+// version it forgets is the one that ships.
+const primary = extraNodes.find((n) =>
+  ['Article', 'HowTo', 'TechArticle'].includes(String(n['@type'])),
+);
+const breadcrumb = extraNodes.find((n) => n['@type'] === 'BreadcrumbList');
+const dateModified = modified?.toISOString().slice(0, 10) ?? orientationEntry?.lastVerified;
+
+const webPage: SchemaNode = {
+  '@type': 'WebPage',
+  '@id': webPageId,
+  url: canonical,
+  name: title,
+  description,
+  inLanguage: locale,
+  isPartOf: ref(siteId),
+  ...(dateModified && { dateModified }),
+  ...(datePublished && { datePublished }),
+  ...(breadcrumb && { breadcrumb: ref(String(breadcrumb['@id'])) }),
+  ...(primary && { mainEntity: ref(String(primary['@id'])) }),
+};
+
+const graph = {
+  '@context': 'https://schema.org',
+  '@graph': [organization, website, webPage, ...extraNodes],
 };
 
 const homeHref = locale === 'en' ? '/' : '/it';
@@ -148,9 +225,9 @@ const homeHref = locale === 'en' ? '/' : '/it';
       href="/updates.xml"
     />
 
-    <title>{title} · {siteName}</title>
+    <title>{headTitle}</title>
     <meta name="description" content={description} />
-    {(noindex || !SEARCH_INDEXING) && <meta name="robots" content="noindex" />}
+    <meta name="robots" content={robots} />
     <link rel="canonical" href={canonical} />
     {
       alternates && (
@@ -183,25 +260,7 @@ const homeHref = locale === 'en' ? '/' : '/it';
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <script
-      type="application/ld+json"
-      set:html={JSON.stringify(orgSchema)}
-      is:inline
-    />
-    <script
-      type="application/ld+json"
-      set:html={JSON.stringify(websiteSchema)}
-      is:inline
-    />
-    {
-      orientationSchema && (
-        <script
-          type="application/ld+json"
-          set:html={JSON.stringify(orientationSchema)}
-          is:inline
-        />
-      )
-    }
+    <script type="application/ld+json" set:html={JSON.stringify(graph)} is:inline />
 
     <slot name="head" />
   </head>

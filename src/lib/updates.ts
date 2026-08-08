@@ -98,3 +98,17 @@ export async function getUpdateFeed(locale: Locale): Promise<UpdateDay[]> {
 export function getFileHistory(key: string): HistoryEvent[] {
   return history[key] ?? [];
 }
+
+/**
+ * The date a file first appeared, from its earliest recorded commit — the
+ * closest thing this repo has to a publication date, and what `datePublished`
+ * means in the page's JSON-LD. Computed by scanning rather than by taking
+ * `[0]`, because the order of the history array is a display concern.
+ * Undefined when git history has nothing for the key, which is the honest
+ * answer: an invented publication date is worse than none.
+ */
+export function getFirstPublished(key: string): string | undefined {
+  const events = history[key];
+  if (!events?.length) return undefined;
+  return events.reduce((min, e) => (e.committed < min ? e.committed : min), events[0].committed);
+}

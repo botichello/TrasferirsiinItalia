@@ -25,6 +25,12 @@ const guides = defineCollection({
   schema: z
     .object({
       title: z.string().min(1),
+      // Head/OG title for the city and region copies of this guide, which are
+      // rendered as "<Place> — <title>". Set it when `title` is long enough
+      // that the longest place name would push the pair past the ~60 characters
+      // a result snippet shows (check:seo enforces the ceiling). Never shown
+      // on the page: the visible <h1> is always `title`.
+      shortTitle: z.string().min(1).max(40).optional(),
       description: z.string().min(1).max(200),
       // Ordered position within its journey (1 = first step).
       step: z.number().int().positive(),

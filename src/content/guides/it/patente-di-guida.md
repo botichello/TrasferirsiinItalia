@@ -1,6 +1,7 @@
 ---
 title: La patente di guida in Italia
 description: Cosa succede alla patente UE/SEE quando diventi residente in Italia — per quanto resta valida, quando la conversione è obbligatoria e come funziona.
+metaDescription: "Cosa succede alla patente UE/SEE quando diventi residente in Italia: quanto resta valida e quando va convertita."
 step: 6
 journey: eu-residency
 lang: it

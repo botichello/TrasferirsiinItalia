@@ -1,6 +1,7 @@
 ---
 title: Portare in Italia i familiari non UE
 description: Come il coniuge o familiare non UE di un cittadino UE si stabilisce in Italia — l'ingresso, la carta di soggiorno quinquennale della Questura e i suoi diritti di registrazione.
+metaDescription: "Come il familiare non UE di un cittadino UE si stabilisce in Italia: ingresso, carta di soggiorno quinquennale, diritti."
 step: 8
 journey: eu-residency
 lang: it

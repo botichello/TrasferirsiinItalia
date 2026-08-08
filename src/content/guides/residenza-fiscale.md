@@ -1,6 +1,7 @@
 ---
 title: Tax residency basics
 description: When a newcomer becomes an Italian tax resident — the post-2024 criteria, what worldwide taxation means, and when your first Italian tax return is due.
+metaDescription: "When a newcomer becomes an Italian tax resident: the post-2024 criteria, worldwide taxation, and your first return."
 step: 7
 journey: eu-residency
 lastVerified: 2026-08-03

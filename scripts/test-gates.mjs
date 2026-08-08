@@ -65,6 +65,17 @@ const patch = (dir, rel, find, replace) => {
   write(dir, rel, s.replace(find, replace));
 };
 
+/** Rewrite all three copies of a page's description in the built HTML. */
+const setDescription = (dir, rel, text) => {
+  const before = read(dir, rel);
+  const after = before
+    .replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${text}">`)
+    .replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${text}">`)
+    .replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${text}">`);
+  if (after === before) throw new Error(`fixture drift: ${rel} has no description meta tags`);
+  write(dir, rel, after);
+};
+
 /** Rewrite every `href="<target>"` in the built tree to `replacement`. */
 const stripLinks = (dir, target, replacement = '/nowhere-at-all', under = '') => {
   let touched = 0;
@@ -277,6 +288,29 @@ const seoCases = [
     name: 'guide loses its HowTo schema (JSON-LD still parses)',
     expect: 'JSON-LD does not parse',
     break: (d) => patch(d, GUIDE, '"@graph"', '"@graph"broken'),
+  },
+  {
+    name: 'meta description runs past the snippet',
+    // 161 characters — one past the limit, so the boundary itself is asserted.
+    expect: 'meta description is 161 chars (want 70-160)',
+    break: (d) => setDescription(d, ORIENT, 'x'.repeat(161)),
+  },
+  {
+    name: 'meta description too thin to say what the page is',
+    expect: 'meta description is 69 chars (want 70-160)',
+    break: (d) => setDescription(d, ORIENT, 'y'.repeat(69)),
+  },
+  {
+    name: 'og:description drifts from the meta description',
+    expect: 'og:description differs from meta description',
+    break: (d) =>
+      patch(d, GUIDE, '<meta property="og:description" content="', '<meta property="og:description" content="Something else. '),
+  },
+  {
+    name: 'twitter:description drifts from the meta description',
+    expect: 'twitter:description differs from meta description',
+    break: (d) =>
+      patch(d, GUIDE, '<meta name="twitter:description" content="', '<meta name="twitter:description" content="Something else. '),
   },
   {
     name: 'indexable page loses the EU snippet opt-in',

@@ -1,6 +1,7 @@
 ---
 title: Getting a digital identity (SPID & CIE)
 description: How EU/EEA residents get an Italian digital identity — SPID or the CIE electronic ID card — to log in to INPS, the tax and health portals, and comune services.
+metaDescription: "How EU/EEA residents get SPID or a CIE, the Italian digital identity that logs you in to INPS, tax and comune services."
 step: 4
 journey: eu-residency
 lastVerified: 2026-07-02

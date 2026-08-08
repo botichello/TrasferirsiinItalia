@@ -1,6 +1,7 @@
 ---
 title: Aprire un conto corrente
 description: Come i cittadini UE/SEE aprono un conto corrente italiano — il diritto UE al conto di base, cosa chiedono le banche e le regole dell'imposta di bollo.
+metaDescription: "Come i cittadini UE/SEE aprono un conto in Italia: il diritto UE al conto di base, i documenti e l'imposta di bollo."
 step: 5
 journey: eu-residency
 lang: it

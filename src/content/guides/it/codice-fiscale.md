@@ -1,6 +1,7 @@
 ---
 title: Ottenere il codice fiscale
 description: Come i cittadini UE/SEE ottengono il codice fiscale italiano — il codice identificativo gratuito e fondamentale, necessario per quasi ogni passo del trasferimento in Italia.
+metaDescription: "Come i cittadini UE/SEE ottengono il codice fiscale italiano: che cos'è, dove richiederlo gratis e cosa portare."
 step: 1
 journey: eu-residency
 lang: it

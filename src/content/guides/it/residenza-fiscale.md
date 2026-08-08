@@ -1,6 +1,7 @@
 ---
 title: Le basi della residenza fiscale
 description: Quando chi si trasferisce diventa fiscalmente residente in Italia — i criteri post-2024, cosa significa la tassazione mondiale e quando presentare la prima dichiarazione dei redditi.
+metaDescription: "Quando chi si trasferisce diventa fiscalmente residente in Italia: i criteri post-2024 e la prima dichiarazione."
 step: 7
 journey: eu-residency
 lang: it

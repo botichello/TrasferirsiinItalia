@@ -31,7 +31,15 @@ const guides = defineCollection({
       // a result snippet shows (check:seo enforces the ceiling). Never shown
       // on the page: the visible <h1> is always `title`.
       shortTitle: z.string().min(1).max(40).optional(),
+      // The lede printed under the <h1>. It is written for a reader who has
+      // already arrived, so it may run longer than a search snippet shows.
       description: z.string().min(1).max(200),
+      // The <meta name="description"> — written for a reader who has *not*
+      // arrived, and capped so a result snippet shows all of it. The city and
+      // region copies of this guide prefix it with the place name, so the
+      // ceiling leaves room for the longest of those ("Friuli-Venezia Giulia — ").
+      // check:seo enforces the composed length; this is the input budget.
+      metaDescription: z.string().min(70).max(135).optional(),
       // Ordered position within its journey (1 = first step).
       step: z.number().int().positive(),
       journey: z.literal('eu-residency'),

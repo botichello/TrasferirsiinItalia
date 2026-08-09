@@ -34,6 +34,21 @@ sources:
   - title: 'Agenzia delle Entrate — How and when to file a tax return'
     url: 'https://www.agenziaentrate.gov.it/portale/web/english/how-and-when-to-file-a-tax-return'
     accessed: 2026-08-03
+  - title: "Agenzia delle Entrate — Attestato di residenza fiscale contro le doppie imposizioni: che cos'è"
+    url: 'https://www.agenziaentrate.gov.it/portale/attestato-di-residenza-fiscale-contro-le-doppie-imposizioni/infogen-attestato-di-residenza-fiscale-contro-le-doppie-imposizioni-cittadini'
+    accessed: 2026-08-09
+  - title: 'Agenzia delle Entrate — Attestato di residenza fiscale: come ottenerlo (channels, delegation)'
+    url: 'https://www.agenziaentrate.gov.it/portale/attestato-di-residenza-fiscale-contro-le-doppie-imposizioni/come-ottenere-attestazione-attestato-di-residenza-fiscale-contro-le-doppie-imposizioni-cittadini'
+    accessed: 2026-08-09
+  - title: 'Agenzia delle Entrate — Attestato di residenza fiscale: costo (no stamp duty)'
+    url: 'https://www.agenziaentrate.gov.it/portale/attestato-di-residenza-fiscale-contro-le-doppie-imposizioni/costo-attestato-di-residenza-fiscale-contro-le-doppie-imposizioni-cittadini'
+    accessed: 2026-08-09
+  - title: 'Normattiva — D.L. 167/1990 art. 4 (annual declaration of foreign investments, financial assets and crypto-assets)'
+    url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:1990-06-28;167~art4!vig='
+    accessed: 2026-08-09
+  - title: 'Normattiva — D.L. 201/2011 art. 19, commi 13-20 (IVIE 1.06%, IVAFE 2 per mille)'
+    url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2011-12-06;201~art19!vig='
+    accessed: 2026-08-09
   - title: 'Your Europe — Income taxes abroad'
     url: 'https://europa.eu/youreurope/citizens/work/taxes/income-taxes-abroad/index_en.htm'
     accessed: 2026-07-10
@@ -42,6 +57,10 @@ faq:
     a: No — the status is assessed over the calendar year. You are tax resident for a year only if residence, domicile, physical presence, or anagrafe registration covers the majority of it — at least 183 days, 184 in a leap year.
   - q: I registered at the anagrafe — am I automatically a tax resident?
     a: Registration for most of the year creates a presumption of tax residency, but since the 2024 reform it is rebuttable — you can prove you actually lived elsewhere.
+  - q: How do I prove to another country that I am an Italian tax resident?
+    a: With the attestato di residenza fiscale from the Agenzia delle Entrate. It is what a foreign payer or tax office wants before applying a treaty rate instead of full withholding. Request it on the Agency's form at any territorial office — through the authenticated area, in person, by registered post, or by PEC with "Attestato di residenza fiscale" as the subject. Neither the request nor the certificate carries stamp duty.
+  - q: Do I have to declare a bank account or a house I still own abroad?
+    a: Yes. Art. 4 of D.L. 167/1990 requires residents to list foreign investments, foreign financial assets and crypto-assets capable of producing income taxable in Italy in the annual return, whether or not they produced anything that year. Foreign property also attracts IVIE at 1.06% and foreign financial products IVAFE at 2 per mille.
   - q: Will Italy tax income I still earn from my home country?
     a: Once you are Italian tax resident, Italy taxes your worldwide income — but Italy's roughly one hundred double-taxation treaties allocate taxing rights and provide relief so the same income is not taxed twice unrelieved.
   - q: When do I file my first Italian tax return?
@@ -108,6 +127,58 @@ still say 35%.
 Double taxation is managed by Italy's network of **around one hundred tax
 treaties** (all EU states included): they decide which country may tax what,
 and foreign tax credits are claimed in your Italian return.
+
+## Proving it: the certificato di residenza fiscale
+
+Residency happens to you, but proof of it does not. The moment you want a
+foreign payer to apply a treaty rate instead of withholding in full — on a
+pension, a dividend, a royalty, a salary from abroad — that payer wants Italy to
+say in writing that you are resident here.
+
+The document is the **attestato di residenza fiscale**, issued by the Agenzia
+delle Entrate specifically so you can claim the benefit of a double-taxation
+convention or of EU law. One certificate can cover several kinds of income
+arising in the same foreign state.
+
+You apply on the Agency's own form, to **any** territorial office, by whichever
+of these suits you:
+
+- the **consegna documenti e istanze** service in the authenticated area of the
+  Agency's site (upload the form, addressed to any Direzione Provinciale);
+- **in person** at any office, which issues you a receipt;
+- **registered post** with return receipt, enclosing a copy of the signer's ID;
+- **PEC**, with "Attestato di residenza fiscale" as the subject.
+
+Neither the request nor the certificate is subject to stamp duty. A delegate can
+file for you with a formal power of attorney.
+
+Do not confuse it with the comune's *certificato di residenza* (Step 2), which
+proves where you live for civil purposes. This one is the tax authority
+certifying you to a foreign one.
+
+## What you hold abroad, not just what you earn
+
+Worldwide taxation is the half of this that gets discussed. The other half is
+that Italy wants to know what you **hold**, and taxes some of it annually — and
+this is where a newcomer with a house or a bank account back home gets caught.
+
+**Declaring.** Art. 4 of D.L. 167/1990 requires residents to list foreign
+investments, foreign financial assets and crypto-assets capable of producing
+income taxable in Italy in their annual return. It applies whether or not the
+asset produced anything that year, and it reaches **beneficial owners**, not
+only people whose name is on the account.
+
+**Paying.** Two annual taxes ride alongside:
+
+- **IVIE**, on property held abroad — **1.06%** of its value, not due at all if
+  the resulting amount is €200 or less, with a credit for any wealth tax paid
+  where the property is;
+- **IVAFE**, on foreign financial products — **2 per mille** a year; for current
+  accounts and savings books it is instead a fixed amount, the same one Italian
+  accounts pay as stamp duty (Step 5).
+
+So the first Italian return is not only about the year's income. Gather the
+year-end balances and property values before you sit down to it.
 
 ## Your first return
 

@@ -392,8 +392,8 @@ const seoCases = [
     },
   },
   {
-    name: 'the sources heading is renamed, so the scan would cover nothing',
-    expect: 'the heading this scan anchors on has moved',
+    name: 'the data-sources hook disappears, so the scan would cover nothing',
+    expect: 'the hook this scan anchors on has gone',
     break: (d) => {
       const walk = (dir) => {
         for (const name of readdirSync(dir)) {
@@ -401,8 +401,8 @@ const seoCases = [
           if (statSync(p).isDirectory()) walk(p);
           else if (name.endsWith('.html')) {
             const s = readFileSync(p, 'utf8');
-            if (!s.includes('</h2>')) continue;
-            writeFileSync(p, s.replace(/>(Sources|Fonti)<\/h2>/g, '>Citations</h2>'));
+            if (!s.includes(' data-sources>')) continue;
+            writeFileSync(p, s.replaceAll(' data-sources>', '>'));
           }
         }
       };

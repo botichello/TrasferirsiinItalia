@@ -161,7 +161,11 @@ for (const file of htmlFiles(DIST)) {
     // later: the file path is known now, and deriving it back from the URL key
     // gets /404 wrong (it is 404.html, not 404/index.html).
     sourceLinks: (() => {
-      const at = html.search(/>(?:Sources|Fonti)<\/h2>/);
+      // `data-sources` is emitted by the two components that render a citation
+      // list (SourceList for guides, PageSources for orientation pages). It
+      // replaced an anchor on the visible "Sources"/"Fonti" heading, which was
+      // all there was to grab when the orientation markup existed in 32 copies.
+      const at = html.indexOf('data-sources>');
       if (at === -1) return [];
       const section = html.slice(at, html.indexOf('</section>', at) + 1);
       return [...section.matchAll(/href="(https?:\/\/[^"]+)"/g)]
@@ -471,9 +475,9 @@ for (const part of parts) {
 // 126 URLs while still making the claim. check-links had already been bitten by
 // exactly this and fixed; the audit page had not.
 //
-// Anchored on the visible heading rather than a class, with a floor underneath:
-// if the heading is ever renamed, the count collapses and this fails loudly
-// instead of quietly checking nothing.
+// Anchored on the `data-sources` attribute the two citation components emit,
+// with a floor underneath: if that attribute is ever dropped the count
+// collapses and this fails loudly instead of quietly checking nothing.
 const sourcesIndex = { '': null, '/it': null };
 for (const locale of ['', '/it']) {
   const page = pages.get(`${locale}/sources`);
@@ -494,7 +498,7 @@ for (const [urlPath, page] of pages) {
 }
 if (pagesWithSources < 200) {
   console.error(
-    `✗ check-seo: only ${pagesWithSources} page(s) carry a sources section — the heading this scan anchors on has moved.`,
+    `✗ check-seo: only ${pagesWithSources} page(s) carry a data-sources section — the hook this scan anchors on has gone.`,
   );
   process.exit(1);
 }

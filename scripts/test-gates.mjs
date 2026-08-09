@@ -32,6 +32,7 @@ const JOURNEY_GATE = join(ROOT, 'scripts/check-journeys.mjs');
 const FRESHNESS_GATE = join(ROOT, 'scripts/check-freshness.mjs');
 const FIGURES_GATE = join(ROOT, 'scripts/check-figures.mjs');
 const THEME_GATE = join(ROOT, 'scripts/check-theme.mjs');
+const TWINS_GATE = join(ROOT, 'scripts/check-twins.mjs');
 const PROSE_GATE = join(ROOT, 'scripts/check-prose.mjs');
 
 if (!existsSync(DIST)) {
@@ -656,6 +657,44 @@ const proseCases = [
   },
 ];
 
+
+// ---- Twin-parity gate: its input is src/, like check-freshness ---------------
+// Each case changes a figure in ONE language only, which is exactly how a
+// translation drifts in practice: someone corrects the copy they were reading.
+const IT_GUIDE = 'src/content/guides/it/servizio-sanitario.md';
+const IT_ORIENT = 'src/pages/it/banking.astro';
+
+const twinCases = [
+  {
+    name: 'content tree emptied (input floor)',
+    expect: 'wrong or empty root',
+    break: (d) => {
+      for (const kind of ['region-notes', 'comune-notes'])
+        rmSync(join(d, 'src/content', kind), { recursive: true, force: true });
+    },
+  },
+  {
+    name: 'an amount is corrected in English only',
+    expect: 'amount stated in one language and not the other',
+    break: (d) => patch(d, IT_GUIDE, '20.658,28', '20.658,29'),
+  },
+  {
+    name: 'a rate is corrected in English only',
+    expect: 'percentage stated in one language and not the other',
+    break: (d) => patch(d, IT_GUIDE, '7,5%', '7,6%'),
+  },
+  {
+    name: 'a cited article number drifts between the two languages',
+    expect: 'article stated in one language and not the other',
+    break: (d) => patch(d, IT_ORIENT, 'art. 126-noviesdecies', 'art. 126-decies'),
+  },
+  {
+    name: 'an Italian twin goes missing',
+    expect: 'has no Italian twin',
+    break: (d) => unlinkSync(join(d, 'src/content/guides/it/codice-fiscale.md')),
+  },
+];
+
 const suites = [
   {
     label: 'check-seo',
@@ -701,6 +740,15 @@ const suites = [
     script: THEME_GATE,
     into: 'src',
     cases: themeCases,
+  },
+  {
+    label: 'check-twins',
+    input: SRC,
+    envVar: 'CHECK_TWINS_ROOT',
+    arg: (dir) => dir,
+    script: TWINS_GATE,
+    into: 'src',
+    cases: twinCases,
   },
   {
     label: 'check-prose',
@@ -771,5 +819,5 @@ if (failures > 0) {
 }
 console.log(
   `\n✓ test-gates: all ${total} gate rules proven to fire ` +
-    `(check-seo + check-journeys + check-prose + check-freshness + check-figures + check-theme).`,
+    `(check-seo + check-journeys + check-prose + check-freshness + check-figures + check-theme + check-twins).`,
 );

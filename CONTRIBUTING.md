@@ -78,6 +78,7 @@ follow the same contract; the health authority is the regional element.
 | `check:freshness`   | missing/overdue dates, missing sources                          |
 | `check:figures`     | a statutory amount or rate that stopped being true              |
 | `check:theme`       | a literal colour with no dark-mode override                      |
+| `check:twins`       | an amount, rate or article number stated in one language only    |
 | `check:seo`         | canonical/hreflang/sitemap/JSON-LD errors, broken internal links, overlong or duplicate titles, drifted `<lastmod>`, a page missing from `llms.txt` |
 | `check:prose`       | walls of text — a paragraph or sentence past the readable limit  |
 | `test:smoke`        | broken JS islands, a11y + contrast in both themes, layout overflow at phone widths |
@@ -154,6 +155,28 @@ three. **Correcting an amount means retiring the old value here**, which is what
 makes the other copies fail loudly. Prose that names an old figure on purpose
 ("was 35% through 2025") is exempted by exact phrase, and the phrase must still
 exist, so an exemption cannot outlive the sentence that earned it.
+
+`check:twins` compares the two halves of every bilingual page. When a statutory
+amount moves, the file that gets corrected is the one somebody happened to be
+reading; the other language keeps the old figure, and nothing fails — both files
+parse, both cite sources, both pass every other gate, and the site quietly says
+two different things about the same law depending on which flag you clicked.
+`check:figures` catches a *retired* value anywhere; this catches a value present
+in one language and absent from the other, which is the more common shape.
+
+It compares three classes of figure — monetary amounts, percentages, and cited
+article numbers — because those are the ones where being wrong changes what a
+reader does. Bare integers are deliberately excluded: "15 certificate types" vs
+"15 tipi di certificato" would be noise, and a gate that cries wolf gets
+switched off.
+
+Most of the work is normalizing how the two languages *write* the same number.
+`€20,658.28` and `20.658,28 €` are one amount; `7.5%` and `7,5%` one rate; a
+range is `€100–500` in English and `da 100 a 500 €` in Italian. Two traps are
+recorded in the code because both cost a debugging round: `€\b` demands a word
+character *after* the euro sign, which silently defeats every Italian suffixed
+amount; and making the currency mark optional in "da X a Y" makes the pattern
+swallow "da 0 a 16 anni" and "da 3 a 10 giorni" as if they were money.
 
 `check:theme` guards the one thing a colour token cannot do for itself.
 `text-muted` and `bg-surface/60` resolve through custom properties, so they flip

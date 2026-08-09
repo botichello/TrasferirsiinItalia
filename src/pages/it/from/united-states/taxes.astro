@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import PageSources from '../../../../components/PageSources.astro';
 
 const sources = [
   { title: 'IRS — Publication 54, Tax Guide for U.S. Citizens and Resident Aliens Abroad (rev. dic. 2025)', url: 'https://www.irs.gov/pub/irs-pdf/p54.pdf' },
@@ -293,22 +294,5 @@ const reports = [
     </div>
   </div>
 
-  <section class="mt-10 rounded-lg border border-line bg-surface/60 p-6">
-    <h2 class="font-serif text-xl">Fonti</h2>
-    <p class="mt-1 text-sm text-muted">
-      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata
-      e verificata il 3 agosto 2026, tranne l'allegato in Gazzetta, aggiunto e verificato il 9 agosto 2026.
-    </p>
-    <ul class="mt-3 space-y-1 text-sm">
-      {
-        sources.map((s) => (
-          <li>
-            <a href={s.url} class="text-brand-700 underline underline-offset-2">
-              {s.title}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
+  <PageSources sources={sources} intro="Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e verificata il 3 agosto 2026, tranne l'allegato in Gazzetta, aggiunto e verificato il 9 agosto 2026." />
 </BaseLayout>

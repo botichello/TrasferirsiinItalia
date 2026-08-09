@@ -143,6 +143,14 @@ nodes sharing one, and any `{"@id": …}` pointer that resolves to no node in th
 same graph — the failure that still parses, still validates, and silently drops
 the link between a page and its publisher.
 
+**Citations render through a component, and the gate looks for its hook.** Guides
+use `SourceList`, orientation pages use `PageSources`; both stamp the section
+with `data-sources`, and `check:seo` uses that to find every citation on every
+page and hold it against `/sources`. Before, the orientation markup existed in
+32 identical copies and the only thing to anchor on was the visible heading
+text. If neither component renders, the count collapses and a second rule fails
+the build rather than letting the scan cover nothing.
+
 **`llms.txt` has to keep up.** New pages enter the sitemap automatically and
 `llms.txt` not at all, because its prose is hand-composed. The gate checks both
 directions: nothing listed may 404, and no guide or orientation page may be

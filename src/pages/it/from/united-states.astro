@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageSources from '../../../components/PageSources.astro';
 import { getSourceCountry, moduleUrl } from '../../../data/source-countries';
 
 const country = getSourceCountry('united-states')!;
@@ -106,21 +107,5 @@ const moduleTitle: Record<string, string> = {
     </p>
   </div>
 
-  <section class="mt-10 rounded-lg border border-line bg-surface/60 p-6">
-    <h2 class="font-serif text-xl">Fonti</h2>
-    <p class="mt-1 text-sm text-muted">
-      Le fonti primarie e ufficiali su cui si basano le voci qui sopra — ciascuna consultata nella data indicata accanto alla sua voce.
-    </p>
-    <ul class="mt-3 space-y-1 text-sm">
-      {
-        sources.map((s) => (
-          <li>
-            <a href={s.url} class="text-brand-700 underline underline-offset-2">
-              {s.title}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
+  <PageSources sources={sources} intro="Le fonti primarie e ufficiali su cui si basano le voci qui sopra — ciascuna consultata nella data indicata accanto alla sua voce." />
 </BaseLayout>

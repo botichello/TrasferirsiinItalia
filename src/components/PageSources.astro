@@ -1,0 +1,44 @@
+---
+/**
+ * The sources block on an orientation page (src/pages/*.astro).
+ *
+ * These pages keep their citations as a local `sources` array rather than in a
+ * content collection, and each of the 32 of them had its own copy of this
+ * markup — one shape, 32 times. That duplication is not just untidy: it is why
+ * the /sources completeness rule in check-seo had to anchor on the visible
+ * heading text, since there was no stable hook to look for. The `data-sources`
+ * attribute below is that hook, and it exists in one place now.
+ *
+ * Deliberately NOT the same component as SourceList: guides carry a per-source
+ * `accessed` date and an archived-copy link, and orientation sources carry
+ * neither. Folding them together would have changed what these pages render,
+ * which is a decision to take on its own, not smuggled into a refactor.
+ */
+import { getLocale, ui } from '../i18n/ui';
+
+interface Props {
+  sources: { title: string; url: string }[];
+  /** The whole sentence under the heading, including its verification date. */
+  intro: string;
+}
+const { sources, intro } = Astro.props;
+const t = ui[getLocale(Astro.url)].guide;
+---
+
+<section class="mt-10 rounded-lg border border-line bg-surface/60 p-6" data-sources>
+  <h2 class="font-serif text-xl">{t.sources}</h2>
+  <p class="mt-1 text-sm text-muted">
+    {intro}
+  </p>
+  <ul class="mt-3 space-y-1 text-sm">
+    {
+      sources.map((s) => (
+        <li>
+          <a href={s.url} class="text-brand-700 underline underline-offset-2">
+            {s.title}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>

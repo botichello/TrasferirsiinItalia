@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageSources from '../../components/PageSources.astro';
 
 // Orientation page on the elective residence visa (DM 850/2011, Allegato A
 // §13). Facts verified 2026-08-04 against the fetched official sources below.
@@ -105,21 +106,5 @@ const checklist = [
     </p>
   </div>
 
-  <section class="mt-10 rounded-lg border border-line bg-surface/60 p-6">
-    <h2 class="font-serif text-xl">Sources</h2>
-    <p class="mt-1 text-sm text-muted">
-      Primary, official sources this page is based on — each fetched and checked on 4 August 2026.
-    </p>
-    <ul class="mt-3 space-y-1 text-sm">
-      {
-        sources.map((s) => (
-          <li>
-            <a href={s.url} class="text-brand-700 underline underline-offset-2">
-              {s.title}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
+  <PageSources sources={sources} intro="Primary, official sources this page is based on — each fetched and checked on 4 August 2026." />
 </BaseLayout>

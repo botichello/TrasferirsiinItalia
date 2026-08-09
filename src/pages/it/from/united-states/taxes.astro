@@ -20,7 +20,9 @@ const sources = [
   { title: 'Medicare.gov — Travel outside the U.S.', url: 'https://www.medicare.gov/coverage/travel-outside-the-u.s.' },
   { title: 'Normattiva — TUIR (DPR 917/1986), artt. 2 e 3 (residenza; tassazione mondiale dei residenti)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1986-12-22;917~art2!vig=' },
   { title: 'Normattiva — TUIR art. 24-bis (neo-residenti: imposta sostitutiva di 300.000 €, in vigore dal 1-1-2026)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1986-12-22;917~art24bis!vig=' },
-  { title: 'Normattiva — D.lgs 19 giugno 2026, n. 117 (nuovo testo unico delle imposte sui redditi, si applica dal 1-1-2027)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-06-19;117' },
+  { title: "Normattiva — D.lgs 19 giugno 2026, n. 117 (decreto di approvazione; il codice è l'allegato, non su Normattiva)", url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-06-19;117' },
+  { title: 'Gazzetta Ufficiale — Supplemento ordinario n. 26/L alla GU n. 152 del 3 luglio 2026: il testo unico allegato (art. 246 neo-residenti, art. 247 pensionati a 20.000)', url: 'https://www.gazzettaufficiale.it/eli/gu/2026/07/03/152/so/26/sg/pdf' },
+  { title: 'Normattiva — TUIR art. 24-ter (regime al 7% per i pensionati; soglia di popolazione 30.000 dal 7 aprile 2026)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1986-12-22;917~art24ter!vig=' },
 ];
 const reports = [
   ['FBAR — FinCEN Form 114', 'Somma di tutti i conti esteri oltre 10.000 $, in qualunque momento dell’anno', 'A FinCEN, non all’IRS — tramite il BSA E-Filing System, mai con la dichiarazione', '15 aprile, proroga automatica al 15 ottobre (senza richiesta)'],
@@ -246,7 +248,8 @@ const reports = [
       </li>
       <li>
         Il <strong>regime al 7%</strong> per le pensioni estere, in alcuni comuni
-        del Mezzogiorno.
+        del Mezzogiorno sotto una soglia di popolazione — che si è appena spostata,
+        vedi la nota qui sotto.
       </li>
     </ul>
     <p>
@@ -268,10 +271,24 @@ const reports = [
         regime dei neo-residenti passa dall'art. 24-bis all'art. 246.
       </p>
       <p class="mt-2 text-sm">
-        Da gennaio aspettati un'ondata di citazioni superate in rete. Segnaliamo
-        anche che la consolidazione sembra non aver recepito una modifica del 2026
-        al regime dei pensionati: la sua soglia di popolazione oggi differisce tra i
-        due testi.
+        Da gennaio aspettati un'ondata di citazioni superate in rete.
+      </p>
+      <p class="mt-3 text-sm">
+        Una divergenza ora è accertata, non più solo sospetta, e vale denaro. Il
+        <strong>regime al 7% per i pensionati</strong> è aperto solo in un comune
+        sotto una soglia di popolazione. L'art. 24-ter del TUIR dice
+        <strong>30.000</strong> dal <strong>7 aprile 2026</strong>. Il testo unico
+        — approvato il 19 giugno e pubblicato il 3 luglio, entrambe date
+        successive — riprende l'articolo come <strong>art. 247</strong> con il
+        vecchio <strong>20.000</strong>.
+      </p>
+      <p class="mt-3 text-sm">
+        Quindi, salvo un decreto correttivo, dal 1° gennaio 2027 la soglia torna a
+        20.000 e i comuni compresi fra le due cifre escono dal regime. Leggi
+        entrambi i testi prima di contarci: l'art. 24-ter è su Normattiva, l'art.
+        247 solo nell'allegato in Gazzetta (Supplemento ordinario n. 26/L alla GU
+        n. 152 del 3 luglio 2026, p. 210) — Normattiva pubblica il decreto di
+        approvazione, non il codice che vi è allegato.
       </p>
     </div>
   </div>
@@ -279,7 +296,8 @@ const reports = [
   <section class="mt-10 rounded-lg border border-line bg-surface/60 p-6">
     <h2 class="font-serif text-xl">Fonti</h2>
     <p class="mt-1 text-sm text-muted">
-      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata e verificata il 3 agosto 2026.
+      Fonti primarie e ufficiali su cui si basa questa pagina — ciascuna consultata
+      e verificata il 3 agosto 2026, tranne l'allegato in Gazzetta, aggiunto e verificato il 9 agosto 2026.
     </p>
     <ul class="mt-3 space-y-1 text-sm">
       {

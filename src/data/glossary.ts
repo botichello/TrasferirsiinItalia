@@ -124,8 +124,16 @@ export const glossary: GlossaryTerm[] = [
   {
     slug: 'autocertificazione',
     term: 'Autocertificazione',
-    en: 'A self-declaration that replaces many certificates when dealing with public offices — you declare a fact (residence, birth, family status) under your own responsibility instead of producing the document.',
-    it: 'Una dichiarazione sostitutiva che rimpiazza molti certificati nei rapporti con gli uffici pubblici: dichiari un fatto (residenza, nascita, stato di famiglia) sotto la tua responsabilità invece di produrre il documento.',
+    en: 'A self-declaration that replaces a certificate when dealing with public offices — you declare a fact (residence, birth, family status) under your own responsibility. Art. 40 DPR 445/2000 does not merely permit it: a public body or public-service operator must accept it, and may not require the certificate.',
+    it: 'Una dichiarazione sostitutiva che rimpiazza il certificato nei rapporti con gli uffici pubblici — dichiari un fatto (residenza, nascita, stato di famiglia) sotto la tua responsabilità. L’art. 40 del DPR 445/2000 non si limita a permetterla: un ente pubblico o un gestore di pubblici servizi deve accettarla e non può pretendere il certificato.',
+    guide: '/eu-citizens/residency/iscrizione-anagrafica',
+  },
+  {
+    slug: 'certificato-di-residenza',
+    term: 'Certificato di residenza',
+    en: 'The comune’s certificate that you are registered as resident. Valid only between private parties — a public office must take an autocertificazione instead. Downloadable from ANPR with SPID/CIE/CNS; €16 stamp duty unless the stated use is exempt.',
+    it: 'Il certificato del Comune che attesta l’iscrizione anagrafica. Vale solo nei rapporti tra privati — un ufficio pubblico deve accettare invece l’autocertificazione. Si scarica dall’ANPR con SPID/CIE/CNS; 16 € di bollo se l’uso dichiarato non rientra in un’esenzione.',
+    guide: '/eu-citizens/residency/iscrizione-anagrafica',
   },
   {
     slug: 'marca-da-bollo',

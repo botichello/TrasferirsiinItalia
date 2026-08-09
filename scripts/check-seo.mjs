@@ -25,7 +25,9 @@
  *   - JSON-LD split across blocks, a node with no @id, a duplicate @id, or an
  *     @id pointer that resolves to no node in the same graph;
  *   - llms.txt / llms-full.txt / updates.xml pointing at a URL that does not
- *     exist, or omitting a guide or orientation page that does.
+ *     exist, or omitting a guide or orientation page that does;
+ *   - a source cited on any page but missing from the /sources index, which
+ *     claims to list every one.
  *
  * "Private mode" (the SEARCH_INDEXING switch) is detected from dist/robots.txt:
  * when the site is a blanket Disallow, every page is intentionally noindex and
@@ -154,6 +156,18 @@ for (const file of htmlFiles(DIST)) {
     ids: new Set([...html.matchAll(/ id="([^"]+)"/g)].map((m) => m[1])),
     // Root-relative internal links (skip protocol/mailto/anchor-only).
     links: [...html.matchAll(/ href="(\/[^"]*)"/g)].map((m) => m[1]),
+    // External links inside the page's own "Sources" / "Fonti" section, for the
+    // /sources completeness check below. Captured here rather than re-read
+    // later: the file path is known now, and deriving it back from the URL key
+    // gets /404 wrong (it is 404.html, not 404/index.html).
+    sourceLinks: (() => {
+      const at = html.search(/>(?:Sources|Fonti)<\/h2>/);
+      if (at === -1) return [];
+      const section = html.slice(at, html.indexOf('</section>', at) + 1);
+      return [...section.matchAll(/href="(https?:\/\/[^"]+)"/g)]
+        .map((m) => m[1])
+        .filter((href) => !href.startsWith('https://web.archive.org/')); // the archived copy, not the citation
+    })(),
   });
 }
 
@@ -449,6 +463,44 @@ for (const part of parts) {
   }
 }
 
+// ---- /sources completeness --------------------------------------------------
+// /sources says "every one is listed here". That sentence is a claim about the
+// site, so it gets checked like one. Citations live in three places — the
+// content collections, the `sources` arrays inside the orientation pages, and
+// the source-country notes — and an index built from only the first was missing
+// 126 URLs while still making the claim. check-links had already been bitten by
+// exactly this and fixed; the audit page had not.
+//
+// Anchored on the visible heading rather than a class, with a floor underneath:
+// if the heading is ever renamed, the count collapses and this fails loudly
+// instead of quietly checking nothing.
+const sourcesIndex = { '': null, '/it': null };
+for (const locale of ['', '/it']) {
+  const page = pages.get(`${locale}/sources`);
+  if (!page) errors.push(`  ${locale}/sources: not built`);
+  else sourcesIndex[locale] = readFileSync(join(DIST, `${locale}/sources/index.html`), 'utf8');
+}
+
+let pagesWithSources = 0;
+const missingFromIndex = new Map(); // url -> first page that cites it
+for (const [urlPath, page] of pages) {
+  if (/\/sources$/.test(urlPath)) continue;
+  if (page.sourceLinks.length === 0) continue;
+  pagesWithSources++;
+  const index = sourcesIndex[urlPath.startsWith('/it/') || urlPath === '/it' ? '/it' : ''];
+  if (!index) continue;
+  for (const href of page.sourceLinks)
+    if (!index.includes(href) && !missingFromIndex.has(href)) missingFromIndex.set(href, urlPath);
+}
+if (pagesWithSources < 200) {
+  console.error(
+    `✗ check-seo: only ${pagesWithSources} page(s) carry a sources section — the heading this scan anchors on has moved.`,
+  );
+  process.exit(1);
+}
+for (const [href, from] of missingFromIndex)
+  errors.push(`  /sources: does not list ${href} (cited by ${from})`);
+
 // ---- Machine-readable surfaces ---------------------------------------------
 // llms.txt, llms-full.txt and the RSS feed are the site's other front doors,
 // and unlike the sitemap they are hand-composed prose: a new orientation page
@@ -506,6 +558,7 @@ console.log(
     `descriptions ${MIN_DESCRIPTION}-${MAX_DESCRIPTION} chars and identical across og/twitter, ` +
     `${orientationChecked} orientation schemas, ` +
     `${sitemapUrls} sitemap URLs self-canonical (${datedUrls} with a <lastmod> matching the page), ` +
-    `${surfaceUrls} links across llms.txt/llms-full.txt/updates.xml` +
+    `${surfaceUrls} links across llms.txt/llms-full.txt/updates.xml, ` +
+    `every citation on ${pagesWithSources} pages present on /sources` +
     (privateMode ? ' (private mode: site-wide noindex expected)' : ''),
 );

@@ -15,7 +15,8 @@
  * Failure policy (kept deliberately low-false-positive so the red check means
  * something):
  *   - ERROR (always fails): 404/410 dead links, and redirects to a domain that
- *     looks like parking/hijack.
+ *     looks like parking/hijack, or answers 200 with a bot-challenge body
+ *     instead of the page.
  *   - REVIEW (fails only when LINKS_STRICT=1): a citation that redirects to a
  *     different host, or whose deep link now collapses to the site root — i.e.
  *     possible silent rot a human should look at.
@@ -69,6 +70,10 @@ const KNOWN_BOTWALL = new Set([
   'regione.basilicata.it',
   'regione.fvg.it',
   'sanita.puglia.it',
+  // Serves a JS "Site verification" interstitial at HTTP 200 to datacenter
+  // traffic. Confirmed live via Wayback snapshots recorded in archives.json
+  // (the SSN page 2026-02-16, the contribution PDF 2023-12-07).
+  'salute.gov.it',
   // ANPR serves its subpages only to browser-shaped requests (root is 200,
   // every /area-cittadino/ path is 403); each cited page was read with full
   // browser headers on 2026-08-09.
@@ -97,6 +102,18 @@ const PARKING_RE =
  * automated fetch — so treat it as "expected", like a 403 from a bot-walled
  * host, rather than a redirect to review.
  */
+/**
+ * Interstitials served *in place of* the page, on the cited host, with HTTP 200.
+ * Status and final URL both look healthy, so without reading the body a
+ * challenge is indistinguishable from the real page — six salute.gov.it
+ * citations were passing this check while serving a "Site verification" screen,
+ * including the source behind the SSN guide and all twenty region overlays.
+ * Markers are deliberately narrow: each is a literal string these screens print
+ * and an article about Italian healthcare would not.
+ */
+const CHALLENGE_BODY_RE =
+  /<title>\s*(?:Site verification|Just a moment|Attention Required|Access denied)\s*<\/title>|Checking your browser before accessing|Enable JavaScript and cookies to continue|__cf_chl_|\/cdn-cgi\/challenge-platform/i;
+
 const BOTWALL_REDIRECT_RE =
   /(perfdrive|radware|incapsula|imperva|datadome|queue-it|distilnetworks|shieldsquare|hcaptcha|recaptcha|geo\.captcha)/i;
 
@@ -148,10 +165,21 @@ async function check(url) {
         },
         signal: AbortSignal.timeout(TIMEOUT_MS),
       });
-      try {
-        await res.body?.cancel();
-      } catch {}
-      last = { status: res.status, finalUrl: res.url || url, error: null };
+      // A challenge page answers 200 on the cited host itself, so status and
+      // final URL both look healthy. Read a bounded slice of HTML bodies to
+      // tell one apart; everything else has its body cancelled as before.
+      let challenge = false;
+      const type = res.headers.get('content-type') ?? '';
+      if (res.status >= 200 && res.status < 300 && /html/i.test(type)) {
+        try {
+          challenge = CHALLENGE_BODY_RE.test((await res.text()).slice(0, 60_000));
+        } catch {}
+      } else {
+        try {
+          await res.body?.cancel();
+        } catch {}
+      }
+      last = { status: res.status, finalUrl: res.url || url, error: null, challenge };
       if (res.status >= 200 && res.status < 300) return last;
     } catch (e) {
       const code = e?.name === 'TimeoutError' ? 'timeout' : e?.cause?.code || e?.code || e?.name || 'fetch-error';
@@ -171,6 +199,11 @@ function classify(url, r) {
   if (s === 404 || s === 410) return { level: 'error', cat: 'dead', msg: `HTTP ${s} — dead` };
 
   if (s >= 200 && s < 300) {
+    if (r.challenge) {
+      return KNOWN_BOTWALL.has(cited)
+        ? { level: 'info', cat: 'botwall', msg: 'HTTP 200 but the body is a bot-challenge — known bot-protected host (expected)' }
+        : { level: 'warn', cat: 'unverifiable', msg: 'HTTP 200 but the body is a bot-challenge, not the page — could not verify' };
+    }
     if (final && final !== cited) {
       if (PARKING_RE.test(final))
         return { level: 'error', cat: 'hijack', msg: `redirects off-site to ${r.finalUrl}` };

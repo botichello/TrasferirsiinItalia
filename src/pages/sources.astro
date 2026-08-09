@@ -38,7 +38,7 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
         <h2 class="font-serif text-2xl">{catLabel[g.key]}</h2>
         <ul class="mt-4 space-y-4 not-prose">
           {g.sources.map((s) => (
-            <li class="border-l-2 border-line pl-4">
+            <li class="border-l-2 border-line pl-4 [overflow-wrap:anywhere]">
               <a
                 href={s.url}
                 target="_blank"

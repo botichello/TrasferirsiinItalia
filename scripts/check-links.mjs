@@ -69,6 +69,10 @@ const KNOWN_BOTWALL = new Set([
   'regione.basilicata.it',
   'regione.fvg.it',
   'sanita.puglia.it',
+  // ANPR serves its subpages only to browser-shaped requests (root is 200,
+  // every /area-cittadino/ path is 403); each cited page was read with full
+  // browser headers on 2026-08-09.
+  'anagrafenazionale.interno.it',
   // WAF-fronted comuni: 403/503 to datacenter traffic, fine in a browser
   // (Potenza confirmed alive via Wayback 200 snapshots).
   'comune.potenza.it',

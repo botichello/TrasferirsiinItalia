@@ -38,8 +38,12 @@ fails.
    added to the known list *only after* confirming the URL works in a browser
    or the Wayback Machine.
 6. `npm run fetch:archives` — refresh Wayback snapshots (merges; never drops).
-7. `npm run build:history` — regenerate the verification log that powers
-   `/updates` and the per-page "Verified N times" line.
+7. `npm run build:history` — refresh the verification log that powers `/updates`
+   and the per-page "Verified N times" line. It **merges**: git can only show
+   what your clone contains, so in a shallow checkout a plain rebuild would
+   silently delete every verification older than the clone's first commit. The
+   script unions with the committed file, refuses to write a smaller log, and
+   tells you when it kept events it could not derive.
 
 ## Adding a city (comune overlay)
 
@@ -238,6 +242,35 @@ This exists because a gate that has stopped firing still reports success — the
 completeness scan here once passed on 24 files while genuinely checking 14, and
 every build was green throughout. **If you add a rule to any gate, add a
 case to `test-gates.mjs`**: a rule nobody has watched fail is not yet a gate.
+
+## Dependencies and advisories
+
+`npm audit` reports advisories against Astro and its build-time dependencies.
+Before treating one as urgent, check whether this deployment can reach it — the
+site is fully prerendered, ships no adapter, and runs one first-party script:
+
+| advisory | reachable here? |
+| --- | --- |
+| Astro — XSS via `define:vars` | **No.** The directive appears nowhere in `src/`. |
+| Astro — server island parameter replay | **No.** No `server:defer`; every route is static. |
+| `sharp` / libvips CVEs | **No.** sharp runs only in `gen:og`, over SVGs this repo writes. Pinned to a patched release via `overrides` anyway. |
+| `esbuild` dev-server file read | **No.** Windows dev server only; the build is `astro build`. |
+
+Record the finding rather than the fear: an advisory that cannot be reached is
+not a reason to take a major version early, and re-deciding it every round costs
+more than writing it down once.
+
+The remaining Astro advisories are fixed only in **7.x**, which is a real
+upgrade and not a drop-in. Three changes need work before it can land: the Rust
+compiler errors on unclosed tags and no longer auto-corrects invalid nesting;
+`compressHTML` defaults to `'jsx'`, which strips whitespace between inline
+elements; and the markdown processor changes, so heading ids — which
+`check:seo` validates every `#fragment` against — can move. v6 also raises the
+floor to Node 22.12 and moves to Zod 4, where `z.string().url()` becomes
+`z.url()` in `src/content.config.ts`.
+
+Node is pinned in `engines` and `.nvmrc` so local, CI and Vercel agree; the
+workflows all run 22.
 
 ## Language
 

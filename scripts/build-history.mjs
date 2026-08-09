@@ -8,9 +8,23 @@
  *
  * Committed like archives.json (Vercel's shallow clones can't derive it at
  * build time). Refresh after verification passes: npm run build:history
+ *
+ * MERGES, NEVER DROPS — for the same reason fetch:archives does. What git can
+ * see depends on how the repository was cloned, and a shallow clone sees only
+ * the recent tail. Run here, a plain rebuild rewrote 316 events as 194: the
+ * 122 verifications older than the clone's first commit simply vanished, and
+ * the file it deleted them from is the site's proof that it is verified at all.
+ * Nothing would have failed. CONTRIBUTING tells every contributor to run this
+ * after a verification pass, so the failure was one `git clone --depth` away
+ * from anybody.
+ *
+ * So: the git-derived history is unioned with whatever is already committed,
+ * an event being identified by (file, verified date). The result can grow and
+ * can correct a subject line, but can never shrink — and if the tree is
+ * shallow, the script says so rather than quietly doing less.
  */
 import { execFileSync } from 'node:child_process';
-import { readdirSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
 const ROOT = new URL('..', import.meta.url).pathname;
@@ -91,6 +105,39 @@ for (const entry of orientationPages) {
   if (events.length > 0) history[key] = events;
 }
 
-writeFileSync(OUT, JSON.stringify(history, null, 1) + '\n');
-const total = Object.values(history).reduce((n, e) => n + e.length, 0);
-console.log(`✓ history.json: ${total} verification events across ${Object.keys(history).length} files`);
+// ---- Merge with what is already committed -----------------------------------
+const previous = existsSync(OUT) ? JSON.parse(readFileSync(OUT, 'utf8')) : {};
+const shallow = git('rev-parse', '--is-shallow-repository').trim() === 'true';
+
+const merged = {};
+let recovered = 0;
+for (const key of new Set([...Object.keys(previous), ...Object.keys(history)])) {
+  const byDate = new Map();
+  // Derived first, committed second, so the committed record wins a tie. That
+  // ordering matters: in a shallow clone the oldest visible commit merely
+  // *contains* a file, so its subject line describes the wrong change. The
+  // already-recorded subject was written when the tree was whole.
+  for (const e of history[key] ?? []) byDate.set(e.verified, e);
+  const derived = new Set((history[key] ?? []).map((e) => e.verified));
+  for (const e of previous[key] ?? []) byDate.set(e.verified, e);
+  recovered += (previous[key] ?? []).filter((e) => !derived.has(e.verified)).length;
+  merged[key] = [...byDate.values()].sort((a, b) => (a.verified < b.verified ? -1 : 1));
+}
+
+const count = (h) => Object.values(h).reduce((n, e) => n + e.length, 0);
+const before = count(previous);
+const after = count(merged);
+if (after < before) {
+  console.error(`✗ history.json: refusing to write ${after} events over ${before} — the log must never shrink.`);
+  process.exit(1);
+}
+
+writeFileSync(OUT, JSON.stringify(merged, null, 1) + '\n');
+console.log(`✓ history.json: ${after} verification events across ${Object.keys(merged).length} files` + (after > before ? ` (+${after - before})` : ''));
+if (recovered > 0) {
+  console.log(
+    `  ${recovered} event(s) kept from the committed file that this checkout cannot derive` +
+      (shallow ? ' — the repository is a shallow clone.' : '.'),
+  );
+  if (shallow) console.log('  For a full rebuild from git, run: git fetch --unshallow');
+}

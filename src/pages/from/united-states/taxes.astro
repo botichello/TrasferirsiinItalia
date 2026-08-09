@@ -24,7 +24,9 @@ const sources = [
   { title: 'Medicare.gov — Travel outside the U.S.', url: 'https://www.medicare.gov/coverage/travel-outside-the-u.s.' },
   { title: 'Normattiva — TUIR (DPR 917/1986), artt. 2 e 3 (residence; worldwide taxation of residents)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1986-12-22;917~art2!vig=' },
   { title: 'Normattiva — TUIR art. 24-bis (neo-residenti: €300,000 substitute tax, in force from 1-1-2026)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1986-12-22;917~art24bis!vig=' },
-  { title: 'Normattiva — D.lgs 19 giugno 2026, n. 117 (new consolidated income tax code, applies from 1-1-2027)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-06-19;117' },
+  { title: 'Normattiva — D.lgs 19 giugno 2026, n. 117 (approving decree; the code itself is the annex, not on Normattiva)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-06-19;117' },
+  { title: 'Gazzetta Ufficiale — Supplemento ordinario n. 26/L to GU n. 152 of 3 July 2026: the annexed consolidated code (art. 246 neo-residenti, art. 247 pensioners at 20,000)', url: 'https://www.gazzettaufficiale.it/eli/gu/2026/07/03/152/so/26/sg/pdf' },
+  { title: 'Normattiva — TUIR art. 24-ter (7% pensioners regime; population ceiling 30,000 since 7 April 2026)', url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1986-12-22;917~art24ter!vig=' },
 ];
 const reports = [
   ['FBAR — FinCEN Form 114', '$10,000 aggregate across all foreign accounts, at any moment in the year', 'FinCEN, not the IRS — filed through the BSA E-Filing System, never with your return', '15 April, automatic extension to 15 October (no request needed)'],
@@ -241,7 +243,8 @@ const reports = [
         €600,000.
       </li>
       <li>
-        The <strong>7% regime</strong> for foreign pensions, in southern comuni.
+        The <strong>7% regime</strong> for foreign pensions, in southern comuni
+        under a population ceiling — see the note below, which has just moved.
       </li>
     </ul>
     <p>
@@ -260,10 +263,24 @@ const reports = [
         from 1 January 2027. The residence and worldwide-taxation wording carries
         over unchanged, but every article number a guide cites will move — art. 2
         stays art. 2, while the new-residents regime moves from art. 24-bis to
-        art. 246. Expect a wave of stale citations across the web from January,
-        and note that the consolidation appears not to have absorbed a 2026
-        amendment to the pensioners' regime, whose population threshold currently
-        differs between the two texts.
+        art. 246. Expect a wave of stale citations across the web from January.
+      </p>
+      <p class="mt-3 text-sm">
+        One divergence is now confirmed rather than suspected, and it is worth
+        money. The <strong>7% pensioners' regime</strong> is open only in a
+        comune under a population ceiling. TUIR art. 24-ter has read
+        <strong>30,000</strong> since <strong>7 April 2026</strong>. The
+        consolidated text — approved on 19 June and published on 3 July, both
+        after that date — reproduces the article as <strong>art. 247</strong>
+        carrying the pre-amendment <strong>20,000</strong>.
+      </p>
+      <p class="mt-3 text-sm">
+        So unless a corrective decree intervenes, the ceiling falls back to
+        20,000 on 1 January 2027, and comuni between the two figures stop
+        qualifying. Read both texts before counting on one: art. 24-ter is on
+        Normattiva, art. 247 only in the Gazzetta annex (Supplemento ordinario
+        n. 26/L to GU n. 152 of 3 July 2026, p. 210) — Normattiva publishes the
+        approving decree, not the code annexed to it.
       </p>
     </div>
   </div>
@@ -271,7 +288,8 @@ const reports = [
   <section class="mt-10 rounded-lg border border-line bg-surface/60 p-6">
     <h2 class="font-serif text-xl">Sources</h2>
     <p class="mt-1 text-sm text-muted">
-      Primary, official sources this page is based on — each fetched and checked on 3 August 2026.
+      Primary, official sources this page is based on — each fetched and checked
+      on 3 August 2026, except the Gazzetta annex, added and checked on 9 August 2026.
     </p>
     <ul class="mt-3 space-y-1 text-sm">
       {

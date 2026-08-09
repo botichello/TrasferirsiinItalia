@@ -33,6 +33,28 @@
  */
 export const figures = [
   {
+    id: 'pensioners-7pct-threshold',
+    what: "population ceiling of the comune for the 7% foreign-pension regime",
+    // Raised 20,000 → 30,000 with effect from 7 April 2026 (bisected on
+    // Normattiva: 20.000 in force at 2026-04-06, 30.000 at 2026-04-07).
+    //
+    // 20.000 is deliberately NOT retired. It is not a stale value — it is the
+    // figure the consolidated code annexed to D.lgs 117/2026 carries at art.
+    // 247, which takes over on 1 January 2027 because the consolidation was
+    // published on 3 July 2026 without absorbing the April amendment. Both
+    // numbers are true, of different texts, and the pages say so. What this
+    // entry guards is that the number *in force* keeps being stated: drop the
+    // 30,000 and the site would silently describe only the future ceiling.
+    current: ['30.000', '30,000'],
+    retired: [],
+    near: /taxes\.astro$/,
+    quoted: [],
+    source: {
+      title: 'Normattiva — TUIR art. 24-ter (testo vigente)',
+      url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1986-12-22;917~art24ter!vig=',
+    },
+  },
+  {
     id: 'irpef-middle-bracket',
     what: 'IRPEF rate on the €28,000–50,000 band',
     current: ['33%', '33 per cento'],

@@ -382,6 +382,34 @@ const seoCases = [
     },
   },
   {
+    name: 'a cited source is missing from the /sources index',
+    expect: '/sources: does not list',
+    break: (d) => {
+      const href = 'https://www.agenziaentrate.gov.it/portale/prenota-un-appuntamento';
+      const s = read(d, 'sources/index.html');
+      if (!s.includes(href)) throw new Error('fixture drift: /sources does not list the appointment page');
+      write(d, 'sources/index.html', s.replaceAll(href, 'https://example.com/removed'));
+    },
+  },
+  {
+    name: 'the sources heading is renamed, so the scan would cover nothing',
+    expect: 'the heading this scan anchors on has moved',
+    break: (d) => {
+      const walk = (dir) => {
+        for (const name of readdirSync(dir)) {
+          const p = join(dir, name);
+          if (statSync(p).isDirectory()) walk(p);
+          else if (name.endsWith('.html')) {
+            const s = readFileSync(p, 'utf8');
+            if (!s.includes('</h2>')) continue;
+            writeFileSync(p, s.replace(/>(Sources|Fonti)<\/h2>/g, '>Citations</h2>'));
+          }
+        }
+      };
+      walk(d);
+    },
+  },
+  {
     name: 'llms.txt points at a page that does not exist',
     expect: '/llms.txt: links to nothing',
     break: (d) => patch(d, 'llms.txt', '/eu-citizens/residency/codice-fiscale)', '/eu-citizens/residency/ghost)'),

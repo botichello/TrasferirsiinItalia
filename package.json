@@ -2,6 +2,9 @@
   "name": "trasferirsi-italia",
   "type": "module",
   "version": "0.1.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "description": "Authoritative, dated, primary-source-cited reference for relocating to Italy. v1: the EU-citizen national residency journey.",
   "scripts": {
     "dev": "astro dev",
@@ -35,5 +38,8 @@
     "axe-core": "^4.10.0",
     "playwright-core": "^1.62.1",
     "tailwindcss": "^4.3.3"
+  },
+  "overrides": {
+    "sharp": "^0.35.0"
   }
 }

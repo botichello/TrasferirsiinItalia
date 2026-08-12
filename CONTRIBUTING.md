@@ -238,6 +238,15 @@ and every fix was to unflatten it. If a long sentence enumerates conditions or
 options, it wants to be a `<ul>`; if a paragraph covers two things, it wants to be
 two paragraphs. Do not pad the limits to fit new copy.
 
+**List items are measured on the same limits**, and unflattening is not a way
+out. A gate reading only `<p>` would hand you the prescribed remedy as an escape
+hatch: it scanned 41,000 paragraphs while 70,000 list items went unread, and
+eight sentences were sitting in them over the limit — on the city pages that are
+the site's best-performing search cluster. Lists marked `not-prose` are skipped
+(`/sources` renders its "cited by" index as one comma-separated run, which is
+machine output, not writing), and block content nested inside an `<li>` is
+excluded because the `<p>` scan already covers it.
+
 `test:gates` is the gates' own test: it copies the gate's input (`dist/` for
 `check:seo`, `check:journeys` and `check:prose`, `src/` for `check:freshness`,
 `check:figures` and `check:theme`), injects one specific fault per case

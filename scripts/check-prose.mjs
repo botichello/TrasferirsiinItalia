@@ -22,6 +22,20 @@
  * They are deliberately loose. The point is not a house style imposed on 34,000
  * paragraphs, it is that nothing silently becomes a wall of text.
  *
+ * List items are measured too, and that is not a detail. The prescribed fix for
+ * an over-long paragraph here is to unflatten it into a list — so a gate that
+ * reads only <p> hands you an escape hatch and calls it a remedy. It scanned
+ * 41,000 paragraphs while 70,000 list items went unread, and eight sentences
+ * were sitting in them over the limit, on the city pages that are this site's
+ * best-performing search cluster.
+ *
+ * Two scoping rules keep that honest. Lists marked `not-prose` are skipped:
+ * /sources renders its "cited by" enumeration as one comma-separated run, which
+ * is a machine-generated index, not writing. And block-level content nested
+ * inside an <li> — a <p>, a heading, a sub-list — is removed before measuring,
+ * because the <p> scan already covers it and joining a card's heading to its
+ * body invented a 58-word sentence that nobody wrote.
+ *
  * Usage: node scripts/check-prose.mjs   (needs a completed build in dist/)
  */
 import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
@@ -67,12 +81,16 @@ const words = (s) => s.split(' ').filter(Boolean).length;
  */
 const sentences = (s) => s.split(/(?<=[.!?:])\s+(?=[A-Z«"(À-ÖØ-Þ])/);
 
+/** An <li>'s own text: nested blocks belong to their own scan, not this one. */
+const ownText = (li) => text(li.replace(/<(ul|ol|p|div|h[1-6])[^>]*>[\s\S]*?<\/\1>/g, ' '));
+
 // Same text appears on up to 97 city pages; report it once, with the count.
 const longParas = new Map();
 const longSents = new Map();
 
 let paraCount = 0;
 let sentCount = 0;
+let itemCount = 0;
 
 for (const file of htmlFiles(DIST)) {
   const html = readFileSync(file, 'utf8');
@@ -100,12 +118,44 @@ for (const file of htmlFiles(DIST)) {
       }
     }
   }
+
+  for (const list of main.matchAll(/<(ul|ol)([^>]*)>([\s\S]*?)<\/\1>/g)) {
+    if (/not-prose/.test(list[2])) continue;
+    for (const [, li] of list[3].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)) {
+      const t = ownText(li);
+      if (!t) continue;
+      itemCount++;
+      const iw = words(t);
+      if (iw > MAX_PARAGRAPH) {
+        const k = t.slice(0, 90);
+        if (!longParas.has(k)) longParas.set(k, { words: iw, text: t, pages: new Set() });
+        longParas.get(k).pages.add(url);
+      }
+      for (const raw of sentences(t)) {
+        const sw = words(raw);
+        if (sw < 2) continue;
+        sentCount++;
+        if (sw > MAX_SENTENCE) {
+          const k = raw.slice(0, 90);
+          if (!longSents.has(k)) longSents.set(k, { words: sw, text: raw.trim(), pages: new Set() });
+          longSents.get(k).pages.add(url);
+        }
+      }
+    }
+  }
 }
 
 // Floor: the site has ~34,000 paragraphs. Scanning a few hundred means the
 // input is not the built site, and a pass would be meaningless.
 if (paraCount < 5000) {
   console.error(`✗ check-prose: only ${paraCount} paragraph(s) found under ${DIST} — dist/ is empty or wrong.`);
+  process.exit(1);
+}
+// The list scan needs its own floor: paragraphs alone passing tells you nothing
+// about whether 70,000 list items were read or the selector quietly stopped
+// matching, which is the failure this gate was extended to close.
+if (itemCount < 10000) {
+  console.error(`✗ check-prose: only ${itemCount} list item(s) found under ${DIST} — the list scan is matching nothing.`);
   process.exit(1);
 }
 
@@ -131,6 +181,7 @@ if (errors.length > 0) {
   process.exit(1);
 }
 console.log(
-  `✓ check-prose: ${paraCount} paragraphs (≤${MAX_PARAGRAPH} words) and ${sentCount} sentences ` +
+  `✓ check-prose: ${paraCount} paragraphs and ${itemCount} list items (≤${MAX_PARAGRAPH} words) ` +
+    `and ${sentCount} sentences ` +
     `(≤${MAX_SENTENCE} words) across the built site.`,
 );

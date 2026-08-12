@@ -28,7 +28,7 @@ la *"Richiesta di iscrizione anagrafica"* (accesso SPID/CIE).
   8:30–12:00 e martedì 15:00–16:30, sempre su appuntamento, con il modulo PDF
   *"Dichiarazione di residenza"* del Comune.
 - **Documenti (cittadini UE):** la dichiarazione deve indicare la cittadinanza
-  ed essere compilata in ogni parte (a pena di irricevibilità); allega copia
+  ed essere compilata in ogni parte (a pena di irricevibilità). Allega copia
   del documento/passaporto di tutte le persone coinvolte e la prova di un
   requisito del D.Lgs. 30/2007 — lavoro, risorse sufficienti + assicurazione
   sanitaria, studio + risorse + assicurazione, oppure essere familiare di un

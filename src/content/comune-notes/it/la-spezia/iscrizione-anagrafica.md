@@ -27,10 +27,10 @@ lunedì a venerdì 08:00–12:00 e il sabato 08:00–11:15.
 - **Online:** il Comune indirizza le dichiarazioni di residenza al portale
   nazionale **ANPR** — accedi con **SPID, CIE, CNS o eIDAS** (va bene anche
   un'identità digitale di un altro Paese UE) e avvia la *dichiarazione di
-  trasferimento*; per i cittadini europei c'è un percorso dedicato, con cui
-  puoi caricare i documenti o recuperarli da un'altra amministrazione UE
-  tramite **OOTS**, e indicare facoltativamente telefono e fascia di
-  reperibilità per la verifica dell'indirizzo.
+  trasferimento*. Per i cittadini europei c'è un percorso dedicato: carichi i
+  documenti o li recuperi da un'altra amministrazione UE tramite **OOTS**, e
+  puoi indicare telefono e fascia di reperibilità per la verifica
+  dell'indirizzo.
 - **Allo sportello:** prenota sul sito del Comune e presentati con documento
   d'identità e il modello ministeriale firmato da tutti i componenti
   maggiorenni (con copie dei documenti), l'indirizzo esatto con numero civico

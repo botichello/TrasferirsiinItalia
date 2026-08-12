@@ -662,6 +662,35 @@ const themeCases = [
 // ---- Prose gate: walls of text, over dist/ -----------------------------------
 const proseCases = [
   {
+    name: 'a sentence inside a list item grows past the limit',
+    expect: 'sentence of 61 words',
+    break: (d) => {
+      const s = read(d, GUIDE);
+      const li = s.match(/<li>(?![\s\S]{0,40}<(?:p|ul|ol|h[1-6])\b)[\s\S]{40,400}?<\/li>/);
+      if (!li) throw new Error('fixture drift: no plain <li> on the guide page');
+      write(d, GUIDE, s.replace(li[0], `<li>${'word '.repeat(60)}.</li>`));
+    },
+  },
+  {
+    name: 'the list scan stops matching (input floor)',
+    expect: 'the list scan is matching nothing',
+    break: (d) => {
+      const walk = (dir) => {
+        for (const name of readdirSync(dir)) {
+          const p = join(dir, name);
+          if (statSync(p).isDirectory()) walk(p);
+          else if (name.endsWith('.html')) {
+            const s = readFileSync(p, 'utf8');
+            if (!s.includes('<li')) continue;
+            writeFileSync(p, s.replaceAll('<li', '<listitem').replaceAll('</li>', '</listitem>'));
+          }
+        }
+      };
+      walk(d);
+    },
+  },
+
+  {
     name: 'a sentence grows past the limit',
     expect: 'sentence of',
     // The shape of the bug: a list of conditions flattened back into one

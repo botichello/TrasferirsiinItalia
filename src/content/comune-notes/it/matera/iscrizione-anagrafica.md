@@ -28,8 +28,8 @@ canali.
   (allegato 1) da tutti i maggiorenni che si trasferiscono, i documenti
   d'identità, patenti e libretti di circolazione dei veicoli, il titolo di
   godimento dell'alloggio (rogito, locazione o comodato), copia dell'utenza
-  elettrica e del codice fiscale, più la ricevuta della **dichiarazione TARI
-  (tassa rifiuti)** — una particolarità locale.
+  elettrica e del codice fiscale. Serve anche la ricevuta della
+  **dichiarazione TARI (tassa rifiuti)**, una particolarità locale.
 - **Cittadini UE:** devono possedere i requisiti di soggiorno del D.lgs. 30/2007
   (lavoro, o risorse sufficienti + copertura sanitaria); i cittadini non UE
   esibiscono il permesso di soggiorno.

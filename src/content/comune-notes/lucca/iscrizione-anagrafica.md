@@ -29,5 +29,5 @@ In **Lucca** (on ANPR since December 2017), the residency declaration is filed
 - **Documents (EU citizens):** valid ID/passport, codice fiscale, proof of your
   legal occupancy of the home (registered lease, deed, or owner's declaration —
   unregistered contracts are rejected), and proof of the basis of stay (work,
-  study + cover, or resources + cover) per the comune's *Allegato B*; the
+  study + cover, or resources + cover) per the comune's *Allegato B*. The
   attestazione request takes a **€16 marca da bollo**.

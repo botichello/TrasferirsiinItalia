@@ -23,7 +23,7 @@ portale nazionale ANPR**.
   dichiarazione sul titolo di occupazione) e inviala via email
   (`ufficio.protocollo@comune.siena.it`), PEC
   (`comune.siena@postacert.toscana.it`) o raccomandata a *Ufficio Anagrafe,
-  Il Campo 1, 53100 Siena* — oppure recati agli sportelli del **Servizio
+  Il Campo 1, 53100 Siena*. Oppure recati agli sportelli del **Servizio
   Demografico** in **via Salicotto 6** (accesso libero lun/mer/ven; mar/gio su
   appuntamento, tel. 0577 292200). Il servizio è gratuito.
 - **Tempi:** registrazione entro **due giorni lavorativi**, con effetti dalla

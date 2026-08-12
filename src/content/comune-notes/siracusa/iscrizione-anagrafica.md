@@ -27,8 +27,8 @@ iscrizione anagrafica"* form (SPID/CIE).
   Santa Lucia, Tiche), Mon–Fri 8:30–12:00 plus Tuesday 15:00–16:30, also by
   appointment, using the comune's PDF *"Dichiarazione di residenza"* form.
 - **Documents (EU citizens):** the declaration must state your citizenship and
-  be complete in every field (incomplete forms are rejected as inadmissible);
-  attach ID/passport copies for everyone involved and proof of a
+  be complete in every field (incomplete forms are rejected as inadmissible).
+  Attach ID/passport copies for everyone involved, plus proof of a
   D.Lgs. 30/2007 basis — work, sufficient resources + health insurance,
   study + resources + insurance, or being the family member of an EU citizen.
 - **Timeline and cost:** free; processing starts within two working days and

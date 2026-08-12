@@ -21,7 +21,7 @@ In **Siena**, the residency declaration goes to the **Ufficio Anagrafe** within
   download the comune's forms (*Allegato 1* plus occupancy-title declaration)
   and send them by email (`ufficio.protocollo@comune.siena.it`), PEC
   (`comune.siena@postacert.toscana.it`), or registered post to *Ufficio
-  Anagrafe, Il Campo 1, 53100 Siena* — or go in person to the **Servizio
+  Anagrafe, Il Campo 1, 53100 Siena*. Or go in person to the **Servizio
   Demografico** desks at **via Salicotto 6** (walk-in Mon/Wed/Fri; Tue/Thu by
   appointment, tel. 0577 292200). Free of charge.
 - **Timeline:** registered within **two working days**, effective from the

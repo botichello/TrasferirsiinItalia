@@ -31,5 +31,5 @@ sospeso.
   prova del titolo di occupazione dell'alloggio (contratto registrato, atto di
   proprietà o dichiarazione del proprietario — i contratti non registrati non
   sono accettati) e prova della base del soggiorno (lavoro, studio + copertura,
-  o risorse + copertura) secondo l'*Allegato B* del Comune; la richiesta di
+  o risorse + copertura) secondo l'*Allegato B* del Comune. La richiesta di
   attestazione richiede una **marca da bollo da 16 €**.

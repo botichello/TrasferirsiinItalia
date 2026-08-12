@@ -26,8 +26,8 @@ in the Palazzo Civico, **Piazza Europa 1, 19124** — desks open Mon–Fri
 
 - **Online:** the comune routes residence declarations through the national
   **ANPR** portal — log in with **SPID, CIE, CNS or eIDAS** (an EU digital
-  identity works) and start a *dichiarazione di trasferimento*; there is a
-  dedicated flow for EU citizens, which lets you upload documents or pull them
+  identity works) and start a *dichiarazione di trasferimento*. There is a
+  dedicated flow for EU citizens: it lets you upload documents or pull them
   from another EU administration via **OOTS**, and optionally leave a phone
   number and time slot for the address check.
 - **In person:** book on the comune's website, then bring your ID and the

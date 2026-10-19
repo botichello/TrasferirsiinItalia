@@ -14,7 +14,7 @@
     "check:figures": "node scripts/check-figures.mjs",
     "check:theme": "node scripts/check-theme.mjs",
     "check:twins": "node scripts/check-twins.mjs",
-    "check:links": "node scripts/check-links.mjs",
+    "check:links": "node --max-http-header-size=65536 scripts/check-links.mjs",
     "fetch:archives": "node scripts/fetch-archives.mjs",
     "astro": "astro",
     "submit:indexnow": "node scripts/submit-indexnow.mjs",

@@ -37,7 +37,11 @@ fails.
 5. `npm run check:links` — dead/hijacked citations fail; new bot-walls get
    added to the known list *only after* confirming the URL works in a browser
    or the Wayback Machine.
-6. `npm run fetch:archives` — refresh Wayback snapshots (merges; never drops).
+6. `npm run fetch:archives` — refresh Wayback snapshots for every citation
+   (content, orientation pages, source-country notes, figures). A miss keeps the
+   old snapshot; a URL no longer cited is dropped. The monthly
+   `refresh-archives` workflow does the same and pushes to production after a
+   green build.
 7. `npm run build:history` — refresh the verification log that powers `/updates`
    and the per-page "Verified N times" line. It **merges**: git can only show
    what your clone contains, so in a shallow checkout a plain rebuild would

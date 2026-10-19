@@ -26,7 +26,8 @@ not broad and stale. So the citability discipline is mechanical, not aspirationa
 - `scripts/fetch-archives.mjs` records a Wayback Machine snapshot for each cited
   source (`src/data/archives.json`); guide pages and the `/sources` index show an
   **"archived copy"** link, so a citation survives link rot and readers can reach
-  pages that anti-bot protection blocks. Refresh with `npm run fetch:archives`.
+  pages that anti-bot protection blocks. Refresh with `npm run fetch:archives`;
+  `.github/workflows/refresh-archives.yml` does it monthly, build-gated.
 - `/sources` (and `/it/sources`) is an auto-generated, auditable index of every
   primary source the site cites, grouped by authority, each with the date it was
   last checked and the pages that rely on it.

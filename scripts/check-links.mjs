@@ -27,15 +27,9 @@
  *
  * No dependencies — uses Node's built-in fetch (Node 18+).
  */
-import { readdir, readFile } from 'node:fs/promises';
-import { join, relative } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { collectCitedUrls } from './lib/cited-urls.mjs';
+import { MISSING_INTERMEDIATE, missingIntermediates, getWithCa } from './lib/tls-chain.mjs';
 
-const CONTENT_DIRS = [
-  fileURLToPath(new URL('../src/content/guides/', import.meta.url)),
-  fileURLToPath(new URL('../src/content/region-notes/', import.meta.url)),
-  fileURLToPath(new URL('../src/content/comune-notes/', import.meta.url)),
-];
 const STRICT = process.env.LINKS_STRICT === '1';
 
 const UA =
@@ -133,21 +127,31 @@ const depth = (u) => {
   }
 };
 
-/** Recursively collect all .md files under a directory. */
-async function walk(dir) {
-  let entries;
+const HEADERS = {
+  'User-Agent': UA,
+  'Accept-Language': 'it-IT,it;q=0.9,en;q=0.8',
+  Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+};
+
+/** Per-host intermediates fetched by repairChain(), so each host is repaired once. */
+const repaired = new Map();
+
+/**
+ * Retry a URL whose server omits an intermediate certificate, the way a
+ * browser would (scripts/lib/tls-chain.mjs). Null if the chain cannot be built
+ * from the certificate's own issuer URLs — the original error then stands.
+ */
+async function repairChain(url) {
+  const { hostname } = new URL(url);
+  if (!repaired.has(hostname)) repaired.set(hostname, missingIntermediates(hostname).catch(() => null));
+  const extraCa = await repaired.get(hostname);
+  if (!extraCa) return null;
   try {
-    entries = await readdir(dir, { withFileTypes: true });
+    const r = await getWithCa(url, { headers: HEADERS, timeoutMs: TIMEOUT_MS, extraCa });
+    return { status: r.status, finalUrl: r.finalUrl, error: null, challenge: CHALLENGE_BODY_RE.test(r.body), chainRepaired: true };
   } catch {
-    return [];
+    return null;
   }
-  const out = [];
-  for (const e of entries) {
-    const full = join(dir, e.name);
-    if (e.isDirectory()) out.push(...(await walk(full)));
-    else if (e.name.endsWith('.md')) out.push(full);
-  }
-  return out;
 }
 
 /** GET with redirects, browser UA, timeout, and retries on non-2xx/errors. */
@@ -158,11 +162,7 @@ async function check(url) {
       const res = await fetch(url, {
         method: 'GET',
         redirect: 'follow',
-        headers: {
-          'User-Agent': UA,
-          'Accept-Language': 'it-IT,it;q=0.9,en;q=0.8',
-          Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        },
+        headers: HEADERS,
         signal: AbortSignal.timeout(TIMEOUT_MS),
       });
       // A challenge page answers 200 on the cited host itself, so status and
@@ -184,6 +184,13 @@ async function check(url) {
     } catch (e) {
       const code = e?.name === 'TimeoutError' ? 'timeout' : e?.cause?.code || e?.code || e?.name || 'fetch-error';
       last = { status: 0, finalUrl: url, error: String(code) };
+      // Not transient, so not worth the retries: either the browser-style
+      // repair answers, or the error is the result.
+      if (MISSING_INTERMEDIATE.has(String(code))) {
+        const r = await repairChain(url);
+        if (r) return r;
+        return { ...last, error: `${code} (server omits an intermediate certificate and its issuer could not be fetched)` };
+      }
     }
     if (i < ATTEMPTS - 1) await sleep(1500 * (i + 1));
   }
@@ -213,7 +220,7 @@ function classify(url, r) {
     }
     if (depth(url) >= 1 && depth(r.finalUrl) === 0)
       return { level: 'review', cat: 'stale-redirect', msg: `deep link now lands on the site root → ${r.finalUrl}` };
-    return { level: 'ok', cat: 'ok', msg: 'ok' };
+    return { level: 'ok', cat: 'ok', msg: 'ok', chainRepaired: r.chainRepaired };
   }
 
   const reason = s ? `HTTP ${s}` : r.error || 'unreachable';
@@ -238,72 +245,14 @@ async function pool(items, n, fn) {
 }
 
 // --- collect cited URLs --------------------------------------------------
-const files = (await Promise.all(CONTENT_DIRS.map(walk))).flat();
-const urlToFiles = new Map();
-const urlRe = /^\s*url:\s*(['"]?)(https?:\/\/[^'"\s]+)\1/gm;
-for (const path of files) {
-  const raw = await readFile(path, 'utf8');
-  const file = relative(process.cwd(), path);
-  for (const m of raw.matchAll(urlRe)) {
-    const url = m[2];
-    if (!urlToFiles.has(url)) urlToFiles.set(url, new Set());
-    urlToFiles.get(url).add(file);
-  }
-}
-// The orientation pages live in src/pages/*.astro rather than the content
-// collections, so walking .md files alone silently skipped every citation they
-// carry — around 130 URLs across 13 page pairs. Their `sources` arrays use the
-// same `url:` shape, so read them straight from the registry.
-const { orientationPages } = await import(
-  new URL('../src/data/orientation-pages.mjs', import.meta.url)
-);
-const astroUrlRe = /\burl:\s*(['"])(https?:\/\/[^'"\s]+)\1/g;
-for (const entry of orientationPages) {
-  for (const rel of [entry.en, entry.it]) {
-    let raw;
-    try {
-      raw = await readFile(new URL(`../${rel}`, import.meta.url), 'utf8');
-    } catch {
-      continue; // check-freshness owns the "registered page missing" error
-    }
-    for (const m of raw.matchAll(astroUrlRe)) {
-      const url = m[2];
-      if (!urlToFiles.has(url)) urlToFiles.set(url, new Set());
-      urlToFiles.get(url).add(rel);
-    }
-  }
-}
-
-// Source-country notes carry their own sources (src/data/source-countries.mjs);
-// they are data rather than page text, so include them explicitly.
-const { sourceCountries } = await import(
-  new URL('../src/data/source-countries.mjs', import.meta.url)
-);
-let noteSourceCount = 0;
-for (const country of sourceCountries) {
-  for (const note of country.notes) {
-    for (const src of note.sources ?? []) {
-      noteSourceCount++;
-      if (!urlToFiles.has(src.url)) urlToFiles.set(src.url, new Set());
-      urlToFiles.get(src.url).add(`source-countries: ${country.slug} → ${note.module}`);
-    }
-  }
-}
-
-// Tracked figures cite the primary text their value was read in
-// (src/data/figures.mjs). If that citation rots, the next re-verification has
-// nothing to check the number against — so it belongs in this sweep too.
-const { figures } = await import(new URL('../src/data/figures.mjs', import.meta.url));
-for (const fig of figures) {
-  if (!urlToFiles.has(fig.source.url)) urlToFiles.set(fig.source.url, new Set());
-  urlToFiles.get(fig.source.url).add(`figures: ${fig.id}`);
-}
-
+// Content collections, orientation pages, source-country notes and tracked
+// figures — see scripts/lib/cited-urls.mjs for why all four.
+const { urlToFiles, counts } = await collectCitedUrls();
 const urls = [...urlToFiles.keys()].sort();
 console.log(
-  `Checking ${urls.length} cited source URL(s) across ${files.length} content file(s) ` +
-    `+ ${orientationPages.length * 2} orientation pages + ${noteSourceCount} source-country note citations ` +
-    `+ ${figures.length} tracked figures…\n`,
+  `Checking ${urls.length} cited source URL(s) across ${counts.contentFiles} content file(s) ` +
+    `+ ${counts.orientationPages} orientation pages + ${counts.noteSources} source-country note citations ` +
+    `+ ${counts.figures} tracked figures…\n`,
 );
 
 // --- check + classify ----------------------------------------------------
@@ -342,14 +291,27 @@ if (infos.length) {
   console.log('');
 }
 
+// Worth saying out loud: these pass only because the checker repaired the
+// server's chain, and a reader on a strict client could still hit the error.
+const repairedHosts = [...new Set(results.filter((r) => r.chainRepaired).map((r) => host(r.url)))].sort();
+if (repairedHosts.length) {
+  console.log(
+    `ℹ️  ${repairedHosts.length} host(s) omit an intermediate TLS certificate; checked by fetching it from the ` +
+      `certificate's own issuer URL, as browsers do: ${repairedHosts.join(', ')}\n`,
+  );
+}
+
 console.log(
   `Summary: ${okCount} ok · ${errors.length} broken · ${reviews.length} to-review · ` +
     `${warns.length} unverifiable(new) · ${infos.length} bot-protected(expected).`,
 );
 
 const failures = errors.length + (STRICT ? reviews.length : 0);
+// One stream for the whole report: the verdict on stderr and the details on
+// stdout are buffered separately, so in CI logs the verdict used to land in
+// the middle of the broken-link list it summarises.
 if (failures) {
-  console.error(
+  console.log(
     `\n✗ Link-health check failed: ${errors.length} broken` +
       (STRICT ? ` + ${reviews.length} to-review (strict)` : '') +
       '.',

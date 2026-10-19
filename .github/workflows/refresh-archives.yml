@@ -3,10 +3,17 @@ name: Refresh Wayback archives
 # Monthly refresh of src/data/archives.json (Wayback snapshots for every cited
 # source) so new citations gain archived fallbacks without a manual run.
 #
-# Branch discipline: commits land on the WORKING branch (never directly on
-# production, which must stay a fast-forward of it for auto-ship's safety
-# check). Pushes made with GITHUB_TOKEN don't trigger `push` workflows, so this
-# job explicitly dispatches auto-ship afterwards to build-gate and deploy.
+# Commits straight to the production branch, which Vercel deploys. Every other
+# change reaches that branch as a squash-merged PR; this one is mechanical, so
+# it is gated by running the full build here instead — a refresh that breaks
+# the build is never pushed.
+#
+# History: until 2026-10 this job checked out and pushed to
+# claude/modest-darwin-f6f80c, a working branch abandoned in July, and then
+# dispatched an auto-ship workflow to fast-forward production from it. Production
+# was no longer an ancestor of that branch, so all three refreshes (Aug–Oct)
+# landed on the dead branch and the auto-ship refused them; production's
+# archives.json went three months without a refresh while the job showed green.
 on:
   schedule:
     - cron: '0 6 1 * *' # 1st of each month, 06:00 UTC
@@ -14,39 +21,60 @@ on:
 
 permissions:
   contents: write
-  actions: write
+
+concurrency:
+  group: refresh-archives
+  cancel-in-progress: false
 
 env:
-  WORKING_BRANCH: claude/modest-darwin-f6f80c
+  PRODUCTION_BRANCH: claude/focused-newton-1wfqgd
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
-          ref: claude/modest-darwin-f6f80c
-      - uses: actions/setup-node@v4
+          ref: ${{ env.PRODUCTION_BRANCH }}
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
+          cache: npm
 
       - name: Fetch Wayback snapshots
         run: node scripts/fetch-archives.mjs
 
-      - name: Commit & ship if changed
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Detect changes
+        id: diff
+        run: |
+          if git diff --quiet -- src/data/archives.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No snapshot changes this month — nothing to ship."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git diff --stat -- src/data/archives.json
+          fi
+
+      # The same gate a PR passes: archives.json feeds every SourceList and
+      # /sources, so a malformed refresh must fail here, not on Vercel.
+      - name: Build (gate)
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          npm ci
+          npm run build
+
+      - name: Commit & push to production
+        if: steps.diff.outputs.changed == 'true'
         run: |
           set -euo pipefail
-          if git diff --quiet -- src/data/archives.json; then
-            echo "No snapshot changes this month — nothing to ship."
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/data/archives.json
           git commit -m "chore: monthly Wayback snapshot refresh (automated)"
-          git push origin "HEAD:$WORKING_BRANCH"
-          # Bot pushes don't fire push-workflows; dispatch auto-ship explicitly.
-          gh workflow run auto-ship.yml --ref "$WORKING_BRANCH"
-          echo "Refreshed archives committed and auto-ship dispatched."
+          # If a PR merged while this ran, replay the one-file commit on top of
+          # it rather than fail; a conflict in archives.json still fails loud.
+          if ! git push origin "HEAD:$PRODUCTION_BRANCH"; then
+            git pull --rebase origin "$PRODUCTION_BRANCH"
+            git push origin "HEAD:$PRODUCTION_BRANCH"
+          fi
+          echo "Refreshed archives pushed to $PRODUCTION_BRANCH — Vercel will deploy it."

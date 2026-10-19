@@ -13,6 +13,10 @@ on:
     paths:
       - 'src/content/**'
       - 'scripts/check-links.mjs'
+      - 'scripts/lib/**'
+      - 'src/pages/**/*.astro'
+      - 'src/data/source-countries.mjs'
+      - 'src/data/figures.mjs'
 
 # The default GITHUB_TOKEN is repo-writable unless narrowed; these jobs only read.
 permissions:
@@ -22,15 +26,19 @@ jobs:
   link-health:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
       # On content PRs: fail only on unambiguous breakage (dead / hijacked).
       # The scheduled run is strict (LINKS_STRICT=1) — it also fails on
       # citations that redirect off-host or collapse to a site root, so silent
       # rot becomes a visible red check for a maintainer to re-verify.
+      # Through the npm script, which raises Node's 16 KB response-header cap:
+      # it.usembassy.gov sends more than that, and the default turned three
+      # citations into UND_ERR_HEADERS_OVERFLOW every week — a limit of the
+      # checker, not a fact about the page.
       - name: Check citation link health
         env:
           LINKS_STRICT: ${{ github.event_name == 'schedule' && '1' || '0' }}
-        run: node scripts/check-links.mjs
+        run: npm run check:links

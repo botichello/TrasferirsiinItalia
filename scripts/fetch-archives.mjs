@@ -10,38 +10,18 @@
  * origin isn't.
  *
  * Not part of the build (needs network); run with `npm run fetch:archives` and
- * commit the result. Re-running only ever adds/refreshes entries. No deps.
+ * commit the result. A refresh adds and updates snapshots, keeps an old one when
+ * the API misses, and drops URLs no longer cited anywhere. No deps.
  */
-import { readdir, readFile, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import { collectCitedUrls } from './lib/cited-urls.mjs';
 
-const CONTENT_DIRS = [
-  fileURLToPath(new URL('../src/content/guides/', import.meta.url)),
-  fileURLToPath(new URL('../src/content/region-notes/', import.meta.url)),
-  fileURLToPath(new URL('../src/content/comune-notes/', import.meta.url)),
-];
 const OUT = fileURLToPath(new URL('../src/data/archives.json', import.meta.url));
 const TIMEOUT_MS = 25_000;
 const ATTEMPTS = 3;
 const CONCURRENCY = 6;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-async function walk(dir) {
-  let entries;
-  try {
-    entries = await readdir(dir, { withFileTypes: true });
-  } catch {
-    return [];
-  }
-  const out = [];
-  for (const e of entries) {
-    const full = join(dir, e.name);
-    if (e.isDirectory()) out.push(...(await walk(full)));
-    else if (e.name.endsWith('.md')) out.push(full);
-  }
-  return out;
-}
 
 /** Ask the Wayback Machine for the closest snapshot of `url`. */
 async function closestSnapshot(url) {
@@ -82,14 +62,11 @@ async function pool(items, n, fn) {
   return out;
 }
 
-const files = (await Promise.all(CONTENT_DIRS.map(walk))).flat();
-const urls = new Set();
-const urlRe = /^\s*url:\s*(['"]?)(https?:\/\/[^'"\s]+)\1/gm;
-for (const path of files) {
-  const raw = await readFile(path, 'utf8');
-  for (const m of raw.matchAll(urlRe)) urls.add(m[2]);
-}
-const list = [...urls].sort();
+// Every citation, not only the content collections' — the orientation pages,
+// source-country notes and tracked figures are cited on /sources too, and a
+// fallback is worth as much there.
+const { urlToFiles } = await collectCitedUrls();
+const list = [...urlToFiles.keys()].sort();
 console.log(`Querying the Wayback Machine for ${list.length} source URL(s)…`);
 
 const results = await pool(list, CONCURRENCY, async (url) => [url, await closestSnapshot(url)]);

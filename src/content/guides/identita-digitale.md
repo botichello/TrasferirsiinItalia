@@ -19,9 +19,9 @@ sources:
   - title: 'spid.gov.it (AgID) — How to activate SPID'
     url: 'https://www.spid.gov.it/en/what-is-spid/how-to-activate-spid/'
     accessed: 2026-06-12
-  - title: "Ministero dell'Interno — Requesting the electronic identity card (CIE)"
-    url: 'https://www.cartaidentita.interno.gov.it/en/topics/requested-cie/'
-    accessed: 2026-06-12
+  - title: "Ministero dell'Interno — Requesting the CIE in Italy (issue and renewal)"
+    url: 'https://www.cartaidentita.interno.gov.it/en/request-cie/release-and-renew-in-italy/'
+    accessed: 2026-10-19
   - title: "Ministero dell'Interno — CIE online booking"
     url: 'https://www.cartaidentita.interno.gov.it/en/request-cie/cie-online-booking/'
     accessed: 2026-06-12

@@ -83,7 +83,11 @@ try {
 const map = {};
 let found = 0;
 for (const [url, snap] of results) {
-  if (snap) {
+  // "Closest" is not "newest": the API sometimes answers with an earlier
+  // capture than the one already recorded, so never step a snapshot backwards.
+  if (snap && existing[url] && snap.timestamp < existing[url].timestamp) {
+    map[url] = existing[url];
+  } else if (snap) {
     map[url] = snap;
     found++;
   } else if (existing[url]) {

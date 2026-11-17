@@ -6,8 +6,8 @@ lastVerified: 2026-07-02
 reviewBy: 2027-01-02
 sources:
   - title: 'Regione Campania — Sanità'
-    url: 'https://www.regione.campania.it/regione/it/tematiche/sanita'
-    accessed: 2026-06-11
+    url: 'https://www.regione.campania.it/aree-tematiche/sanita'
+    accessed: 2026-11-17
   - title: 'Ministero della Salute — Servizio Sanitario Nazionale'
     url: 'https://www.salute.gov.it/portale/lea/dettaglioContenutiLea.jsp?lingua=italiano&id=4773&area=Lea&menu=iscrizione'
     accessed: 2026-06-11
